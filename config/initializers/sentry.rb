@@ -1,7 +1,7 @@
 Sentry.init do |config|
   # Sentry is only enabled when the dsn is set.
   unless Rails.env.development? || Rails.env.test?
-    config.dsn = 'REPLACE_WITH_YOUR_DSN'
+    config.dsn = 'https://21a4c8aeee264a4fb7476943f212b884@sentry.shefcompsci.org.uk/322'
   end
   config.breadcrumbs_logger = [:active_support_logger, :http_logger]
   config.before_send = -> (event, hint) { ActiveSupport::ParameterFilter.new(Rails.application.config.filter_parameters).filter(event.to_hash) }
