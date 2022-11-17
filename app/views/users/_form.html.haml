@@ -1,9 +1,0 @@
--# frozen_string_literal: true
-= simple_form_for(@user) do |f|
-  .card-body
-    = f.input :email
-    = f.input :role, collection: User.roles.keys
-  .card-footer.d-flex
-    %button.btn.btn-primary{ type: 'submit' }
-      Save
-    = link_to 'Back', users_path, class: 'btn btn-link ms-auto'
