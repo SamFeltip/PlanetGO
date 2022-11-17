@@ -1,5 +1,42 @@
-%p hello world!
-%p= @example
+
+%h1 Planning outings sucks.
+%h2 So we fixed it.
 
 %p
-  =link_to 'sign up now', 'users/sign_up'
+  =link_to 'Get started', 'users/sign_up', class: 'btn btn-dark'
+%p
+  =link_to 'got an account? log in', 'users/sign_in'
+
+%br
+
+%h1 Who?
+%p example text
+%br
+
+%h1 When?
+%p example text
+%br
+
+%h1 Where?
+%p example text
+%br
+
+%h1 Check out our satisfied customers
+.special_reviews
+  - @special_reviews.each do |review|
+    %p= review
+
+%p
+  -#TODO link to reviews
+  =link_to 'see more reviews', '/'
+
+%br
+
+%h1 Still got questions?
+-#TODO link to FAQ page
+%p
+  =link_to 'Check out our FAQs', '/'
+
+%p
+  =link_to 'sign up now', 'users/sign_up', class: 'btn btn-dark'
+
