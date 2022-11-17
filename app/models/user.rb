@@ -17,7 +17,7 @@
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
-#  role                   :integer          default(0)
+#  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
 #  unconfirmed_email      :string
 #  unlock_token           :string
@@ -37,6 +37,8 @@ class User < ApplicationRecord
 
   enum role: {
     user: 0,
-    admin: 1
+    reporter: 1,
+    admin: 2
   }
+
 end
