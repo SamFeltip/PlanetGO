@@ -40,4 +40,6 @@ class User < ApplicationRecord
     reporter: 1,
     admin: 2
   }
+
+  scope :all_except, ->(user) { where.not(id: user) } # Scope to filter users
 end

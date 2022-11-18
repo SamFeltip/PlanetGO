@@ -36,8 +36,8 @@
           - if user_signed_in?
             - if current_user.admin?
               %nav.navbar-nav
-                = link_to 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', class: 'nav-link' do
-                  Secret Admin Link!!
+                = link_to users_path, class: 'active nav-link' do
+                  Account Management
             %nav.navbar-nav.ms-auto
               = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
                 %i.bi-box-arrow-right

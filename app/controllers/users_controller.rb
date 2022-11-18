@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-
+ 
   def index
-    @users = User.all
+    @users = User.all_except(current_user) # Don't include current user
   end
 
   def show
