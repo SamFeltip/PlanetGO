@@ -30,6 +30,18 @@
             = link_to '/', class: 'active nav-link' do
               %i.bi-house-fill
               Home
+          %nav.navbar-nav
+            = link_to :new_user_session, class: 'active nav-link' do
+              Login
+          - if user_signed_in?
+            - if current_user.admin?
+              %nav.navbar-nav
+                = link_to users_path, class: 'active nav-link' do
+                  Account Management
+            %nav.navbar-nav.ms-auto
+              = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
+                %i.bi-box-arrow-right
+                #{current_user.email} (Sign out)
 
     - if flash.present?
       .container-fluid.flash-messages
