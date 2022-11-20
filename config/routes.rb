@@ -7,5 +7,9 @@ Rails.application.routes.draw do
   # match '/users',   to: 'users#index',   via: 'get'
 
   # Defines the root path route ("/")
-  root "pages#home"
+  # match '/users',   to: 'users#index',   via: 'get'
+  match '/welcome',     to: 'pages#landing',       via: 'get'
+  # Defines the root path route ("/")
+  root "pages#landing"
+
 end
