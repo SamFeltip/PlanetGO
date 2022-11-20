@@ -5,6 +5,11 @@ Rails.application.routes.draw do
   resources :users
 
   resources :reviews
+
+  # match '/users',   to: 'users#index',   via: 'get'
+  match '/welcome',     to: 'pages#landing',       via: 'get'
   # Defines the root path route ("/")
-  root "pages#home"
+  root "pages#landing"
+
+  # Defines the root path route ("/")
 end
