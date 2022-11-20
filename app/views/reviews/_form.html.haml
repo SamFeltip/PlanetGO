@@ -2,6 +2,7 @@
 = simple_form_for(@review) do |f|
   .card-body
     = f.input :body, wrapper_html: { class: 'mb-3' }
+    = f.association :user, wrapper_html: { class: 'mb-3' }
 
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }

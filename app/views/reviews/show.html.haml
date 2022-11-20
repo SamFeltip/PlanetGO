@@ -7,6 +7,8 @@
         %dl.row.mb-0
           %dt.col-md-3 Body:
           %dd.col-md-9= @review.body
+          %dt.col-md-3 User:
+          %dd.col-md-9= @review.user
       .card-footer.d-flex
         = link_to 'Edit', edit_review_path(@review), class: 'btn btn-link'
         = link_to 'Back', reviews_path, class: 'btn btn-link ms-auto'

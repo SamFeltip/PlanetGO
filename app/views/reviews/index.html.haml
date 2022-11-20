@@ -8,11 +8,13 @@
     %thead
       %tr
         %th Body
+        %th User
         %th
     %tbody
       - @reviews.each do |review|
         %tr
           %td= review.body
+          %td= review.user
           %td
             .btn-toolbar.float-end
               = link_to 'Show', review, class: 'btn btn-outline-secondary btn-sm'
