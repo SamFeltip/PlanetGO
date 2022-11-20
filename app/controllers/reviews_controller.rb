@@ -13,6 +13,12 @@ class ReviewsController < ApplicationController
   # GET /reviews/new
   def new
     @review = Review.new
+
+    if current_user
+      @current_user_id = current_user.id
+    else
+      @current_user_id = nil
+    end
   end
 
   # GET /reviews/1/edit
@@ -25,7 +31,7 @@ class ReviewsController < ApplicationController
 
     respond_to do |format|
       if @review.save
-        format.html { redirect_to review_url(@review), notice: "Review was successfully created." }
+        format.html { redirect_to reviews_path, notice: "Review was successfully created." }
         format.json { render :show, status: :created, location: @review }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +44,7 @@ class ReviewsController < ApplicationController
   def update
     respond_to do |format|
       if @review.update(review_params)
-        format.html { redirect_to review_url(@review), notice: "Review was successfully updated." }
+        format.html { redirect_to reviews_path, notice: "Review was successfully updated." }
         format.json { render :show, status: :ok, location: @review }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -65,6 +71,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:body, :user_id)
+      params.require(:review).permit(:body, :user_id, :is_on_landing_page)
     end
 end

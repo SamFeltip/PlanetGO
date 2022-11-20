@@ -2,11 +2,12 @@
 #
 # Table name: reviews
 #
-#  id         :bigint           not null, primary key
-#  body       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :bigint
+#  id                 :bigint           not null, primary key
+#  body               :text
+#  is_on_landing_page :boolean
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  user_id            :bigint
 #
 # Indexes
 #
