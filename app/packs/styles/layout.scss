@@ -10,4 +10,62 @@ body {
   footer {
     margin-top: auto;
   }
+
+
+}
+
+.container-fluid {
+  padding: 0 27px;
+}
+
+h1 {
+  font-size: 37px;
+}
+
+h2 {
+  font-size: 17px;
+}
+
+h3 {
+  font-size: 26px;
+}
+
+.light {
+  opacity: 75%;
+}
+
+.subheading {
+  margin-left:5px;
+}
+
+// ***** who when where table stylings
+
+.row p{
+  margin: 0;
+}
+
+.www-table td, .www-table{
+  border-bottom: none;
+}
+
+.www-table .row {
+  padding: 5px 0;
+}
+
+.www-table .row:hover{
+  color:var(--bs-link-hover-color);
+}
+
+.www-table a {
+  color:black;
+}
+
+// *****
+
+a{
+  text-decoration: none;
+}
+
+p{
+  font-size: 17px;
 }
