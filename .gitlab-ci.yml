@@ -83,6 +83,7 @@ rspec:
   extends: .except
   needs:
     - bundler
+    - yarn
   script:
     - RAILS_ENV=test bundle exec rake
 
