@@ -1,0 +1,24 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Interaction details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Logged in:
+          %dd.col-md-9= @interaction.logged_in
+          %dt.col-md-3 Start visit:
+          %dd.col-md-9= @interaction.start_visit
+          %dt.col-md-3 Lattitude:
+          %dd.col-md-9= @interaction.lattitude
+          %dt.col-md-3 Longitude:
+          %dd.col-md-9= @interaction.longitude
+          %dt.col-md-3 Start splashscreen:
+          %dd.col-md-9= @interaction.start_splashscreen
+          %dt.col-md-3 Time on splashscreen:
+          %dd.col-md-9= @interaction.time_on_splashscreen
+          %dt.col-md-3 Num interactions on splashscreen:
+          %dd.col-md-9= @interaction.num_interactions_on_splashscreen
+      .card-footer.d-flex
+        = link_to 'Edit', edit_interaction_path(@interaction), class: 'btn btn-link'
+        = link_to 'Back', interactions_path, class: 'btn btn-link ms-auto'

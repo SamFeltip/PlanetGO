@@ -10,9 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_20_155807) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_22_143942) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "interactions", force: :cascade do |t|
+    t.boolean "logged_in"
+    t.datetime "start_visit", precision: nil
+    t.float "lattitude"
+    t.float "longitude"
+    t.datetime "start_splashscreen", precision: nil
+    t.integer "time_on_splashscreen"
+    t.integer "num_interactions_on_splashscreen"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "reviews", force: :cascade do |t|
     t.text "body"

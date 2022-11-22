@@ -1,0 +1,15 @@
+-# frozen_string_literal: true
+= simple_form_for(@interaction) do |f|
+  .card-body
+    = f.input :logged_in, wrapper_html: { class: 'mb-3' }
+    = f.input :start_visit, wrapper_html: { class: 'mb-3' }
+    = f.input :lattitude, wrapper_html: { class: 'mb-3' }
+    = f.input :longitude, wrapper_html: { class: 'mb-3' }
+    = f.input :start_splashscreen, wrapper_html: { class: 'mb-3' }
+    = f.input :time_on_splashscreen, wrapper_html: { class: 'mb-3' }
+    = f.input :num_interactions_on_splashscreen, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', interactions_path, class: 'btn btn-link ms-auto'
