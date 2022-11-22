@@ -14,7 +14,7 @@
       - @reviews.each do |review|
         %tr
           %td= review.body
-          %td= review.user
+          %td= review.user.email
           %td
             .btn-toolbar.float-end
               = link_to 'Show', review, class: 'btn btn-outline-secondary btn-sm'
