@@ -52,7 +52,7 @@ h3 {
   padding: 5px 0;
 }
 
-.www-table .row:hover{
+.www-table .row:hover, .www-table a:hover{
   color:var(--bs-link-hover-color);
 }
 
