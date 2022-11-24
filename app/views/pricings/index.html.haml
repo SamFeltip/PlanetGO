@@ -1,0 +1,11 @@
+- @pricings.each do |pricing| 
+  %table.table
+    %thead
+      %tr 
+        %th= pricing.title
+      %tr 
+        %th= pricing.description
+      %tr
+        %th= pricing.price  
+= link_to 'New Pricing', new_pricing_path, class: 'btn btn-outline-secondary ms-auto'
+

@@ -1,0 +1,16 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Pricing details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Title:
+          %dd.col-md-9= @pricing.title
+          %dt.col-md-3 Features:
+          %dd.col-md-9= @pricing.description
+          %dt.col-md-3 Price:
+          %dd.col-md-9= @pricing.price
+      .card-footer.d-flex
+        = link_to 'Edit', edit_pricing_path(@pricing), class: 'btn btn-link'
+        = link_to 'Back', pricings_path, class: 'btn btn-link ms-auto'
