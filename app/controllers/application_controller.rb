@@ -8,6 +8,12 @@ class ApplicationController < ActionController::Base
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
 
+  # Check for compromised password
+  def after_sign_in_path_for(resource)
+    set_flash_message! :alert, :warn_pwned if resource.respond_to?(:pwned?) &&
+    resource.pwned?
+    super
+  end
   private
     def update_headers_to_disable_caching
       response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
