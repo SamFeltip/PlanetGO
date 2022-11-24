@@ -7,14 +7,18 @@
   %table.table
     %thead
       %tr
+        %th id
         %th User
         %th Body
         %th
-    %tbody
+    %tbody#review-table-body
+
       - @reviews.each do |review|
         %tr
+          %td= review.id
           %td= review.user
           %td= review.summary
+
           %td
             .btn-toolbar.float-end
               = link_to 'Show', review, class: 'btn btn-outline-secondary btn-sm'

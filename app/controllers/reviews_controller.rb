@@ -4,7 +4,7 @@ class ReviewsController < ApplicationController
 
   # GET /reviews or /reviews.json
   def index
-    @reviews = Review.all
+    @reviews = Review.all.order(:landing_page_position)
   end
 
   # GET /reviews/1 or /reviews/1.json
@@ -64,6 +64,15 @@ class ReviewsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def with_format(format, &block)
+    old_formats = formats
+    self.formats = [format]
+    block.call
+    self.formats = old_formats
+    nil
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.

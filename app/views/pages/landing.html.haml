@@ -11,7 +11,7 @@
   %p
     =link_to 'Get started', 'users/sign_up', class: 'btn btn-dark'
   %p
-    =link_to 'got an account? log in', 'users/sign_in'
+    =link_to 'already got an account? log in', 'users/sign_in'
 
 
   .space.py-1
@@ -89,9 +89,23 @@
 - if @special_reviews.length > 0
   %h1 Check out our satisfied customers
 
-  .special_reviews
-    - @special_reviews.each do |review|
-      %p= review
+  .special_reviews#reviews
+    %table
+      %tbody
+      - @special_reviews.each do |review|
+        %tr
+          %td.col-12
+            = review
+
+          - if user_signed_in?
+            - if current_user.admin?
+              %td.col-1
+                .btn-toolbar
+                  %a{:href => '/go_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
+                    %i.bi-arrow-up
+                .btn-toolbar
+                  %a{:href => '/go_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
+                    %i.bi-arrow-down
 
 %p
   -#TODO link to reviews
@@ -115,7 +129,7 @@
     Join the movement for better experiences and less stress
 
   %p
-    =link_to 'sign up now', 'users/sign_up', class: 'btn btn-dark'
+    =link_to 'Register Interest', 'users/sign_up', class: 'btn btn-dark'
 
 
 
