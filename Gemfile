@@ -72,6 +72,8 @@ gem 'sanitize_email'
 gem 'sentry-ruby'
 gem 'sentry-rails'
 
+gem 'strscan', '3.0.1'
+
 group :development do
   gem 'letter_opener'
   gem 'annotate'
