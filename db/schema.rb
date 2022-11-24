@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_22_143942) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_24_122416) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -22,6 +22,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_22_143942) do
     t.datetime "start_splashscreen", precision: nil
     t.integer "time_on_splashscreen"
     t.integer "num_interactions_on_splashscreen"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "metrics", force: :cascade do |t|
+    t.datetime "time_enter"
+    t.datetime "time_exit"
+    t.string "route"
+    t.float "latitude"
+    t.float "longitude"
+    t.boolean "is_logged_in"
+    t.integer "number_interactions"
+    t.integer "pricing_selected"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
