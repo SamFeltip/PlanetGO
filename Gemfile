@@ -73,8 +73,6 @@ gem 'sentry-ruby'
 gem 'sentry-rails'
 gem 'acts_as_votable'
 
-gem 'strscan', '3.0.1'
-
 group :development do
   gem 'letter_opener'
   gem 'annotate'
