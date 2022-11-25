@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :register_interests
   resources :pricings
   # get 'users/index'
   devise_for :users
@@ -14,5 +15,6 @@ Rails.application.routes.draw do
   root "pages#landing"
 
   match '/pricing', to: 'pricings#index', via: 'get'
+  match '/register_interests', to: 'register_interests#index', via:'get'
   
 end

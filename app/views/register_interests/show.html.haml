@@ -1,0 +1,12 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Register Interest details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Email:
+          %dd.col-md-9= @register_interest.email
+      .card-footer.d-flex
+        = link_to 'Edit', edit_register_interest_path(@register_interest), class: 'btn btn-link'
+        = link_to 'Back', register_interests_path, class: 'btn btn-link ms-auto'

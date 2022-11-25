@@ -20,7 +20,6 @@
     "shakapacker": "6.5.0",
     "style-loader": "^3.3.1",
     "terser-webpack-plugin": "5",
-    "webpack": "^5.75.0",
     "webpack-assets-manifest": "5",
     "webpack-cli": "4",
     "webpack-dev-server": "^4.9.3",
@@ -34,5 +33,8 @@
   },
   "browserslist": [
     "defaults"
-  ]
+  ],
+  "devDependencies": {
+    "webpack": "^5.75.0"
+  }
 }
