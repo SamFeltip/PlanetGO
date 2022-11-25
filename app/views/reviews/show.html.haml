@@ -8,7 +8,15 @@
           %dt.col-md-3 Body:
           %dd.col-md-9= @review.body
           %dt.col-md-3 User:
-          %dd.col-md-9= @review.user
+          %dd.col-md-9= @review.user.email
+          %dt.col-md-3 Likes:
+          %dd.col-md-9= @review.votes_for.up.size
       .card-footer.d-flex
-        = link_to 'Edit', edit_review_path(@review), class: 'btn btn-link'
+        - if user_signed_in?
+          - if current_user.liked? @review
+            = link_to 'Unlike', unlike_review_path(@review), method: :put, class: 'btn btn-link'
+          - else
+            = link_to 'Like', like_review_path(@review), method: :put, class: 'btn btn-link'
+        - else
+          = link_to 'Like', like_review_path(@review), method: :put, class: 'btn btn-link'
         = link_to 'Back', reviews_path, class: 'btn btn-link ms-auto'
