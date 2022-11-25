@@ -71,6 +71,7 @@ gem 'sanitize_email'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'acts_as_votable'
 
 gem 'strscan', '3.0.1'
 
