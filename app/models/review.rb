@@ -19,6 +19,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Review < ApplicationRecord
+  acts_as_votable
   belongs_to :user
 
   after_create :set_landing_page_position

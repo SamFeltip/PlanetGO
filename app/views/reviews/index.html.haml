@@ -9,16 +9,17 @@
       %tr
         %th User
         %th Body
+        %th Likes
         %th
-    %tbody#review-table-body
-
+    %tbody
       - @reviews.each do |review|
         %tr
-          %td= review.user
-          %td= review.summary
-
+          %td= review.user.email
+          %td= review.body
+          %td= review.votes_for.up.size
           %td
             .btn-toolbar.float-end
-              = link_to 'Show', review, class: 'btn btn-outline-secondary btn-sm'
-              = link_to 'Edit', edit_review_path(review), class: 'btn btn-outline-secondary ms-1 btn-sm'
-              = link_to 'Destroy', review, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+            .btn-toolbar.float-end
+              = link_to 'Read more', review, class: 'btn btn-outline-secondary btn-sm'
+              - if user_signed_in? and current_user.admin?
+                = link_to 'Delete', review, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
