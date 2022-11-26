@@ -29,7 +29,7 @@ class ReviewsController < ApplicationController
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
-    @review.user = current_user 
+    @review.user = current_user
 
     respond_to do |format|
       if @review.save
@@ -63,14 +63,6 @@ class ReviewsController < ApplicationController
       format.html { redirect_to reviews_url, notice: "Review was successfully destroyed." }
       format.json { head :no_content }
     end
-  end
-
-  def with_format(format, &block)
-    old_formats = formats
-    self.formats = [format]
-    block.call
-    self.formats = old_formats
-    nil
   end
 
 

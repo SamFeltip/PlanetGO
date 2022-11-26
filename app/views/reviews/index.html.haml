@@ -7,7 +7,6 @@
   %table.table
     %thead
       %tr
-        %th id
         %th User
         %th Body
         %th
@@ -15,7 +14,6 @@
 
       - @reviews.each do |review|
         %tr
-          %td= review.id
           %td= review.user
           %td= review.summary
 
