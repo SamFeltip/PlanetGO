@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # get 'users/index'
   devise_for :users
-  resources :users, :interactions, :metrics
+  resources :users, :reviews, :metrics
 
   resources :reviews do
     member do
@@ -9,7 +9,6 @@ Rails.application.routes.draw do
       put 'unlike', to: 'reviews#unlike'
     end
   end
-
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # match '/users',   to: 'users#index',   via: 'get'
