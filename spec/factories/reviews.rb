@@ -19,6 +19,6 @@
 FactoryBot.define do
   factory :review do
     body { "MyText" }
-    user { nil }
+    user
   end
 end
