@@ -1,34 +1,14 @@
 .card
-  .card-header.d-flex.align-items-center
-    %span Listing Metrics
-
-    = link_to 'New Metric', new_metric_path, class: 'btn btn-outline-secondary ms-auto'
-
-  %table.table
-    %thead
-      %tr
-        %th Time enter
-        %th Time exit
-        %th Route
-        %th Latitude
-        %th Longitude
-        %th Is logged in
-        %th Number interactions
-        %th Pricing selected
-        %th
-    %tbody
-      - @metrics.each do |metric|
-        %tr
-          %td= metric.time_enter
-          %td= metric.time_exit
-          %td= metric.route
-          %td= metric.latitude
-          %td= metric.longitude
-          %td= metric.is_logged_in
-          %td= metric.number_interactions
-          %td= metric.pricing_selected
-          %td
-            .btn-toolbar.float-end
-              = link_to 'Show', metric, class: 'btn btn-outline-secondary btn-sm'
-              = link_to 'Edit', edit_metric_path(metric), class: 'btn btn-outline-secondary ms-1 btn-sm'
-              = link_to 'Destroy', metric, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+  .card-header
+    %span General Metrics
+  .card-body
+    %div{:style => "display:flex;flex-wrap:wrap;text-align:center"}
+      -@allMetrics.each do |metric|
+        = render 'page_metrics', routeName: metric["route"], metrics: metric["metrics"]
+  .card-header 
+    %span Special Metrics
+  .card-body
+    .card-header="Total number of landing page visits: "+@numberLandingPageVisits 
+    .card-header Number of bounce outs: todo
+    .card-header Interest in pricing options 1:2:3: todo
+    .card-header Interest in pricing options 1:2:3 %: todo

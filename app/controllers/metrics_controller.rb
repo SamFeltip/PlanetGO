@@ -3,7 +3,49 @@ class MetricsController < ApplicationController
 
   # GET /metrics or /metrics.json
   def index
+    def getCommonMetrics(metrics, numMetrics)
+
+      numberOfVisits = numMetrics.to_s
+      numberOfInteractionsPerVisit = "N/a"
+      if numMetrics > 0
+        numberOfInteractionsPerVisit = (metrics.sum(:number_interactions)/numMetrics).to_s
+      end
+
+      # Average time spent on page in h:m:s format. If more than 24 hours, instead return string "More than a day" 
+      averageTimeSpent = 0
+      metrics.pluck(:time_enter).lazy.zip(metrics.pluck(:time_exit)).each do |enterTime, exitTime|
+        averageTimeSpent += ((exitTime - enterTime)/numMetrics)
+      end
+      if averageTimeSpent > 86400
+        averageTimeSpent = "More than a day"
+      else
+        averageTimeSpent = "%02d:%02d:%02d" % [averageTimeSpent / 3600, averageTimeSpent / 60 % 60, averageTimeSpent % 60]
+      end
+
+
+      return [
+        ["# visits", numberOfVisits],
+        ["x̄ # interactions/visit", numberOfInteractionsPerVisit],
+        ["x̄ time spent on page", averageTimeSpent],
+      ]
+    end
+
     @metrics = Metric.all
+    routesInterestedIn = ["/", "/metrics", 
+      "/reviews", "/reviews/#", "/reviews/new", "/reviews/#/edit", 
+      "/users", "/users/#", "/users/new", "/users/#/edit"]
+
+    # lists all routes of application. Way too many to display metrics for. Need to specify pages manually
+    # p Rails.application.routes.routes.map { |r| {alias: r.name, path: r.path.spec.to_s, controller: r.defaults[:controller], action: r.defaults[:action]}}
+    
+    @allMetrics = []
+    routesInterestedIn.each do |route|
+      metricsList = @metrics.where(route: route)
+      numMetrics = metricsList.count()
+      @allMetrics.append({ "route" => route, "metrics" => getCommonMetrics(metricsList, numMetrics)})
+    end
+
+    @numberLandingPageVisits = @metrics.where(route: "/").count().to_s
   end
 
   # GET /metrics/1 or /metrics/1.json

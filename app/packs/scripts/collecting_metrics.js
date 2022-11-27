@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let metrics = new FormData();
       metrics.append('time_enter', pageVisitedFrom);
       metrics.append('time_exit', Date.now());
-      metrics.append('route', window.location.pathname);
+      metrics.append('route', window.location.pathname.replace(/\d+/, "#"));
       if (location) {
         metrics.append('latitude', location.coords.latitude);
         metrics.append('longitude', location.coords.longitude);
