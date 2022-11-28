@@ -10,7 +10,7 @@
         %th User
         %th Body
         %th Likes
-        - if current_user.admin?
+        - if user_signed_in? && current_user.admin?
           %th Landing page
         %th
     %tbody
@@ -19,7 +19,7 @@
           %td= review.user.email
           %td= review.body
           %td= review.votes_for.up.size
-          - if current_user.admin?
+          - if user_signed_in? && current_user.admin?
             %td
               - if review.is_on_landing_page
                 %i.bi-check
