@@ -3,13 +3,15 @@
     %span Listing Reviews
 
     = link_to 'New Review', new_review_path, class: 'btn btn-outline-secondary ms-auto'
-
+  %i.bi-tick
   %table.table
     %thead
       %tr
         %th User
         %th Body
         %th Likes
+        - if current_user.admin?
+          %th Landing page
         %th
     %tbody
       - @reviews.each do |review|
@@ -17,9 +19,17 @@
           %td= review.user.email
           %td= review.body
           %td= review.votes_for.up.size
+          - if current_user.admin?
+            %td
+              - if review.is_on_landing_page
+                %i.bi-check
+              - else
+                %i.bi-x
+
           %td
             .btn-toolbar.float-end
             .btn-toolbar.float-end
               = link_to 'Read more', review, class: 'btn btn-outline-secondary btn-sm'
               - if user_signed_in? and current_user.admin?
                 = link_to 'Delete', review, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+                = link_to 'Edit', edit_review_path(review), class: 'btn btn-outline-secondary ms-1 btn-sm'
