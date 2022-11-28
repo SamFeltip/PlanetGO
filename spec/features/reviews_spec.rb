@@ -10,9 +10,7 @@ RSpec.feature 'Reviews' do
                 visit '/reviews'
                 expect(page).to have_content 'Listing Reviews'
                 expect(page).to have_content 'I absolutely love this website, would recommend to anyone.'
-                expect(page).to have_content 'test1@example.com'
                 expect(page).to have_content "I'm not a huge fan but it's an interesting idea."
-                expect(page).to have_content 'test2@example.com'
             end
 
             specify 'I cannot add a new review' do
@@ -30,7 +28,7 @@ RSpec.feature 'Reviews' do
         end
 
         context 'When I am logged in as a user' do
-            before { login_as FactoryBot.create(:user, email: 'test@email.com', role: 0) }
+            before { login_as FactoryBot.create(:user, role: 0) }
 
             specify 'I can add a new review' do
                 visit '/reviews'
