@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_25_174044) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id"
+    t.boolean "is_on_landing_page"
+    t.integer "landing_page_position"
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
