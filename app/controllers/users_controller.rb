@@ -1,9 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  authorize_resource only: [:edit, :update, :destroy]
+  authorize_resource only: [:index, :read, :edit, :update, :destroy]
  
   def index
-    @users = User.all
+    @users = User.accessible_by(current_ability)
   end
 
   def show
