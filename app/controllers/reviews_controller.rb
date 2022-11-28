@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
-  before_action :set_review, only: %i[ show destroy like unlike]
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :like, :unlike]
+  before_action :set_review, only: %i[ show destroy like unlike edit update]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
 
   # GET /reviews or /reviews.json
   def index
@@ -15,11 +15,34 @@ class ReviewsController < ApplicationController
   def new
     @review = Review.new
   end
-  
+
+  def edit
+    authorize! :edit, @review
+    # @review = Review.find_by_id(params[:id])
+
+  end
+
+  # PATCH/PUT /reviews/1 or /reviews/1.json
+  def update
+    authorize! :update, @review
+    # @review = Review.find_by_id(params[:id])
+
+    respond_to do |format|
+      if @review.update(review_params)
+        format.html { redirect_to reviews_path, notice: "Review was successfully updated." }
+        format.json { render :show, status: :ok, location: @review }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @review.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
     @review.user = current_user 
+    @review.is_on_landing_page = false
 
     respond_to do |format|
       if @review.save
@@ -68,6 +91,6 @@ class ReviewsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def review_params
-      params.require(:review).permit(:body, :user_id)
+      params.require(:review).permit(:body, :user_id, :is_on_landing_page)
     end
 end

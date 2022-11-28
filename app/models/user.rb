@@ -43,4 +43,8 @@ class User < ApplicationRecord
   }
 
   scope :all_except, ->(user) { where.not(id: user) } # Scope to filter users
+
+  def to_s()
+    self.email.split('@')[0]
+  end
 end

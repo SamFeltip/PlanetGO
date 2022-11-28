@@ -1,4 +1,4 @@
-class ReviewDecorator < ApplicationDecorator
+class MetricDecorator < ApplicationDecorator
   delegate_all
 
   # Define presentation-specific methods here. Helpers are accessed through
@@ -9,4 +9,5 @@ class ReviewDecorator < ApplicationDecorator
   #       object.created_at.strftime("%a %m/%d/%y")
   #     end
   #   end
+
 end

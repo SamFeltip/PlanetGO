@@ -1,0 +1,16 @@
+-# frozen_string_literal: true
+= simple_form_for(@metric) do |f|
+  .card-body
+    = f.input :time_enter, wrapper_html: { class: 'mb-3' }
+    = f.input :time_exit, wrapper_html: { class: 'mb-3' }
+    = f.input :route, wrapper_html: { class: 'mb-3' }
+    = f.input :latitude, wrapper_html: { class: 'mb-3' }
+    = f.input :longitude, wrapper_html: { class: 'mb-3' }
+    = f.input :is_logged_in, wrapper_html: { class: 'mb-3' }
+    = f.input :number_interactions, wrapper_html: { class: 'mb-3' }
+    = f.input :pricing_selected, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', metrics_path, class: 'btn btn-link ms-auto'
