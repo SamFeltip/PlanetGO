@@ -30,10 +30,11 @@
             = link_to '/', class: 'active nav-link' do
               %i.bi-house-fill
               Home
-          %nav.navbar-nav
-            = link_to :new_user_session, class: 'active nav-link' do
-              Login
-          - if user_signed_in?
+          - if !user_signed_in?
+            %nav.navbar-nav
+              = link_to :new_user_session, class: 'active nav-link' do
+                Login
+          - else
             - if current_user.admin?
               %nav.navbar-nav
                 = link_to users_path, class: 'active nav-link' do
