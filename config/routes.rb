@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # get 'users/index'
   devise_for :users
-  resources :users, :reviews
+  resources :users, :reviews, :metrics
 
   resources :reviews do
     member do
