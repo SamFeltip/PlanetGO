@@ -7,13 +7,15 @@
   %table.table
     %thead
       %tr
-        %th role
-        %th email
+        %th Role
+        %th Full Name
+        %th Email
         %th
     %tbody
       - @users.each do |user|
         %tr
           %td= user.role
+          %td= user.full_name
           %td= user.email
           %td
             .btn-toolbar.float-end
