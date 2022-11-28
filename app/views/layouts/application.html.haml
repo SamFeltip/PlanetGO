@@ -44,6 +44,10 @@
                   = link_to users_path, class: 'nav-link' do
                     Account Management
 
+                %li.nav-item.active
+                  = link_to '/metrics', class: 'nav-link' do
+                    Site Metrics
+
               %li.nav-item.active
                 = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
                   %i.bi-box-arrow-right
