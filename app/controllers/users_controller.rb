@@ -71,7 +71,4 @@ class UsersController < ApplicationController
     # params.fetch(:user, {})
     params.require(:user).permit(:full_name, :email, :role)
   end
-
-
-
 end
