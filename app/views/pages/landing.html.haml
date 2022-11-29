@@ -1,42 +1,135 @@
+.text-center
 
-%h1 Planning outings sucks.
-%h2 So we fixed it.
 
-%p
-  =link_to 'Get started', 'users/sign_up', class: 'btn btn-dark'
-%p
-  =link_to 'got an account? log in', 'users/sign_in'
+  .space.py-5
 
+  %h1 Planning outings sucks
+  %h2 So we fixed it.
+
+  .space.py-4
+
+  %p
+    =link_to 'Get started', 'users/sign_up', class: 'btn btn-dark'
+  %p
+    =link_to 'already got an account? log in', 'users/sign_in'
+
+
+  .space.py-1
+
+  %p
+    %a{:href => '/#more-info'}
+      Find out more
+      %i.bi-arrow-down
+
+.space.py-5
+
+%h1#more-info Planning Streamlined.
+%p.light Our app helps you organise the 3 tasks on every trip out
+
+-#todo add javascript to use table rows as links
+%table.table.www-table.m-auto
+  %tbody
+    %tr.row
+      %td.col-2
+        %h3
+          %i.bi-people
+      %td.col-4
+        %h3
+          %a{:href => '/#who'}
+            Who?
+      %td.col-4
+        %p
+          Who's going out?
+    %tr.row
+      %td.col-2
+        %h3
+          %i.bi-calendar
+      %td.col-4
+        %h3
+          %a{:href => '/#when'}
+            When?
+      %td.col-4
+        %p
+          When are we meeting up?
+
+    %tr.row
+      %td.col-2
+        %h3
+          %i.bi-pin
+      %td.col-4
+        %h3
+          %a{:href => '/#where'}
+            Where?
+      %td.col-4.my-auto
+        %p Where are we going?
+
+.space.py-5
+
+%h1#who Who?
+%p.subheading.light
+  You bring your mates.
+  %br/
+  We'll bring everything else
 %br
 
-%h1 Who?
-%p example text
+%h1#when When?
+%p.subheading.light
+  We’ll take care of the timing,
+  %br/
+  you take care of your outfit.
 %br
 
-%h1 When?
-%p example text
+%h1#where Where?
+%p.subheading.light
+  Everything, Everywhere,
+  %br/
+  All in one place.
 %br
 
-%h1 Where?
-%p example text
-%br
+- if @special_reviews.length > 0
+  %h1 Check out our satisfied customers
 
-%h1 Check out our satisfied customers
-.special_reviews
-  - @special_reviews.each do |review|
-    %p= review
+  .special_reviews#reviews
+    %table
+      %tbody
+      - @special_reviews.each do |review|
+        %tr
+          %td.col-12
+            = review
+
+          - if user_signed_in?
+            - if current_user.admin?
+              %td.col-1
+                .btn-toolbar
+                  %a{:href => '/go_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
+                    %i.bi-arrow-up
+                .btn-toolbar
+                  %a{:href => '/go_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
+                    %i.bi-arrow-down
 
 %p
   -#TODO link to reviews
-  =link_to 'see more reviews', '/'
+  %a{href:'/reviews'}
+    See more reviews
+    %i.bi-arrow-right
 
 %br
 
 %h1 Still got questions?
 -#TODO link to FAQ page
 %p
-  =link_to 'Check out our FAQs', '/'
+  %a{href:'/'}
+    Check out our FAQs
+    %i.bi-arrow-right
 
-%p
-  =link_to 'sign up now', 'users/sign_up', class: 'btn btn-dark'
+.space.py-5
+
+.text-center
+  %p.light
+    Join the movement for better experiences and less stress
+
+  %p
+    =link_to 'Register Interest', 'users/sign_up', class: 'btn btn-dark'
+
+
 

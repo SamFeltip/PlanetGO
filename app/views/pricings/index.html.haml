@@ -1,11 +1,34 @@
-- @pricings.each do |pricing| 
-  %table.table
-    %thead
-      %tr 
-        %th= pricing.title
-      %tr 
-        %th= pricing.description
-      %tr
-        %th= pricing.price  
-= link_to 'New Pricing', new_pricing_path, class: 'btn btn-outline-secondary ms-auto'
-
+.cards
+  .card
+    .card-body
+      %h2.card-title Basic
+      %p 
+      Features:
+      %li Feature 1
+      %li Feature 2
+      %li Feature 3
+  .card
+    .card-body
+      %h2.card-title Premium
+      %p 
+      Features:
+      %li Feature 1
+      %li Feature 2
+      %li Feature 3
+      %li Feature 4
+      %li Feature 5
+  .card
+    .card-body
+      %h2.card-title Premium+
+      %p 
+      Features:
+      %li Feature 1
+      %li Feature 2
+      %li Feature 3
+      %li Feature 4
+      %li Feature 5
+      %li Feature 6
+      %li Feature 7
+%td
+  .btn-toolbar.float-end
+    = link_to 'Next', new_register_interest_path, class: 'btn btn-outline-secondary btn-sm'

@@ -1,0 +1,5 @@
+.card{:style=>"flex-grow:1"}
+  .card-header=routeName
+  .card-body
+    - metrics.each do |metric|
+      %div=metric[0].to_s+": "+metric[1].to_s

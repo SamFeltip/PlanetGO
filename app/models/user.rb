@@ -30,6 +30,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  acts_as_voter
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -42,4 +43,8 @@ class User < ApplicationRecord
   }
 
   scope :all_except, ->(user) { where.not(id: user) } # Scope to filter users
+
+  def to_s()
+    self.email.split('@')[0]
+  end
 end

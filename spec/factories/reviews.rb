@@ -2,11 +2,13 @@
 #
 # Table name: reviews
 #
-#  id         :bigint           not null, primary key
-#  body       :text
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
-#  user_id    :bigint
+#  id                    :bigint           not null, primary key
+#  body                  :text
+#  is_on_landing_page    :boolean          default(FALSE)
+#  landing_page_position :integer
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  user_id               :bigint
 #
 # Indexes
 #
@@ -19,6 +21,6 @@
 FactoryBot.define do
   factory :review do
     body { "MyText" }
-    user { nil }
+    user
   end
 end
