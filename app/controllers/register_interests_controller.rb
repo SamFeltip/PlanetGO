@@ -3,7 +3,6 @@ class RegisterInterestsController < ApplicationController
 
   # GET /register_interests or /register_interests.json
   def index
-    @pricing_plan = params[:pricing_id]
     @register_interests = RegisterInterest.all
   end
 
@@ -13,8 +12,8 @@ class RegisterInterestsController < ApplicationController
 
   # GET /register_interests/new
   def new
-    @pricing_plan = params[:pricing_id]
     @register_interest = RegisterInterest.new
+    @pricing_id = params[:pricing_id]
   end
 
   # GET /register_interests/1/edit
@@ -23,9 +22,9 @@ class RegisterInterestsController < ApplicationController
 
   # POST /register_interests or /register_interests.json
   def create
-    @pricing_plan = params[:pricing_id]
     @register_interest = RegisterInterest.new(register_interest_params)
-
+    @pricing_id = params[:pricing_id]
+    @register_interest.pricing_id = @pricing_id
     respond_to do |format|
       if @register_interest.save
         format.html { redirect_to pricing_register_interests_url(@register_interest), notice: "Register interest was successfully created." }
@@ -68,6 +67,6 @@ class RegisterInterestsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def register_interest_params
-      params.require(:register_interest).permit(:email, :pricing_plan_id)
+      params.require(:register_interest).permit(:email, :pricing_id)
     end
 end

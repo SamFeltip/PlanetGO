@@ -4,5 +4,15 @@
 
     = link_to 'New Register interest', root_path, class: 'btn btn-outline-secondary ms-auto'
 
-  
-  
+  %table.table
+    %thead
+      %tr
+        %th Email
+        %th Pricing
+        %th
+    %tbody
+      - @register_interests.each do |register_interest|
+        %tr
+          %td= register_interest.email
+          %td= register_interest.pricing_id
+          
