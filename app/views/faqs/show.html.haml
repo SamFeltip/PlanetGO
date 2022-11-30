@@ -1,0 +1,14 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Faq details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Question:
+          %dd.col-md-9= @faq.question
+          %dt.col-md-3 Answer:
+          %dd.col-md-9= @faq.answer
+      .card-footer.d-flex
+        = link_to 'Edit', edit_faq_path(@faq), class: 'btn btn-link'
+        = link_to 'Back', faqs_path, class: 'btn btn-link ms-auto'

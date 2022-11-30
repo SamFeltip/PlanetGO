@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :faqs
   # get 'users/index'
   devise_for :users
   resources :users, :reviews, :metrics
