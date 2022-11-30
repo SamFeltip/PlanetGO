@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   # get 'users/index'
   match '/users/new', to: redirect('/404.html'), via: 'get' # No ability to create users without devise
   devise_for :users, :controllers => {:registrations_controller => "registrations_controller"}
-  resources :users, only: [:index, :show, :create, :edit, :destroy]
+  resources :users
   resources :reviews
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # match '/users',   to: 'users#index',   via: 'get'
