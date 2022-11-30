@@ -7,6 +7,7 @@
       %li Feature 1
       %li Feature 2
       %li Feature 3
+      = link_to 'Select', new_pricing_register_interest_path('basic'), class: 'btn btn-outline-secondary btn-sm'
   .card
     .card-body
       %h2.card-title Premium
@@ -17,6 +18,7 @@
       %li Feature 3
       %li Feature 4
       %li Feature 5
+      = link_to 'Select', new_pricing_register_interest_path('premium'), class: 'btn btn-outline-secondary btn-sm'
   .card
     .card-body
       %h2.card-title Premium+
@@ -29,6 +31,4 @@
       %li Feature 5
       %li Feature 6
       %li Feature 7
-%td
-  .btn-toolbar.float-end
-    = link_to 'Next', new_register_interest_path, class: 'btn btn-outline-secondary btn-sm'
+      = link_to 'Select', new_pricing_register_interest_path('premium_plus'), class: 'btn btn-outline-secondary btn-sm'
