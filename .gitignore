@@ -55,5 +55,3 @@ yarn-debug.log*
 .rspec-examples
 
 /vendor/webdrivers
-
-howToRun.txt
