@@ -5,17 +5,6 @@ Rails.application.routes.draw do
   # get 'users/index'
   devise_for :users
   resources :users, :reviews, :metrics
-<<<<<<< HEAD
-=======
-
-  resources :reviews do
-    member do
-      put 'like', to: 'reviews#like'
-      put 'unlike', to: 'reviews#unlike'
-    end
-  end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
->>>>>>> main
 
   resources :reviews do
     member do
