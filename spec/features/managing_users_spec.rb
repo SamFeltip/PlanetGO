@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature 'Managing users' do
+RSpec.feature 'Managing users', :type => :request do
 
   context 'When I am signed in as an administrator' do
     before { 
@@ -10,6 +10,10 @@ RSpec.feature 'Managing users' do
 
     specify 'I cannot edit my own details' do
       expect{visit edit_user_path(@admin)}.to raise_error(CanCan::AccessDenied)
+    end
+
+    specify 'I cannot delete my own account' do
+      expect{delete user_path(@admin)}.to raise_error(CanCan::AccessDenied)
     end
 
     specify 'I can visit the account management page' do
@@ -85,6 +89,10 @@ RSpec.feature 'Managing users' do
 
       specify 'I cannot edit their account info' do
         expect {visit edit_user_path(@user)}.to raise_error(CanCan::AccessDenied)
+      end
+
+      specify 'I cannot delete their account' do
+        expect {delete user_path(@user)}.to raise_error(CanCan::AccessDenied)
       end
     end
   end
