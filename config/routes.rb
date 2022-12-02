@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   # get 'users/index'
+  match '/users/new', to: redirect('/404.html'), via: 'get' # No ability to create users without devise
   devise_for :users
   resources :users, :reviews, :metrics
 
@@ -9,8 +10,8 @@ Rails.application.routes.draw do
       put 'unlike', to: 'reviews#unlike'
     end
   end
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
+  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # match '/users',   to: 'users#index',   via: 'get'
 
   # run ajax when go_up or go_down button is pressed
@@ -23,5 +24,4 @@ Rails.application.routes.draw do
   match '/welcome',     to: 'pages#landing',       via: 'get'
   # Defines the root path route ("/")
   root "pages#landing"
-
 end
