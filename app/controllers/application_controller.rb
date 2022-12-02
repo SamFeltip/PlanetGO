@@ -8,28 +8,6 @@ class ApplicationController < ActionController::Base
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
 
-  # Update devise allowed parameters
-  before_action :configure_sign_up_params, if: :devise_controller?
-  before_action :configure_account_update_params, if: :devise_controller?
-
-  # Check for compromised password
-  def after_sign_in_path_for(resource)
-    set_flash_message! :alert, :warn_pwned if resource.respond_to?(:pwned?) &&
-    resource.pwned?
-    super
-  end
-  
-  protected
-  # Appending parameters to the devise sanitizer.
-  def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:full_name])
-  end
-
-  # Appending parameters to the devise sanitizer.
-  def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:full_name])
-  end
-
   private
     def update_headers_to_disable_caching
       response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'

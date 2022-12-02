@@ -1,9 +1,8 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  authorize_resource only: [:index, :show, :edit, :update, :destroy]
  
   def index
-    @users = User.accessible_by(current_ability)
+    @users = User.all_except(current_user) # Don't include current user
   end
 
   def show
@@ -69,6 +68,9 @@ class UsersController < ApplicationController
   # Only allow a list of trusted parameters through.
   def user_params
     # params.fetch(:user, {})
-    params.require(:user).permit(:full_name, :email, :role)
+    params.require(:user).permit(:email, :role)
   end
+
+
+
 end
