@@ -1,11 +1,24 @@
 Rails.application.routes.draw do
   # get 'users/index'
   match '/users/new', to: redirect('/404.html'), via: 'get' # No ability to create users without devise
-  devise_for :users, :controllers => {:registrations_controller => "registrations_controller"}
-  resources :users
-  resources :reviews
+  devise_for :users
+  resources :users, :reviews, :metrics
+
+  resources :reviews do
+    member do
+      put 'like', to: 'reviews#like'
+      put 'unlike', to: 'reviews#unlike'
+    end
+  end
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
   # match '/users',   to: 'users#index',   via: 'get'
+
+  # run ajax when go_up or go_down button is pressed
+
+  get "/go_down/:id", to: "pages#go_down"
+  get "/go_up/:id", to: "pages#go_up"
+
   # Defines the root path route ("/")
   # match '/users',   to: 'users#index',   via: 'get'
   match '/welcome',     to: 'pages#landing',       via: 'get'

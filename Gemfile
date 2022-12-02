@@ -73,6 +73,7 @@ gem 'sanitize_email'
 
 gem 'sentry-ruby'
 gem 'sentry-rails'
+gem 'acts_as_votable'
 
 group :development do
   gem 'letter_opener'

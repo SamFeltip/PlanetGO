@@ -1,7 +1,7 @@
 ## Application configuration
 set :application,             'Project'
 set :branch,                  -> { fetch(:stage) }
-set :repo_url,                'git@git.shefcompsci.org.uk:com4525-2022-23/team01/project.git'
+set :repo_url,    'git@git.shefcompsci.org.uk:com4525-2022-23/team01/project.git'
 set :linked_files,            fetch(:linked_files,  fetch(:env_links, [])).push('config/database.yml', 'config/secrets.yml')
 set :linked_dirs,             fetch(:linked_dirs, []).push('log', 'tmp/pids', 'public/packs', 'node_modules', 'storage')
 
@@ -123,3 +123,5 @@ end
 ## Restart delayed_job during the deployment process
 after  'deploy:updated',  'delayed_job:stop'
 before 'deploy:finished', 'delayed_job:start'
+
+Rake::Task["deploy:assets:backup_manifest"].clear_actions

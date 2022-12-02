@@ -1,0 +1,14 @@
+.card
+  .card-header
+    %span General Metrics
+  .card-body
+    %div{:style => "display:flex;flex-wrap:wrap;text-align:center"}
+      -@allMetrics.each do |metric|
+        = render 'page_metrics', routeName: metric["route"], metrics: metric["metrics"]
+  .card-header 
+    %span Special Metrics
+  .card-body
+    .card-header="Total number of landing page visits: "+@numberLandingPageVisits 
+    .card-header Number of bounce outs: todo
+    .card-header Interest in pricing options 1:2:3: todo
+    .card-header Interest in pricing options 1:2:3 %: todo
