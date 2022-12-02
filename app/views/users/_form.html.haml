@@ -1,7 +1,6 @@
 -# frozen_string_literal: true
 = simple_form_for(@user) do |f|
   .card-body
-    = f.input :full_name
     = f.input :email
     = f.input :role, collection: User.roles.keys
   .card-footer.d-flex
