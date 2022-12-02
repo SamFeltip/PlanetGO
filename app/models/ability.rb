@@ -12,6 +12,9 @@ class Ability
 
     return unless user.admin?
 
+    can [:read, :update, :destroy], User
+    cannot [:update, :destroy], User, id: user.id # User cannot edit their own priviliges
+
     can :manage, Review
     # Define abilities for the user here. For example:
     #
