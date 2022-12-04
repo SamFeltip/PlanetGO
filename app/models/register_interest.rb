@@ -10,4 +10,6 @@
 #  pricing_plan_id :string
 #
 class RegisterInterest < ApplicationRecord
+    validates :email, presence: true
+    validates :email, format: { with: URI::MailTo::EMAIL_REGEXP } 
 end
