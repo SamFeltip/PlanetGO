@@ -1,9 +1,10 @@
 require 'rails_helper'
+require 'faker'
 
 RSpec.feature 'Reviews' do
     context 'When there are submitted reviews' do
-        before { FactoryBot.create(:review, body: 'I absolutely love this website, would recommend to anyone.') }
         before { FactoryBot.create(:review, body: "I'm not a huge fan but it's an interesting idea.") }
+        before { FactoryBot.create(:review, body: 'I absolutely love this website, would recommend to anyone.') }
 
         context 'When I am not logged in' do
             specify 'I can see existing reviews' do
@@ -39,6 +40,20 @@ RSpec.feature 'Reviews' do
                 expect(page).to have_content 'Review was successfully created.'
             end
 
+            specify 'I cannot add an empty review' do
+                visit '/reviews/new'
+                click_on 'Save'
+                expect(page).to have_content "Body can't be blank"
+            end
+
+            specify 'I cannot add a review over 2048 characters' do
+                visit '/reviews/new'
+                body = Faker::Lorem.characters(number: 2050)
+                fill_in 'Body', with: body
+                click_on 'Save'
+                expect(page).to have_content "Body is too long (maximum is 2048 characters)"
+            end
+
             specify 'I can see number of likes a review has received' do
                 visit '/reviews'
                 click_on 'Read more', match: :first
@@ -66,6 +81,21 @@ RSpec.feature 'Reviews' do
                 expect(page).to have_no_content 'Unlike'
             end
 
+            specify "I cannot see Edit button for a review" do
+                visit '/reviews'
+                expect(page).to have_no_content 'Edit'
+            end
+
+            specify "I cannot see 'Is on landing page' field content on index page" do
+                visit '/reviews'
+                expect(page).to have_no_content 'Landing page'
+            end
+
+            specify "I cannot see 'Is on landing page:' field content on show page" do
+                visit '/reviews'
+                expect(page).to have_no_content 'Is on landing page:'
+            end
+
             specify 'I cannot delete a review' do
                 visit '/reviews'
                 expect(page).to have_content 'I absolutely love this website, would recommend to anyone.'
@@ -79,9 +109,25 @@ RSpec.feature 'Reviews' do
             specify 'I can delete a review' do
                 visit '/reviews'
                 expect(page).to have_content 'I absolutely love this website, would recommend to anyone.'
-                click_on 'Delete'
+                click_on 'Delete', match: :first
                 expect(page).to have_content 'Review was successfully deleted.'
                 expect(page).to have_no_content 'I absolutely love this website, would recommend to anyone.'
+            end
+
+            specify 'I can edit a review' do
+                visit '/reviews'
+                click_on 'Edit'
+                expect(page).to have_content 'Editing Review'
+            end
+
+            specify "I can set a review to be on landing page" do
+                visit '/reviews'
+                click_on 'Edit'
+                check 'review_is_on_landing_page'
+                click_on 'Save'
+                expect(page).to have_content 'Review was successfully updated.'
+                click_on 'Edit'
+                expect(page).to have_checked_field 'review_is_on_landing_page'
             end
         end
     end

@@ -4,6 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  body                  :text
+#  clicks                :integer          default(0)
 #  is_on_landing_page    :boolean          default(FALSE)
 #  landing_page_position :integer
 #  created_at            :datetime         not null
