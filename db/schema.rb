@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_04_211934) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
     t.bigint "user_id"
     t.boolean "is_on_landing_page", default: false
     t.integer "landing_page_position"
+    t.integer "clicks", default: 0
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 

@@ -4,6 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  body                  :text
+#  clicks                :integer          default(0)
 #  is_on_landing_page    :boolean          default(FALSE)
 #  landing_page_position :integer
 #  created_at            :datetime         not null
@@ -21,7 +22,6 @@
 require 'rails_helper'
 
 RSpec.describe Review, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
 
   before :each do
     @user = create(
@@ -76,8 +76,4 @@ RSpec.describe Review, type: :model do
       expect(@review4.get_above_landing_page_review).to eq(@review3)
     end
   end
-    # describe "get the review above self on the landing page" do
-    # end
-
-
 end

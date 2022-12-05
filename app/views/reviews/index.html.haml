@@ -9,17 +9,21 @@
       %tr
         %th User
         %th Body
+        %th Date
         %th Likes
-        - if user_signed_in? && current_user.admin?
+        - if can? :manage, Review
+          %th Clicks
           %th Landing page
         %th
     %tbody
       - @reviews.each do |review|
         %tr
           %td= review.user.email
-          %td= review.body
+          %td= review.summary(300)
+          %td= review.created_date
           %td= review.votes_for.up.size
-          - if user_signed_in? && current_user.admin?
+          - if can? :manage, Review
+            %td= review.clicks
             %td
               - if review.is_on_landing_page
                 %i.bi-check
@@ -28,8 +32,7 @@
 
           %td
             .btn-toolbar.float-end
-            .btn-toolbar.float-end
-              = link_to 'Read more', review, class: 'btn btn-outline-secondary btn-sm'
-              - if user_signed_in? and current_user.admin?
-                = link_to 'Delete', review, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
-                = link_to 'Edit', edit_review_path(review), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Read more', review, class: 'btn btn-outline-secondary ms-1 my-1 btn-sm'
+              - if can? :manage, Review
+                = link_to 'Delete', review, method: :delete, class: 'btn btn-outline-danger ms-1 my-1 btn-sm'
+                = link_to 'Edit', edit_review_path(review), class: 'btn btn-outline-secondary ms-1 my-1 btn-sm'

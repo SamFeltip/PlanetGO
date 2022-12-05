@@ -8,7 +8,7 @@ class Ability
 
     return unless user.present?
 
-    can [:create, :like, :unlike], Review, user: user
+    can [:create, :like, :unlike], Review
 
     return unless user.admin?
 

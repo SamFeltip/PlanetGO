@@ -6,6 +6,14 @@ GIT
       git (~> 1.5)
       slop (~> 3.6)
 
+GIT
+  remote: https://github.com/faker-ruby/faker.git
+  revision: a76e075027d37e7d9d520963d56c3c4e5147045a
+  branch: main
+  specs:
+    faker (3.0.0)
+      i18n (>= 1.8.11, < 2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -375,6 +383,7 @@ DEPENDENCIES
   ed25519 (>= 1.2, < 2.0)
   epi_deploy!
   factory_bot_rails
+  faker!
   hamlit
   hamlit-rails
   jbuilder
