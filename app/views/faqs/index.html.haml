@@ -1,0 +1,25 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Faqs
+
+    = link_to 'New Faq', new_faq_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Question
+        %th Answer
+        %th
+    %tbody
+      - @faqs.each do |faq|
+        - if faq.answered? && faq.displayed?
+          %tr
+            %td= faq.question
+            %td= faq.answer
+            %td
+              .btn-toolbar.float-end
+                = link_to 'Show', faq, class: 'btn btn-outline-secondary btn-sm'
+                - if current_user.admin?
+                  = link_to 'Edit', edit_faq_path(faq), class: 'btn btn-outline-secondary ms-1 btn-sm'
+                - if current_user.admin?
+                  = link_to 'Destroy', faq, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
