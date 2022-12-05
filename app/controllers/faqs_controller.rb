@@ -1,5 +1,6 @@
 class FaqsController < ApplicationController
   before_action :set_faq, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit]
 
   # GET /faqs or /faqs.json
   def index
