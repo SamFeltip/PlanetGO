@@ -1,10 +1,9 @@
 Rails.application.routes.draw do
-<<<<<<< config/routes.rb
   resources :faqs
   resources :pricings, only: [] do
     resources :register_interests
   end
->>>>>>> config/routes.rb
+  
   # get 'users/index'
   devise_for :users
   resources :users, :reviews, :metrics
