@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
+<<<<<<< config/routes.rb
   resources :faqs
+  resources :pricings, only: [] do
+    resources :register_interests
+  end
+>>>>>>> config/routes.rb
   # get 'users/index'
   devise_for :users
   resources :users, :reviews, :metrics
@@ -11,7 +16,7 @@ Rails.application.routes.draw do
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
-
+  get '/pricings', to: 'pricings#index'
   # match '/users',   to: 'users#index',   via: 'get'
 
   # run ajax when go_up or go_down button is pressed
@@ -23,6 +28,8 @@ Rails.application.routes.draw do
   # match '/users',   to: 'users#index',   via: 'get'
   match '/welcome',     to: 'pages#landing',       via: 'get'
   # Defines the root path route ("/")
+
+  
   root "pages#landing"
 
 end
