@@ -1,6 +1,6 @@
 class RegisterInterestsController < ApplicationController
   before_action :set_register_interest, only: %i[ show edit update destroy ]
-
+  
   # GET /register_interests or /register_interests.json
   def index
     @register_interests = RegisterInterest.all
@@ -27,7 +27,7 @@ class RegisterInterestsController < ApplicationController
     @register_interest.pricing_id = @pricing_id
     respond_to do |format|
       if @register_interest.save
-        format.html { redirect_to pricing_register_interests_url(@register_interest), notice: "Register interest was successfully created." }
+        format.html { redirect_to root_path(@register_interest), notice: "Register interest was successfully created." }
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }
