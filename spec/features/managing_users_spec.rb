@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.feature 'Managing users', :type => :request do
-
-  context 'When I am signed in as an administrator' do
-    before { 
+RSpec.feature 'Managing users', type: :request do
+  context 'Signed in as an administrator' do
+    before do
       @admin = FactoryBot.create(:user, role: 2)
       login_as @admin
-    }
+    end
 
     specify 'I cannot edit my own details' do
       visit edit_user_path(@admin)
@@ -43,18 +44,18 @@ RSpec.feature 'Managing users', :type => :request do
       end
 
       context 'There are users in the system' do
-        before { 
+        before do
           FactoryBot.create(:user, email: 'user1@user.com')
           refresh
-        }
+        end
 
         specify 'I can see users on the system' do
           expect(page).to have_content 'user1@user.com'
         end
-        
+
         specify 'I can edit the user role' do
           click_on 'Edit'
-          select 'reporter', :from => "Role"
+          select 'reporter', from: 'Role'
           click_on 'Save'
           expect(page).to have_content 'reporter'
         end
@@ -67,7 +68,7 @@ RSpec.feature 'Managing users', :type => :request do
     end
   end
 
-  context 'I am signed in as a user' do
+  context 'Signed in as a user' do
     before { login_as FactoryBot.create(:user, role: 0) }
 
     specify 'I cannot visit the account management page' do
@@ -97,9 +98,9 @@ RSpec.feature 'Managing users', :type => :request do
       end
 
       specify 'I cannot delete their account' do
-        expect { 
+        expect do
           delete user_path(@user)
-        }.not_to change(User, :count)
+        end.not_to change(User, :count)
       end
     end
   end

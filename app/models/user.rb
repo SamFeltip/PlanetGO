@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -35,9 +37,8 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :secure_validatable,
-          :pwned_password, :lockable, :trackable
-
+         :recoverable, :rememberable, :secure_validatable,
+         :pwned_password, :lockable, :trackable
 
   enum role: {
     user: 0,
@@ -47,7 +48,7 @@ class User < ApplicationRecord
 
   scope :all_except, ->(user) { where.not(id: user) } # Scope to filter users
 
-  def to_s()
-    self.email.split('@')[0]
+  def to_s
+    email.split('@')[0]
   end
 end
