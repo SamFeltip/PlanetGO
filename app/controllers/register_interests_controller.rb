@@ -27,7 +27,7 @@ class RegisterInterestsController < ApplicationController
     @register_interest.pricing_id = @pricing_id
     respond_to do |format|
       if @register_interest.save
-        format.html { redirect_to root_path(@register_interest), notice: "Register interest was successfully created." }
+        format.html { redirect_to pricing_register_interests_url(@register_interest), notice: "Register interest was successfully created." }
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -54,7 +54,7 @@ class RegisterInterestsController < ApplicationController
     @register_interest.destroy
 
     respond_to do |format|
-      format.html { redirect_to register_interests_url, notice: "Register interest was successfully destroyed." }
+      format.html { redirect_to pricing_register_interests, notice: "Register interest was successfully destroyed." }
       format.json { head :no_content }
     end
   end
