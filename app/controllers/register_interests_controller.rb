@@ -1,6 +1,7 @@
 class RegisterInterestsController < ApplicationController
   before_action :set_register_interest, only: %i[ show edit update destroy ]
-  
+  authorize_resource only: %i[index show edit update destroy]
+
   # GET /register_interests or /register_interests.json
   def index
     @register_interests = RegisterInterest.all
@@ -8,6 +9,7 @@ class RegisterInterestsController < ApplicationController
 
   # GET /register_interests/1 or /register_interests/1.json
   def show
+    @register_interest = RegisterInterest.find_by_id(params[:id])
   end
 
   # GET /register_interests/new
@@ -54,7 +56,7 @@ class RegisterInterestsController < ApplicationController
     @register_interest.destroy
 
     respond_to do |format|
-      format.html { redirect_to pricing_register_interests, notice: "Register interest was successfully destroyed." }
+      format.html { redirect_to pricing_register_interests_path(@register_interest.pricing_id), notice: "Register interest was successfully destroyed." }
       format.json { head :no_content }
     end
   end

@@ -2,8 +2,6 @@
   .card-header.d-flex.align-items-center
     %span Listing Register Interests
 
-    = link_to 'New Register interest', pricings_path, class: 'btn btn-outline-secondary ms-auto'
-
   %table.table
     %thead
       %tr
@@ -15,4 +13,6 @@
         %tr
           %td= register_interest.email
           %td= register_interest.pricing_id
-          
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Destroy', pricing_register_interest_path(register_interest.pricing_id, register_interest), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

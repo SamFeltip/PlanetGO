@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   resources :pricings, only: [] do
-    resources :register_interests
+    resources :register_interests, only: [:index, :new, :create, :destroy]
   end
   # get 'users/index'
   devise_for :users
