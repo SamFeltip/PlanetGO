@@ -18,14 +18,12 @@ class ReviewsController < ApplicationController
 
   def edit
     authorize! :edit, @review
-    # @review = Review.find_by_id(params[:id])
 
   end
 
   # PATCH/PUT /reviews/1 or /reviews/1.json
   def update
     authorize! :update, @review
-    # @review = Review.find_by_id(params[:id])
 
     respond_to do |format|
       if @review.update(review_params)

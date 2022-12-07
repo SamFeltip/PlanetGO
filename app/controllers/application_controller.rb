@@ -8,6 +8,11 @@ class ApplicationController < ActionController::Base
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
 
+  # when you try to access a page you aren't given access to, redirect to root
+  rescue_from CanCan::AccessDenied do |exception|
+    redirect_to root_url, :alert => 'you are not permitted to access this page'
+  end
+
   private
     def update_headers_to_disable_caching
       response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
