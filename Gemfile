@@ -65,6 +65,8 @@ gem 'devise-security'
 gem 'devise-pwned_password'
 gem 'cancancan'
 
+gem 'rubocop', '~> 1.39', require: false
+
 gem 'whenever'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
