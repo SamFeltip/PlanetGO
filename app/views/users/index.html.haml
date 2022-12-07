@@ -13,6 +13,7 @@
       - @users.each do |user|
         %tr
           %td= user.role
+          %td= user.full_name
           %td= user.email
           %td
             .btn-toolbar.float-end
