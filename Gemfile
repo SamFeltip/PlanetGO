@@ -61,6 +61,8 @@ gem 'draper'
 gem 'shakapacker'
 
 gem 'devise'
+gem 'devise-security'
+gem 'devise-pwned_password'
 gem 'cancancan'
 
 gem 'whenever'
