@@ -34,6 +34,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_06_111143) do
     t.string "answer"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "answered", default: false
+    t.boolean "displayed", default: false
   end
 
   create_table "metrics", force: :cascade do |t|
