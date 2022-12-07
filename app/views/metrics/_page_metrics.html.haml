@@ -2,4 +2,4 @@
   .card-header=routeName
   .card-body
     - metrics.each do |metric|
-      %div=metric[0].to_s+": "+metric[1].to_s
+      %div{:style=>"cursor:pointer", :onclick=>'document.getElementById("pageSelected").value = "'+routeName+'";document.getElementById("metricSelected").value = "'+metric[0].to_s+'";'}=metric[0].to_s+": "+metric[1].to_s
