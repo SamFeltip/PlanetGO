@@ -3,6 +3,7 @@
 # Table name: metrics
 #
 #  id                  :bigint           not null, primary key
+#  country_code        :string
 #  is_logged_in        :boolean
 #  latitude            :float
 #  longitude           :float
