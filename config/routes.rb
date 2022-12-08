@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :users, :reviews, :metrics, :faqs
 
   resources :pricings, only: [] do
-    resources :register_interests
+    resources :register_interests, only: [:index, :new, :create, :destroy]
   end
 
   resources :reviews do

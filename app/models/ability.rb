@@ -5,6 +5,7 @@ class Ability
 
   def initialize(user)
     can :read, Review
+    can :create, RegisterInterest
 
     return unless user.present?
 
@@ -19,6 +20,7 @@ class Ability
     can [:read, :update, :destroy], User
     cannot [:update, :destroy], User, id: user.id
 
+    can :manage, RegisterInterest
     can :manage, Review
     # Define abilities for the user here. For example:
     #
