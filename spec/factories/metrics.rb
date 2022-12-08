@@ -17,12 +17,12 @@
 #
 FactoryBot.define do
   factory :metric do
-    time_enter { "2022-11-24 12:24:16" }
-    time_exit { "2022-11-24 12:24:16" }
-    route { "MyString" }
+    time_enter { '2022-11-24 12:24:16' }
+    time_exit { '2022-11-24 12:24:16' }
+    route { '/' }
     latitude { 53.376347 }
     longitude { -1.488364 }
-    country_code { "GB" }
+    country_code { 'GB' }
     is_logged_in { false }
     number_interactions { 1 }
     pricing_selected { 1 }
