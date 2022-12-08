@@ -9,7 +9,7 @@ class MetricsController < ApplicationController
       startDateArray = params["start"].split("-")
       endDateArray = params["end"].split("-")
 
-      # Workout start end Time objects. Default is one month ago and now respectively
+      # Calculate start end Time objects. Default is one month ago and now respectively
       startDateTimeStamp = Time.now - 1.month
       endDateTimeStamp = Time.now
       if startDateArray.length() == 3
@@ -48,7 +48,7 @@ class MetricsController < ApplicationController
 
         @data_values = JSON.generate([{label: "# visits", data: data}])
       when "x̄ # clicks/visit"
-        data= []
+        data = []
         while startDateTimeStamp < endDateTimeStamp
           @data_keys.append(startDateTimeStamp.strftime("%F"))
           data.append(getNumberOfInteractionsPerVisit(metrics, startDateTimeStamp, startDateTimeStamp + dateIncrement))
@@ -110,16 +110,24 @@ class MetricsController < ApplicationController
         end
         @data_values = JSON.generate([{label: "Basic", data: basic}, {label: "Premium", data: premium}, {label: "Premium+", data: premium_plus}])
       else
-        @data_keys = [0, 1]
-        @data_values = [1, 0]
+        # No metric selected by the user, display a slash accross the graph with a label "No Data"
+        emptyGraph
       end
+    end
+
+    def emptyGraph()
+      @data_keys = [0, 1]
+      @data_values = JSON.generate([{label: "No Data", data: [1, 0]}])
     end
 
     metrics = Metric.all
     registerInterests = RegisterInterest.all
     routesInterestedIn = ["/", "/metrics", 
-      "/reviews", "/reviews/#", "/reviews/new", "/reviews/#/edit", 
-      "/users", "/users/#", "/users/new", "/users/#/edit"]
+      "/reviews", "/reviews/#", "/reviews/new", "/reviews/#/edit",
+      "/faqs", "/faqs/#", "/faqs/new", "/faqs/#/edit",
+      "/users", "/users/#", "/users/new", "/users/#/edit",
+      "/users/sign_in", "/users/sign_up", "/users/unlock/new",
+      "/users/password/new"]
 
     # lists all routes of application. Way too many to display metrics for. Need to specify pages manually
     # p Rails.application.routes.routes.map { |r| {alias: r.name, path: r.path.spec.to_s, controller: r.defaults[:controller], action: r.defaults[:action]}}
@@ -143,22 +151,21 @@ class MetricsController < ApplicationController
     @interestInPricingOptions = basicPlanInterest.to_s + ":" + premiumPlanInterest.to_s + ":" + premiumPlusPlanInterest.to_s
     @interestInPricingOptionsPercent = "0%:0%:0%"
     if totalInterest > 0
+      # Use default percentages instead of dividing by zero
       @interestInPricingOptionsPercent = (basicPlanInterest*100/totalInterest).to_s + ":" + 
         (premiumPlanInterest*100/totalInterest).to_s + ":" + 
         (premiumPlusPlanInterest*100/totalInterest).to_s
     end
 
-    countryCodesMetrics = metrics.where.not(country_code: [nil, ""]).order(:country_code)
+    # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
+    countryCodesMetrics = metrics.where(route: "/").where.not(country_code: [nil, ""]).order(:country_code)
     countryCodesData = countryCodesMetrics.group(:country_code).count
     @clickData = JSON.generate(countryCodesData)
 
+    emptyGraph()
     if params["start"] && params["end"]
       handleGraph()
     end
-  end
-
-  # GET /metrics/1 or /metrics/1.json
-  def show
   end
 
   # GET /metrics/new
@@ -166,25 +173,24 @@ class MetricsController < ApplicationController
     @metric = Metric.new
   end
 
-  # GET /metrics/1/edit
-  def edit
-  end
-
   # POST /metrics or /metrics.json
   def create
     time_enter = Time.at(params["time_enter"].to_i / 1000).to_datetime
     time_exit = Time.at(params["time_exit"].to_i / 1000).to_datetime
 
-    country_code = Geocoder.search([params['latitude'], params['longitude']]).first.country_code.upcase
-    puts country_code
-    
+    if params['latitude'] != nil && params['longitude'] != nil
+      country_code = Geocoder.search([params['latitude'], params['longitude']]).first.country_code.upcase.to_s
+    else
+      country_code = nil
+    end
+
     Metric.create(
       time_enter:         time_enter,
       time_exit:          time_exit,
       route:              params['route'],
       latitude:           params['latitude'],
       longitude:          params['longitude'],
-      country_code:       country_code.to_s,
+      country_code:       country_code,
       is_logged_in:       params['is_logged_in'],
       number_interactions:params['number_interactions'],
       pricing_selected:   params['pricing_selected']
@@ -203,16 +209,6 @@ class MetricsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @metric.errors, status: :unprocessable_entity }
       end
-    end
-  end
-
-  # DELETE /metrics/1 or /metrics/1.json
-  def destroy
-    @metric.destroy
-
-    respond_to do |format|
-      format.html { redirect_to metrics_url, notice: "Metric was successfully destroyed." }
-      format.json { head :no_content }
     end
   end
 
