@@ -171,9 +171,12 @@
   %p
     =link_to 'Register Interest', 'users/sign_up', class: 'btn btn-dark'
 
+  %p.light
+    Why not tell your friends about us?
 
-%a.twitter-hashtag-button{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?button_hashtag=planetGO&ref_src=twsrc%5Etfw"} Tweet #planetGO
-%script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+  %p
+  %a.twitter-hashtag-button{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?button_hashtag=planetGO&ref_src=twsrc%5Etfw"} Tweet #planetGO
+  %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
 
-%a{href: "mailto:?subject=Check out planetGo! &body=It's a super cool website.", title: "Share by Email"}
-  %img{:src => "images/email_icon.png", :width => "50px", :alt => "email link"}/
+  %a{href: "mailto:?subject=Check out planetGo! &body=It's a super cool website.", title: "Share by Email"}
+    %img{:src => "images/email_icon.png", :width => "40px", :alt => "email link"}/
