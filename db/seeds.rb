@@ -44,7 +44,7 @@ print '.'
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
                    full_name: 'Jane Jinglejangle',
-                   role: 1,
+                   role: 0,
                    password: default_password
                  )
 
@@ -52,7 +52,7 @@ puts '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
                    full_name: 'Billy Bumblefluff',
-                   role: 2,
+                   role: 0,
                    password: default_password
                  )
 
@@ -80,14 +80,26 @@ print '[+] Adding new FAQs.'
 
 faq_1 = Faq.where(question: 'how do I make an account?')
            .first_or_create(
-             answer: 'it\'s easy, you go to the sign up page!'
+             answer: 'it\'s easy, you go to the sign up page!',
+             answered: true,
+             displayed: false
+           )
+
+print '.'
+
+faq_2 = Faq.where(question: 'where can I sign up!?')
+           .first_or_create(
+             answer: 'go to /users/sign_up and fill in your details!',
+             answered: true,
+             displayed: true
            )
 
 puts '.'
 
-faq_2 = Faq.where(question: 'where can I sign up!?')
+faq_3 = Faq.where(question: 'How do I make friends?')
            .first_or_create(
-             answer: 'go to /users/sign_up and fill in your details!'
+             answered: false,
+             displayed: false
            )
 
 

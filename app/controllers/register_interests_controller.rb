@@ -23,9 +23,11 @@ class RegisterInterestsController < ApplicationController
     @register_interest = RegisterInterest.new(register_interest_params)
     @pricing_id = params[:pricing_id]
     @register_interest.pricing_id = @pricing_id
+    @registered_email = register_interest_params[:email]
     respond_to do |format|
       if @register_interest.save
-        format.html { redirect_to '/', notice: 'Register interest was successfully created.' }
+        # This could be better
+        format.html { redirect_to "/users/sign_up?email=#{@registered_email}", notice: 'Register interest was successfully created.' }
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }

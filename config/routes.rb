@@ -22,12 +22,19 @@ Rails.application.routes.draw do
       put 'unlike', to: 'faqs#unlike'
     end
   end
-  
+
   root "pages#landing"
+
   match '/welcome', to: 'pages#landing', via: 'get'
+
 
   get "/go_down/:id", to: "pages#go_down"
   get "/go_up/:id", to: "pages#go_up"
 
+
+
   get '/pricings', to: 'pricings#index'
+
+  # match 'users/sign_up?email' => redirect('/users/sign_up?{%email}')
+
 end
