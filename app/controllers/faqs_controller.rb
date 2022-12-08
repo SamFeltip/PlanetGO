@@ -1,6 +1,7 @@
 class FaqsController < ApplicationController
-  before_action :set_faq, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit]
+  before_action :set_faq, only: %i[ show destroy like unlike edit update]
+  #before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
+  #load_and_authorize_resource
 
   # GET /faqs or /faqs.json
   def index
@@ -9,6 +10,9 @@ class FaqsController < ApplicationController
 
   # GET /faqs/1 or /faqs/1.json
   def show
+    unless current_user and current_user.admin?
+      @review.increment!(:clicks)
+    end
   end
 
   # GET /faqs/new
@@ -58,6 +62,24 @@ class FaqsController < ApplicationController
     end
   end
 
+  def like
+    @faq.liked_by current_user
+
+    respond_to do |format|
+      format.html { redirect_to faq_url(@faq) }
+      format.json { head :no_content }
+    end
+  end
+
+  def unlike
+    @faq.unlike_by current_user
+
+    respond_to do |format|
+      format.html { redirect_to faq_url(@faq) }
+      format.json { head :no_content }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_faq
@@ -66,6 +88,6 @@ class FaqsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def faq_params
-      params.require(:faq).permit(:question, :answer)
+      params.require(:faq).permit(:question, :answer, :answered, :displayed)
     end
 end
