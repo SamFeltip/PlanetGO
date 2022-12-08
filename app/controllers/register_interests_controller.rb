@@ -7,11 +7,6 @@ class RegisterInterestsController < ApplicationController
     @register_interests = RegisterInterest.all
   end
 
-  # GET /register_interests/1 or /register_interests/1.json
-  def show
-    @register_interest = RegisterInterest.find_by_id(params[:id])
-  end
-
   # GET /register_interests/new
   def new
     @register_interest = RegisterInterest.new
@@ -33,19 +28,6 @@ class RegisterInterestsController < ApplicationController
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @register_interest.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /register_interests/1 or /register_interests/1.json
-  def update
-    respond_to do |format|
-      if @register_interest.update(register_interest_params)
-        format.html { redirect_to register_interest_url(@register_interest), notice: "Register interest was successfully updated." }
-        format.json { render :show, status: :ok, location: @register_interest }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @register_interest.errors, status: :unprocessable_entity }
       end
     end
