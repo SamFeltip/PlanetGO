@@ -12,8 +12,21 @@ puts 'Seeding Database'
 
 print '[+] Adding raw users.'
 
+# some fun fake names:
+# Bob Fluffernutter
+# Sally Snickerdoodle
+# Timmy Tootlewhip
+# Jane Jinglejangle
+# Max McTwinkletoes
+# Emily Elemelons
+# Billy Bumblefluff
+# Olivia Oogleflop
+# Isaac Icklewhiskers
+# Emily Earwax
+
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
+                    full_name: 'Sally Snickerdoodle',
                     role: 2,
                     password: default_password
                   )
@@ -22,6 +35,7 @@ print '.'
 # user_admin2 = FactoryBot.create(:user, email: 'admin2@planetgo.com', role: 2)
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
+                    full_name: 'Timmy Tootlewhip',
                     role: 2,
                     password: default_password
                   )
@@ -29,6 +43,7 @@ user_admin2 = User.where(email: 'admin2@planetgo.com')
 print '.'
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
+                   full_name: 'Jane Jinglejangle',
                    role: 1,
                    password: default_password
                  )
@@ -36,6 +51,7 @@ user_user1 = User.where(email: 'user1@gmail.com')
 puts '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
+                   full_name: 'Billy Bumblefluff',
                    role: 2,
                    password: default_password
                  )
