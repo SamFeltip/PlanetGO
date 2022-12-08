@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  answer     :string
 #  answered   :boolean          default(FALSE)
+#  clicks     :integer          default(0)
 #  displayed  :boolean          default(FALSE)
 #  question   :string
 #  created_at :datetime         not null
@@ -25,8 +26,8 @@ class Faq < ApplicationRecord
   def check_is_displayed
     self.displayed = true
   end
-
-  def check_is_displayed
+    
+  def uncheck_is_displayed
     self.displayed = false
   end
 

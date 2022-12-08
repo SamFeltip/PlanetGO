@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  answer     :string
 #  answered   :boolean          default(FALSE)
+#  clicks     :integer          default(0)
 #  displayed  :boolean          default(FALSE)
 #  question   :string
 #  created_at :datetime         not null

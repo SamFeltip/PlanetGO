@@ -1,7 +1,7 @@
 class FaqsController < ApplicationController
   before_action :set_faq, only: %i[ show destroy like unlike edit update]
-  #before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
-  #load_and_authorize_resource
+  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
+  load_and_authorize_resource
 
   # GET /faqs or /faqs.json
   def index
@@ -11,7 +11,7 @@ class FaqsController < ApplicationController
   # GET /faqs/1 or /faqs/1.json
   def show
     unless current_user and current_user.admin?
-      @review.increment!(:clicks)
+      @faq.increment!(:clicks)
     end
   end
 
@@ -57,7 +57,7 @@ class FaqsController < ApplicationController
     @faq.destroy
 
     respond_to do |format|
-      format.html { redirect_to faqs_url, notice: "Faq was successfully destroyed." }
+      format.html { redirect_to faq_url, notice: "Faq was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -72,7 +72,7 @@ class FaqsController < ApplicationController
   end
 
   def unlike
-    @faq.unlike_by current_user
+    @faq.unliked_by current_user
 
     respond_to do |format|
       format.html { redirect_to faq_url(@faq) }
