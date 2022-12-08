@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: users
@@ -31,13 +33,13 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  has_many :reviews, dependent: :delete_all
   acts_as_voter
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-          :recoverable, :rememberable, :secure_validatable,
-          :pwned_password, :lockable, :trackable
-
+         :recoverable, :rememberable, :secure_validatable,
+         :pwned_password, :lockable, :trackable
 
   enum role: {
     user: 0,
@@ -45,9 +47,11 @@ class User < ApplicationRecord
     admin: 2
   }
 
-  scope :all_except, ->(user) { where.not(id: user) } # Scope to filter users
+  def to_s
+    full_name
+  end
 
-  def to_s()
-    self.email.split('@')[0]
+  def email_prefix
+    email.split('@')[0]
   end
 end

@@ -43,10 +43,6 @@
               = link_to :faqs, class: 'nav-link' do
                 FAQs
 
-            %li.nav-item.active
-              = link_to :new_user_session, class: 'nav-link' do
-                Login
-
             - if user_signed_in?
               - if current_user.admin?
                 %li.nav-item.active
@@ -64,6 +60,10 @@
                 = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
                   %i.bi-box-arrow-right
                   #{current_user.email} (Sign out)
+            - else
+              %li.nav-item.active
+                = link_to :new_user_session, class: 'nav-link' do
+                  Login
 
 
 
