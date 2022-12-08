@@ -1,12 +1,13 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
-RSpec.feature 'Managing users', :type => :request do
-
-  context 'When I am signed in as an administrator' do
-    before { 
+RSpec.feature 'Managing users', type: :request do
+  context 'Signed in as an administrator' do
+    before do
       @admin = FactoryBot.create(:user, role: 2)
       login_as @admin
-    }
+    end
 
     specify 'I cannot edit my own details' do
       visit edit_user_path(@admin)
@@ -43,18 +44,23 @@ RSpec.feature 'Managing users', :type => :request do
       end
 
       context 'There are users in the system' do
-        before { 
+        before do
           FactoryBot.create(:user, email: 'user1@user.com')
           refresh
-        }
+        end
 
         specify 'I can see users on the system' do
           expect(page).to have_content 'user1@user.com'
         end
-        
+
+        specify 'I can show user details' do
+          click_on 'Show'
+          expect(page).to have_content 'User details'
+        end
+
         specify 'I can edit the user role' do
           click_on 'Edit'
-          select 'reporter', :from => "Role"
+          select 'reporter', from: 'Role'
           click_on 'Save'
           expect(page).to have_content 'reporter'
         end
@@ -67,7 +73,41 @@ RSpec.feature 'Managing users', :type => :request do
     end
   end
 
-  context 'I am signed in as a user' do
+  context 'Not signed in' do
+    specify 'I cannot visit the account management page' do
+      visit '/users'
+      expect(page).to have_content 'You are not authorized to access this page.'
+    end
+
+    context 'When I am on the homepage' do
+      before { visit '/' }
+
+      specify 'I cannot see the link to the users management page' do
+        expect(page).to_not have_content 'Account Management'
+      end
+    end
+
+    context 'When there are users in the system' do
+      before { @user = FactoryBot.create(:user, email: 'user1@user.com') }
+
+      specify 'I cannot view their account info' do
+        visit user_path(@user)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot edit their account info' do
+        visit edit_user_path(@user)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot delete their account' do
+        expect do
+          delete user_path(@user)
+        end.not_to change(User, :count)
+      end
+    end
+  end
+  context 'Signed in as a user' do
     before { login_as FactoryBot.create(:user, role: 0) }
 
     specify 'I cannot visit the account management page' do
@@ -97,9 +137,46 @@ RSpec.feature 'Managing users', :type => :request do
       end
 
       specify 'I cannot delete their account' do
-        expect { 
+        expect do
           delete user_path(@user)
-        }.not_to change(User, :count)
+        end.not_to change(User, :count)
+      end
+    end
+  end
+
+  context 'Signed in as a reporter' do
+    before { login_as FactoryBot.create(:user, role: 1) }
+
+    specify 'I cannot visit the account management page' do
+      visit '/users'
+      expect(page).to have_content 'You are not authorized to access this page.'
+    end
+
+    context 'When I am on the homepage' do
+      before { visit '/' }
+
+      specify 'I cannot see the link to the users management page' do
+        expect(page).to_not have_content 'Account Management'
+      end
+    end
+
+    context 'When there are users in the system' do
+      before { @user = FactoryBot.create(:user, email: 'user1@user.com') }
+
+      specify 'I cannot view their account info' do
+        visit user_path(@user)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot edit their account info' do
+        visit edit_user_path(@user)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot delete their account' do
+        expect do
+          delete user_path(@user)
+        end.not_to change(User, :count)
       end
     end
   end
