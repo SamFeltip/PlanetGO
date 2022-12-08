@@ -2,26 +2,37 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Managing users', type: :request do
+RSpec.feature 'Managing metrics', type: :request do
   context 'When I am signed in as an admin' do
     before do
       @admin = FactoryBot.create(:user, role: 2)
       login_as @admin
     end
 
-    specify 'I can visit the account management page' do
+    specify 'I can visit the metrics management page' do
       visit '/metrics'
       expect(current_path).to eq '/metrics'
     end
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: 'Rue de testing')
+        @metric = FactoryBot.create(:metric, route: '/')
       end
 
-      specify 'I can view the metric' do
-        visit metric_path(@metric)
-        expect(page).to have_content 'Rue de testing'
+      context 'I am on the metrics page' do
+        before do
+          visit '/metrics'
+          expect(current_path).to eq '/metrics'
+        end
+
+        specify 'I can view the metric' do
+          expect(page).to have_content('# visits: 1')
+        end
+
+        specify 'The graph should be empty by default' do
+          expect(page).to have_selector('#myChart')
+          expect(page).to have_css('canvas[data-labels="[0, 1]"]')
+        end
       end
     end
   end
@@ -32,19 +43,30 @@ RSpec.feature 'Managing users', type: :request do
       login_as @reporter
     end
 
-    specify 'I can visit the account management page' do
+    specify 'I can visit the metrics management page' do
       visit '/metrics'
       expect(current_path).to eq '/metrics'
     end
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: 'Rue de testing')
+        @metric = FactoryBot.create(:metric, route: '/')
       end
 
-      specify 'I can view the metric' do
-        visit metric_path(@metric)
-        expect(page).to have_content 'Rue de testing'
+      context 'I am on the metrics page' do
+        before do
+          visit '/metrics'
+          expect(current_path).to eq '/metrics'
+        end
+
+        specify 'I can view the metric' do
+          expect(page).to have_content('# visits: 1')
+        end
+
+        specify 'The graph should be empty by default' do
+          expect(page).to have_selector('#myChart')
+          expect(page).to have_css('canvas[data-labels="[0, 1]"]')
+        end
       end
     end
   end
@@ -55,18 +77,9 @@ RSpec.feature 'Managing users', type: :request do
       login_as @user
     end
 
-    specify 'I cannot visit the account management page' do
+    specify 'I cannot visit the metric management page' do
       visit '/metrics'
       expect(page).to have_content 'You are not authorized to access this page.'
-    end
-
-    context 'When metrics are in the system' do
-      before { @metric = FactoryBot.create(:metric) }
-
-      specify 'I cannot view the metric' do
-        visit metric_path(@metric)
-        expect(page).to have_content 'You are not authorized to access this page.'
-      end
     end
   end
 end
