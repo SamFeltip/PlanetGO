@@ -1,19 +1,101 @@
 require 'rails_helper'
 
 RSpec.feature 'RegisterInterest' do
-    context 'When a user registers their interest' do
-        before { FactoryBot.create(:register_interest, email: 'email1@gmail.com', pricing_id: 'basic') }
-        before { FactoryBot.create(:register_interest, email: 'email2@gmail.com', pricing_id: 'premium') }
-        before { FactoryBot.create(:register_interest, email: 'email3@gmail.com', pricing_id: 'premium_plus') }
+    context 'When a user registers their interest', :type => :request do
+        before { @interest1 = FactoryBot.create(:register_interest, email: 'email1@gmail.com', pricing_id: 'basic') }
+        before { @interest2 = FactoryBot.create(:register_interest, email: 'email2@gmail.com', pricing_id: 'premium') }
+        before { @interest3 = FactoryBot.create(:register_interest, email: 'email3@gmail.com', pricing_id: 'premium_plus') }
 
-        specify 'I can see existing interests' do
-            visit 'pricings/3/register_interests#'
-            expect(page).to have_content 'email1@gmail.com'
-            expect(page).to have_content 'basic'
-            expect(page).to have_content 'email2@gmail.com'
-            expect(page).to have_content 'premium'
-            expect(page).to have_content 'email3@gmail.com'
-            expect(page).to have_content 'premium_plus'
+        context 'When I am signed in as an administrator' do
+            before { 
+                @admin = FactoryBot.create(:user, role: 2)
+                login_as @admin
+            }
+
+            specify 'I can visit the register interests index page' do
+                visit 'pricings/3/register_interests'
+                expect(current_path).to eq '/pricings/3/register_interests'
+            end
+
+            context 'I am on the register interests index page' do
+                before { visit 'pricings/3/register_interests' }
+
+                specify 'I can see existing interests' do
+                    expect(page).to have_content 'email1@gmail.com'
+                    expect(page).to have_content 'basic'
+                    expect(page).to have_content 'email2@gmail.com'
+                    expect(page).to have_content 'premium'
+                    expect(page).to have_content 'email3@gmail.com'
+                    expect(page).to have_content 'premium_plus'
+                end
+    
+                specify 'I can delete an existing interest' do
+                    visit 'pricings/3/register_interests'
+                    expect {
+                        click_on 'Destroy'
+                    }.to change(RegisterInterest, :count)
+                end
+            end
+        end
+
+        context 'When I am not signed in' do
+            specify 'I can register an interest' do
+                expect {
+                    visit 'pricings/3/register_interests/new'
+                    fill_in 'Email', with: 'samplemail@emailserver.com'
+                    click_on 'Save'
+            }.to change(RegisterInterest, :count)
+            end
+            specify 'I am not allowed access to others interest' do
+                visit 'pricings/3/register_interests'
+                expect(page).to have_content 'You are not authorized to access this page.'
+            end
+            specify 'I cannot delete a registered interest' do
+                expect { 
+                    delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
+                  }.not_to change(RegisterInterest, :count)
+            end
+        end
+
+        context 'When I am signed in as a user' do
+            before { 
+                @user = FactoryBot.create(:user, role: 0)
+                login_as @user 
+            }
+
+            specify 'I can register an interest' do
+                expect {
+                    visit 'pricings/3/register_interests/new'
+                    fill_in 'Email', with: @user.email
+                    click_on 'Save'
+            }.to change(RegisterInterest, :count)
+            end
+            specify 'I am not allowed access to others interest' do
+                visit 'pricings/3/register_interests'
+                expect(page).to have_content 'You are not authorized to access this page.'
+            end
+            specify 'I cannot delete a registered interest' do
+                expect { 
+                    delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
+                  }.not_to change(RegisterInterest, :count)
+            end
+        end
+
+        context 'When I am signed in as a reporter' do
+            before { 
+                @reporter = FactoryBot.create(:user, role: 1)
+                login_as @reporter
+            }
+
+            specify 'I am not allowed access to others interest' do
+                visit 'pricings/3/register_interests'
+                expect(page).to have_content 'You are not authorized to access this page.'
+            end
+            specify 'I cannot delete a registered interest' do
+                expect { 
+                    delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
+                  }.not_to change(RegisterInterest, :count)
+            end
         end
         specify 'When email is invalid user should get an error' do
             visit '/pricings/basic/register_interests/new'
