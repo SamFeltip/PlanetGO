@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: register_interests
@@ -10,4 +12,7 @@
 #  pricing_plan_id :string
 #
 class RegisterInterest < ApplicationRecord
+  validates :email, presence: true
+  validates :email, format: { with: URI::MailTo::EMAIL_REGEXP }
+  validates :pricing_id, presence: true
 end
