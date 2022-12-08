@@ -15,6 +15,13 @@ Rails.application.routes.draw do
       put 'unlike', to: 'reviews#unlike'
     end
   end
+
+  resources :faqs do
+    member do
+      put 'like', to: 'faqs#like'
+      put 'unlike', to: 'faqs#unlike'
+    end
+  end
   
   root "pages#landing"
   match '/welcome', to: 'pages#landing', via: 'get'

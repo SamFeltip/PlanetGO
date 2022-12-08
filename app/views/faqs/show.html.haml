@@ -9,7 +9,23 @@
           %dd.col-md-9= @faq.question
           %dt.col-md-3 Answer:
           %dd.col-md-9= @faq.answer
+          %dt.col-md-3 Likes:
+          %dd.col-md-9= @faq.votes_for.up.size
+          - if can? :manage, Faq
+            %dt.col-md-3 Answered:
+            %dd.col-md-9= @faq.answered
+            %dt.col-md-3 Displayed:
+            %dd.col-md-9= @faq.displayed
+            %dt.col-md-3 Clicks:
+            %dd.col-md-9= @faq.clicks
       .card-footer.d-flex
-        - if current_user.admin?
+        - if user_signed_in?
+          - if current_user.liked? @faq
+            = link_to 'Unlike', unlike_faq_path(@faq), method: :put, class: 'btn btn-link'
+          - else
+            = link_to 'Like', like_faq_path(@faq), method: :put, class: 'btn btn-link'
+        - else
+          = link_to 'Like', like_faq_path(@faq), method: :put, class: 'btn btn-link'
+        - if can? :manage, Faq
           = link_to 'Edit', edit_faq_path(@faq), class: 'btn btn-link'
         = link_to 'Back', faqs_path, class: 'btn btn-link ms-auto'
