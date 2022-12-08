@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class RegisterInterestsController < ApplicationController
-  before_action :set_register_interest, only: %i[ show edit update destroy ]
+  before_action :set_register_interest, only: %i[show edit update destroy]
   authorize_resource only: %i[index show edit update destroy]
 
   # GET /register_interests or /register_interests.json
@@ -14,8 +16,7 @@ class RegisterInterestsController < ApplicationController
   end
 
   # GET /register_interests/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /register_interests or /register_interests.json
   def create
@@ -24,7 +25,7 @@ class RegisterInterestsController < ApplicationController
     @register_interest.pricing_id = @pricing_id
     respond_to do |format|
       if @register_interest.save
-        format.html { redirect_to '/', notice: "Register interest was successfully created." }
+        format.html { redirect_to '/', notice: 'Register interest was successfully created.' }
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,19 +39,23 @@ class RegisterInterestsController < ApplicationController
     @register_interest.destroy
 
     respond_to do |format|
-      format.html { redirect_to pricing_register_interests_path(@register_interest.pricing_id), notice: "Register interest was successfully destroyed." }
+      format.html do
+        redirect_to pricing_register_interests_path(@register_interest.pricing_id),
+                    notice: 'Register interest was successfully destroyed.'
+      end
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_register_interest
-      @register_interest = RegisterInterest.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def register_interest_params
-      params.require(:register_interest).permit(:email, :pricing_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_register_interest
+    @register_interest = RegisterInterest.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def register_interest_params
+    params.require(:register_interest).permit(:email, :pricing_id)
+  end
 end

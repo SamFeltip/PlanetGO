@@ -9,7 +9,7 @@ class Ability
 
     return unless user.present?
 
-    can [:create, :like, :unlike], Review
+    can %i[create like unlike], Review
 
     return unless user.reporter? || user.admin?
 
@@ -17,8 +17,8 @@ class Ability
 
     return unless user.admin?
 
-    can [:read, :update, :destroy], User
-    cannot [:update, :destroy], User, id: user.id
+    can %i[read update destroy], User
+    cannot %i[update destroy], User, id: user.id
 
     can :manage, RegisterInterest
     can :manage, Review
