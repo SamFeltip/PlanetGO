@@ -5,12 +5,11 @@
 #  id         :bigint           not null, primary key
 #  answer     :string
 #  answered   :boolean          default(FALSE)
-#  clicks     :integer          default(0)
 #  displayed  :boolean          default(FALSE)
 #  question   :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
-#
+
 class Faq < ApplicationRecord
   validates :question, presence: true, length: { maximum: 500 }
   acts_as_votable
@@ -26,7 +25,7 @@ class Faq < ApplicationRecord
   def check_is_displayed
     self.displayed = true
   end
-    
+
   def check_is_displayed
     self.displayed = false
   end
