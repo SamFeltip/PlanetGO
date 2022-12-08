@@ -62,19 +62,30 @@ review_3 = Review.where(body: 'I HATE this website. It offends me deeply this pr
 
 print '[+] Adding new FAQs.'
 
-faq_1 = Faq.where(question: 'how do I make an account?')
+faq_1 = Faq.where(question: 'How do I make an account?')
            .first_or_create(
-             answer: 'it\'s easy, you go to the sign up page!'
+             answer: 'it\'s easy, you go to the sign up page!',
+             answered: true,
+             displayed: true
            )
 
 puts '.'
 
-faq_2 = Faq.where(question: 'where can I sign up!?')
+faq_2 = Faq.where(question: 'Where can I sign up!?')
            .first_or_create(
              answer: 'go to /users/sign_up and fill in your details!'
+             answered: true,
+             displayed: true
            )
 
+puts '.'
 
+faq_3 = Faq.where(question: 'How much does it cost?')
+           .first_or_create(
+             answer: 'Go check out our pricing options on the pricing page.'
+             answered: false,
+             displayed: false
+           )
 
 
 print '[+] Adding new metrics.'
