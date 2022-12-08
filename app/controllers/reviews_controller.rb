@@ -22,10 +22,14 @@ class ReviewsController < ApplicationController
 
   # GET /reviews/1/edit
   def edit
+    authorize! :edit, @review
+
   end
 
   # PATCH/PUT /reviews/1 or /reviews/1.json
   def update
+    authorize! :update, @review
+
     respond_to do |format|
       if @review.update(review_params)
         format.html { redirect_to reviews_path, notice: "Review was successfully updated." }

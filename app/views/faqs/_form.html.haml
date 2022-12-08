@@ -2,8 +2,10 @@
 = simple_form_for(@faq) do |f|
   .card-body
     = f.input :question, wrapper_html: { class: 'mb-3' } 
-    - if current_user.admin?
+    - if can? :manage, Faq
       = f.input :answer, wrapper_html: { class: 'mb-3' }
+      = f.input :answered, wrapper_html: { class: 'mb-3' }
+      = f.input :displayed, wrapper_html: { class: 'mb-3' }
 
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }

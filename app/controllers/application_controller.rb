@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   before_action :configure_sign_up_params, if: :devise_controller?
   before_action :configure_account_update_params, if: :devise_controller?
 
-  # Catch all CanCan errors and alert the user of the exception
+  # when you try to access a page you aren't given access to, redirect to root
   rescue_from CanCan::AccessDenied do | exception |
     redirect_to root_url, alert: exception.message
   end
@@ -23,7 +23,7 @@ class ApplicationController < ActionController::Base
     resource.pwned?
     super
   end
-  
+
   protected
   # Appending parameters to the devise sanitizer.
   def configure_sign_up_params

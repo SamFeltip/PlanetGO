@@ -32,7 +32,7 @@
 #
 FactoryBot.define do
   sequence :email do |n|
-    "test#{n}@example.com"
+    "test#{n}@planetgo.com"
   end
 
   factory :user do
