@@ -4,6 +4,7 @@
 #
 #  id                    :bigint           not null, primary key
 #  body                  :text
+#  clicks                :integer          default(0)
 #  is_on_landing_page    :boolean          default(FALSE)
 #  landing_page_position :integer
 #  created_at            :datetime         not null
@@ -19,6 +20,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Review < ApplicationRecord
+  validates :body, presence: true, length: { maximum: 2048 }
   acts_as_votable
   belongs_to :user
 
@@ -30,12 +32,16 @@ class Review < ApplicationRecord
   end
 
   # shows the first few characters of the review for previewing purposes
-  def summary
-    "#{self.body[0,30]}..."
+  def summary(characters)
+    "#{self.body[0, characters]}..."
   end
 
   def to_s
-    "#{self.user} says #{self.summary}"
+    "#{self.user} says #{self.summary(30)}"
+  end
+
+  def created_date
+    self.created_at.strftime("%e %B %Y")
   end
 
   def swap_landing_page_position(other_review)

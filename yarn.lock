@@ -1552,6 +1552,11 @@ chalk@^4.0:
     ansi-styles "^4.1.0"
     supports-color "^7.1.0"
 
+chart.js@^4.0.1:
+  version "4.0.1"
+  resolved "https://registry.yarnpkg.com/chart.js/-/chart.js-4.0.1.tgz#93d5d50ac222a5b3b6ac7488e82e1553ac031592"
+  integrity sha512-5/8/9eBivwBZK81mKvmIwTb2Pmw4D/5h1RK9fBWZLLZ8mCJ+kfYNmV9rMrGoa5Hgy2/wVDBMLSUDudul2/9ihA==
+
 "chokidar@>=3.0.0 <4.0.0", chokidar@^3.5.3:
   version "3.5.3"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-3.5.3.tgz#1cf37c8707b932bd1af1ae22c0432e2acd1903bd"
@@ -2153,6 +2158,11 @@ has@^1.0.3:
   dependencies:
     function-bind "^1.1.1"
 
+hello-world-classic@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/hello-world-classic/-/hello-world-classic-0.0.1.tgz#87f5ec22f5d58d93ba4179cc6c630be500006818"
+  integrity sha512-IxVkRDcbY7EwtNl988ajn2qzufB6QDEAaOvYwwYyUu0YFT7zQbUKqmApafn0opONe9Y/cf3UO17/8vOkbxPlhA==
+
 hpack.js@^2.1.6:
   version "2.1.6"
   resolved "https://registry.yarnpkg.com/hpack.js/-/hpack.js-2.1.6.tgz#87774c0949e513f42e84575b3c45681fade2a0b2"
@@ -2235,6 +2245,11 @@ icss-utils@^5.0.0, icss-utils@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/icss-utils/-/icss-utils-5.1.0.tgz#c6be6858abd013d768e98366ae47e25d5887b1ae"
   integrity sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==
+
+ika.jvectormap@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ika.jvectormap/-/ika.jvectormap-1.0.0.tgz#149267aad6e9080dc4a26017e4f90519b09cc214"
+  integrity sha512-TTcNIQgUUSgWXB34MOJLZGtamNuU++GGzJrhTEFOZbqw5uz7niJR7H/XOvAz75XyxUrUb4v1FOqFvshAYBMd6w==
 
 immutable@^4.0.0:
   version "4.1.0"
@@ -2383,6 +2398,11 @@ jest-worker@^27.4.5:
     "@types/node" "*"
     merge-stream "^2.0.0"
     supports-color "^8.0.0"
+
+jquery@^3.6.1:
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.6.1.tgz#fab0408f8b45fc19f956205773b62b292c147a16"
+  integrity sha512-opJeO4nCucVnsjiXOE+/PcCgYw9Gwpvs/a6B1LL/lQhwWwpbVEVYDZ1FokFr8PRc7ghYlrFPuyHuiiDNTQxmcw==
 
 js-tokens@^4.0.0:
   version "4.0.0"

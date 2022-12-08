@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_07_225327) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -29,6 +29,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
+  create_table "faqs", force: :cascade do |t|
+    t.string "question"
+    t.string "answer"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.boolean "answered", default: false
+    t.boolean "displayed", default: false
+  end
+
   create_table "metrics", force: :cascade do |t|
     t.datetime "time_enter"
     t.datetime "time_exit"
@@ -40,6 +49,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
     t.integer "pricing_selected"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "country_code"
+  end
+
+  create_table "pricings", force: :cascade do |t|
+    t.string "title"
+    t.string "price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "description"
   end
 
   create_table "pricings", force: :cascade do |t|
@@ -62,6 +80,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
     t.bigint "user_id"
     t.boolean "is_on_landing_page", default: false
     t.integer "landing_page_position"
+    t.integer "clicks", default: 0
     t.index ["user_id"], name: "index_reviews_on_user_id"
   end
 
@@ -95,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_03_174657) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "role", default: 0
+    t.string "full_name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

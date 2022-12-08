@@ -1,8 +1,12 @@
+// import lookup from 'coordinate_to_country'
+import helloWorld from 'hello-world-classic'
 document.addEventListener('DOMContentLoaded', () => {
   var pageVisitedFrom;
   var CSRFToken;
   var location;
   var interactions;
+  var countryCodes;
+  helloWorld();
 
   resetValues();
 
@@ -17,33 +21,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (location) {
         metrics.append('latitude', location.coords.latitude);
         metrics.append('longitude', location.coords.longitude);
+        // countryCodes = lookup(location.coords.latitude, location.coords.longitude);
+        // if (countryCodes.length) {
+        //   metrics.append('country_code', countryCodes[0]);
+        // }
       }
-      metrics.append('is_logged_in', false)
-      metrics.append('number_interactions', interactions)
-      metrics.append('pricing_selected', 0)
+      metrics.append('is_logged_in', false);
+      metrics.append('number_interactions', interactions);
+      metrics.append('pricing_selected', 0);
       metrics.append('authenticity_token', CSRFToken);
-
-      console.log(metrics);
-      // navigator.sendBeacon is the easist way to send a request to the server when a page is unloading.
-      // The browser will keep this request alive even if the page that started the request is unloaded already.
-      // sendBeacon() will use POST method, and you cannot change this.
       navigator.sendBeacon('/metrics', metrics);
+
       resetValues();
-
-
-      // fetch with keepalive true behaves the same as navigator.sendBeacon,
-      // but allows you to customise headers / method easily.
-      // fetch('/metrics', {
-      //   method: 'POST',
-      //   keepalive: true,
-      //   credentials: 'same-origin',
-      //   headers: {
-      //     'x-csrf-token': CSRFToken
-      //   },
-      //   body: metrics
-      // });
-
-      // Both sendBeacon and fetch + keepalive got a 64kb payload limit. This is across all requests from the same page.
     }
   })
 

@@ -6,6 +6,7 @@
     %meta{ :'http-equiv' => "content-type", content: "text/html; charset=utf-8" }
     %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no" }
+    %script{:src=>"https://code.jquery.com/jquery-3.6.1.min.js"}
 
     - if content_for(:description)
       %meta{ content: content_for(:description), name: 'description' }
@@ -33,6 +34,14 @@
             = link_to '/', class: 'nav-link' do
               %i.bi-house-fill
               Home
+
+            %li.nav-item.active
+              = link_to :reviews, class: 'nav-link' do
+                Reviews
+
+            %li.nav-item.active
+              = link_to :faqs, class: 'nav-link' do
+                FAQs
 
             %li.nav-item.active
               = link_to :new_user_session, class: 'nav-link' do
