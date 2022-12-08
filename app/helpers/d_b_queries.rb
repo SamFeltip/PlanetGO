@@ -5,7 +5,7 @@ module DBQueries
     end
     return metrics.count()
   end
-    
+
   def getNumberOfInteractionsPerVisit(metrics, startDateTime, endDateTime)
     # Returns the NumberOfInteractionsPerVisit
     if startDateTime && endDateTime
@@ -53,8 +53,8 @@ module DBQueries
   end
 
   def getNumberPricingPageBounceOuts(metrics, register_interests, startDateTime, endDateTime)
-    puts metrics
-    puts register_interests
+    # puts metrics
+    # puts register_interests
     if startDateTime && endDateTime
       register_interests = register_interests.where("created_at >= :startDateTime and created_at <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
       metrics = metrics.where("time_enter >= :startDateTime and time_enter <= :endDateTime and route = '/pricings'", {startDateTime: startDateTime, endDateTime: endDateTime})

@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
 
   # when you try to access a page you aren't given access to, redirect to root
   rescue_from CanCan::AccessDenied do | exception |
-    redirect_to root_url, alert: 'you are not permitted to access this page'
+    redirect_to root_url, alert: exception.message
   end
 
   # Check for compromised password
