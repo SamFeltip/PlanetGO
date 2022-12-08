@@ -1,9 +1,12 @@
+// import lookup from 'coordinate_to_country'
+import helloWorld from 'hello-world-classic'
 document.addEventListener('DOMContentLoaded', () => {
   var pageVisitedFrom;
   var CSRFToken;
   var location;
   var interactions;
-  const lookup = require("coordinate_to_country")
+  var countryCodes;
+  helloWorld();
 
   resetValues();
 
@@ -18,10 +21,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (location) {
         metrics.append('latitude', location.coords.latitude);
         metrics.append('longitude', location.coords.longitude);
-        countryCodes = lookup(location.coords.latitude, location.coords.longitude);
-        if (countryCodes.length) {
-          metrics.append('country_code', countryCodes[0]);
-        }
+        // countryCodes = lookup(location.coords.latitude, location.coords.longitude);
+        // if (countryCodes.length) {
+        //   metrics.append('country_code', countryCodes[0]);
+        // }
       }
       metrics.append('is_logged_in', false);
       metrics.append('number_interactions', interactions);

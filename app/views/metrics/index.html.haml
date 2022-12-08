@@ -57,6 +57,7 @@
               normalizeFunction: 'polynomial'
             }]
           },
+          zoomOnScroll: false,
           onRegionTipShow: function(e, el, code){
             el.html(el.html()+' (Visits - '+(clickData[code] ? clickData[code] : 0)+')');
           }

@@ -1,5 +1,6 @@
 class MetricsController < ApplicationController
   include DBQueries
+  include Geocoder
   before_action :set_metric, only: %i[ show edit update destroy ]
 
   # GET /metrics or /metrics.json
@@ -150,7 +151,6 @@ class MetricsController < ApplicationController
     countryCodesMetrics = metrics.where.not(country_code: [nil, ""]).order(:country_code)
     countryCodesData = countryCodesMetrics.group(:country_code).count
     @clickData = JSON.generate(countryCodesData)
-    @clickData = JSON.generate({"GBR":75})
 
     if params["start"] && params["end"]
       handleGraph()
@@ -174,6 +174,9 @@ class MetricsController < ApplicationController
   def create
     time_enter = Time.at(params["time_enter"].to_i / 1000).to_datetime
     time_exit = Time.at(params["time_exit"].to_i / 1000).to_datetime
+
+    country_code = Geocoder.search([params['latitude'], params['longitude']]).first.country_code.upcase
+    puts country_code
     
     Metric.create(
       time_enter:         time_enter,
@@ -181,7 +184,7 @@ class MetricsController < ApplicationController
       route:              params['route'],
       latitude:           params['latitude'],
       longitude:          params['longitude'],
-      country_code:       params['country_code'],
+      country_code:       country_code.to_s,
       is_logged_in:       params['is_logged_in'],
       number_interactions:params['number_interactions'],
       pricing_selected:   params['pricing_selected']
@@ -221,6 +224,6 @@ class MetricsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def metric_params
-      params.require(:metric).permit(:time_enter, :time_exit, :route, :lattitude, :longitude, :is_logged_in, :number_interactions, :pricing_selected)
+      params.require(:metric).permit(:time_enter, :time_exit, :route, :lattitude, :longitude, :is_logged_in, :number_interactions, :pricing_selected, :country_code)
     end
 end
