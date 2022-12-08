@@ -10,6 +10,10 @@ class Ability
 
     can [:create, :like, :unlike], Review
 
+    return unless user.reporter? || user.admin?
+
+    can :manage, Metric
+
     return unless user.admin?
 
     can [:read, :update, :destroy], User
