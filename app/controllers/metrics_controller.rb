@@ -2,7 +2,7 @@ class MetricsController < ApplicationController
   include DBQueries
   include Geocoder
   before_action :set_metric, only: %i[ show edit update destroy ]
-
+  authorize_resource only: %i[index show edit update destroy]
   # GET /metrics or /metrics.json
   def index
     def handleGraph()
