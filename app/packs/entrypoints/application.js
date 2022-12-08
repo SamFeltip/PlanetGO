@@ -1,7 +1,9 @@
 import Rails from "@rails/ujs";
 import "bootstrap";
 import '../scripts/collecting_metrics';
+import '../scripts/jquery.jvectormap.js';
 import '../scripts/jquery-jvectormap-world-merc';
+
 import Chart from 'chart.js/auto';
 
 Rails.start();
