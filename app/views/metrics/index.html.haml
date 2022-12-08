@@ -2,13 +2,64 @@
   .card-header
     %span General Metrics
   .card-body
-    %div{:style => "display:flex;flex-wrap:wrap;text-align:center"}
+    %div{:class=>"flex_container"}
       -@allMetrics.each do |metric|
         = render 'page_metrics', routeName: metric["route"], metrics: metric["metrics"]
   .card-header 
     %span Special Metrics
   .card-body
-    .card-header="Total number of landing page visits: "+@numberLandingPageVisits 
-    .card-header Number of bounce outs: todo
-    .card-header Interest in pricing options 1:2:3: todo
-    .card-header Interest in pricing options 1:2:3 %: todo
+    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/";document.getElementById("metricSelected").value = "Total number of landing page visits";'}
+      %span="Total number of landing page visits: "+@numberLandingPageVisits 
+    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Pricing page bounce outs";'}
+      %span="Pricing page bounce outs: "+@numberPricingPageBounceOuts
+    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Total";'}
+      %span="Interest in pricing options Basic:Premium:Premium+ Total "+@interestInPricingOptions
+    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Percent";'}
+      %span="Interest in pricing options Basic:Premium:Premium+ Percent "+@interestInPricingOptionsPercent
+  .card-header 
+    %span Graphs 
+  .card-body
+    .card-body
+      %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
+        %div
+          %label{:for=>"start"} Start
+          %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
+        %div
+          %label{:for=>"end"} End
+          %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
+        %div
+          %label{:for=>"resolution"} Resolution
+          %select{:name=>"resolution", :value=>params["resolution"]}
+            %option{:value=>"Day"} Day
+            %option{:value=>"Month"} Month
+            %option{:value=>"Year"} Year
+        %div
+          %label{:for=>"page"} Page
+          %input{:name=>"page", :readonly=>"true", :value=>"/", :id=>"pageSelected", :value=>params["pageSelected"]}
+        %div
+          %label{:for=>"metric"} Metric
+          %input{:name=>"metric", :readonly=>"true", :value=>"", :id=>"metricSelected", :value=>params["metricSelected"]}
+        %div
+          %button{:type=>"submit"}Update Graph
+    %canvas{:id=>"myChart", :data=>{:labels=> @data_keys, :data=> @data_values}}
+  .card-header 
+    %span Visit Locations
+  .card-body
+    %div{:id=>"world-map", data: {value: @clickData}}
+    :javascript
+      $(function(){
+        clickData = $('#world-map').data("value");
+        $('#world-map').vectorMap({map: 'world_merc',
+          series: {
+            regions: [{
+              values: clickData,
+              scale: ['#C8EEFF', '#0071A4'],
+              normalizeFunction: 'polynomial'
+            }]
+          },
+          zoomOnScroll: false,
+          onRegionTipShow: function(e, el, code){
+            el.html(el.html()+' (Visits - '+(clickData[code] ? clickData[code] : 0)+')');
+          }
+        });
+      });

@@ -8,9 +8,16 @@ class Ability
 
     return unless user.present?
 
-    can [:create, :like, :unlike], Review, user: user
+    can [:create, :like, :unlike], Review
+
+    return unless user.reporter? || user.admin?
+
+    can :manage, Metric
 
     return unless user.admin?
+
+    can [:read, :update, :destroy], User
+    cannot [:update, :destroy], User, id: user.id
 
     can :manage, Review
     # Define abilities for the user here. For example:

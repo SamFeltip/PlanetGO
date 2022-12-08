@@ -3,7 +3,6 @@ document.addEventListener('DOMContentLoaded', () => {
   var CSRFToken;
   var location;
   var interactions;
-
   resetValues();
 
   // Bind listener to the visibilitychange event instead of unload, find out more at:
@@ -14,36 +13,17 @@ document.addEventListener('DOMContentLoaded', () => {
       metrics.append('time_enter', pageVisitedFrom);
       metrics.append('time_exit', Date.now());
       metrics.append('route', window.location.pathname.replace(/\d+/, "#"));
+      metrics.append('is_logged_in', false);
+      metrics.append('number_interactions', interactions);
+      metrics.append('pricing_selected', 0);
+      metrics.append('authenticity_token', CSRFToken);
+      navigator.sendBeacon('/metrics', metrics);
       if (location) {
         metrics.append('latitude', location.coords.latitude);
         metrics.append('longitude', location.coords.longitude);
       }
-      metrics.append('is_logged_in', false)
-      metrics.append('number_interactions', interactions)
-      metrics.append('pricing_selected', 0)
-      metrics.append('authenticity_token', CSRFToken);
 
-      console.log(metrics);
-      // navigator.sendBeacon is the easist way to send a request to the server when a page is unloading.
-      // The browser will keep this request alive even if the page that started the request is unloaded already.
-      // sendBeacon() will use POST method, and you cannot change this.
-      navigator.sendBeacon('/metrics', metrics);
       resetValues();
-
-
-      // fetch with keepalive true behaves the same as navigator.sendBeacon,
-      // but allows you to customise headers / method easily.
-      // fetch('/metrics', {
-      //   method: 'POST',
-      //   keepalive: true,
-      //   credentials: 'same-origin',
-      //   headers: {
-      //     'x-csrf-token': CSRFToken
-      //   },
-      //   body: metrics
-      // });
-
-      // Both sendBeacon and fetch + keepalive got a 64kb payload limit. This is across all requests from the same page.
     }
   })
 

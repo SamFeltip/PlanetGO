@@ -1,55 +1,171 @@
 class MetricsController < ApplicationController
+  include DBQueries
+  include Geocoder
   before_action :set_metric, only: %i[ show edit update destroy ]
-
+  authorize_resource only: %i[index show edit update destroy]
   # GET /metrics or /metrics.json
   def index
-    def getCommonMetrics(metrics, numMetrics)
+    def handleGraph()
+      startDateArray = params["start"].split("-")
+      endDateArray = params["end"].split("-")
 
-      numberOfVisits = numMetrics.to_s
-      numberOfInteractionsPerVisit = "N/a"
-      if numMetrics > 0
-        numberOfInteractionsPerVisit = (metrics.sum(:number_interactions)/numMetrics).to_s
+      # Calculate start end Time objects. Default is one month ago and now respectively
+      startDateTimeStamp = Time.now - 1.month
+      endDateTimeStamp = Time.now
+      if startDateArray.length() == 3
+        startDateTimeStamp = Time.new(startDateArray[0],startDateArray[1],startDateArray[2])
+      end
+      if endDateArray.length() == 3
+        endDateTimeStamp = Time.new(endDateArray[0],endDateArray[1],endDateArray[2])
       end
 
-      # Average time spent on page in h:m:s format. If more than 24 hours, instead return string "More than a day" 
-      averageTimeSpent = 0
-      metrics.pluck(:time_enter).lazy.zip(metrics.pluck(:time_exit)).each do |enterTime, exitTime|
-        averageTimeSpent += ((exitTime - enterTime)/numMetrics)
+      # Get date increment from params. Default is one day if no param passed
+      dateIncrement = 1.day
+      if params["resolution"] == "Month"
+        dateIncrement = 1.month
+      elsif params["resolution"] == "Year"
+        dateIncrement = 1.year
       end
-      if averageTimeSpent > 86400
-        averageTimeSpent = "More than a day"
+
+      registerInterests = RegisterInterest.all
+      metrics = Metric.where(route: "/")
+      if params["page"]
+        metrics = Metric.where(route: params["page"])
+      end
+
+      @data_keys = []
+      @data_values = []
+
+      # TODO: Is there a way to make this more DRY?
+      case params["metric"]
+      when "# visits", "Total number of landing page visits"
+        data = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          data.append(getNumberOfVisits(metrics, startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          startDateTimeStamp += dateIncrement
+        end
+
+        @data_values = JSON.generate([{label: "# visits", data: data}])
+      when "x̄ # clicks/visit"
+        data = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          data.append(getNumberOfInteractionsPerVisit(metrics, startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          startDateTimeStamp += dateIncrement
+        end
+
+        @data_values = JSON.generate([{label: "x̄ # clicks/visit", data: data}])
+      when "x̄ time on page"
+        data = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          data.append(getAverageTimeSpent(metrics, startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          startDateTimeStamp += dateIncrement
+        end
+
+        @data_values = JSON.generate([{label: "x̄ time on page", data: data}])
+      when "Pricing page bounce outs"
+        data = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          data.append(getNumberPricingPageBounceOuts(metrics, registerInterests, startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          startDateTimeStamp += dateIncrement
+        end
+
+        @data_values = JSON.generate([{label: "Pricing page bounce outs", data: data}])
+      when "Interest in pricing options Basic:Premium:Premium+ Total"
+        pricing_interest = RegisterInterest.all()
+        basic = []
+        premium = []
+        premium_plus = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          basic.append(getPricingInterest(pricing_interest, "basic", startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          premium.append(getPricingInterest(pricing_interest, "premium", startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          premium_plus.append(getPricingInterest(pricing_interest, "premium_plus", startDateTimeStamp, startDateTimeStamp + dateIncrement))
+          startDateTimeStamp += dateIncrement
+        end
+        @data_values = JSON.generate([{label: "Basic", data: basic}, {label: "Premium", data: premium}, {label: "Premium+", data: premium_plus}])
+      when "Interest in pricing options Basic:Premium:Premium+ Percent"
+        pricing_interest = RegisterInterest.all()
+        basic = []
+        premium = []
+        premium_plus = []
+        while startDateTimeStamp < endDateTimeStamp
+          @data_keys.append(startDateTimeStamp.strftime("%F"))
+          basicValue = getPricingInterest(pricing_interest, "basic", startDateTimeStamp, startDateTimeStamp + dateIncrement)
+          premiumValue = getPricingInterest(pricing_interest, "premium", startDateTimeStamp, startDateTimeStamp + dateIncrement)
+          premiumPlusValue = getPricingInterest(pricing_interest, "premium_plus", startDateTimeStamp, startDateTimeStamp + dateIncrement)
+          total = basicValue+premiumValue+premiumPlusValue
+          if total == 0
+            total = 1
+          end
+          
+          basic.append((basicValue*100)/total) 
+          premium.append((premiumValue*100)/total) 
+          premium_plus.append((premiumPlusValue*100)/total)
+
+          startDateTimeStamp += dateIncrement
+        end
+        @data_values = JSON.generate([{label: "Basic", data: basic}, {label: "Premium", data: premium}, {label: "Premium+", data: premium_plus}])
       else
-        averageTimeSpent = "%02d:%02d:%02d" % [averageTimeSpent / 3600, averageTimeSpent / 60 % 60, averageTimeSpent % 60]
+        # No metric selected by the user, display a slash accross the graph with a label "No Data"
+        emptyGraph
       end
-
-
-      return [
-        ["# visits", numberOfVisits],
-        ["x̄ # interactions/visit", numberOfInteractionsPerVisit],
-        ["x̄ time spent on page", averageTimeSpent],
-      ]
     end
 
-    @metrics = Metric.all
+    def emptyGraph()
+      @data_keys = [0, 1]
+      @data_values = JSON.generate([{label: "No Data", data: [1, 0]}])
+    end
+
+    metrics = Metric.all
+    registerInterests = RegisterInterest.all
     routesInterestedIn = ["/", "/metrics", 
-      "/reviews", "/reviews/#", "/reviews/new", "/reviews/#/edit", 
-      "/users", "/users/#", "/users/new", "/users/#/edit"]
+      "/reviews", "/reviews/#", "/reviews/new", "/reviews/#/edit",
+      "/faqs", "/faqs/#", "/faqs/new", "/faqs/#/edit",
+      "/users", "/users/#", "/users/new", "/users/#/edit",
+      "/users/sign_in", "/users/sign_up", "/users/unlock/new",
+      "/users/password/new"]
 
     # lists all routes of application. Way too many to display metrics for. Need to specify pages manually
     # p Rails.application.routes.routes.map { |r| {alias: r.name, path: r.path.spec.to_s, controller: r.defaults[:controller], action: r.defaults[:action]}}
     
     @allMetrics = []
     routesInterestedIn.each do |route|
-      metricsList = @metrics.where(route: route)
+      metricsList = metrics.where(route: route)
       numMetrics = metricsList.count()
       @allMetrics.append({ "route" => route, "metrics" => getCommonMetrics(metricsList, numMetrics)})
     end
 
-    @numberLandingPageVisits = @metrics.where(route: "/").count().to_s
-  end
+    @numberLandingPageVisits = metrics.where(route: "/").count().to_s
+    @numberPricingPageBounceOuts = getNumberPricingPageBounceOuts(metrics, registerInterests, nil, nil).to_s
 
-  # GET /metrics/1 or /metrics/1.json
-  def show
+    # Calculates the two Interests metrics
+    basicPlanInterest = getPricingInterest(registerInterests, "basic", nil, nil)
+    premiumPlanInterest = getPricingInterest(registerInterests, "premium", nil, nil)
+    premiumPlusPlanInterest = getPricingInterest(registerInterests, "premium_plus", nil, nil)
+    totalInterest = basicPlanInterest + premiumPlanInterest + premiumPlusPlanInterest
+
+    @interestInPricingOptions = basicPlanInterest.to_s + ":" + premiumPlanInterest.to_s + ":" + premiumPlusPlanInterest.to_s
+    @interestInPricingOptionsPercent = "0%:0%:0%"
+    if totalInterest > 0
+      # Use default percentages instead of dividing by zero
+      @interestInPricingOptionsPercent = (basicPlanInterest*100/totalInterest).to_s + ":" + 
+        (premiumPlanInterest*100/totalInterest).to_s + ":" + 
+        (premiumPlusPlanInterest*100/totalInterest).to_s
+    end
+
+    # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
+    countryCodesMetrics = metrics.where(route: "/").where.not(country_code: [nil, ""]).order(:country_code)
+    countryCodesData = countryCodesMetrics.group(:country_code).count
+    @clickData = JSON.generate(countryCodesData)
+
+    emptyGraph()
+    if params["start"] && params["end"]
+      handleGraph()
+    end
   end
 
   # GET /metrics/new
@@ -57,21 +173,24 @@ class MetricsController < ApplicationController
     @metric = Metric.new
   end
 
-  # GET /metrics/1/edit
-  def edit
-  end
-
   # POST /metrics or /metrics.json
   def create
     time_enter = Time.at(params["time_enter"].to_i / 1000).to_datetime
     time_exit = Time.at(params["time_exit"].to_i / 1000).to_datetime
-    
+
+    if params['latitude'] != nil && params['longitude'] != nil
+      country_code = Geocoder.search([params['latitude'], params['longitude']]).first.country_code.upcase.to_s
+    else
+      country_code = nil
+    end
+
     Metric.create(
       time_enter:         time_enter,
       time_exit:          time_exit,
       route:              params['route'],
       latitude:           params['latitude'],
       longitude:          params['longitude'],
+      country_code:       country_code,
       is_logged_in:       params['is_logged_in'],
       number_interactions:params['number_interactions'],
       pricing_selected:   params['pricing_selected']
@@ -93,16 +212,6 @@ class MetricsController < ApplicationController
     end
   end
 
-  # DELETE /metrics/1 or /metrics/1.json
-  def destroy
-    @metric.destroy
-
-    respond_to do |format|
-      format.html { redirect_to metrics_url, notice: "Metric was successfully destroyed." }
-      format.json { head :no_content }
-    end
-  end
-
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_metric
@@ -111,6 +220,6 @@ class MetricsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def metric_params
-      params.require(:metric).permit(:time_enter, :time_exit, :route, :lattitude, :longitude, :is_logged_in, :number_interactions, :pricing_selected)
+      params.require(:metric).permit(:time_enter, :time_exit, :route, :lattitude, :longitude, :is_logged_in, :number_interactions, :pricing_selected, :country_code)
     end
 end

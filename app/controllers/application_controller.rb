@@ -8,9 +8,31 @@ class ApplicationController < ActionController::Base
   # may be worth enabling caching for performance.
   before_action :update_headers_to_disable_caching
 
+  # Update devise allowed parameters
+  before_action :configure_sign_up_params, if: :devise_controller?
+  before_action :configure_account_update_params, if: :devise_controller?
+
   # when you try to access a page you aren't given access to, redirect to root
-  rescue_from CanCan::AccessDenied do |exception|
-    redirect_to root_url, :alert => 'you are not permitted to access this page'
+  rescue_from CanCan::AccessDenied do | exception |
+    redirect_to root_url, alert: 'you are not permitted to access this page'
+  end
+
+  # Check for compromised password
+  def after_sign_in_path_for(resource)
+    set_flash_message! :alert, :warn_pwned if resource.respond_to?(:pwned?) &&
+    resource.pwned?
+    super
+  end
+
+  protected
+  # Appending parameters to the devise sanitizer.
+  def configure_sign_up_params
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:full_name])
+  end
+
+  # Appending parameters to the devise sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:full_name])
   end
 
   private

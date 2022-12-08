@@ -1,14 +1,18 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: %i[ show destroy like unlike edit update]
   before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
+  load_and_authorize_resource
 
   # GET /reviews or /reviews.json
   def index
-    @reviews = Review.all
+    @reviews = Review.order('created_at DESC').all
   end
 
   # GET /reviews/1 or /reviews/1.json
   def show
+    unless current_user and current_user.admin?
+      @review.increment!(:clicks)
+    end
   end
 
   # GET /reviews/new
@@ -16,6 +20,7 @@ class ReviewsController < ApplicationController
     @review = Review.new
   end
 
+  # GET /reviews/1/edit
   def edit
     authorize! :edit, @review
 
