@@ -1,5 +1,6 @@
 html {
   min-height: 100%;
+
 }
 
 body {
@@ -48,7 +49,7 @@ h3 {
 }
 
 // landing page
-// ***** who when where table stylings
+// ***** who when where table styles
 
 .row p {
   margin: 0;
@@ -181,7 +182,7 @@ p {
 .prices {
   position: absolute;
   bottom: 60px;
-  left: 0px;
+  left: 0;
   width: 100%;
   text-align: center;
 }
@@ -197,7 +198,6 @@ p {
 #navbar-content{
   justify-content: space-between;
 }
-
 
 .event-header .content{
   position: absolute;
