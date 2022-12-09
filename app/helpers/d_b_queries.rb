@@ -1,80 +1,83 @@
 module DBQueries
-  def getNumberOfVisits(metrics, startDateTime, endDateTime)
-    if startDateTime && endDateTime
-      metrics = metrics.where("time_enter >= :startDateTime and time_enter <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
+  def get_number_of_visits(metrics, start_date_time, end_date_time)
+    if start_date_time && end_date_time
+      metrics = metrics.where('time_enter >= :start_date_time and time_enter <= :end_date_time',
+                              { start_date_time:, end_date_time: })
     end
-    return metrics.count()
+    metrics.count
   end
 
-  def getNumberOfInteractionsPerVisit(metrics, startDateTime, endDateTime)
-    # Returns the NumberOfInteractionsPerVisit
-    if startDateTime && endDateTime
-      metrics = metrics.where("time_enter >= :startDateTime and time_enter <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
+  def get_number_of_interactions_per_visit(metrics, start_date_time, end_date_time)
+    # Returns the number_of_interactions_per_visit
+    if start_date_time && end_date_time
+      metrics = metrics.where('time_enter >= :start_date_time and time_enter <= :end_date_time',
+                              { start_date_time:, end_date_time: })
     end
-    if metrics.count() == 0
-      return 0
+    return 0 if metrics.count.zero?
+
+    (metrics.sum(:number_interactions) / metrics.count).to_s
+  end
+
+  def get_average_time_spent(metrics, start_date_time, end_date_time)
+    if start_date_time && end_date_time
+      metrics = metrics.where('time_enter >= :start_date_time and time_enter <= :end_date_time',
+                              { start_date_time:, end_date_time: })
+    end
+
+    num_metrics = metrics.count
+    average_time_spent = 0
+    metrics.pluck(:time_enter).lazy.zip(metrics.pluck(:time_exit)).each do |enter_time, exit_time|
+      average_time_spent += ((exit_time - enter_time) / num_metrics)
+    end
+    average_time_spent
+  end
+
+  def get_human_readable_average_time_spent(metrics, start_date_time, end_date_time)
+    # Average time spent on page in h:m:s format. If more than 24 hours, instead return string "More than a day"
+    average_time_spent = get_average_time_spent(metrics, start_date_time, end_date_time)
+
+    if average_time_spent > 86_400
+      'More than a day'
     else
-      return (metrics.sum(:number_interactions)/metrics.count()).to_s
+      format('%02d:%02d:%02d', average_time_spent / 3600, average_time_spent / 60 % 60,
+             average_time_spent % 60)
     end
   end
 
-  def getAverageTimeSpent(metrics, startDateTime, endDateTime)
-    if startDateTime && endDateTime
-      metrics = metrics.where("time_enter >= :startDateTime and time_enter <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
-    end
-
-    numMetrics = metrics.count()
-    averageTimeSpent = 0
-    metrics.pluck(:time_enter).lazy.zip(metrics.pluck(:time_exit)).each do |enterTime, exitTime|
-      averageTimeSpent += ((exitTime - enterTime)/numMetrics)
-    end
-    return averageTimeSpent
-  end
-
-  def getHumanReadableAverageTimeSpent(metrics, startDateTime, endDateTime)
-    # Average time spent on page in h:m:s format. If more than 24 hours, instead return string "More than a day" 
-    averageTimeSpent = getAverageTimeSpent(metrics, startDateTime, endDateTime)
-
-    if averageTimeSpent > 86400
-      averageTimeSpent = "More than a day"
-    else
-      averageTimeSpent = "%02d:%02d:%02d" % [averageTimeSpent / 3600, averageTimeSpent / 60 % 60, averageTimeSpent % 60]
-    end
-    return averageTimeSpent
-  end
-  
-  def getPricingInterest(register_interests, selected_pricing, startDateTime, endDateTime)
+  def get_pricing_interest(register_interests, selected_pricing, start_date_time, end_date_time)
     register_interests = register_interests.where(pricing_id: selected_pricing)
-    if startDateTime && endDateTime
-      register_interests = register_interests.where("created_at >= :startDateTime and created_at <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
+    if start_date_time && end_date_time
+      register_interests = register_interests.where('created_at >= :start_date_time and created_at <= :end_date_time',
+                                                    { start_date_time:, end_date_time: })
     end
 
-    return register_interests.count()
+    register_interests.count
   end
 
-  def getNumberPricingPageBounceOuts(metrics, register_interests, startDateTime, endDateTime)
+  def get_number_pricing_page_bounce_outs(metrics, register_interests, start_date_time, end_date_time)
     # puts metrics
     # puts register_interests
-    if startDateTime && endDateTime
-      register_interests = register_interests.where("created_at >= :startDateTime and created_at <= :endDateTime", {startDateTime: startDateTime, endDateTime: endDateTime})
-      metrics = metrics.where("time_enter >= :startDateTime and time_enter <= :endDateTime and route = '/pricings'", {startDateTime: startDateTime, endDateTime: endDateTime})
+    if start_date_time && end_date_time
+      register_interests = register_interests.where('created_at >= :start_date_time and created_at <= :end_date_time',
+                                                    { start_date_time:, end_date_time: })
+      metrics = metrics.where("time_enter >= :start_date_time and time_enter <= :end_date_time and route = '/pricings'",
+                              { start_date_time:, end_date_time: })
     else
       metrics = metrics.where("route = '/pricings'")
     end
 
-    return metrics.count() - register_interests.count()
+    metrics.count - register_interests.count
   end
 
-  def getCommonMetrics(metrics, numMetrics)
+  def get_common_metrics(metrics)
+    number_of_visits = get_number_of_visits(metrics, nil, nil)
+    number_of_interactions_per_visit = get_number_of_interactions_per_visit(metrics, nil, nil)
+    average_time_spent = get_human_readable_average_time_spent(metrics, nil, nil)
 
-    numberOfVisits = getNumberOfVisits(metrics, nil, nil)
-    numberOfInteractionsPerVisit = getNumberOfInteractionsPerVisit(metrics, nil, nil)
-    averageTimeSpent = getHumanReadableAverageTimeSpent(metrics, nil, nil)
-
-    return [
-      ["# visits", numberOfVisits],
-      ["x̄ # clicks/visit", numberOfInteractionsPerVisit],
-      ["x̄ time on page", averageTimeSpent],
+    [
+      ['# visits', number_of_visits],
+      ['x̄ # clicks/visit', number_of_interactions_per_visit],
+      ['x̄ time on page', average_time_spent]
     ]
   end
 end

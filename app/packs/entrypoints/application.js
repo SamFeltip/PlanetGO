@@ -8,17 +8,15 @@ import Chart from 'chart.js/auto';
 
 Rails.start();
 
-
 window.onload = () => {
-  if (window.location.pathname == "/metrics") {
+  if (window.location.pathname === "/metrics") {
     // Setup the chart
     var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
       type: 'line',
       data: {
         labels: JSON.parse(ctx.canvas.dataset.labels),
-        datasets:
-          JSON.parse(ctx.canvas.dataset.data)
+        datasets: JSON.parse(ctx.canvas.dataset.data)
       },
     });
   }

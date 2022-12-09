@@ -27,16 +27,33 @@ user_admin2 = User.where(email: 'admin2@planetgo.com')
                   )
 
 print '.'
-user_user1 = User.where(email: 'user1@gmail.com')
+
+user_rep1 = User.where(email: 'rep1@planetgo.com')
                  .first_or_create(
                    role: 1,
                    password: default_password
                  )
 
 puts '.'
+
+user_rep2 = User.where(email: 'rep2@planetgo.com')
+                 .first_or_create(
+                   role: 1,
+                   password: default_password
+                 )
+
+puts '.'
+
+user_user1 = User.where(email: 'user1@gmail.com')
+                 .first_or_create(
+                   role: 0,
+                   password: default_password
+                 )
+
+puts '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 2,
+                   role: 0,
                    password: default_password
                  )
 
@@ -48,7 +65,7 @@ review_1 = Review.where(body: "This is a great website! I'd recommend it to anyo
                  )
 
 print '.'
-review_1 = Review.where(body: "This is an AMAZING website! I'd recommend it, even if they were on their deathbed. Everyone MUST use this program, and share it with all their friends!")
+review_2 = Review.where(body: "This is an AMAZING website! I'd recommend it, even if they were on their deathbed. Everyone MUST use this program, and share it with all their friends!")
                  .first_or_create(
                    user: user_user1,
                    is_on_landing_page: true
@@ -58,7 +75,7 @@ puts '.'
 review_3 = Review.where(body: 'I HATE this website. It offends me deeply this product even exists. I want an apology note ASAP')
                  .first_or_create(
                    user: user_user2
-)
+                 )
 
 print '[+] Adding new FAQs.'
 
@@ -83,10 +100,15 @@ puts '.'
 faq_3 = Faq.where(question: 'How much does it cost?')
            .first_or_create(
              answer: 'Go check out our pricing options on the pricing page.',
-             answered: false,
+             answered: true,
              displayed: false
            )
 
+faq_4 = Faq.where(question: 'Will it mean I have friends now?')
+           .first_or_create(
+             answered: false,
+             displayed: false
+           )
 
 print '[+] Adding new metrics.'
 
@@ -98,8 +120,7 @@ metric_1 = Metric.where(
 print '.'
 
 metric_2 = Metric.where(time_enter: '2022-11-25 12:22:16', time_exit: '2022-11-25 12:25:16', route: '/reviews', latitude: 53.376347,
-                        longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
-).first_or_create
+                        longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1).first_or_create
 
 print '.'
 
@@ -188,7 +209,6 @@ metric_14 = Metric.where(
 print '.'
 
 metric_15 = Metric.where(
-
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create

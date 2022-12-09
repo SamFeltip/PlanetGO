@@ -3,19 +3,19 @@
     %span General Metrics
   .card-body
     %div{:class=>"flex_container"}
-      -@allMetrics.each do |metric|
-        = render 'page_metrics', routeName: metric["route"], metrics: metric["metrics"]
+      -@all_metrics.each do |metric|
+        = render 'page_metrics', route_name: metric["route"], metrics: metric["metrics"]
   .card-header 
     %span Special Metrics
   .card-body
     .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/";document.getElementById("metricSelected").value = "Total number of landing page visits";'}
-      %span="Total number of landing page visits: "+@numberLandingPageVisits 
+      %span="Total number of landing page visits: "+@number_landing_page_visits 
     .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Pricing page bounce outs";'}
-      %span="Pricing page bounce outs: "+@numberPricingPageBounceOuts
+      %span="Pricing page bounce outs: "+@number_pricing_page_bounce_outs
     .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Total";'}
-      %span="Interest in pricing options Basic:Premium:Premium+ Total "+@interestInPricingOptions
+      %span="Interest in pricing options Basic:Premium:Premium+ Total "+@interest_in_pricing_options
     .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Percent";'}
-      %span="Interest in pricing options Basic:Premium:Premium+ Percent "+@interestInPricingOptionsPercent
+      %span="Interest in pricing options Basic:Premium:Premium+ Percent "+@interest_in_pricing_options_percent
   .card-header 
     %span Graphs 
   .card-body
@@ -45,21 +45,21 @@
   .card-header 
     %span Visit Locations
   .card-body
-    %div{:id=>"world-map", data: {value: @clickData}}
+    %div{:id=>"world-map", data: {value: @click_data}}
     :javascript
       $(function(){
-        clickData = $('#world-map').data("value");
+        click_data = $('#world-map').data("value");
         $('#world-map').vectorMap({map: 'world_merc',
           series: {
             regions: [{
-              values: clickData,
+              values: click_data,
               scale: ['#C8EEFF', '#0071A4'],
               normalizeFunction: 'polynomial'
             }]
           },
           zoomOnScroll: false,
           onRegionTipShow: function(e, el, code){
-            el.html(el.html()+' (Visits - '+(clickData[code] ? clickData[code] : 0)+')');
+            el.html(el.html()+' (Visits - '+(click_data[code] ? click_data[code] : 0)+')');
           }
         });
       });

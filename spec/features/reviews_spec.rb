@@ -9,7 +9,7 @@ RSpec.feature 'Reviews' do
         context 'When I am not logged in' do
             specify 'I can see existing reviews' do
                 visit '/reviews'
-                expect(page).to have_content 'Listing Reviews'
+                expect(page).to have_content 'Our Reviews'
                 expect(page).to have_content 'I absolutely love this website, would recommend to anyone.'
                 expect(page).to have_content "I'm not a huge fan but it's an interesting idea."
             end
