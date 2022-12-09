@@ -27,16 +27,33 @@ user_admin2 = User.where(email: 'admin2@planetgo.com')
                   )
 
 print '.'
-user_user1 = User.where(email: 'user1@gmail.com')
+
+user_rep1 = User.where(email: 'rep1@planetgo.com')
                  .first_or_create(
                    role: 1,
                    password: default_password
                  )
 
 puts '.'
+
+user_rep2 = User.where(email: 'rep2@planetgo.com')
+                 .first_or_create(
+                   role: 1,
+                   password: default_password
+                 )
+
+puts '.'
+
+user_user1 = User.where(email: 'user1@gmail.com')
+                 .first_or_create(
+                   role: 0,
+                   password: default_password
+                 )
+
+puts '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 2,
+                   role: 0,
                    password: default_password
                  )
 
