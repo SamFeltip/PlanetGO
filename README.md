@@ -12,6 +12,14 @@ https://guides.rubyonrails.org/development_dependencies_install.html
 
 ## Deployment Instructions
 
+After making sure your .ssh/config file is created and upto date, run this command to deploy:
+
+`bundle exec epi_deploy release -d demo`
+
+if you are prompted for a password, you will need to configure your SSH keys. See here for more information:
+https://info.shefcompsci.org.uk/faq/deployment/#im-using-macos---how-do-i-deploy
+
+
 ## Database Instructions
 
 We’ve used a postgres database to save user information in this project. To construct and seed the database, run:
