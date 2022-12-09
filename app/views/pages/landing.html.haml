@@ -21,202 +21,208 @@
       Find out more
       %i.bi-arrow-down
 
-.space.py-5
+  .space.py-5
 
-%h1#more-info Planning Streamlined.
-%p.light We realise planning where you're going, who's coming out with you, and when you're going out is difficult.
-%p.light Our app streamlines this process, and makes it easier than ever to organise the 3 challenges of every outing:
+  %h1#more-info Planning Streamlined.
+  %p.light We realise planning where you're going, who's coming out with you, and when you're going out is difficult.
+  %p.light Our app streamlines this process, and makes it easier than ever to organise the 3 challenges of every outing:
 
--#todo add javascript to use table rows as links
-.row.justify-content-center
-  .col-auto.col-sm-8.col-md-6
-    %table.table.www-table
-      %tbody
-        %tr.row
-          %td.col-3
-            %h3
-              %i.bi-people
-          %td.col-5
-            %h3
-              %a{:href => '/#who'}
-                Who?
-          %td.col-4
-            %p
-              Who's going out?
-        %tr.row
-          %td.col-3
-            %h3
-              %i.bi-calendar
-          %td.col-5
-            %h3
-              %a{:href => '/#when'}
-                When?
-          %td.col-4
-            %p
-              When are we meeting up?
+  -#todo add javascript to use table rows as links
+  .row.justify-content-center
+    .col-auto.col-8
+      %table.table.www-table
+        %tbody
+          %tr.row
+            %td.col-4
+              %h3
+                %i.bi-people
+            %td.col-4
+              %h3
+                %a{:href => '/#who'}
+                  Who?
+            %td.col-4
+              %p
+                Who's going out?
+          %tr.row
+            %td.col-4
+              %h3
+                %i.bi-calendar
+            %td.col-4
+              %h3
+                %a{:href => '/#when'}
+                  When?
+            %td.col-4
+              %p
+                When are we meeting up?
 
-        %tr.row
-          %td.col-3
-            %h3
-              %i.bi-pin
-          %td.col-5
-            %h3
-              %a{:href => '/#where'}
-                Where?
-          %td.col-4
-            %p Where are we going?
+          %tr.row
+            %td.col-4
+              %h3
+                %i.bi-pin
+            %td.col-4
+              %h3
+                %a{:href => '/#where'}
+                  Where?
+            %td.col-4
+              %p Where are we going?
 
-.space.py-5
+  .space.py-5
 
-%h1#who Who?
-%p.subheading.light
-  You bring your mates.
-  %br/
-  We'll bring everything else
-%br
-.row.justify-content-center
-  .col-auto
-    %img{:src => 'images/friends_going.png', :width => '300px', :alt => "placeholder screenshot of the website showing friends able to opt in or out of the event proposed"}
-    %br
+  %h1#who Who?
+  %p.subheading.light
+    You bring your mates.
+    %br/
+    We'll bring everything else
+  %br
+  .row.justify-content-center
+    .col-auto
+      %img{:src => 'images/friends_going.png', :width => '300px', :alt => "placeholder screenshot of the website showing friends able to opt in or out of the event proposed"}
+      %br
 
-.row.justify-content-center
-  .col-auto
-    %p.subheading.light.mb-3
-      %i
-        Our easy event sharing and progressive web app  means anyone can join in on the fun.
-%p
-  You can share a url to your mates with our integrated social media share sheet, and your friends can let you know if they're up for coming on an outing with you.
+  .row.justify-content-center
+    .col-auto
+      %p.subheading.light.mb-3
+        %i
+          Our easy event sharing and progressive web app  means anyone can join in on the fun.
+  %p
+    You can share a url to your mates with our integrated social media share sheet, and your friends can let you know if they're up for coming on an outing with you.
 
-%br
+  %br
 
-.row.justify-content-center
-  .col-auto
-    %img{:src => 'images/personalized_profile.png', :width => '300px', :alt => "placeholder screenshot of the website showing a profile with personalized icons, depicting categories of events the user is interested in."}
+  .row.justify-content-center
+    .col-auto
+      %img{:src => 'images/personalized_profile.png', :width => '300px', :alt => "placeholder screenshot of the website showing a profile with personalized icons, depicting categories of events the user is interested in."}
 
-.row.justify-content-center
-  .col-auto
-    %p.subheading.light.mb-3
-      %i
-        Personalised profiles mean we'll find a place you all love.
-%p
-  Our product builds a profile of you and your mates, and it recommends places to go based on your previous activity, and what you tell us you want to do in the future. If you build an event with friends, we'll find a place tailored for everyone in the party.
+  .row.justify-content-center
+    .col-auto
+      %p.subheading.light.mb-3
+        %i
+          Personalised profiles mean we'll find a place you all love.
+  %p
+    Our product builds a profile of you and your mates, and it recommends places to go based on your previous activity, and what you tell us you want to do in the future. If you build an event with friends, we'll find a place tailored for everyone in the party.
 
-%h1#when When?
-%p.subheading.light
-  We’ll take care of the timing,
-  %br/
-  you take care of your outfit.
+  %h1#when When?
+  %p.subheading.light
+    We’ll take care of the timing,
+    %br/
+    you take care of your outfit.
 
-%br
+  %br
 
-.row.justify-content-center
-  .col-auto
-    %img{:src => 'images/colaborative_calendars.png', :width => '300px', :alt => "placeholder screenshot of the website showing many user's calendars."}
+  .row.justify-content-center
+    .col-auto
+      %img{:src => 'images/colaborative_calendars.png', :width => '300px', :alt => "placeholder screenshot of the website showing many user's calendars."}
 
-.row.justify-content-center
-  .col-auto
-    %p.subheading.light.mb-3
-      %i
-        Connect your schedules and we’ll figure out when you’re free.
-
-%p
-  Our app integrates with google calendar, and finds the best time to meet based on the free space in your calendars and when the best events are happening soon.
-
-
-%h1#where Where?
-%p.subheading.light
-  Everything, Everywhere,
-  %br/
-  All in one place.
-%br
-
-
-.row.justify-content-center
-  .col-auto
-
-    .event_images
-      %img.full-screen-image{:src => 'images/event_images.png', :alt => "placeholder screenshot of the website showing a collection of events"}
-
-
-.row.justify-content-center
-  .col-auto
-    %p.subheading.light.mb-3
-      %i
-        We find local events we think you'll love based on your interests.
-
-%p
-  You can even filter events by category, by local reviews, and by "verified" locations, which are specially chosen events by our team of expert party planners.
-
-
-
-.row.justify-content-center
-  .col-auto
-    %img{:src => 'images/recommended_events.png', :width => '300px', :alt => "placeholder screenshot of the website showing three recommended events, with the option to heard, bookmark, or dislike these events"}
-
-.row.justify-content-center
-  .col-auto
-    %p.subheading.light.mb-3
-      Explore new places with quick discovery
-
-%p
-  %i
-  Can’t make up your mind?
-  %br/
-  We’ll show you 3 of our favourite places. all you do is choose.
-
-%p With our Premium+ plan, we'll show you a collection of the events we know you'll love. You can swipe through your preferences, and we can organise a time and a place that suits you.
-
-
-
-- if @special_reviews.length > 0
-  %h1 Check out our satisfied customers
-
-  .special_reviews#reviews
-    %table
-      %tbody
-      - @special_reviews.each do |review|
-        %tr
-          %td.col-12
-            = review
-
-          - if can? :manage, Review
-            %td.col-1
-              .btn-toolbar
-                %a{:href => '/go_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
-                  %i.bi-arrow-up
-              .btn-toolbar
-                %a{:href => '/go_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
-                  %i.bi-arrow-down
-
-%p
-  %a{href:'/reviews'}
-    See more reviews
-    %i.bi-arrow-right
-
-%br
-
-%h1 Still got questions?
--#TODO link to FAQ page
-%p
-  %a{href:'/faqs'}
-    Check out our FAQs
-    %i.bi-arrow-right
-
-.space.py-5
-
-.text-center
-  %p.light
-    Join the movement for better experiences and less stress
+  .row.justify-content-center
+    .col-auto
+      %p.subheading.light.mb-3
+        %i
+          Connect your schedules and we’ll figure out when you’re free.
 
   %p
-    =link_to 'Register Interest', '/pricings', class: 'btn btn-dark'
+    Our app integrates with google calendar, and finds the best time to meet based on the free space in your calendars and when the best events are happening soon.
 
-  %p.light
-    Why not tell your friends about us?
+
+  %h1#where Where?
+  %p.subheading.light
+    Everything, Everywhere,
+    %br/
+    All in one place.
+  %br
+
+
+  .row.justify-content-center
+    .col-auto
+
+      .event_images
+        %img.full-screen-image{:src => 'images/event_images.png', :alt => "placeholder screenshot of the website showing a collection of events"}
+
+
+  .row.justify-content-center
+    .col-auto
+      %p.subheading.light.mb-3
+        %i
+          We find local events we think you'll love based on your interests.
 
   %p
-  %a.twitter-hashtag-button{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?button_hashtag=planetGO&ref_src=twsrc%5Etfw"} Tweet #planetGO
-  %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+    You can even filter events by category, by local reviews, and by "verified" locations, which are specially chosen events by our team of expert party planners.
 
-  %a{href: "mailto:?subject=Check out planetGo! &body=It's a super cool website.", title: "Share by Email"}
-    %img{:src => "images/email_icon.png", :width => "40px", :alt => "email link"}/
+
+
+  .row.justify-content-center
+    .col-auto
+      %img{:src => 'images/recommended_events.png', :width => '300px', :alt => "placeholder screenshot of the website showing three recommended events, with the option to heard, bookmark, or dislike these events"}
+
+  .row.justify-content-center
+    .col-auto
+      %p.subheading.light.mb-3
+        Explore new places with quick discovery
+
+  %p
+    %i
+    Can’t make up your mind?
+    %br/
+    We’ll show you 3 of our favourite places. all you do is choose.
+
+  %p With our Premium+ plan, we'll show you a collection of the events we know you'll love. You can swipe through your preferences, and we can organise a time and a place that suits you.
+
+
+
+  - if @special_reviews.length > 0
+    %h1 Check out our satisfied customers
+
+    .special_reviews#reviews
+      .row.justify-content-center
+        .col-auto.col-md-5
+          %table.table
+            %tbody
+              - @special_reviews.each do |review|
+                %tr
+                  - if can? :manage, Review
+
+                    %td.col-11
+                      = review
+
+                    %td.col-1
+                      .btn-toolbar
+                        %a{:href => '/go_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
+                          %i.bi-arrow-up
+                      .btn-toolbar
+                        %a{:href => '/go_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
+                          %i.bi-arrow-down
+                  - else
+                    %td.col-12
+                      = review
+
+  %p
+    %a{href:'/reviews'}
+      See more reviews
+      %i.bi-arrow-right
+
+  %br
+
+  %h1 Still got questions?
+  -#TODO link to FAQ page
+  %p
+    %a{href:'/faqs'}
+      Check out our FAQs
+      %i.bi-arrow-right
+
+  .space.py-5
+
+  .text-center
+    %p.light
+      Join the movement for better experiences and less stress
+
+    %p
+      =link_to 'Register Interest', '/pricings', class: 'btn btn-dark'
+
+    %p.light
+      Why not tell your friends about us?
+
+    %p
+    %a.twitter-hashtag-button{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?button_hashtag=planetGO&ref_src=twsrc%5Etfw"} Tweet #planetGO
+    %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+
+    %a{href: "mailto:?subject=Check out planetGo! &body=It's a super cool website.", title: "Share by Email"}
+      %img{:src => "images/email_icon.png", :width => "40px", :alt => "email link"}/
