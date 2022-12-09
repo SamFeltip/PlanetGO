@@ -88,6 +88,11 @@ p {
   font-size: 17px;
 }
 
+// devise styling
+.margin-card{
+  margin: 0 30%;
+}
+
 // Metrics page styling
 
 #myChart {
@@ -111,4 +116,32 @@ p {
 
 .graph_form {
   display: inline-block;
+}
+
+// register interest styling
+
+.card-hover:hover {
+  color: white;
+  background-color: #343a40;
+  cursor: pointer;
+
+  .btn-primary{
+    background-color: -moz-activehyperlinktext;
+  }
+}
+
+.prices {
+  position: absolute;
+  bottom: 60px;
+  left: 0px;
+  width: 100%;
+  text-align:center;
+}
+
+.card-hover:active {
+  background-color: #212529;
+}
+
+.card-hover .card-body {
+  padding-bottom: 100px;
 }

@@ -17,6 +17,8 @@ class ApplicationController < ActionController::Base
     redirect_to root_url, alert: exception.message
   end
 
+
+
   # Check for compromised password
   def after_sign_in_path_for(resource)
     set_flash_message! :alert, :warn_pwned if resource.respond_to?(:pwned?) &&

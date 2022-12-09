@@ -73,7 +73,7 @@ puts '.'
 
 faq_2 = Faq.where(question: 'Where can I sign up!?')
            .first_or_create(
-             answer: 'go to /users/sign_up and fill in your details!'
+             answer: 'go to /users/sign_up and fill in your details!',
              answered: true,
              displayed: true
            )
@@ -82,7 +82,7 @@ puts '.'
 
 faq_3 = Faq.where(question: 'How much does it cost?')
            .first_or_create(
-             answer: 'Go check out our pricing options on the pricing page.'
+             answer: 'Go check out our pricing options on the pricing page.',
              answered: false,
              displayed: false
            )

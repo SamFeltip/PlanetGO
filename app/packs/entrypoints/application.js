@@ -3,10 +3,11 @@ import "bootstrap";
 import '../scripts/collecting_metrics';
 import '../scripts/jquery.jvectormap.js';
 import '../scripts/jquery-jvectormap-world-merc';
-
+import '../scripts/hover-cards';
 import Chart from 'chart.js/auto';
 
 Rails.start();
+
 
 window.onload = () => {
   if (window.location.pathname == "/metrics") {
@@ -22,3 +23,4 @@ window.onload = () => {
     });
   }
 }
+

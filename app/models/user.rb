@@ -48,7 +48,11 @@ class User < ApplicationRecord
   }
 
   def to_s
-    full_name
+    if full_name?
+      full_name
+    else
+      email_prefix
+    end
   end
 
   def email_prefix
