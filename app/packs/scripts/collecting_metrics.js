@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // These values can be null, better than putting false data in db
   var pageVisitedFrom;
   var CSRFToken;
   var location;
