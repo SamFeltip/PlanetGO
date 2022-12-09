@@ -44,14 +44,14 @@
                 FAQs
 
             - if user_signed_in?
+              - if current_user.admin? || current_user.reporter?
+                %li.nav-item.active
+                  = link_to '/metrics', class: 'nav-link' do
+                    Site Metrics
               - if current_user.admin?
                 %li.nav-item.active
                   = link_to users_path, class: 'nav-link' do
                     Account Management
-
-                %li.nav-item.active
-                  = link_to '/metrics', class: 'nav-link' do
-                    Site Metrics
 
               %li.nav-item.active
                 = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
