@@ -43,16 +43,17 @@ https://guides.rubyonrails.org/active_record_migrations.html
 
 After following the database instructions,
 
-2 Admin accounts are created with emails:
+Two Admin accounts are created with emails:
+
 admin1@planetgo.com
 admin2@planetgo.com
 
-2 Reporter accounts are created with emails:
+Two Reporter accounts are created with emails:
 
 rep1@planetgo.com
 rep2@planetgo.com
 
-And 2 basic user accounts are created with emails:
+And two basic user accounts are created with emails:
 
 user1@gmail.com
 user2@gmail.com
