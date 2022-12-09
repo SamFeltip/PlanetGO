@@ -100,6 +100,12 @@ puts '.'
 faq_3 = Faq.where(question: 'How much does it cost?')
            .first_or_create(
              answer: 'Go check out our pricing options on the pricing page.',
+             answered: true,
+             displayed: false
+           )
+
+faq_4 = Faq.where(question: 'Will it mean I have friends now?')
+           .first_or_create(
              answered: false,
              displayed: false
            )
