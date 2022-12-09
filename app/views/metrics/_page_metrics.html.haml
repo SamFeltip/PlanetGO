@@ -1,5 +1,5 @@
 .card{:class=>"flex_container"}
-  .card-header=routeName
+  .card-header=route_name
   .card-body
     - metrics.each do |metric|
-      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "'+routeName+'";document.getElementById("metricSelected").value = "'+metric[0].to_s+'";'}=metric[0].to_s+": "+metric[1].to_s
+      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "'+route_name+'";document.getElementById("metricSelected").value = "'+metric[0].to_s+'";'}=metric[0].to_s+": "+metric[1].to_s

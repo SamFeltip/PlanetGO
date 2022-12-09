@@ -13,20 +13,19 @@ class ApplicationController < ActionController::Base
   before_action :configure_account_update_params, if: :devise_controller?
 
   # when you try to access a page you aren't given access to, redirect to root
-  rescue_from CanCan::AccessDenied do | exception |
+  rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, alert: exception.message
   end
-
-
 
   # Check for compromised password
   def after_sign_in_path_for(resource)
     set_flash_message! :alert, :warn_pwned if resource.respond_to?(:pwned?) &&
-    resource.pwned?
+                                              resource.pwned?
     super
   end
 
   protected
+
   # Appending parameters to the devise sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:full_name])
@@ -38,9 +37,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
-    def update_headers_to_disable_caching
-      response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
-      response.headers['Pragma'] = 'no-cache'
-      response.headers['Expires'] = '-1'
-    end
+
+  def update_headers_to_disable_caching
+    response.headers['Cache-Control'] = 'no-cache, no-cache="set-cookie", no-store, private, proxy-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '-1'
+  end
 end
