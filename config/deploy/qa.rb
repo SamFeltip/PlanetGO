@@ -1,6 +1,6 @@
 ## Application deployment configuration
-set :server,      'QA_SERVER'
-set :user,        'QA_USER'
+set :server,      'epi-stu-gen-qa1.shef.ac.uk'
+set :user,        'qa.team01'
 set :deploy_to,   -> { "/srv/services/#{fetch(:user)}" }
 set :branch,      'qa'
 set :application, fetch(:user)
