@@ -10,7 +10,7 @@
           %dt.col-md-3 User:
           %dd.col-md-9= @review.user.email
           %dt.col-md-3 Likes:
-          %dd.col-md-9= @review.votes_for.up.size
+          %dd.col-md-9#likes= @review.votes_for.up.size
           - if can? :manage, Review
             %dt.col-md-3 Clicks:
             %dd.col-md-9= @review.clicks

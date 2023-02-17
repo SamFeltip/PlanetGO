@@ -61,6 +61,7 @@ RSpec.describe Review, type: :model do
       is_on_landing_page: true,
       landing_page_position: 3
     )
+
     @review4 = create(
       :review,
       id: 4,
@@ -68,6 +69,7 @@ RSpec.describe Review, type: :model do
       body: 'review 4 body',
       is_on_landing_page: true
     )
+    
     @review5 = create(
       :review,
       id: 5,

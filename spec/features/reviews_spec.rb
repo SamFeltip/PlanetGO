@@ -35,9 +35,10 @@ RSpec.feature 'Reviews' do
                 visit '/reviews'
                 click_on 'New Review'
                 expect(page).to have_content 'Add your review'
-                fill_in 'Body', with: 'I absolutely love this website, would recommend to anyone.'
+                fill_in 'Body', with: 'This is such a great website. A pleasure to use.'
                 click_on 'Save'
                 expect(page).to have_content 'Review was successfully created.'
+                expect(page).to have_content 'This is such a great website. A pleasure to use.'
             end
 
             specify 'I cannot add an empty review' do
@@ -57,14 +58,14 @@ RSpec.feature 'Reviews' do
             specify 'I can see number of likes a review has received' do
                 visit '/reviews'
                 click_on 'Read more', match: :first
-                expect(page).to have_content '0'
+                expect(page).to have_css('#likes', text: '0')
             end
 
             specify 'I can like a review' do
                 visit '/reviews'
                 click_on 'Read more', match: :first
                 click_on 'Like'
-                expect(page).to have_content '1'
+                expect(page).to have_css('#likes', text: '1')
             end
 
             specify 'I can unlike a review I have liked' do
@@ -72,7 +73,7 @@ RSpec.feature 'Reviews' do
                 click_on 'Read more', match: :first
                 click_on 'Like'
                 click_on 'Unlike'
-                expect(page).to have_content '0'
+                expect(page).to have_css('#likes', text: '0')
             end
 
             specify 'I cannot unlike a review I have not liked' do
