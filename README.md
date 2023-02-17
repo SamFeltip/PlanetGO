@@ -19,7 +19,6 @@ After making sure your .ssh/config file is created and upto date, run this comma
 if you are prompted for a password, you will need to configure your SSH keys. See here for more information:
 https://info.shefcompsci.org.uk/faq/deployment/#im-using-macos---how-do-i-deploy
 
-
 ## Database Instructions
 
 We’ve used a postgres database to save user information in this project. To construct and seed the database, run:
@@ -37,7 +36,6 @@ $ bundle exec rails db:reset
 A full guide to database migrations can be found below.
 
 https://guides.rubyonrails.org/active_record_migrations.html
-
 
 ## Account Details
 
@@ -101,9 +99,8 @@ Admins can visit /register_interests to see all emails which have been registere
 
 On the /faqs page, a user can see all approved frequently asked questions. If an admin visits this page, they can see all submitted questions, and can edit a question to answer it and display it for all users.
 
-
 ## Coding Standards
 
-Ruby:  https://github.com/rubocop/rubocop
+Ruby: https://github.com/rubocop/rubocop
+Rails: https://rails.rubystyle.guide/
 Javascript: https://www.w3schools.com/js/js_conventions.asp
-
