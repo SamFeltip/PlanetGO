@@ -120,20 +120,6 @@ RSpec.describe Review, type: :model do
     end
   end
 
-  describe '#check_is_on_landing_page' do
-    it 'Puts review on landing page' do
-      @review5.check_is_on_landing_page
-      expect(@review5.is_on_landing_page).to eq true
-    end
-  end
-
-  describe '#uncheck_is_on_landing_page' do
-    it 'Removes review from landing page' do
-      @review1.uncheck_is_on_landing_page
-      expect(@review1.is_on_landing_page).to eq false
-    end
-  end
-
   describe '#swap_landing_page_positions' do
     it 'Swaps the positions of two landin page reviews' do
       Review.swap_landing_page_positions(@review1, @review3)
@@ -153,8 +139,7 @@ RSpec.describe Review, type: :model do
       expect(@review1.is_on_landing_page_icon).to eq '%i.bi-tick'
     end
     it 'Returns the correct icon for when not on landing page' do
-      @review4.uncheck_is_on_landing_page
-      expect(@review4.is_on_landing_page_icon).to eq '%i.bi-cross'
+      expect(@review5.is_on_landing_page_icon).to eq '%i.bi-cross'
     end
   end
 end

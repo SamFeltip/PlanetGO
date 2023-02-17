@@ -71,15 +71,6 @@ class Review < ApplicationRecord
     Review.swap_landing_page_positions(self, below_review)
   end
 
-  def check_is_on_landing_page
-    self.is_on_landing_page = true
-  end
-
-  def uncheck_is_on_landing_page
-    self.is_on_landing_page = false
-  end
-
-
   def self.swap_landing_page_positions(review1, review2)
     new_lp_pos = review1.swap_landing_page_position(review2)
     unless review2.nil?
