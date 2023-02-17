@@ -60,13 +60,13 @@ class Review < ApplicationRecord
   end
 
   # move the review up in the landing page
-  def go_up
+  def shift_up
     above_review = self.get_above_landing_page_review
     Review.swap_landing_page_positions(self, above_review)
   end
 
   # move the review down in the landing page
-  def go_down
+  def shift_down
     below_review = self.get_below_landing_page_review
     Review.swap_landing_page_positions(self, below_review)
   end

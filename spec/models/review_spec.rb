@@ -98,24 +98,24 @@ RSpec.describe Review, type: :model do
     end
   end
 
-  describe '#go_up' do
+  describe '#shift_up' do
     it 'Moves the review up one position on the landing page' do
-      @review2.go_up
+      @review2.shift_up
       expect(@review2.landing_page_position).to eq 1
     end
     it 'Moves the review up one position when already top review' do
-      @review1.go_up
+      @review1.shift_up
       expect(@review1.landing_page_position).to eq 1
     end
   end
 
-  describe '#go_down' do
+  describe '#shift_down' do
     it 'Moves the review down one position on the landing page' do
-      @review2.go_down
+      @review2.shift_down
       expect(@review2.landing_page_position).to eq 3
     end
     it 'Moves the review down one position when already bottom' do
-      @review4.go_down
+      @review4.shift_down
       expect(@review4.landing_page_position).to eq 4
     end
   end

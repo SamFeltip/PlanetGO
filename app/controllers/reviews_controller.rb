@@ -86,6 +86,22 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # shift the review up in the landing page
+  def shift_up
+    if can? :manage, Review
+      Review.find(params[:id]).shift_up
+      redirect_to "home/#reviews"
+    end
+  end
+
+  #shift the review down in the landing page
+  def shift_down
+    if can? :manage, Review
+      Review.find(params[:id]).shift_down
+      redirect_to "/#reviews"
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_review

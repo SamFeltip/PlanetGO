@@ -185,10 +185,10 @@
 
                     %td.col-1
                       .btn-toolbar
-                        %a{:href => '/go_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
+                        %a{:href => '/shift_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
                           %i.bi-arrow-up
                       .btn-toolbar
-                        %a{:href => '/go_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
+                        %a{:href => '/shift_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
                           %i.bi-arrow-down
                   - else
                     %td.col-12

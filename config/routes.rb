@@ -23,18 +23,12 @@ Rails.application.routes.draw do
     end
   end
 
-  root "pages#landing"
+  root 'pages#landing'
 
   match '/welcome', to: 'pages#landing', via: 'get'
 
-
-  get "/go_down/:id", to: "pages#go_down"
-  get "/go_up/:id", to: "pages#go_up"
-
-
+  get '/shift_down/:id', to: 'reviews#shift_down'
+  get '/shift_up/:id', to: 'reviews#shift_up'
 
   get '/pricings', to: 'pricings#index'
-
-  # match 'users/sign_up?email' => redirect('/users/sign_up?{%email}')
-
 end
