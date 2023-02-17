@@ -2241,11 +2241,6 @@ icss-utils@^5.0.0, icss-utils@^5.1.0:
   resolved "https://registry.yarnpkg.com/icss-utils/-/icss-utils-5.1.0.tgz#c6be6858abd013d768e98366ae47e25d5887b1ae"
   integrity sha512-soFhflCVWLfRNOPU3iv5Z9VUdT44xFRbzjLsEzSr5AQmgqPMTHdU3PMT1Cf1ssx8fLNJDA1juftYl+PUcv3MqA==
 
-ika.jvectormap@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/ika.jvectormap/-/ika.jvectormap-1.0.0.tgz#149267aad6e9080dc4a26017e4f90519b09cc214"
-  integrity sha512-TTcNIQgUUSgWXB34MOJLZGtamNuU++GGzJrhTEFOZbqw5uz7niJR7H/XOvAz75XyxUrUb4v1FOqFvshAYBMd6w==
-
 immutable@^4.0.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/immutable/-/immutable-4.1.0.tgz#f795787f0db780183307b9eb2091fcac1f6fafef"
