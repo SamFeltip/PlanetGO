@@ -147,5 +147,5 @@ brakeman:
   # Once you commit the updated ingnore files they will no longer brake the build
   allow_failure: false
   script:
-    - bundle check --path vendor/gems
+    - bundle config set --local path 'vendor/gems'
     - bundle exec brakeman --color -o /dev/stdout -o brakeman/index.html
