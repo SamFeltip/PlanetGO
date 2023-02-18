@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MetricsController < ApplicationController
   include DBQueries
   include MetricsGraphHelper
@@ -33,13 +35,11 @@ class MetricsController < ApplicationController
     premium_plus_plan_interest = get_pricing_interest(register_interests, 'premium_plus', nil, nil)
     total_interest = basic_plan_interest + premium_plan_interest + premium_plus_plan_interest
 
-    @interest_in_pricing_options = basic_plan_interest.to_s + ':' + premium_plan_interest.to_s + ':' + premium_plus_plan_interest.to_s
+    @interest_in_pricing_options = "#{basic_plan_interest}:#{premium_plan_interest}:#{premium_plus_plan_interest}"
     @interest_in_pricing_options_percent = '0%:0%:0%'
     if total_interest.positive?
       # Use default percentages instead of dividing by zero
-      @interest_in_pricing_options_percent = (basic_plan_interest * 100 / total_interest).to_s + ':' +
-                                             (premium_plan_interest * 100 / total_interest).to_s + ':' +
-                                             (premium_plus_plan_interest * 100 / total_interest).to_s
+      @interest_in_pricing_options_percent = "#{basic_plan_interest * 100 / total_interest}:#{premium_plan_interest * 100 / total_interest}:#{premium_plus_plan_interest * 100 / total_interest}"
     end
 
     # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
@@ -61,8 +61,8 @@ class MetricsController < ApplicationController
 
   # POST /metrics or /metrics.json
   def create
-    time_enter = Time.at(params['time_enter'].to_i / 1000).to_datetime
-    time_exit = Time.at(params['time_exit'].to_i / 1000).to_datetime
+    time_enter = Time.zone.at(params['time_enter'].to_i / 1000).to_datetime
+    time_exit = Time.zone.at(params['time_exit'].to_i / 1000).to_datetime
 
     country_code = if !params['latitude'].nil? && !params['longitude'].nil?
                      Geocoder.search([params['latitude'], params['longitude']]).first.country_code.upcase.to_s

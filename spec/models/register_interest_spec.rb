@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: register_interests
@@ -10,8 +12,3 @@
 #  pricing_plan_id :string
 #
 require 'rails_helper'
-
-RSpec.describe RegisterInterest, type: :model do
-  #pending "add some examples to (or delete) #{__FILE__}"
- 
-end

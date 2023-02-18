@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Managing users', type: :request do
+RSpec.describe 'Managing users', type: :request do
   context 'Signed in as an administrator' do
     before do
       @admin = FactoryBot.create(:user, role: 2)
@@ -21,7 +21,7 @@ RSpec.feature 'Managing users', type: :request do
 
     specify 'I can visit the account management page' do
       visit '/users'
-      expect(current_path).to eq '/users'
+      expect(page).to have_current_path '/users'
     end
 
     context 'When I am on the homepage' do
@@ -36,11 +36,11 @@ RSpec.feature 'Managing users', type: :request do
       before { visit '/users' }
 
       specify 'There is no option to edit my account' do
-        expect(page).to_not have_content 'Edit'
+        expect(page).not_to have_content 'Edit'
       end
 
       specify 'There is no option to Destroy my account' do
-        expect(page).to_not have_content 'Destroy'
+        expect(page).not_to have_content 'Destroy'
       end
 
       context 'There are users in the system' do
@@ -67,7 +67,7 @@ RSpec.feature 'Managing users', type: :request do
 
         specify 'I can destroy the user' do
           click_on 'Destroy'
-          expect(page).to_not have_content 'user1@user.com'
+          expect(page).not_to have_content 'user1@user.com'
         end
       end
     end
@@ -83,7 +83,7 @@ RSpec.feature 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I cannot see the link to the users management page' do
-        expect(page).to_not have_content 'Account Management'
+        expect(page).not_to have_content 'Account Management'
       end
     end
 
@@ -107,6 +107,7 @@ RSpec.feature 'Managing users', type: :request do
       end
     end
   end
+
   context 'Signed in as a user' do
     before { login_as FactoryBot.create(:user, role: 0) }
 
@@ -119,7 +120,7 @@ RSpec.feature 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I cannot see the link to the users management page' do
-        expect(page).to_not have_content 'Account Management'
+        expect(page).not_to have_content 'Account Management'
       end
     end
 
@@ -156,7 +157,7 @@ RSpec.feature 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I cannot see the link to the users management page' do
-        expect(page).to_not have_content 'Account Management'
+        expect(page).not_to have_content 'Account Management'
       end
     end
 

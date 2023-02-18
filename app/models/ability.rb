@@ -8,10 +8,10 @@ class Ability
     can :read, Faq
     can :create, RegisterInterest
 
-    return unless user.present?
+    return if user.blank?
 
-    can [:create, :like, :unlike], Review
-    can [:create, :like, :unlike], Faq
+    can %i[create like unlike], Review
+    can %i[create like unlike], Faq
 
     return unless user.reporter? || user.admin?
 

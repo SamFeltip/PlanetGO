@@ -23,15 +23,15 @@ https://info.shefcompsci.org.uk/faq/deployment/#im-using-macos---how-do-i-deploy
 
 We’ve used a postgres database to save user information in this project. To construct and seed the database, run:
 
-$ bundle exec rails db:create
+`bundle exec rails db:create`
 
 To execute any pending migrations, run:
 
-$ bundle exec rails db:migrate
+`bundle exec rails db:migrate`
 
 To reset the database to a clean version from the seed file, run:
 
-$ bundle exec rails db:reset
+`bundle exec rails db:reset`
 
 A full guide to database migrations can be found below.
 
@@ -64,9 +64,21 @@ SneakyPassword100
 
 Tests can be locally run with the command:
 
-$ bundle exec rspec
+`bundle exec rspec`
 
 While in the project root folder, which will generate a coverage report and detail any failures.
+
+## Using Rubocop
+
+To check all Ruby source files in the current directory:
+
+`rubocop`
+
+To automatically fix the problems found in your code run:
+
+`rubocop -A`
+
+For more information visit https://docs.rubocop.org/rubocop/1.45/index.html
 
 ## App Features
 

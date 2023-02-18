@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: faqs
@@ -13,7 +15,7 @@
 #
 FactoryBot.define do
   factory :faq do
-    question { "MyString" }
-    answer { "MyString" }
+    question { 'MyString' }
+    answer { 'MyString' }
   end
 end

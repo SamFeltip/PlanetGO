@@ -27,7 +27,10 @@ class RegisterInterestsController < ApplicationController
     respond_to do |format|
       if @register_interest.save
         # This could be better
-        format.html { redirect_to "/users/sign_up?email=#{@registered_email}", notice: 'Your interest has been recorded, and you will be contacted when we are ready for new users.' }
+        format.html do
+          redirect_to "/users/sign_up?email=#{@registered_email}",
+                      notice: 'Your interest has been recorded, and you will be contacted when we are ready for new users.'
+        end
         format.json { render :show, status: :created, location: @register_interest }
       else
         format.html { render :new, status: :unprocessable_entity }

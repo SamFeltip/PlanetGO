@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class FaqsController < ApplicationController
-  before_action :set_faq, only: %i[ show destroy like unlike edit update]
-  before_action :authenticate_user!, only: [:new, :create, :destroy, :edit, :like, :unlike]
+  before_action :set_faq, only: %i[show destroy like unlike edit update]
+  before_action :authenticate_user!, only: %i[new create destroy edit like unlike]
   load_and_authorize_resource
 
   # GET /faqs or /faqs.json
@@ -10,9 +12,9 @@ class FaqsController < ApplicationController
 
   # GET /faqs/1 or /faqs/1.json
   def show
-    unless current_user and current_user.admin?
-      @faq.increment!(:clicks)
-    end
+    return if current_user&.admin?
+
+    @faq.increment!(:clicks)
   end
 
   # GET /faqs/new
@@ -21,8 +23,7 @@ class FaqsController < ApplicationController
   end
 
   # GET /faqs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /faqs or /faqs.json
   def create
@@ -30,7 +31,7 @@ class FaqsController < ApplicationController
 
     respond_to do |format|
       if @faq.save
-        format.html { redirect_to faqs_url(@faq), notice: "Faq was successfully created." }
+        format.html { redirect_to faqs_url(@faq), notice: 'Faq was successfully created.' }
         format.json { render :show, status: :created, location: @faq }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -43,7 +44,7 @@ class FaqsController < ApplicationController
   def update
     respond_to do |format|
       if @faq.update(faq_params)
-        format.html { redirect_to faqs_url(@faq), notice: "Faq was successfully updated." }
+        format.html { redirect_to faqs_url(@faq), notice: 'Faq was successfully updated.' }
         format.json { render :show, status: :ok, location: @faq }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -57,7 +58,7 @@ class FaqsController < ApplicationController
     @faq.destroy
 
     respond_to do |format|
-      format.html { redirect_to faqs_url, notice: "Faq was successfully destroyed." }
+      format.html { redirect_to faqs_url, notice: 'Faq was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -81,13 +82,14 @@ class FaqsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_faq
-      @faq = Faq.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def faq_params
-      params.require(:faq).permit(:question, :answer, :answered, :displayed)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_faq
+    @faq = Faq.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def faq_params
+    params.require(:faq).permit(:question, :answer, :answered, :displayed)
+  end
 end

@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'Managing metrics', type: :request do
+RSpec.describe 'Managing metrics', type: :request do
   context 'When I am signed in as an admin' do
     before do
       @admin = FactoryBot.create(:user, role: 2)
@@ -11,7 +11,7 @@ RSpec.feature 'Managing metrics', type: :request do
 
     specify 'I can visit the metrics management page' do
       visit '/metrics'
-      expect(current_path).to eq '/metrics'
+      expect(page).to have_current_path '/metrics'
     end
 
     context 'There are metrics in the system' do
@@ -22,7 +22,7 @@ RSpec.feature 'Managing metrics', type: :request do
       context 'I am on the metrics page' do
         before do
           visit '/metrics'
-          expect(current_path).to eq '/metrics'
+          expect(page).to have_current_path '/metrics'
         end
 
         specify 'I can view the metric' do
@@ -45,7 +45,7 @@ RSpec.feature 'Managing metrics', type: :request do
 
     specify 'I can visit the metrics management page' do
       visit '/metrics'
-      expect(current_path).to eq '/metrics'
+      expect(page).to have_current_path '/metrics'
     end
 
     context 'There are metrics in the system' do
@@ -56,7 +56,7 @@ RSpec.feature 'Managing metrics', type: :request do
       context 'I am on the metrics page' do
         before do
           visit '/metrics'
-          expect(current_path).to eq '/metrics'
+          expect(page).to have_current_path '/metrics'
         end
 
         specify 'I can view the metric' do

@@ -1,16 +1,18 @@
-require_relative "boot"
+# frozen_string_literal: true
 
-require "rails"
+require_relative 'boot'
+
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
-require "action_mailbox/engine"
-require "action_text/engine"
-require "action_view/railtie"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
+require 'action_mailbox/engine'
+require 'action_text/engine'
+require 'action_view/railtie'
 # require "action_cable/engine"
 
 # Require the gems listed in Gemfile, including any gems
@@ -41,20 +43,20 @@ module Project
       g.system_tests         :rspec
       g.integration_tool     :rspec
       g.test_framework       :rspec,
-                             request_specs:   false,
-                             view_specs:       false,
-                             routing_specs:    false,
-                             helper_specs:     false,
+                             request_specs: false,
+                             view_specs: false,
+                             routing_specs: false,
+                             helper_specs: false,
                              controller_specs: false
     end
-    
+
     config.action_mailer.smtp_settings = {
-      address:              'mailhost.shef.ac.uk',
-      port:                 587,
+      address: 'mailhost.shef.ac.uk',
+      port: 587,
       enable_starttls_auto: true,
-      openssl_verify_mode:  OpenSSL::SSL::VERIFY_PEER,
+      openssl_verify_mode: OpenSSL::SSL::VERIFY_PEER,
       openssl_verify_depth: 3,
-      ca_file:              '/etc/ssl/certs/ca-certificates.crt'
+      ca_file: '/etc/ssl/certs/ca-certificates.crt'
     }
   end
 end

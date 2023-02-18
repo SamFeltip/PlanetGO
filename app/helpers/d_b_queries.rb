@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module DBQueries
   def get_number_of_visits(metrics, start_date_time, end_date_time)
     if start_date_time && end_date_time

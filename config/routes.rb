@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   # No ability to create users without devise
   match '/users/new', to: redirect('/404.html'), via: 'get'
   devise_for :users
-  
+
   resources :users, :reviews, :metrics, :faqs, :register_interests
 
   resources :pricings, only: [] do
-    resources :register_interests, only: [:index, :new, :create, :destroy]
+    resources :register_interests, only: %i[index new create destroy]
   end
 
   resources :reviews do

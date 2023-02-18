@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: faqs
@@ -26,13 +28,13 @@ class Faq < ApplicationRecord
   def check_is_displayed
     self.displayed = true
   end
-    
+
   def uncheck_is_displayed
     self.displayed = false
   end
 
   def is_answered_icon
-    if self.answered
+    if answered
       '%i.bi-tick'
     else
       '%i.bi-cross'
@@ -40,7 +42,7 @@ class Faq < ApplicationRecord
   end
 
   def is_displayed_icon
-    if self.displayed
+    if displayed
       '%i.bi-tick'
     else
       '%i.bi-cross'
