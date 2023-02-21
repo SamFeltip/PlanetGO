@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ApplicationRecord < ActiveRecord::Base
   primary_abstract_class
 
@@ -5,6 +7,6 @@ class ApplicationRecord < ActiveRecord::Base
     obj = first || new
     obj.assign_attributes(attributes)
     obj.save
-    return obj
+    obj
   end
 end

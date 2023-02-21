@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: faqs
@@ -14,9 +16,11 @@
 require 'rails_helper'
 
 RSpec.describe Faq, type: :model do
-  before :each do
-    @faq1 = FactoryBot.create(:faq, question: 'Where do I sign up?', answer: 'Thats simple, on the sign up page', answered: true, displayed: true)
-    @faq2 = FactoryBot.create(:faq, question: 'How much does it cost?', answer: 'Go check out our pricing options on the pricing page.', answered: false, displayed: false)
+  before do
+    @faq1 = FactoryBot.create(:faq, question: 'Where do I sign up?', answer: 'Thats simple, on the sign up page',
+                                    answered: true, displayed: true)
+    @faq2 = FactoryBot.create(:faq, question: 'How much does it cost?',
+                                    answer: 'Go check out our pricing options on the pricing page.', answered: false, displayed: false)
   end
 
   describe '#check_is_answered' do

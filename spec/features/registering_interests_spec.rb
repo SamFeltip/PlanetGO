@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.feature 'RegisterInterest' do
+RSpec.describe 'RegisterInterest' do
   context 'When a user registers their interest', type: :request do
     before { @interest1 = FactoryBot.create(:register_interest, email: 'email1@gmail.com', pricing_id: 'basic') }
     before { @interest2 = FactoryBot.create(:register_interest, email: 'email2@gmail.com', pricing_id: 'premium') }
@@ -16,7 +16,7 @@ RSpec.feature 'RegisterInterest' do
 
       specify 'I can visit the register interests index page' do
         visit 'pricings/3/register_interests'
-        expect(current_path).to eq '/pricings/3/register_interests'
+        expect(page).to have_current_path '/pricings/3/register_interests'
       end
 
       context 'I am on the register interests index page' do
@@ -48,10 +48,12 @@ RSpec.feature 'RegisterInterest' do
           click_on 'Save'
         end.to change(RegisterInterest, :count)
       end
+
       specify 'I am not allowed access to others interest' do
         visit 'pricings/3/register_interests'
         expect(page).to have_content 'You are not authorized to access this page.'
       end
+
       specify 'I cannot delete a registered interest' do
         expect do
           delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
@@ -72,10 +74,12 @@ RSpec.feature 'RegisterInterest' do
           click_on 'Save'
         end.to change(RegisterInterest, :count)
       end
+
       specify 'I am not allowed access to others interest' do
         visit 'pricings/3/register_interests'
         expect(page).to have_content 'You are not authorized to access this page.'
       end
+
       specify 'I cannot delete a registered interest' do
         expect do
           delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
@@ -93,23 +97,27 @@ RSpec.feature 'RegisterInterest' do
         visit 'pricings/3/register_interests'
         expect(page).to have_content 'You are not authorized to access this page.'
       end
+
       specify 'I cannot delete a registered interest' do
         expect do
           delete pricing_register_interest_path(@interest1.pricing_id, @interest1)
         end.not_to change(RegisterInterest, :count)
       end
     end
+
     specify 'When email is invalid user should get an error' do
       visit '/pricings/basic/register_interests/new'
       @interest = RegisterInterest.new(email: 'email@gmail.com', pricing_id: 'basic')
       assert @interest.save
     end
+
     # email should follow format text@more_text
     specify 'When email is invalid user should get an error' do
       visit '/pricings/basic/register_interests/new'
       @interest = RegisterInterest.new(email: 'email', pricing_id: 'basic')
       assert !@interest.save
     end
+
     specify 'When pricing plan has not been selected user should get an error' do
       visit '/pricings/basic/register_interests/new'
       @interest = RegisterInterest.new(email: 'email@gmail.com')

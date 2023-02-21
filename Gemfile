@@ -1,17 +1,19 @@
-source "https://rubygems.org"
+# frozen_string_literal: true
+
+source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem "rails", "~> 7.0.3", ">= 7.0.3.1"
+gem 'rails', '~> 7.0.3', '>= 7.0.3.1'
 
 # Use postgresql as the database for Active Record
-gem "pg", "~> 1.1"
+gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
-gem "puma", "~> 5.0"
+gem 'puma', '~> 5.0'
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder"
+gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
 # gem "redis", "~> 4.0"
@@ -23,10 +25,10 @@ gem "jbuilder"
 # gem "bcrypt", "~> 3.1.7"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 # Reduces boot times through caching; required in config/boot.rb
-gem "bootsnap", require: false
+gem 'bootsnap', require: false
 
 # Use Sass to process CSS
 # gem "sassc-rails"
@@ -35,16 +37,16 @@ gem "bootsnap", require: false
 # gem "image_processing", "~> 1.2"
 
 # Geocoding gem for getting country code in metrics
-gem "geocoder", require: true
+gem 'geocoder', require: true
 
 group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
+  gem 'byebug', platforms: %i[mri mingw x64_mingw]
+  gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'main'
 end
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
-  gem "web-console"
+  gem 'web-console'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
@@ -63,39 +65,41 @@ gem 'draper'
 
 gem 'shakapacker'
 
-gem 'devise'
-gem 'devise-security'
-gem 'devise-pwned_password'
 gem 'cancancan'
+gem 'devise'
+gem 'devise-pwned_password'
+gem 'devise-security'
 
-gem 'rubocop', '~> 1.39', require: false
+gem 'rubocop', require: false
+gem 'rubocop-rails', require: false
+gem 'rubocop-rspec', require: false
 
-gem 'whenever'
+gem 'daemons'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
-gem 'daemons'
+gem 'whenever'
 
 gem 'sanitize_email'
 
-gem 'sentry-ruby'
-gem 'sentry-rails'
 gem 'acts_as_votable'
+gem 'sentry-rails'
+gem 'sentry-ruby'
 
 group :development do
-  gem 'letter_opener'
   gem 'annotate'
   gem 'brakeman'
   gem 'bundler-audit'
+  gem 'letter_opener'
 
   gem 'capistrano'
-  gem 'capistrano-rails', require: false
   gem 'capistrano-bundler', require: false
-  gem 'capistrano-rvm', require: false
   gem 'capistrano-passenger', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
 
-  gem 'epi_deploy', git: 'https://github.com/epigenesys/epi_deploy.git'
   gem 'bcrypt_pbkdf', '>= 1.0', '< 2.0'
   gem 'ed25519', '>= 1.2', '< 2.0'
+  gem 'epi_deploy', git: 'https://github.com/epigenesys/epi_deploy.git'
 end
 
 group :development, :test do
@@ -105,9 +109,9 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'database_cleaner'
   gem 'launchy'
+  gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'webdrivers'
 end

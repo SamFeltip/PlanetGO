@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MetricsGraphHelper
   include DBQueries
   def handle_graph(start_param, end_param, resolution_param, page_param, metric_param)
@@ -5,13 +7,13 @@ module MetricsGraphHelper
     end_date_array = end_param.split('-')
 
     # Calculate start end Time objects. Default is one month ago and now respectively
-    start_date_time_stamp = Time.now - 1.month
-    end_date_time_stamp = Time.now
+    start_date_time_stamp = Time.zone.now - 1.month
+    end_date_time_stamp = Time.zone.now
     if start_date_array.length == 3
-      start_date_time_stamp = Time.new(start_date_array[0], start_date_array[1], start_date_array[2])
+      start_date_time_stamp = Time.zone.local(start_date_array[0], start_date_array[1], start_date_array[2])
     end
     if end_date_array.length == 3
-      end_date_time_stamp = Time.new(end_date_array[0], end_date_array[1], end_date_array[2])
+      end_date_time_stamp = Time.zone.local(end_date_array[0], end_date_array[1], end_date_array[2])
     end
 
     # Get date increment from params. Default is one day if no param passed
@@ -23,7 +25,7 @@ module MetricsGraphHelper
                      else
                        1.day
                      end
-    puts date_increment
+    Rails.logger.debug date_increment
 
     register_interests = RegisterInterest.all
     metrics = page_param ? Metric.where(route: page_param) : Metric.where(route: '/')
