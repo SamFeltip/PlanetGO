@@ -123,12 +123,11 @@ yarn-audit:
   timeout: 20m
   services: []
   needs:
-    - yarn 
+    - yarn
   allow_failure: false
   script:
     - yarn check --integrity
     - yarn run improved-yarn-audit --fail-on-missing-exclusions
-
 
 brakeman:
   stage: security
@@ -149,3 +148,20 @@ brakeman:
   script:
     - bundle config set --local path 'vendor/gems'
     - bundle exec brakeman --color -o /dev/stdout -o brakeman/index.html
+
+rubocop:
+  stage: test
+  interruptible: true
+  timeout: 20m
+  services: []
+  extends: .except
+  needs:
+    - bundler
+  artifacts:
+    when: always
+    paths:
+      - rubocop
+  allow_failure: false
+  script:
+    - bundle config set --local path 'vendor/gems'
+    - bundle exec rubocop
