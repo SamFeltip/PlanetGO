@@ -11,8 +11,8 @@
 #
 FactoryBot.define do
   factory :outing do
-    name { "MyString" }
+    name { "My exciting adventure" }
     date { "2023-02-23" }
-    description { "MyText" }
+    description { "This is a really cool adventure, with all my friends!" }
   end
 end

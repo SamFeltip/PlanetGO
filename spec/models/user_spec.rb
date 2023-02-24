@@ -44,4 +44,20 @@ RSpec.describe User, type: :model do
     user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.email_prefix).to eq 'testemail'
   end
+  
+  context "declaring availability" do
+    describe "when submit a time I am available" do
+      it "is recorded" do
+        
+      end
+      
+      it "is visible on my personal user page" do
+        
+      end
+      
+    end
+  end
+  
+  
+  
 end

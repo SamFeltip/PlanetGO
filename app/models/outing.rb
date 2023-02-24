@@ -10,14 +10,12 @@
 #  updated_at  :datetime         not null
 #
 class Outing < ApplicationRecord
-  enum status: {
-    pending: 0,
-    confirmed: 1,
-    rejected: 2
-  }
+  has_many :participants
+  has_many :users, class_name: "User", :through => :participants
+  # has_many :events, :through => :
 
   def to_s
-    self.name 
+    self.name
   end
 
 end
