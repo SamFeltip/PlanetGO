@@ -4,27 +4,34 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Review
-    can :read, Faq
-    can :create, RegisterInterest
 
-    return if user.blank?
+    if user.blank?
 
-    can %i[create like unlike], Review
-    can %i[create like unlike], Faq
+      guest_permissions
+      return
 
-    return unless user.reporter? || user.admin?
+    end
 
-    can :manage, Metric
+    if user.admin?
 
-    return unless user.admin?
+      admin_permissions(user)
+      reporter_permissions
+      user_permissions
+      guest_permissions
 
-    can %i[read update destroy], User
-    cannot %i[update destroy], User, id: user.id
+    elsif user.reporter?
 
-    can :manage, RegisterInterest
-    can :manage, Review
-    can :manage, Faq
+      reporter_permissions
+      user_permissions
+      guest_permissions
+
+    elsif user.user?
+
+      user_permissions
+      guest_permissions
+
+    end
+
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?
@@ -49,5 +56,29 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
+  end
+
+  def guest_permissions
+    can :read, Review
+    can :read, Faq
+    can :create, RegisterInterest
+  end
+
+  def user_permissions
+    can %i[create like unlike], Review
+    can %i[create like unlike], Faq
+  end
+
+  def reporter_permissions
+    can :manage, Metric
+  end
+
+  def admin_permissions(user)
+    can %i[read update destroy], User
+    cannot %i[update destroy], User, id: user.id
+
+    can :manage, RegisterInterest
+    can :manage, Review
+    can :manage, Faq
   end
 end
