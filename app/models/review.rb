@@ -55,25 +55,25 @@ class Review < ApplicationRecord
     current_lp_pos
   end
 
-  def get_above_landing_page_review
+  def above_landing_page_review
     Review.where('landing_page_position < ? AND is_on_landing_page',
                  landing_page_position).order(:landing_page_position).last
   end
 
-  def get_below_landing_page_review
+  def below_landing_page_review
     Review.where('landing_page_position > ? AND is_on_landing_page',
                  landing_page_position).order(:landing_page_position).first
   end
 
   # move the review up in the landing page
   def shift_up
-    above_review = get_above_landing_page_review
+    above_review = above_landing_page_review
     Review.swap_landing_page_positions(self, above_review)
   end
 
   # move the review down in the landing page
   def shift_down
-    below_review = get_below_landing_page_review
+    below_review = below_landing_page_review
     Review.swap_landing_page_positions(self, below_review)
   end
 

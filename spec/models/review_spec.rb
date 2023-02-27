@@ -131,10 +131,10 @@ RSpec.describe Review, type: :model do
     end
   end
 
-  describe '#get_above_landing_page_review' do
+  describe '#above_landing_page_review' do
     it 'Get review' do
-      expect(@review3.get_above_landing_page_review).to eq(@review1)
-      expect(@review4.get_above_landing_page_review).to eq(@review3)
+      expect(@review3.above_landing_page_review).to eq(@review1)
+      expect(@review4.above_landing_page_review).to eq(@review3)
     end
   end
 

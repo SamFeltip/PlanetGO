@@ -1,3 +1,11 @@
+inherit_from: .rubocop_todo.yml
+
 require:
-    - rubocop-rails
-    - rubocop-rspec
+  - rubocop-rails
+  - rubocop-rspec
+
+AllCops:
+  Exclude:
+    - vendor/**/*
+    - config/deploy.rb
+    - bin/bundle
