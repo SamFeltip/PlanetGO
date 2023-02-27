@@ -3,7 +3,7 @@
 # Table name: participants
 #
 #  id         :bigint           not null, primary key
-#  status     :integer          default(0), not null
+#  status     :integer          default("pending"), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  outing_id  :bigint           not null

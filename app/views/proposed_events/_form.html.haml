@@ -1,0 +1,12 @@
+-# frozen_string_literal: true
+= simple_form_for(@proposed_event) do |f|
+  .card-body
+    = f.association :event, wrapper_html: { class: 'mb-3' }
+    = f.association :outing, wrapper_html: { class: 'mb-3' }
+    = f.input :date, wrapper_html: { class: 'mb-3' }
+    = f.input :status, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', proposed_events_path, class: 'btn btn-link ms-auto'

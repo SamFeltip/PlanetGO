@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_02_23_161034) do
+ActiveRecord::Schema[7.0].define(version: 2023_02_24_145214) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_161034) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.string "name"
+    t.datetime "time_of_event"
+    t.text "description"
+    t.integer "category"
+    t.boolean "approved"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_events_on_user_id"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -68,6 +80,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_161034) do
     t.datetime "updated_at", null: false
     t.index ["outing_id"], name: "index_participants_on_outing_id"
     t.index ["user_id"], name: "index_participants_on_user_id"
+  end
+
+  create_table "proposed_events", force: :cascade do |t|
+    t.bigint "event_id", null: false
+    t.bigint "outing_id", null: false
+    t.datetime "proposed_datetime"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["event_id"], name: "index_proposed_events_on_event_id"
+    t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
   end
 
   create_table "register_interests", force: :cascade do |t|
@@ -140,7 +163,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_02_23_161034) do
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter"
   end
 
+  add_foreign_key "events", "users"
   add_foreign_key "participants", "outings"
   add_foreign_key "participants", "users"
+  add_foreign_key "proposed_events", "events"
+  add_foreign_key "proposed_events", "outings"
   add_foreign_key "reviews", "users"
 end

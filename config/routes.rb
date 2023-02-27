@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :proposed_events
+  resources :events
   resources :participants
   resources :outings
   # No ability to create users without devise
