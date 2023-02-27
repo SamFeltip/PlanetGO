@@ -93,7 +93,7 @@ RSpec.describe 'Managing users', type: :request do
   context 'Not signed in' do
     specify 'I cannot visit the account management page' do
       visit '/users'
-      expect(page).to have_content 'You are not authorized to access this page.'
+      expect(page).to have_content 'You need to sign in or sign up before continuing.'
     end
 
     context 'When I am on the homepage' do
@@ -109,12 +109,12 @@ RSpec.describe 'Managing users', type: :request do
 
       specify 'I cannot view their account info' do
         visit user_path(user1)
-        expect(page).to have_content 'You are not authorized to access this page.'
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
       specify 'I cannot edit their account info' do
         visit edit_user_path(user1)
-        expect(page).to have_content 'You are not authorized to access this page.'
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
       specify 'I cannot delete their account' do
