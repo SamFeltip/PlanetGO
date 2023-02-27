@@ -3,19 +3,20 @@
 require 'rails_helper'
 
 RSpec.describe 'Managing users', type: :request do
-  context 'Signed in as an administrator' do
+  context 'When signed in as an administrator' do
+    let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 2) }
+
     before do
-      @admin = FactoryBot.create(:user, role: 2)
-      login_as @admin
+      login_as admin1
     end
 
     specify 'I cannot edit my own details' do
-      visit edit_user_path(@admin)
+      visit edit_user_path(admin1)
       expect(page).to have_content 'You are not authorized to access this page.'
     end
 
     specify 'I cannot delete my own account' do
-      visit edit_user_path(@admin)
+      visit edit_user_path(admin1)
       expect(page).to have_content 'You are not authorized to access this page.'
     end
 
@@ -35,12 +36,22 @@ RSpec.describe 'Managing users', type: :request do
     context 'When I am on the account management page' do
       before { visit '/users' }
 
+      let!(:el) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "admin1")]') }
+
+      specify 'I can see my account' do
+        expect(page).to have_content 'admin1@admin.com'
+      end
+
       specify 'There is no option to edit my account' do
-        expect(page).not_to have_content 'Edit'
+        expect(el).not_to have_content 'Edit'
       end
 
       specify 'There is no option to Destroy my account' do
-        expect(page).not_to have_content 'Destroy'
+        expect(el).not_to have_content 'Destroy'
+      end
+
+      specify 'There is the option to Show my account' do
+        expect(el).to have_content 'Show'
       end
 
       context 'There are users in the system' do
@@ -49,17 +60,23 @@ RSpec.describe 'Managing users', type: :request do
           refresh
         end
 
+        let(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+
         specify 'I can see users on the system' do
           expect(page).to have_content 'user1@user.com'
         end
 
         specify 'I can show user details' do
-          click_on 'Show'
-          expect(page).to have_content 'User details'
+          within(user_content) do
+            click_on 'Show'
+          end
+          expect(page).to have_content '2023-01-12'
         end
 
         specify 'I can edit the user role' do
-          click_on 'Edit'
+          within(user_content) do
+            click_on 'Edit'
+          end
           select 'reporter', from: 'Role'
           click_on 'Save'
           expect(page).to have_content 'reporter'
@@ -88,21 +105,21 @@ RSpec.describe 'Managing users', type: :request do
     end
 
     context 'When there are users in the system' do
-      before { @user = FactoryBot.create(:user, email: 'user1@user.com') }
+      let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
 
       specify 'I cannot view their account info' do
-        visit user_path(@user)
+        visit user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot edit their account info' do
-        visit edit_user_path(@user)
+        visit edit_user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot delete their account' do
         expect do
-          delete user_path(@user)
+          delete user_path(user1)
         end.not_to change(User, :count)
       end
     end
@@ -125,21 +142,21 @@ RSpec.describe 'Managing users', type: :request do
     end
 
     context 'When there are users in the system' do
-      before { @user = FactoryBot.create(:user, email: 'user1@user.com') }
+      let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
 
       specify 'I cannot view their account info' do
-        visit user_path(@user)
+        visit user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot edit their account info' do
-        visit edit_user_path(@user)
+        visit edit_user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot delete their account' do
         expect do
-          delete user_path(@user)
+          delete user_path(user1)
         end.not_to change(User, :count)
       end
     end
@@ -162,21 +179,21 @@ RSpec.describe 'Managing users', type: :request do
     end
 
     context 'When there are users in the system' do
-      before { @user = FactoryBot.create(:user, email: 'user1@user.com') }
+      let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
 
       specify 'I cannot view their account info' do
-        visit user_path(@user)
+        visit user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot edit their account info' do
-        visit edit_user_path(@user)
+        visit edit_user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
       specify 'I cannot delete their account' do
         expect do
-          delete user_path(@user)
+          delete user_path(user1)
         end.not_to change(User, :count)
       end
     end
