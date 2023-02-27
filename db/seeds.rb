@@ -16,7 +16,7 @@ Rails.logger.debug '[+] Adding raw users.'
 
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: 'admin',
                     password: default_password
                   )
 
@@ -24,7 +24,7 @@ Rails.logger.debug '.'
 # user_admin2 = FactoryBot.create(:user, email: 'admin2@planetgo.com', role: 2)
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: 'admin',
                     password: default_password
                   )
 
@@ -32,7 +32,7 @@ Rails.logger.debug '.'
 
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: 'reporter',
                   password: default_password
                 )
 
@@ -40,7 +40,7 @@ Rails.logger.debug '.'
 
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: 'reporter',
                   password: default_password
                 )
 
@@ -48,14 +48,14 @@ Rails.logger.debug '.'
 
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: 'user',
                    password: default_password
                  )
 
 Rails.logger.debug '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: 'user',
                    password: default_password
                  )
 

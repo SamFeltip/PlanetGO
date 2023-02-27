@@ -5,6 +5,7 @@ class Ability
 
   def initialize(user)
 
+    # Guard check to make sure user exists
     if user.blank?
       guest_permissions
       return
