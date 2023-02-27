@@ -43,8 +43,9 @@ class User < ApplicationRecord
 
   enum role: {
     user: 0,
-    reporter: 1,
-    admin: 2
+    advertiser: 1,
+    reporter: 2,
+    admin: 3
   }
 
   def to_s

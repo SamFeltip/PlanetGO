@@ -37,7 +37,7 @@ RSpec.describe 'Faq', type: :request do
 
     context 'When I am logged in as a user' do
       before do
-        @user = FactoryBot.create(:user, role: 0)
+        @user = FactoryBot.create(:user, role: 'user')
         login_as @user
         refresh
       end
@@ -63,7 +63,7 @@ RSpec.describe 'Faq', type: :request do
 
     context 'When I am signed in as an admin' do
       before do
-        @admin = FactoryBot.create(:user, role: 2)
+        @admin = FactoryBot.create(:user, role: 'admin')
         login_as @admin
         refresh
       end

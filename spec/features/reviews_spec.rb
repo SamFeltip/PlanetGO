@@ -31,7 +31,7 @@ RSpec.describe 'Reviews' do
     end
 
     context 'When I am logged in as a user' do
-      before { login_as FactoryBot.create(:user, role: 0) }
+      before { login_as FactoryBot.create(:user, role: 'user') }
 
       specify 'I can add a new review' do
         visit '/reviews'
@@ -107,7 +107,7 @@ RSpec.describe 'Reviews' do
     end
 
     context 'When I am logged in as an admin' do
-      before { login_as FactoryBot.create(:user, email: 'admin@email.com', role: 2) }
+      before { login_as FactoryBot.create(:user, email: 'admin@email.com', role: 'admin') }
 
       specify 'I can delete a review' do
         visit '/reviews'

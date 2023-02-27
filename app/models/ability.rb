@@ -6,30 +6,22 @@ class Ability
   def initialize(user)
 
     if user.blank?
-
       guest_permissions
       return
-
     end
 
     if user.admin?
-
       admin_permissions(user)
       reporter_permissions
       user_permissions
       guest_permissions
-
     elsif user.reporter?
-
       reporter_permissions
       user_permissions
       guest_permissions
-
     elsif user.user?
-
       user_permissions
       guest_permissions
-
     end
 
     # Define abilities for the user here. For example:

@@ -10,7 +10,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as an administrator' do
       before do
-        @admin = FactoryBot.create(:user, role: 2)
+        @admin = FactoryBot.create(:user, role: 'admin')
         login_as @admin
       end
 
@@ -63,7 +63,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a user' do
       before do
-        @user = FactoryBot.create(:user, role: 0)
+        @user = FactoryBot.create(:user, role: 'user')
         login_as @user
       end
 
@@ -89,7 +89,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a reporter' do
       before do
-        @reporter = FactoryBot.create(:user, role: 1)
+        @reporter = FactoryBot.create(:user, role: 'reporter')
         login_as @reporter
       end
 

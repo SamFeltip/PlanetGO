@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'Managing users', type: :request do
   context 'When signed in as an administrator' do
-    let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 2) }
+    let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
 
     before do
       login_as admin1
@@ -126,7 +126,7 @@ RSpec.describe 'Managing users', type: :request do
   end
 
   context 'Signed in as a user' do
-    before { login_as FactoryBot.create(:user, role: 0) }
+    before { login_as FactoryBot.create(:user, role: 'user') }
 
     specify 'I cannot visit the account management page' do
       visit '/users'
@@ -163,7 +163,7 @@ RSpec.describe 'Managing users', type: :request do
   end
 
   context 'Signed in as a reporter' do
-    before { login_as FactoryBot.create(:user, role: 1) }
+    before { login_as FactoryBot.create(:user, role: 'reporter') }
 
     specify 'I cannot visit the account management page' do
       visit '/users'
