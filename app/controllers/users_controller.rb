@@ -19,6 +19,9 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
+      unless @user.commercial
+        params[:suspended] = false # Event suspension not for admins/reporters
+      end
       if @user.update(user_params)
         # redirect_to users_path, notice: "User was successfully updated but in a sexy way."
         format.html { redirect_to users_path, notice: 'User was successfully updated.' }
@@ -49,6 +52,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:full_name, :email, :role)
+    params.require(:user).permit(:full_name, :email, :role, :suspended)
   end
 end

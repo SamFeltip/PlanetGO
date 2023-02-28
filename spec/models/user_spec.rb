@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -43,5 +44,17 @@ RSpec.describe User, type: :model do
   it 'Returns the prefix of an email' do
     user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.email_prefix).to eq 'testemail'
+  end
+
+  describe '#commercial' do
+    it 'Returns true if the user is of role user or advertiser' do
+      user = FactoryBot.create(:user, role: 'user')
+      expect(user.commercial).to eq true
+    end
+
+    it 'Returns false if the user is of role admin or reporter' do
+      user = FactoryBot.create(:user, role: 'reporter')
+      expect(user.commercial).to eq false
+    end
   end
 end

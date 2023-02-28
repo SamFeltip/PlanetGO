@@ -53,14 +53,21 @@ RSpec.describe 'Managing users', type: :request do
       specify 'There is the option to Show my account' do
         expect(el).to have_content 'Show'
       end
+    end
 
-      context 'There are users in the system' do
-        before do
-          FactoryBot.create(:user, email: 'user1@user.com')
-          refresh
-        end
+    context 'There are users in the system' do
+      before do
+        FactoryBot.create(:user, email: 'user1@user.com')
+      end
 
-        let(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+      let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
+
+      context 'When I visit the account management page' do
+
+        before { visit '/users'}
+
+        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+        let!(:rep_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]') }
 
         specify 'I can see users on the system' do
           expect(page).to have_content 'user1@user.com'
@@ -70,7 +77,7 @@ RSpec.describe 'Managing users', type: :request do
           within(user_content) do
             click_on 'Show'
           end
-          expect(page).to have_content '2023-01-12'
+          expect(page).to have_content '2023-01-12' # The factory last sign in date
         end
 
         specify 'I can edit the user role' do
@@ -79,12 +86,31 @@ RSpec.describe 'Managing users', type: :request do
           end
           select 'reporter', from: 'Role'
           click_on 'Save'
-          expect(page).to have_content 'reporter'
+          expect(user_content).to have_content 'reporter'
         end
 
         specify 'I can destroy the user' do
           click_on 'Destroy'
           expect(page).not_to have_content 'user1@user.com'
+        end
+
+        specify 'I cannot see an option to suspend a non-commercial account' do
+          within(rep_content) do
+            click_on 'Edit'
+          end
+          expect(page).not_to have_content 'Suspended'
+        end
+
+        specify 'I cannot suspend a non-commercial user' do
+          form_params = {
+            id: rep1.id,
+            full_name: rep1.full_name,
+            email: rep1.email,
+            role: rep1.role,
+            suspended: true
+          }
+          put user_path(rep1), params: form_params
+          expect(rep_content).to have_content 'false'
         end
       end
     end
