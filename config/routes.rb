@@ -7,6 +7,13 @@ Rails.application.routes.draw do
 
   resources :users, :reviews, :metrics, :faqs, :register_interests
 
+  resources :users do
+    member do
+      put 'lock', to: 'users#lock'
+      put 'unlock', to: 'users#unlock'
+    end
+  end
+
   resources :pricings, only: [] do
     resources :register_interests, only: %i[index new create destroy]
   end

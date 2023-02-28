@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :set_user, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show edit update destroy]
+  before_action :set_user, only: %i[show edit update destroy lock unlock]
+  before_action :authenticate_user!, only: %i[index show edit update destroy lock unlock]
   load_and_authorize_resource
   
   def index
@@ -40,6 +40,24 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to users_url, notice: 'User was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  def lock
+    @user.lock_access! (opts = { send_instructions: false })
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: 'User was successfully updated.' }
+      format.json { render :show, status: :ok, location: @user }
+    end
+  end
+
+  def unlock
+    @user.unlock_access!
+
+    respond_to do |format|
+      format.html { redirect_to users_path, notice: 'User was successfully updated.' }
+      format.json { render :show, status: :ok, location: @user }
     end
   end
 
