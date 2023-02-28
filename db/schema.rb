@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_228_094_540) do
+ActiveRecord::Schema[7.0].define(version: 20_230_228_102_249) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -29,16 +29,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_094_540) do
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.index %w[priority run_at], name: 'delayed_jobs_priority'
-  end
-
-  create_table 'faqs', force: :cascade do |t|
-    t.string 'question'
-    t.string 'answer'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.boolean 'answered', default: false
-    t.boolean 'displayed', default: false
-    t.integer 'clicks', default: 0
   end
 
   create_table 'metrics', force: :cascade do |t|

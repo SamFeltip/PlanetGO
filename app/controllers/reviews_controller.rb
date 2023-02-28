@@ -27,21 +27,6 @@ class ReviewsController < ApplicationController
     authorize! :edit, @review
   end
 
-  # PATCH/PUT /reviews/1 or /reviews/1.json
-  def update
-    authorize! :update, @review
-
-    respond_to do |format|
-      if @review.update(review_params)
-        format.html { redirect_to reviews_path, notice: 'Review was successfully updated.' }
-        format.json { render :show, status: :ok, location: @review }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @review.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   # POST /reviews or /reviews.json
   def create
     @review = Review.new(review_params)
@@ -54,6 +39,21 @@ class ReviewsController < ApplicationController
         format.json { render :show, status: :created, location: @review }
       else
         format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: @review.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PATCH/PUT /reviews/1 or /reviews/1.json
+  def update
+    authorize! :update, @review
+
+    respond_to do |format|
+      if @review.update(review_params)
+        format.html { redirect_to reviews_path, notice: 'Review was successfully updated.' }
+        format.json { render :show, status: :ok, location: @review }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @review.errors, status: :unprocessable_entity }
       end
     end

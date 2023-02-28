@@ -5,8 +5,8 @@ require 'faker'
 
 RSpec.describe 'Reviews' do
   context 'When there are submitted reviews' do
-    before { FactoryBot.create(:review, body: "I'm not a huge fan but it's an interesting idea.") }
-    before { FactoryBot.create(:review, body: 'I absolutely love this website, would recommend to anyone.') }
+    before { create(:review, body: "I'm not a huge fan but it's an interesting idea.") }
+    before { create(:review, body: 'I absolutely love this website, would recommend to anyone.') }
 
     context 'When I am not logged in' do
       specify 'I can see existing reviews' do
@@ -31,7 +31,7 @@ RSpec.describe 'Reviews' do
     end
 
     context 'When I am logged in as a user' do
-      before { login_as FactoryBot.create(:user, role: 0) }
+      before { login_as create(:user, role: 0) }
 
       specify 'I can add a new review' do
         visit '/reviews'
@@ -107,7 +107,7 @@ RSpec.describe 'Reviews' do
     end
 
     context 'When I am logged in as an admin' do
-      before { login_as FactoryBot.create(:user, email: 'admin@email.com', role: 2) }
+      before { login_as create(:user, email: 'admin@email.com', role: 2) }
 
       specify 'I can delete a review' do
         visit '/reviews'

@@ -23,7 +23,7 @@
 #
 require 'rails_helper'
 
-RSpec.describe Review, type: :model do
+RSpec.describe Review do
   before do
     @user = create(
       :user,

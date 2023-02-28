@@ -12,7 +12,6 @@ class MetricsController < ApplicationController
     register_interests = RegisterInterest.all
     routes_interested_in = ['/', '/metrics',
                             '/reviews', '/reviews/#', '/reviews/new', '/reviews/#/edit',
-                            '/faqs', '/faqs/#', '/faqs/new', '/faqs/#/edit',
                             '/users', '/users/#', '/users/new', '/users/#/edit',
                             '/users/sign_in', '/users/sign_up', '/users/unlock/new',
                             '/users/password/new']

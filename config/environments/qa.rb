@@ -75,7 +75,7 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
@@ -98,6 +98,6 @@ Rails.application.configure do
 
   app_url = 'PUT_APP_URL_HERE' # TODO: replace this with your application's URL (e.g. 'myapp.demo.epigenesys.org.uk')
   config.action_mailer.default_url_options    = { host: app_url, protocol: 'https' }
-  config.action_mailer.asset_host             = "https://\#\{app_url\}"
+  config.action_mailer.asset_host             = "https://\#{app_url}"
   config.action_mailer.smtp_settings[:domain] = app_url
 end
