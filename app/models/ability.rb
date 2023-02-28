@@ -4,12 +4,9 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :read, Review
     can :create, RegisterInterest
 
     return if user.blank?
-
-    can %i[create like unlike], Review
 
     return unless user.reporter? || user.admin?
 
@@ -21,7 +18,6 @@ class Ability
     cannot %i[update destroy], User, id: user.id
 
     can :manage, RegisterInterest
-    can :manage, Review
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?

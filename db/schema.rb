@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_228_102_249) do
+ActiveRecord::Schema[7.0].define(version: 20_230_228_122_011) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -51,17 +51,6 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_102_249) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.string 'pricing_plan_id'
-  end
-
-  create_table 'reviews', force: :cascade do |t|
-    t.text 'body'
-    t.datetime 'created_at', null: false
-    t.datetime 'updated_at', null: false
-    t.bigint 'user_id'
-    t.boolean 'is_on_landing_page', default: false
-    t.integer 'landing_page_position'
-    t.integer 'clicks', default: 0
-    t.index ['user_id'], name: 'index_reviews_on_user_id'
   end
 
   create_table 'sessions', force: :cascade do |t|
@@ -109,11 +98,10 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_102_249) do
     t.integer 'vote_weight'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index %w[votable_id votable_type vote_scope], name: 'index_votes_on_votable_id_and_votable_type_and_vote_scope'
+    t.index %w[votable_id votable_type vote_scope],
+            name: 'index_votes_on_votable_id_and_votable_type_and_vote_scope'
     t.index %w[votable_type votable_id], name: 'index_votes_on_votable'
     t.index %w[voter_id voter_type vote_scope], name: 'index_votes_on_voter_id_and_voter_type_and_vote_scope'
     t.index %w[voter_type voter_id], name: 'index_votes_on_voter'
   end
-
-  add_foreign_key 'reviews', 'users'
 end

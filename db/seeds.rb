@@ -59,57 +59,11 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    password: default_password
                  )
 
-Rails.logger.debug '[+] Adding new reviews.'
-review_1 = Review.where(body: "This is a great website! I'd recommend it to anyone")
-                 .first_or_create(
-                   user: user_admin1,
-                   is_on_landing_page: true
-                 )
-
-Rails.logger.debug '.'
-review_2 = Review.where(body: "This is an AMAZING website! I'd recommend it, even if they were on their deathbed. Everyone MUST use this program, and share it with all their friends!")
-                 .first_or_create(
-                   user: user_user1,
-                   is_on_landing_page: true
-                 )
-
-Rails.logger.debug '.'
-review_3 = Review.where(body: 'I HATE this website. It offends me deeply this product even exists. I want an apology note ASAP')
-                 .first_or_create(
-                   user: user_user2
-                 )
-
 Rails.logger.debug '[+] Adding new metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
-).first_or_create
-
-Rails.logger.debug '.'
-
-metric_2 = Metric.where(time_enter: '2022-11-25 12:22:16', time_exit: '2022-11-25 12:25:16', route: '/reviews', latitude: 53.376347,
-                        longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1).first_or_create
-
-Rails.logger.debug '.'
-
-metric_3 = Metric.where(
-  time_enter: '2022-11-25 12:21:16', time_exit: '2022-11-25 12:25:16', route: '/reviews', latitude: 39.341952,
-  longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 6, pricing_selected: 1
-).first_or_create
-
-Rails.logger.debug '.'
-
-metric_4 = Metric.where(
-  time_enter: '2022-11-26 12:24:16', time_exit: '2022-11-26 12:25:16', route: '/reviews', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 2, pricing_selected: 1
-).first_or_create
-
-Rails.logger.debug '.'
-
-metric_5 = Metric.where(
-  time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/reviews', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 8, pricing_selected: 1
 ).first_or_create
 
 Rails.logger.debug '.'
