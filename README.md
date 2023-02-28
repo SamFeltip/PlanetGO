@@ -107,10 +107,6 @@ A user can “register interest” by visiting the /pricings page and selecting 
 
 Admins can visit /register_interests to see all emails which have been registered, and which plan was selected
 
-### FAQs
-
-On the /faqs page, a user can see all approved frequently asked questions. If an admin visits this page, they can see all submitted questions, and can edit a question to answer it and display it for all users.
-
 ## Coding Standards
 
 Ruby: https://github.com/rubocop/rubocop

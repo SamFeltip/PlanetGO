@@ -4,13 +4,13 @@ require 'rails_helper'
 
 RSpec.describe 'RegisterInterest' do
   context 'When a user registers their interest', type: :request do
-    before { @interest1 = FactoryBot.create(:register_interest, email: 'email1@gmail.com', pricing_id: 'basic') }
-    before { @interest2 = FactoryBot.create(:register_interest, email: 'email2@gmail.com', pricing_id: 'premium') }
-    before { @interest3 = FactoryBot.create(:register_interest, email: 'email3@gmail.com', pricing_id: 'premium_plus') }
+    before { @interest1 = create(:register_interest, email: 'email1@gmail.com', pricing_id: 'basic') }
+    before { @interest2 = create(:register_interest, email: 'email2@gmail.com', pricing_id: 'premium') }
+    before { @interest3 = create(:register_interest, email: 'email3@gmail.com', pricing_id: 'premium_plus') }
 
     context 'When I am signed in as an administrator' do
       before do
-        @admin = FactoryBot.create(:user, role: 2)
+        @admin = create(:user, role: 2)
         login_as @admin
       end
 
@@ -63,7 +63,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a user' do
       before do
-        @user = FactoryBot.create(:user, role: 0)
+        @user = create(:user, role: 0)
         login_as @user
       end
 
@@ -89,7 +89,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a reporter' do
       before do
-        @reporter = FactoryBot.create(:user, role: 1)
+        @reporter = create(:user, role: 1)
         login_as @reporter
       end
 
