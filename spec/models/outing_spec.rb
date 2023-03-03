@@ -14,17 +14,16 @@ require 'rails_helper'
 RSpec.describe Outing, type: :model do
   pending "add some examples to (or delete) #{__FILE__}"
 
-  context 'when an outing is being created' do
+  describe 'when an outing is being created' do
     it 'creates a participant with my user_id' do
-      it 'the participant is set as "creator"' do
-
-      end
+    end
+    it 'the participant is set as "creator"' do
     end
 
 
   end
 
-  context 'collaborating on an outing availability' do
+  describe 'collaborating on an outing availability' do
     # availability:
     #   user_id
     #   start_time
@@ -36,7 +35,6 @@ RSpec.describe Outing, type: :model do
       describe 'on button press, participant availability is compared' do
 
         it 'shows a time which is best for as many people as possible' do
-
         end
 
       end

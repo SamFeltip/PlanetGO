@@ -82,5 +82,7 @@ class Ability
     can :manage, RegisterInterest
     can :manage, Review
     can :manage, Faq
+    can :manage, Event
+    can :manage, Outing
   end
 end

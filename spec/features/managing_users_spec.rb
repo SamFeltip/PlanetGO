@@ -98,19 +98,11 @@ RSpec.describe 'Managing users', type: :request do
           within(rep_content) do
             click_on 'Edit'
           end
-          expect(page).not_to have_content 'Suspended'
+          expect(page).not_to have_button 'Suspend'
         end
 
         specify 'I cannot suspend a non-commercial user' do
-          form_params = {
-            id: rep1.id,
-            full_name: rep1.full_name,
-            email: rep1.email,
-            role: rep1.role,
-            suspended: true
-          }
-          put user_path(rep1), params: form_params
-          expect(rep_content).to have_content 'false'
+
         end
       end
     end

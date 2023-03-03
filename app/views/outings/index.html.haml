@@ -2,7 +2,8 @@
   .card-header.d-flex.align-items-center
     %span Listing Outings
 
-    = link_to 'New Outing', new_outing_path, class: 'btn btn-outline-secondary ms-auto'
+    - if !current_user.suspended
+      = link_to 'New Outing', new_outing_path, class: 'btn btn-outline-secondary ms-auto'
 
   %table.table
     %thead
@@ -20,5 +21,6 @@
           %td
             .btn-toolbar.float-end
               = link_to 'Show', outing, class: 'btn btn-outline-secondary btn-sm'
-              = link_to 'Edit', edit_outing_path(outing), class: 'btn btn-outline-secondary ms-1 btn-sm'
-              = link_to 'Destroy', outing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+              - if !current_user.suspended
+                = link_to 'Edit', edit_outing_path(outing), class: 'btn btn-outline-secondary ms-1 btn-sm'
+                = link_to 'Destroy', outing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

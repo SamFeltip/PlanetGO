@@ -16,5 +16,6 @@
           %dt.col-md-3 Approved:
           %dd.col-md-9= @event.approved
       .card-footer.d-flex
-        = link_to 'Edit', edit_event_path(@event), class: 'btn btn-link'
+        - if !current_user.suspended
+          = link_to 'Edit', edit_event_path(@event), class: 'btn btn-link'
         = link_to 'Back', events_path, class: 'btn btn-link ms-auto'
