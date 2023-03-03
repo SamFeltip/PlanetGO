@@ -21,7 +21,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Event < ApplicationRecord
-
+  belongs_to :user
   enum category: {
     bar: 0,
     restaurant: 1,
@@ -29,6 +29,4 @@ class Event < ApplicationRecord
     music: 3,
     sports: 4
   }
-
-
 end

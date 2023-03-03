@@ -1,6 +1,7 @@
 class OutingsController < ApplicationController
   before_action :set_outing, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!#, only: %i[show new create destroy edit]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit]
+  load_and_authorize_resource
 
   # GET /outings or /outings.json
   def index

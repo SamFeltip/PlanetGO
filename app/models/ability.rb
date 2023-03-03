@@ -14,14 +14,14 @@ class Ability
     if user.admin?
       admin_permissions(user)
       reporter_permissions
-      user_permissions
+      user_permissions(user)
       guest_permissions
     elsif user.reporter?
       reporter_permissions
-      user_permissions
+      user_permissions(user)
       guest_permissions
     elsif user.user?
-      user_permissions
+      user_permissions(user)
       guest_permissions
     end
 
@@ -57,9 +57,18 @@ class Ability
     can :create, RegisterInterest
   end
 
-  def user_permissions
+  def user_permissions(user)
     can %i[create like unlike], Review
     can %i[create like unlike], Faq
+    can :create, Event
+    can %i[read update destroy], Event, user_id: user.id
+    can :create, Outing
+    can %i[read update destroy], Outing, creator_id: user.id
+
+    return unless user.suspended
+
+    cannot %i[create update destroy], Event
+    cannot %i[create update destroy], Outing
   end
 
   def reporter_permissions
