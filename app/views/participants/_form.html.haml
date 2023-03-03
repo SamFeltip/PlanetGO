@@ -1,0 +1,12 @@
+-# frozen_string_literal: true
+= simple_form_for(@participant) do |f|
+  .card-body
+    = f.input :status, wrapper_html: { class: 'mb-3' }, collection: Participant.statuses.keys
+    -# = f.association :user, label_method: :name, value_method: :id, include_blank: false
+    -# = f.association :outing, label_method: :name, value_method: :id, include_blank: false
+
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', participants_path, class: 'btn btn-link ms-auto'

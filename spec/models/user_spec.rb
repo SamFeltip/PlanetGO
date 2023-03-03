@@ -57,4 +57,20 @@ RSpec.describe User, type: :model do
       expect(user.commercial).to eq false
     end
   end
+
+  context "declaring availability" do
+    describe "when submit a time I am available" do
+      it "is recorded" do
+
+      end
+
+      it "is visible on my personal user page" do
+
+      end
+
+    end
+  end
+
+
+
 end

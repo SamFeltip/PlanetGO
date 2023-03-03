@@ -1,0 +1,24 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Outing details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Name:
+          %dd.col-md-9= @outing.name
+          %dt.col-md-3 Date:
+          %dd.col-md-9= @outing.date
+          %dt.col-md-3 Description:
+          %dd.col-md-9= @outing.description
+
+        %h3 All participants
+        - if @participants.length == 0
+          %p no participants
+        - else
+          - @participants.each do |p|
+            %p= p
+
+      .card-footer.d-flex
+        = link_to 'Edit', edit_outing_path(@outing), class: 'btn btn-link'
+        = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'

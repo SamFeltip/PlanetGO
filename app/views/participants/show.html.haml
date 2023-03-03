@@ -1,0 +1,12 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Participant details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Status:
+          %dd.col-md-9= @participant.status
+      .card-footer.d-flex
+        = link_to 'Edit', edit_participant_path(@participant), class: 'btn btn-link'
+        = link_to 'Back', participants_path, class: 'btn btn-link ms-auto'
