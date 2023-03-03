@@ -4,8 +4,6 @@
     = f.input :full_name
     = f.input :email
     = f.input :role, collection: User.roles.keys
-    - if @user.commercial
-      = f.input :suspended
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }
       Save

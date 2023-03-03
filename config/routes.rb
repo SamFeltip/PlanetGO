@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     member do
       put 'lock', to: 'users#lock'
       put 'unlock', to: 'users#unlock'
+      put 'suspend', to: 'users#suspend'
+      put 'reinstate', to: 'users#reinstate'
     end
   end
 

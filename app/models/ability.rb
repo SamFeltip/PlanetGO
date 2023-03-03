@@ -67,8 +67,8 @@ class Ability
   end
 
   def admin_permissions(user)
-    can %i[read update destroy lock unlock], User
-    cannot %i[update destroy lock unlock], User, id: user.id
+    can %i[read update destroy lock unlock suspend reinstate], User
+    cannot %i[update destroy lock unlock suspend reinstate], User, id: user.id
 
     can :manage, RegisterInterest
     can :manage, Review
