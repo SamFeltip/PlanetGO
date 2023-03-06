@@ -15,9 +15,22 @@ RSpec.describe 'Managing users', type: :request do
       expect(page).to have_content 'You are not authorized to access this page.'
     end
 
-    specify 'I cannot delete my own account' do
-      visit edit_user_path(admin1)
-      expect(page).to have_content 'You are not authorized to access this page.'
+    specify 'I cannot lock my own account' do
+      put lock_user_path(admin1)
+      expect(admin1.access_locked?).to eq(false)
+    end
+
+    specify 'I cannot unlock my own account' do
+      admin1.lock_access!({ send_instructions: false })
+      put unlock_user_path(admin1)
+      expect(admin1.access_locked?).to eq(true)
+    end
+
+    specify 'I cannot suspend my own account' do
+      expect do
+        put suspend_user_path(admin1)
+        admin1.reload
+      end.not_to change(admin1, :suspended)
     end
 
     specify 'I can visit the account management page' do
@@ -53,56 +66,106 @@ RSpec.describe 'Managing users', type: :request do
       specify 'There is the option to Show my account' do
         expect(el).to have_content 'Show'
       end
-    end
 
-    context 'There are users in the system' do
-      before do
-        FactoryBot.create(:user, email: 'user1@user.com')
+      specify 'There is no option to Lock my account' do
+        expect(el).not_to have_button 'Lock' or have_button 'Unlock'
       end
 
+      specify 'There is no option to Suspend my account' do
+        expect(el).not_to have_button 'Suspend' or have_button 'Reinstate'
+      end
+    end
+
+    context 'When there are users in the system' do
+      let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
+      let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
       let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
 
       context 'When I visit the account management page' do
+        before { visit '/users' }
 
-        before { visit '/users'}
+        context 'When looking at a user' do
+          let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
 
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
-        let!(:rep_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]') }
-
-        specify 'I can see users on the system' do
-          expect(page).to have_content 'user1@user.com'
-        end
-
-        specify 'I can show user details' do
-          within(user_content) do
-            click_on 'Show'
+          specify 'I can show user details' do
+            within(user_content) { click_on 'Show' }
+            expect(page).to have_content '2023-01-12' # The factory last sign in date
           end
-          expect(page).to have_content '2023-01-12' # The factory last sign in date
-        end
 
-        specify 'I can edit the user role' do
-          within(user_content) do
-            click_on 'Edit'
+          specify 'I can edit the user role' do
+            within(user_content) { click_on 'Edit' }
+            select 'reporter', from: 'Role'
+            click_on 'Save'
+            expect(user_content).to have_content 'reporter'
           end
-          select 'reporter', from: 'Role'
-          click_on 'Save'
-          expect(user_content).to have_content 'reporter'
-        end
 
-        specify 'I can destroy the user' do
-          click_on 'Destroy'
-          expect(page).not_to have_content 'user1@user.com'
-        end
-
-        specify 'I cannot see an option to suspend a non-commercial account' do
-          within(rep_content) do
-            click_on 'Edit'
+          specify 'I can destroy the user' do
+            within(user_content) { click_on 'Destroy' }
+            expect(page).not_to have_content 'user1@user.com'
           end
-          expect(page).not_to have_button 'Suspend'
         end
 
-        specify 'I cannot suspend a non-commercial user' do
+        context 'When the user is not suspended' do
+          let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
 
+          specify 'I can suspend a commercial account' do
+            expect do
+              within(user_content) { click_on 'Suspend' }
+              user1.reload
+            end.to change(user1, :suspended)
+          end
+        end
+
+        context 'When looking at a suspended account' do
+          let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]') }
+
+          specify 'I can reinstate a commercial account' do
+            expect do
+              within(user_content) { click_on 'Reinstate' }
+              user2.reload
+            end.to change(user2, :suspended)
+          end
+        end
+
+        context 'When the user is not locked' do
+          let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+
+          specify 'I can lock an account' do
+            within(user_content) { click_on 'Lock' }
+            user1.reload
+            expect(user1.access_locked?).to eq(true)
+          end
+        end
+
+        context 'When the user is locked' do
+          before do
+            user2.lock_access!({ send_instructions: false })
+            page.refresh
+          end
+
+          let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]') }
+
+          specify 'I can unlock and account' do
+            within(user_content) { click_on 'Unlock' }
+            user2.reload
+            expect(user2.access_locked?).to eq(false)
+          end
+        end
+
+        context 'When looking at a non-commercial account' do
+          let!(:rep_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]') }
+
+          specify 'I cannot see an option to suspend' do
+            within(rep_content) { click_on 'Edit' }
+            expect(page).not_to have_button 'Suspend'
+          end
+
+          specify 'I cannot suspend' do
+            expect do
+              put suspend_user_path(rep1)
+              rep1.reload
+            end.not_to change(rep1, :suspended)
+          end
         end
       end
     end

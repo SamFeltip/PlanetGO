@@ -14,6 +14,7 @@ class Ability
     if user.admin?
       admin_permissions(user)
       reporter_permissions
+      commercial_permissions(user)
       user_permissions(user)
       guest_permissions
     elsif user.reporter?
@@ -21,6 +22,7 @@ class Ability
       user_permissions(user)
       guest_permissions
     elsif user.user?
+      commercial_permissions(user)
       user_permissions(user)
       guest_permissions
     end
@@ -60,6 +62,9 @@ class Ability
   def user_permissions(user)
     can %i[create like unlike], Review
     can %i[create like unlike], Faq
+  end
+
+  def commercial_permissions(user)
     can :create, Event
     can %i[read update destroy], Event, user_id: user.id
     can :create, Outing
