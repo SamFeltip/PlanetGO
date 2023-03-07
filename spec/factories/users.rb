@@ -13,7 +13,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
-#  full_name              :string
+#  full_name              :string           not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
@@ -40,5 +40,6 @@ FactoryBot.define do
   factory :user do
     email
     password { 'Testuserpassword123' }
+    full_name { 'John Smith' }
   end
 end
