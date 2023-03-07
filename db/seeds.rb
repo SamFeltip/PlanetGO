@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-
-# user_admin1 = FactoryBot.create(:user, email: 'admin1@planetgo.com', role: 2)
 default_password = 'SneakyPassword100'
 Rails.logger.debug 'Seeding Database'
 
@@ -21,7 +12,7 @@ user_admin1 = User.where(email: 'admin1@planetgo.com')
                   )
 
 Rails.logger.debug '.'
-# user_admin2 = FactoryBot.create(:user, email: 'admin2@planetgo.com', role: 2)
+
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
                     role: 2,
