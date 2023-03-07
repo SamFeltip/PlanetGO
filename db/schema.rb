@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_228_122_011) do
+ActiveRecord::Schema[7.0].define(version: 20_230_307_111_123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -83,7 +83,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_122_011) do
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
     t.integer 'role', default: 0
-    t.string 'full_name'
+    t.string 'full_name', null: false
     t.index ['email'], name: 'index_users_on_email', unique: true
     t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
   end
@@ -98,8 +98,7 @@ ActiveRecord::Schema[7.0].define(version: 20_230_228_122_011) do
     t.integer 'vote_weight'
     t.datetime 'created_at', null: false
     t.datetime 'updated_at', null: false
-    t.index %w[votable_id votable_type vote_scope],
-            name: 'index_votes_on_votable_id_and_votable_type_and_vote_scope'
+    t.index %w[votable_id votable_type vote_scope], name: 'index_votes_on_votable_id_and_votable_type_and_vote_scope'
     t.index %w[votable_type votable_id], name: 'index_votes_on_votable'
     t.index %w[voter_id voter_type vote_scope], name: 'index_votes_on_voter_id_and_voter_type_and_vote_scope'
     t.index %w[voter_type voter_id], name: 'index_votes_on_voter'

@@ -8,7 +8,8 @@ Rails.logger.debug '[+] Adding raw users.'
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
                     role: 2,
-                    password: default_password
+                    password: default_password,
+                    full_name: 'Arielle Norman'
                   )
 
 Rails.logger.debug '.'
@@ -16,7 +17,8 @@ Rails.logger.debug '.'
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
                     role: 2,
-                    password: default_password
+                    password: default_password,
+                    full_name: 'Miguel Whitaker'
                   )
 
 Rails.logger.debug '.'
@@ -24,7 +26,8 @@ Rails.logger.debug '.'
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
                   role: 1,
-                  password: default_password
+                  password: default_password,
+                  full_name: 'Houston Davila'
                 )
 
 Rails.logger.debug '.'
@@ -32,7 +35,8 @@ Rails.logger.debug '.'
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
                   role: 1,
-                  password: default_password
+                  password: default_password,
+                  full_name: 'Lea Park'
                 )
 
 Rails.logger.debug '.'
@@ -40,14 +44,16 @@ Rails.logger.debug '.'
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
                    role: 0,
-                   password: default_password
+                   password: default_password,
+                   full_name: 'Anna Hudson'
                  )
 
 Rails.logger.debug '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
                    role: 0,
-                   password: default_password
+                   password: default_password,
+                   full_name: 'Jamie Lindsey'
                  )
 
 Rails.logger.debug '[+] Adding new metrics.'
