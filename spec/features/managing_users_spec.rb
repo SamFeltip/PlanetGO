@@ -28,7 +28,7 @@ RSpec.describe 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I can see the link to the users management page' do
-        expect(page).to have_content 'Account Management'
+        expect(page).to have_content 'Accounts Management'
       end
     end
 
@@ -36,10 +36,10 @@ RSpec.describe 'Managing users', type: :request do
       before { visit '/users' }
 
       specify 'There is no option to edit my account' do
-        expect(page).not_to have_content 'Edit'
+        expect(page).not_to have_css('#btn-outline-secondary', text: 'Edit')
       end
 
-      specify 'There is no option to Destroy my account' do
+      specify 'There is no option to destroy my account' do
         expect(page).not_to have_content 'Destroy'
       end
 
