@@ -85,6 +85,8 @@ gem 'acts_as_votable'
 gem 'sentry-rails'
 gem 'sentry-ruby'
 
+gem 'jquery-rails'
+
 group :development do
   gem 'annotate'
   gem 'brakeman'

@@ -14,5 +14,6 @@ FactoryBot.define do
     name { "My exciting adventure" }
     date { "2023-02-23" }
     description { "This is a really cool adventure, with all my friends!" }
+    # participant {association :participant, status: "creator" }
   end
 end

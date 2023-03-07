@@ -1,12 +1,19 @@
 import Rails from "@rails/ujs";
 import "bootstrap";
 import '../scripts/collecting_metrics';
+import "../scripts/outings";
 import '../scripts/jquery.jvectormap.js';
 import '../scripts/jquery-jvectormap-world-merc';
 import '../scripts/hover-cards';
 import Chart from 'chart.js/auto';
 
+//= require jquery3
+//= require jquery_ujs
+//= require_tree .
+
+
 Rails.start();
+console.log("application loaded.");
 
 window.onload = () => {
   if (window.location.pathname === "/metrics") {
@@ -21,4 +28,6 @@ window.onload = () => {
     });
   }
 }
+
+
 

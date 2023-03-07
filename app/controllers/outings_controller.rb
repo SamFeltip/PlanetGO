@@ -4,7 +4,14 @@ class OutingsController < ApplicationController
 
   # GET /outings or /outings.json
   def index
-    @outings = Outing.all
+    if current_user.admin?
+      @outings = Outing.all.order(date: :desc)
+    else
+      @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
+    end
+
+    @outings_future = Outing.future_outings
+    @outings_past = Outing.past_outings
   end
 
   # GET /outings/1 or /outings/1.json
@@ -73,14 +80,15 @@ class OutingsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_outing
-      @outing = Outing.find(params[:id])
-      @participants = @outing.participants
-    end
 
-    # Only allow a list of trusted parameters through.
-    def outing_params
-      params.require(:outing).permit(:name, :date, :description)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_outing
+    @outing = Outing.find(params[:id])
+    @participants = @outing.participants
+  end
+
+  # Only allow a list of trusted parameters through.
+  def outing_params
+    params.require(:outing).permit(:name, :date, :description)
+  end
 end

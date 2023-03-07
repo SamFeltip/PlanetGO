@@ -36,12 +36,12 @@
               Home
 
             %li.nav-item.active
-              = link_to :reviews, class: 'nav-link' do
-                Reviews
+              = link_to :events, class: 'nav-link' do
+                Events
 
             %li.nav-item.active
-              = link_to :faqs, class: 'nav-link' do
-                FAQs
+              = link_to :outings, class: 'nav-link' do
+                Outings
 
             - if user_signed_in?
               - if current_user.admin? || current_user.reporter?
