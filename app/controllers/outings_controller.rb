@@ -4,9 +4,9 @@ class OutingsController < ApplicationController
 
   # GET /outings or /outings.json
   def index
-    if current_user.admin?
-      @outings = Outing.all.order(date: :desc)
-    else
+
+    @outings = Outing.all.order(date: :desc)
+    unless current_user.admin?
       @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
     end
 

@@ -13,11 +13,6 @@ class Outing < ApplicationRecord
   has_many :participants
   has_many :users, class_name: "User", :through => :participants
   # has_many :events, :through => :
-  after_initialize do |user|
-    @creator_participant = self.participants.build(
-      status: "creator"
-    )
-  end
 
   def to_s
     self.name
@@ -32,6 +27,19 @@ class Outing < ApplicationRecord
     future_outings = Outing.none
     outings.each do |outing|
       if outing.time_status == "future"
+        future_outings = future_outings.or(Outing.where(:id => outing.id))
+      end
+    end
+
+    future_outings
+
+  end
+
+  def self.past_outings
+    outings = Outing.all
+    future_outings = Outing.none
+    outings.each do |outing|
+      if outing.time_status == "past"
         future_outings = future_outings.or(Outing.where(:id => outing.id))
       end
     end
