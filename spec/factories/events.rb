@@ -23,7 +23,7 @@
 FactoryBot.define do
   factory :event do
     name { "MyString" }
-    date { "2023-02-24" }
+    time_of_event { "2023-02-24" }
     description { "MyText" }
     category { 1 }
     approved { false }
