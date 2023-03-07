@@ -5,6 +5,7 @@ require 'faker'
 
 RSpec.describe 'Outings' do
 
+
   context 'when a user is logged in' do
     specify 'lets the user see all outings'do
 

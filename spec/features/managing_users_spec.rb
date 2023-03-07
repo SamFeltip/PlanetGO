@@ -3,14 +3,13 @@
 require 'rails_helper'
 
 RSpec.describe 'Managing users', type: :request do
-
-  context 'When there are users in the system' do
+  context 'when there are users in the system' do
     let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
     let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
     let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
     let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
 
-    context 'When signed in as an administrator' do
+    context 'when signed in as an administrator' do
       before do
         login_as admin1
       end
@@ -43,7 +42,7 @@ RSpec.describe 'Managing users', type: :request do
         expect(page).to have_current_path '/users'
       end
 
-      context 'When I am on the homepage' do
+      context 'when I am on the homepage' do
         before { visit '/' }
 
         specify 'I can see the link to the users management page' do
@@ -51,7 +50,7 @@ RSpec.describe 'Managing users', type: :request do
         end
       end
 
-      context 'When I am on the account management page' do
+      context 'when I am on the account management page' do
         before { visit '/users' }
 
         let!(:el) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "admin1")]') }
@@ -80,7 +79,7 @@ RSpec.describe 'Managing users', type: :request do
           expect(el).not_to have_button 'Suspend' or have_button 'Reinstate'
         end
 
-        context 'When looking at a user' do
+        context 'when looking at a user' do
           let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
 
           specify 'I can show user details' do
@@ -101,7 +100,7 @@ RSpec.describe 'Managing users', type: :request do
           end
         end
 
-        context 'When the user is not suspended' do
+        context 'when the user is not suspended' do
           let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
 
           specify 'I can suspend a commercial account' do
@@ -112,7 +111,7 @@ RSpec.describe 'Managing users', type: :request do
           end
         end
 
-        context 'When looking at a suspended account' do
+        context 'when looking at a suspended account' do
           let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]') }
 
           specify 'I can reinstate a commercial account' do
@@ -123,7 +122,7 @@ RSpec.describe 'Managing users', type: :request do
           end
         end
 
-        context 'When the user is not locked' do
+        context 'when the user is not locked' do
           let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
 
           specify 'I can lock an account' do
@@ -133,7 +132,7 @@ RSpec.describe 'Managing users', type: :request do
           end
         end
 
-        context 'When the user is locked' do
+        context 'when the user is locked' do
           before do
             user2.lock_access!({ send_instructions: false })
             page.refresh
@@ -148,7 +147,7 @@ RSpec.describe 'Managing users', type: :request do
           end
         end
 
-        context 'When looking at a non-commercial account' do
+        context 'when looking at a non-commercial account' do
           let!(:rep_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]') }
 
           specify 'I cannot see an option to suspend' do
@@ -166,13 +165,13 @@ RSpec.describe 'Managing users', type: :request do
       end
     end
 
-    context 'When not signed in' do
+    context 'when not signed in' do
       specify 'I cannot visit the account management page' do
         visit '/users'
         expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
-      context 'When I am on the homepage' do
+      context 'when I am on the homepage' do
         before { visit '/' }
 
         specify 'I cannot see the link to the users management page' do
@@ -222,7 +221,7 @@ RSpec.describe 'Managing users', type: :request do
       end
     end
 
-    context 'When signed in as a user' do
+    context 'when signed in as a user' do
       before { login_as FactoryBot.create(:user, role: 'user') }
 
       specify 'I cannot visit the account management page' do
@@ -230,7 +229,7 @@ RSpec.describe 'Managing users', type: :request do
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      context 'When I am on the homepage' do
+      context 'when I am on the homepage' do
         before { visit '/' }
 
         specify 'I cannot see the link to the users management page' do
@@ -280,7 +279,7 @@ RSpec.describe 'Managing users', type: :request do
       end
     end
 
-    context 'When signed in as a reporter' do
+    context 'when signed in as a reporter' do
       before { login_as FactoryBot.create(:user, role: 'reporter') }
 
       specify 'I cannot visit the account management page' do
@@ -288,7 +287,7 @@ RSpec.describe 'Managing users', type: :request do
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      context 'When I am on the homepage' do
+      context 'when I am on the homepage' do
         before { visit '/' }
 
         specify 'I cannot see the link to the users management page' do

@@ -3,20 +3,19 @@
 require 'rails_helper'
 
 RSpec.describe 'Events' do
-  context 'When there are users in the system', type: :request do
+  context 'when there are users in the system', type: :request do
     let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
     let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
     let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
-    #let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
 
-    context 'There are events in the system' do
+    context 'when there are events in the system' do
       before do
         FactoryBot.create(:event, description: 'User1 Event', user_id: user1.id)
       end
 
       let!(:event2) { FactoryBot.create(:event, description: 'User2 Event', user_id: user2.id) }
 
-      context 'When I am logged in as an admin and on the events page' do
+      context 'when I am logged in as an admin and on the events page' do
         before do
           login_as admin1
           visit '/events'
@@ -50,7 +49,7 @@ RSpec.describe 'Events' do
         end
       end
 
-      context 'When I am logged in as a non-suspended user and on the events page' do
+      context 'when I am logged in as a non-suspended user and on the events page' do
         before do
           login_as user1
           visit '/events'
@@ -85,7 +84,7 @@ RSpec.describe 'Events' do
         end
       end
 
-      context 'When I am logged in as a suspended user and on the events page' do
+      context 'when I am logged in as a suspended user and on the events page' do
         before do
           login_as user2
           visit '/events'
