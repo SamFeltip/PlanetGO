@@ -9,6 +9,7 @@ RSpec.describe 'Managing users', type: :request do
     let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
     let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
     let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
+    let!(:advertiser1) { FactoryBot.create(:user, role: 'advertiser') }
 
     context 'when signed in as an administrator' do
       before do
@@ -181,17 +182,17 @@ RSpec.describe 'Managing users', type: :request do
         end
       end
 
-      specify 'I cannot view their account info' do
+      specify 'I cannot view a users account info' do
         visit user_path(user1)
         expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
-      specify 'I cannot edit their account info' do
+      specify 'I cannot edit a users account info' do
         visit edit_user_path(user1)
         expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
-      specify 'I cannot delete their account' do
+      specify 'I cannot delete an account' do
         expect do
           delete user_path(user1)
         end.not_to change(User, :count)
@@ -239,17 +240,17 @@ RSpec.describe 'Managing users', type: :request do
         end
       end
 
-      specify 'I cannot view their account info' do
+      specify 'I cannot view a users account info' do
         visit user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      specify 'I cannot edit their account info' do
+      specify 'I cannot edit a users account info' do
         visit edit_user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      specify 'I cannot delete their account' do
+      specify 'I cannot delete an account' do
         expect do
           login_as user
           delete user_path(user1)
@@ -300,17 +301,17 @@ RSpec.describe 'Managing users', type: :request do
         end
       end
 
-      specify 'I cannot view their account info' do
+      specify 'I cannot view a users account info' do
         visit user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      specify 'I cannot edit their account info' do
+      specify 'I cannot edit a users account info' do
         visit edit_user_path(user1)
         expect(page).to have_content 'You are not authorized to access this page.'
       end
 
-      specify 'I cannot delete their account' do
+      specify 'I cannot delete an account' do
         expect do
           login_as rep1
           delete user_path(user1)
@@ -339,6 +340,67 @@ RSpec.describe 'Managing users', type: :request do
       specify 'I cannot reinstate an account' do
         expect do
           login_as rep1
+          put suspend_user_path(user2)
+          user2.reload
+        end.not_to change(user2, :suspended)
+      end
+    end
+
+    context 'when signed in as an advertiser' do
+      before { login_as advertiser1 }
+
+      specify 'I cannot visit the account management page' do
+        visit '/users'
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      context 'when I am on the homepage' do
+        before { visit '/' }
+
+        specify 'I cannot see the link to the users management page' do
+          expect(page).not_to have_content 'Account Management'
+        end
+      end
+
+      specify 'I cannot view a users account info' do
+        visit user_path(user1)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot edit a users account info' do
+        visit edit_user_path(user1)
+        expect(page).to have_content 'You are not authorized to access this page.'
+      end
+
+      specify 'I cannot delete an account' do
+        expect do
+          login_as advertiser1
+          delete user_path(user1)
+        end.not_to change(User, :count)
+      end
+
+      specify 'I cannot lock an account' do
+        put lock_user_path(user1)
+        expect(user1.access_locked?).to eq(false)
+      end
+
+      specify 'I cannot unlock an account' do
+        user2.lock_access!({ send_instructions: false })
+        put unlock_user_path(user2)
+        expect(user2.access_locked?).to eq(true)
+      end
+
+      specify 'I cannot suspend a commercial account' do
+        expect do
+          login_as advertiser1
+          put suspend_user_path(user1)
+          user1.reload
+        end.not_to change(user1, :suspended)
+      end
+
+      specify 'I cannot reinstate a commercial account' do
+        expect do
+          login_as advertiser1
           put suspend_user_path(user2)
           user2.reload
         end.not_to change(user2, :suspended)

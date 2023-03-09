@@ -21,6 +21,10 @@ class Ability
       reporter_permissions
       user_permissions(user)
       guest_permissions
+    elsif user.advertiser?
+      commercial_permissions(user)
+      advertiser_permissions(user)
+      guest_permissions
     elsif user.user?
       commercial_permissions(user)
       user_permissions(user)
@@ -62,6 +66,9 @@ class Ability
   def user_permissions(user)
     can %i[create like unlike], Review
     can %i[create like unlike], Faq
+  end
+
+  def advertiser_permissions(user)
   end
 
   def commercial_permissions(user)
