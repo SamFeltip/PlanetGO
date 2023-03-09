@@ -121,6 +121,7 @@ RSpec.describe 'Events' do
 
         specify 'I cannot Destroy my event' do
           expect do
+            login_as user2
             delete event_path(event2)
           end.not_to change(Event, :count)
         end

@@ -5,6 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Managing users', type: :request do
   context 'when there are users in the system' do
     let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
+    let!(:user) { FactoryBot.create(:user, role: 'user') }
     let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
     let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
     let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
@@ -157,6 +158,7 @@ RSpec.describe 'Managing users', type: :request do
 
           specify 'I cannot suspend' do
             expect do
+              login_as admin1
               put suspend_user_path(rep1)
               rep1.reload
             end.not_to change(rep1, :suspended)
@@ -222,7 +224,7 @@ RSpec.describe 'Managing users', type: :request do
     end
 
     context 'when signed in as a user' do
-      before { login_as FactoryBot.create(:user, role: 'user') }
+      before { login_as user }
 
       specify 'I cannot visit the account management page' do
         visit '/users'
@@ -249,6 +251,7 @@ RSpec.describe 'Managing users', type: :request do
 
       specify 'I cannot delete their account' do
         expect do
+          login_as user
           delete user_path(user1)
         end.not_to change(User, :count)
       end
@@ -266,6 +269,7 @@ RSpec.describe 'Managing users', type: :request do
 
       specify 'I cannot suspend a commercial account' do
         expect do
+          login_as user
           put suspend_user_path(user1)
           user1.reload
         end.not_to change(user1, :suspended)
@@ -273,6 +277,7 @@ RSpec.describe 'Managing users', type: :request do
 
       specify 'I cannot reinstate a commercial account' do
         expect do
+          login_as user
           put suspend_user_path(user2)
           user2.reload
         end.not_to change(user2, :suspended)
@@ -280,7 +285,7 @@ RSpec.describe 'Managing users', type: :request do
     end
 
     context 'when signed in as a reporter' do
-      before { login_as FactoryBot.create(:user, role: 'reporter') }
+      before { login_as rep1 }
 
       specify 'I cannot visit the account management page' do
         visit '/users'
@@ -307,6 +312,7 @@ RSpec.describe 'Managing users', type: :request do
 
       specify 'I cannot delete their account' do
         expect do
+          login_as rep1
           delete user_path(user1)
         end.not_to change(User, :count)
       end
@@ -322,15 +328,17 @@ RSpec.describe 'Managing users', type: :request do
         expect(user2.access_locked?).to eq(true)
       end
 
-      specify 'I cannot suspend a commercial account' do
+      specify 'I cannot suspend an account' do
         expect do
+          login_as rep1
           put suspend_user_path(user1)
           user1.reload
         end.not_to change(user1, :suspended)
       end
 
-      specify 'I cannot reinstate a commercial account' do
+      specify 'I cannot reinstate an account' do
         expect do
+          login_as rep1
           put suspend_user_path(user2)
           user2.reload
         end.not_to change(user2, :suspended)
