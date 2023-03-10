@@ -83,7 +83,7 @@ p {
   margin: 0 30%;
 }
 
-// Metrics page styling
+// *************** Metrics page ***************
 
 #myChart {
   width: 100%;
@@ -104,10 +104,56 @@ p {
   cursor: pointer;
 }
 
+// form used to select information in the graph
 .graph_form {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: row;
 }
 
+.graph_form div {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.graph_form div label {
+  text-align: right;
+  margin-right: 5px;
+  height: 30px;
+}
+
+.graph_form div select {
+  text-align: right;
+  height: 30px;
+}
+
+.graph_form div input {
+  text-align: right;
+  height: 30px;
+}
+
+// boxes showing basic metrics for each page
+.informationBox {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.informationKey {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 5px;
+  white-space: nowrap;
+  background-color: var(--bs-card-cap-bg);
+  border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+.informationValue {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  white-space: nowrap;
+}
 // register interest styling
 
 .card-hover:hover {

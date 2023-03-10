@@ -62,7 +62,7 @@ module MetricsGraphHelper
         start_date_time_stamp += date_increment
       end
 
-      data_values = JSON.generate([{ label: 'x̄ time on page', data: }])
+      data_values = JSON.generate([{ label: 'x̄ time on page (s)', data: }])
     when 'Pricing page bounce outs'
       data = []
       while start_date_time_stamp < end_date_time_stamp

@@ -25,8 +25,8 @@ RSpec.describe 'Managing metrics', type: :request do
           expect(page).to have_current_path '/metrics'
         end
 
-        specify 'I can view the metric' do
-          expect(page).to have_content('# visits: 1')
+        specify 'I can view my visit to the page' do
+          expect(page).to have_selector('div', text: '1')
         end
 
         specify 'The graph should be empty by default' do
@@ -59,8 +59,9 @@ RSpec.describe 'Managing metrics', type: :request do
           expect(page).to have_current_path '/metrics'
         end
 
-        specify 'I can view the metric' do
-          expect(page).to have_content('# visits: 1')
+        specify 'I can view my visit to the page' do
+          # Since the admin visited the metrics page earlier, the reporter's visit is the second visit to the metrics page
+          expect(page).to have_selector('div', text: '2')
         end
 
         specify 'The graph should be empty by default' do
