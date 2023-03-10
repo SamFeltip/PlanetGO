@@ -12,7 +12,10 @@
       .card-header.d-flex
         %strong= outing.name
       .card-body
-        = outing.description
+        %p
+          = outing.description
+        %p
+          = outing.creator
       .card-footer.d-flex
 
         = link_to edit_outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
@@ -28,7 +31,10 @@
       .card-header.d-flex
         %strong= outing.name
       .card-body
-        = outing.description
+        %p
+          = outing.description
+        %p
+          = outing.creator
       .card-footer.d-flex
 
         = link_to edit_outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
