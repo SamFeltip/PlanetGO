@@ -6,12 +6,10 @@ class OutingsController < ApplicationController
   def index
 
     @outings = Outing.all.order(date: :desc)
-    unless current_user.admin?
-      @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
-    end
+    # unless current_user.admin?
+    #   @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
+    # end
 
-    @outings_future = Outing.future_outings
-    @outings_past = Outing.past_outings
   end
 
   # GET /outings/1 or /outings/1.json

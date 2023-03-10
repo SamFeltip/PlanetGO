@@ -1,0 +1,42 @@
+%h1 My account
+
+%p
+  = current_user
+
+%h1 My outings
+
+%h2 Future Outings
+#future_outings
+  - @future_outings.each do |outing|
+    .card[outing]
+      .card-header.d-flex
+        %strong= outing.name
+      .card-body
+        = outing.description
+      .card-footer.d-flex
+
+        = link_to edit_outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
+          %i.bi-pencil-square
+
+        = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
+          %i.bi-trash
+
+%h2 Past Outings
+#future_outings
+  - @past_outings.each do |outing|
+    .card[outing]
+      .card-header.d-flex
+        %strong= outing.name
+      .card-body
+        = outing.description
+      .card-footer.d-flex
+
+        = link_to edit_outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
+          %i.bi-pencil-square
+
+        = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
+          %i.bi-trash
+
+
+-##past_outings= render "outing", collection: @outings_past
+

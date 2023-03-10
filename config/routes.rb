@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   root 'pages#landing'
 
   match '/welcome', to: 'pages#landing', via: 'get'
+  match '/myaccount', to: 'pages#account', via: 'get'
 
   get '/shift_down/:id', to: 'reviews#shift_down'
   get '/shift_up/:id', to: 'reviews#shift_up'

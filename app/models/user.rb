@@ -50,6 +50,25 @@ class User < ApplicationRecord
     admin: 2
   }
 
+  def my_outings
+
+    outings = Outing.all
+    future_outings = Outing.none
+
+    outings.each do |outing|
+      if outing.time_status == "future"
+          future_outings = future_outings.or(
+            Outing.where(
+              id: Outing.joins(:participants).where(id: outing.id, participants: { status: Participant.statuses[:creator], user_id: self.id })
+            )
+          )
+
+      end
+
+    end
+
+  end
+
   def to_s
     if full_name?
       full_name

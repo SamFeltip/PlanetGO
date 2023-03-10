@@ -18,19 +18,25 @@ RSpec.describe Outing, type: :model do
     before do
       @past_outing_1 = create(
         :outing,
+        name: "past outing 1",
         date: Time.now - 1.day
       )
+
       @past_outing_2 = create(
         :outing,
+        name: "past outing 2",
         date: Time.now - 1.week
       )
+
       @future_outing_1 = create(
         :outing,
+        name: "future outing 1",
         date: Time.now + 1.day
       )
 
       @future_outing_2 = create(
         :outing,
+        name: "future outing 2",
         date: Time.now + 1.week
       )
 
@@ -43,23 +49,14 @@ RSpec.describe Outing, type: :model do
       end
 
       it 'doesnt return outings in the past' do
-        expect(Outing.future_outings).to not_include(@past_outing_1)
-        expect(Outing.future_outings).to not_include(@past_outing_2)
-      end
-    end
-    describe '#past_outings' do
-      it 'returns all outings in the past' do
-        expect(Outing.future_outings).to eq([@future_outings, @future_outings])
-      end
-
-      it 'doesnt return outings in the future' do
-
+        expect(Outing.future_outings).not_to include(@past_outing_1)
+        expect(Outing.future_outings).not_to include(@past_outing_2)
       end
     end
   end
 
   context 'when an outing is being created' do
-    it 'creates a participant with my user_id' do
+    describe 'creates a participant with my user_id' do
       it 'the participant is set as "creator"' do
 
       end
