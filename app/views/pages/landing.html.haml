@@ -166,48 +166,6 @@
 
   %p With our Premium+ plan, we'll show you a collection of the events we know you'll love. You can swipe through your preferences, and we can organise a time and a place that suits you.
 
-
-
-  - if @special_reviews.length > 0
-    %h1 Check out our satisfied customers
-
-    .special_reviews#reviews
-      .row.justify-content-center
-        .col-auto.col-md-5
-          %table.table
-            %tbody
-              - @special_reviews.each do |review|
-                %tr
-                  - if can? :manage, Review
-
-                    %td.col-11
-                      = review
-
-                    %td.col-1
-                      .btn-toolbar
-                        %a{:href => '/shift_up/' + review.id.to_s, :class => 'go_up up_' + review.id.to_s}
-                          %i.bi-arrow-up
-                      .btn-toolbar
-                        %a{:href => '/shift_down/' + review.id.to_s, :class => 'go_down down_' + review.id.to_s}
-                          %i.bi-arrow-down
-                  - else
-                    %td.col-12
-                      = review
-
-  %p
-    %a{href:'/reviews'}
-      See more reviews
-      %i.bi-arrow-right
-
-  %br
-
-  %h1 Still got questions?
-  -#TODO link to FAQ page
-  %p
-    %a{href:'/faqs'}
-      Check out our FAQs
-      %i.bi-arrow-right
-
   .space.py-5
 
   .text-center

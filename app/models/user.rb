@@ -34,7 +34,6 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  has_many :reviews, dependent: :delete_all
   has_many :participants
   has_many :outings, class_name: "Outing", :through => :participants
 

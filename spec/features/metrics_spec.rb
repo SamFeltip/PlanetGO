@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Managing metrics', type: :request do
   context 'When I am signed in as an admin' do
     before do
-      @admin = FactoryBot.create(:user, role: 'admin')
+      @admin = create(:user, role: 'admin')
       login_as @admin
     end
 
@@ -16,7 +16,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: '/')
+        @metric = create(:metric, route: '/')
       end
 
       context 'I am on the metrics page' do
@@ -39,7 +39,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
   context 'When I am signed in as a reporter' do
     before do
-      @reporter = FactoryBot.create(:user, role: 'reporter')
+      @reporter = create(:user, role: 'reporter')
       login_as @reporter
     end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: '/')
+        @metric = create(:metric, route: '/')
       end
 
       context 'I am on the metrics page' do
@@ -73,7 +73,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
   context 'I am signed in as a user' do
     before do
-      @user = FactoryBot.create(:user, role: 'user')
+      @user = create(:user, role: 'user')
       login_as @user
     end
 

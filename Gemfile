@@ -63,7 +63,7 @@ gem 'simple_form'
 
 gem 'draper'
 
-gem 'shakapacker'
+gem 'shakapacker', '6.5.0'
 
 gem 'cancancan'
 gem 'devise'

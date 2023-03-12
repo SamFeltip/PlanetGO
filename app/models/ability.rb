@@ -4,6 +4,11 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+    can :create, RegisterInterest
+
+    return if user.blank?
+
+    return unless user.reporter? || user.admin?
 
     # Guard check to make sure user exists
     if user.blank?
@@ -31,6 +36,10 @@ class Ability
       guest_permissions
     end
 
+    can %i[read update destroy], User
+    cannot %i[update destroy], User, id: user.id
+
+    can :manage, RegisterInterest
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?

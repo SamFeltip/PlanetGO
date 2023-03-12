@@ -35,14 +35,6 @@
               %i.bi-house-fill
               Home
 
-            %li.nav-item.active
-              = link_to :reviews, class: 'nav-link' do
-                Reviews
-
-            %li.nav-item.active
-              = link_to :faqs, class: 'nav-link' do
-                FAQs
-
             - if user_signed_in?
               - if current_user.admin? || current_user.reporter?
                 %li.nav-item.active

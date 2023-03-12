@@ -35,14 +35,14 @@
 #
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   it 'Returns the name when converted to a string' do
-    user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
+    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.to_s).to eq 'John Smith'
   end
 
   it 'Returns the prefix of an email' do
-    user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
+    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.email_prefix).to eq 'testemail'
   end
 
