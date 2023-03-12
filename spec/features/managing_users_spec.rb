@@ -10,9 +10,10 @@ def denial_message(account)
   end
 end
 
-shared_context 'non-admin account', type: :request do |account|
+shared_context 'non-admin account', type: :request do |account_type|
+  let!(:account) { create(:user, role: account_type) }
   before do
-    login_as account
+    login_as account unless account_type.nil?
   end
 
   let!(:user1) { create(:user, email: 'user1@user.com') }
@@ -20,7 +21,7 @@ shared_context 'non-admin account', type: :request do |account|
 
   specify 'I cannot visit the account management page' do
     visit '/users'
-    expect(page).to have_content denial_message(account)
+    expect(page).to have_content denial_message(account_type)
   end
 
   context 'when I am on the homepage' do
@@ -33,12 +34,12 @@ shared_context 'non-admin account', type: :request do |account|
 
   specify 'I cannot view a users account info' do
     visit user_path(user1)
-    expect(page).to have_content denial_message(account)
+    expect(page).to have_content denial_message(account_type)
   end
 
   specify 'I cannot edit a users account info' do
     visit edit_user_path(user1)
-    expect(page).to have_content denial_message(account)
+    expect(page).to have_content denial_message(account_type)
   end
 
   specify 'I cannot delete an account' do
@@ -240,8 +241,8 @@ RSpec.describe 'Managing users', type: :request do
   end
   context 'when signed in as a non administrator' do
     it_behaves_like 'non-admin account', nil
-    it_behaves_like 'non-admin account', create(:user, role: 'user')
-    it_behaves_like 'non-admin account', create(:user, role: 'reporter')
-    it_behaves_like 'non-admin account', create(:user, role: 'advertiser')
+    it_behaves_like 'non-admin account', 'user'
+    it_behaves_like 'non-admin account', 'reporter'
+    it_behaves_like 'non-admin account', 'advertiser'
   end
 end
