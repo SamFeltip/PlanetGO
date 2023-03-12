@@ -15,8 +15,8 @@ shared_context 'non-admin account', type: :request do |account|
     login_as account
   end
 
-  let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
-  let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
+  let!(:user1) { create(:user, email: 'user1@user.com') }
+  let!(:user2) { create(:user, email: 'user2@user.com', suspended: true) }
 
   specify 'I cannot visit the account management page' do
     visit '/users'
@@ -78,10 +78,10 @@ end
 
 RSpec.describe 'Managing users', type: :request do
   context 'when signed in as an administrator and there are users in the system' do
-    let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
-    let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
-    let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
-    let!(:rep1) { FactoryBot.create(:user, email: 'rep1@rep.com', role: 'reporter') }
+    let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
+    let!(:user1) { create(:user, email: 'user1@user.com') }
+    let!(:user2) { create(:user, email: 'user2@user.com', suspended: true) }
+    let!(:rep1) { create(:user, email: 'rep1@rep.com', role: 'reporter') }
 
     before do
       login_as admin1
@@ -240,8 +240,8 @@ RSpec.describe 'Managing users', type: :request do
   end
   context 'when signed in as a non administrator' do
     it_behaves_like 'non-admin account', nil
-    it_behaves_like 'non-admin account', FactoryBot.create(:user, role: 'user')
-    it_behaves_like 'non-admin account', FactoryBot.create(:user, role: 'reporter')
-    it_behaves_like 'non-admin account', FactoryBot.create(:user, role: 'advertiser')
+    it_behaves_like 'non-admin account', create(:user, role: 'user')
+    it_behaves_like 'non-admin account', create(:user, role: 'reporter')
+    it_behaves_like 'non-admin account', create(:user, role: 'advertiser')
   end
 end

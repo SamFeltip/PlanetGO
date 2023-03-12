@@ -3,9 +3,9 @@
 require 'rails_helper'
 
 shared_context 'non-suspended account', type: :request do |user_role|
-  let!(:current_user) { FactoryBot.create(:user, role: user_role) }
+  let!(:current_user) { create(:user, role: user_role) }
   before do
-    FactoryBot.create(:event, description: 'CurrentUser', user_id: current_user.id)
+    create(:event, description: 'CurrentUser', user_id: current_user.id)
   end
 
   context 'when I am logged in as a non-suspended account and on the events page' do
@@ -45,9 +45,9 @@ shared_context 'non-suspended account', type: :request do |user_role|
 end
 
 shared_context 'suspended account', type: :request do |user_role|
-  let!(:current_user) { FactoryBot.create(:user, role: user_role, suspended: true) }
+  let!(:current_user) { create(:user, role: user_role, suspended: true) }
 
-  let!(:event) { FactoryBot.create(:event, description: 'CurrentUser', user_id: current_user.id) }
+  let!(:event) { create(:event, description: 'CurrentUser', user_id: current_user.id) }
 
   context 'when I am logged in as a suspended user and on the events page' do
     before do
@@ -95,16 +95,16 @@ end
 
 RSpec.describe 'Events' do
   context 'when there are users in the system', type: :request do
-    let!(:admin1) { FactoryBot.create(:user, email: 'admin1@admin.com', role: 'admin') }
-    let!(:user1) { FactoryBot.create(:user, email: 'user1@user.com') }
-    let!(:user2) { FactoryBot.create(:user, email: 'user2@user.com', suspended: true) }
-    let!(:advertiser1) { FactoryBot.create(:user, role: 'advertiser') }
+    let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
+    let!(:user1) { create(:user, email: 'user1@user.com') }
+    let!(:user2) { create(:user, email: 'user2@user.com', suspended: true) }
+    let!(:advertiser1) { create(:user, role: 'advertiser') }
 
     context 'when there are events in the system' do
       before do
-        FactoryBot.create(:event, description: 'User1 Event', user_id: user1.id)
-        FactoryBot.create(:event, description: 'Advertiser1 Event', user_id: advertiser1.id)
-        FactoryBot.create(:event, description: 'User2 Event', user_id: user2.id)
+        create(:event, description: 'User1 Event', user_id: user1.id)
+        create(:event, description: 'Advertiser1 Event', user_id: advertiser1.id)
+        create(:event, description: 'User2 Event', user_id: user2.id)
       end
 
       context 'when I am logged in as an admin and on the events page' do
