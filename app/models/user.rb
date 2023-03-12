@@ -36,6 +36,7 @@ class User < ApplicationRecord
   has_many :reviews, dependent: :delete_all
   has_many :participants
   has_many :outings, class_name: "Outing", :through => :participants
+  has_many :events
 
   acts_as_voter
   # Include default devise modules. Others available are:

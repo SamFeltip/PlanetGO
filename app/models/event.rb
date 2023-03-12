@@ -22,6 +22,8 @@
 #
 class Event < ApplicationRecord
 
+  belongs_to :user
+
   enum category: {
     bar: 0,
     restaurant: 1,

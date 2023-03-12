@@ -12,6 +12,7 @@
         %th Description
         %th Category
         %th Approved
+        %th Created by
         %th
     %tbody
       - @events.each do |event|
@@ -21,6 +22,7 @@
           %td= event.description
           %td= event.category
           %td= event.approved
+          %td= event.user
           %td
             .btn-toolbar.float-end
               = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
