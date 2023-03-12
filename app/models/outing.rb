@@ -12,7 +12,7 @@
 class Outing < ApplicationRecord
   has_many :participants
   has_many :users, class_name: "User", :through => :participants
-  has_many :events, :through => : proposed_events
+  has_many :events, :through => :proposed_events
 
   def to_s
     self.name
