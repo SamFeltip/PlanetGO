@@ -5,17 +5,25 @@
     %div{:class=>"flex_container"}
       -@all_metrics.each do |metric|
         = render 'page_metrics', route_name: metric["route"], metrics: metric["metrics"]
+.card
   .card-header 
     %span Special Metrics
-  .card-body
-    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/";document.getElementById("metricSelected").value = "Total number of landing page visits";'}
-      %span="Total number of landing page visits: "+@number_landing_page_visits 
-    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Pricing page bounce outs";'}
-      %span="Pricing page bounce outs: "+@number_pricing_page_bounce_outs
-    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Total";'}
-      %span="Interest in pricing options Basic:Premium:Premium+ Total "+@interest_in_pricing_options
-    .card-header{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Percent";'}
-      %span="Interest in pricing options Basic:Premium:Premium+ Percent "+@interest_in_pricing_options_percent
+  .card-body{:class=>"informationBox"}
+    %div{:class=>"informationKey"}
+      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/";document.getElementById("metricSelected").value = "Total number of landing page visits";'}
+        %div="Total number of landing page visits:"
+      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Pricing page bounce outs";'}
+        %div="Pricing page bounce outs:"
+      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Total";'}
+        %div="Interest in pricing options Basic:Premium:Premium+ Total:"
+      %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "/pricings";document.getElementById("metricSelected").value = "Interest in pricing options Basic:Premium:Premium+ Percent";'}
+        %div="Interest in pricing options Basic:Premium:Premium+ Percent:"
+    %div
+      %div{:class=>"informationValue"}=@number_landing_page_visits
+      %div{:class=>"informationValue"}=@number_pricing_page_bounce_outs
+      %div{:class=>"informationValue"}=@interest_in_pricing_options
+      %div{:class=>"informationValue"}=@interest_in_pricing_options_percent
+.card
   .card-header 
     %span Graphs 
   .card-body
@@ -23,25 +31,22 @@
       %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
         %div
           %label{:for=>"start"} Start
-          %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
-        %div
           %label{:for=>"end"} End
-          %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
-        %div
           %label{:for=>"resolution"} Resolution
+          %label{:for=>"page"} Page
+          %label{:for=>"metric"} Metric
+        %div
+          %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
+          %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
           %select{:name=>"resolution", :value=>params["resolution"]}
             %option{:value=>"Day"} Day
             %option{:value=>"Month"} Month
             %option{:value=>"Year"} Year
-        %div
-          %label{:for=>"page"} Page
           %input{:name=>"page", :readonly=>"true", :value=>"/", :id=>"pageSelected", :value=>params["pageSelected"]}
-        %div
-          %label{:for=>"metric"} Metric
           %input{:name=>"metric", :readonly=>"true", :value=>"", :id=>"metricSelected", :value=>params["metricSelected"]}
-        %div
           %button{:type=>"submit"}Update Graph
     %canvas{:id=>"myChart", :data=>{:labels=> @data_keys, :data=> @data_values}}
+.card
   .card-header 
     %span Visit Locations
   .card-body

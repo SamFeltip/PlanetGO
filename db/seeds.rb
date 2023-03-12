@@ -1,14 +1,5 @@
 # frozen_string_literal: true
 
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
-#   Character.create(name: "Luke", movie: movies.first)
-
-# user_admin1 = FactoryBot.create(:user, email: 'admin1@planetgo.com', role: 2)
 default_password = 'SneakyPassword100'
 Rails.logger.debug 'Seeding Database'
 
@@ -17,15 +8,17 @@ Rails.logger.debug '[+] Adding raw users.'
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
                     role: 'admin',
-                    password: default_password
+                    password: default_password,
+                    full_name: 'Arielle Norman'
                   )
 
 Rails.logger.debug '.'
-# user_admin2 = FactoryBot.create(:user, email: 'admin2@planetgo.com', role: 2)
+
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
                     role: 'admin',
-                    password: default_password
+                    password: default_password,
+                    full_name: 'Miguel Whitaker'
                   )
 
 Rails.logger.debug '.'
@@ -33,7 +26,8 @@ Rails.logger.debug '.'
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
                   role: 'reporter',
-                  password: default_password
+                  password: default_password,
+                  full_name: 'Houston Davila'
                 )
 
 Rails.logger.debug '.'
@@ -41,7 +35,8 @@ Rails.logger.debug '.'
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
                   role: 'reporter',
-                  password: default_password
+                  password: default_password,
+                  full_name: 'Lea Park'
                 )
 
 Rails.logger.debug '.'
@@ -49,14 +44,16 @@ Rails.logger.debug '.'
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
                    role: 'user',
-                   password: default_password
+                   password: default_password,
+                   full_name: 'Anna Hudson'
                  )
 
 Rails.logger.debug '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
                    role: 'user',
-                   password: default_password
+                   password: default_password,
+                   full_name: 'Jamie Lindsey'
                  )
 
 Rails.logger.debug '[+] Adding new metrics.'

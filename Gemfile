@@ -39,6 +39,8 @@ gem 'bootsnap', require: false
 # Geocoding gem for getting country code in metrics
 gem 'geocoder', require: true
 
+gem 'rack', '>= 2.2.6.3'
+
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'main'

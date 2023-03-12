@@ -10,3 +10,4 @@ AllCops:
     - vendor/**/*
     - config/deploy.rb
     - bin/bundle
+    - config/initializers/version.rb
