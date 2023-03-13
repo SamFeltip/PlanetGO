@@ -32,5 +32,35 @@ class Event < ApplicationRecord
     sports: 4
   }
 
+  def likes
+    rand(100)
+  end
+
+  #TODO make this actually get a friend and the like count of an event
+  def display_likes(user)
+    # TODO get likes of event
+
+    # TODO get random friend who liked this event
+    friend = User.where(id: rand(5)).first
+
+    # return string to display
+    if friend
+      "liked by #{friend} and #{self.likes - 1} others"
+    else
+      "#{self.likes} likes"
+    end
+  end
+
+  def display_location
+    if self.has_attribute?(:location)
+      self.location
+    else
+      "location unknown"
+    end
+  end
+
+  def tags
+    ["exciting", "good", "popular"]
+  end
 
 end

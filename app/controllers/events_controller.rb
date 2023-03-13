@@ -9,6 +9,7 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
+    @users_events = Event.where(user_id: @event.user_id).where.not(id: @event.id).limit(2)
   end
 
   # GET /events/new
@@ -27,7 +28,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.save
-        format.html { redirect_to event_url(@event), notice: "Event was successfully created." }
+        format.html { redirect_to event_url(@event)}
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }

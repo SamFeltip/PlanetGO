@@ -1,30 +1,36 @@
-.card
+.card.mb-5
   .card-header.d-flex.align-items-center
     %span Listing Events
 
     = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
 
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Date
-        %th Description
-        %th Category
-        %th Approved
-        %th Created by
-        %th
-    %tbody
-      - @events.each do |event|
-        %tr
-          %td= event.name
-          %td= event.time_of_event
-          %td= event.description
-          %td= event.category
-          %td= event.approved
-          %td= event.user
-          %td
-            .btn-toolbar.float-end
-              = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
-              = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'
-              = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+#events
+  - @events.each do |event|
+    .card.mb-2
+      .card-header
+        = link_to event.name, event
+
+
+      .row
+        .col-auto
+          = image_pack_tag "event_images/#{event.category}.png", width: 120
+          -# =event.category
+
+        .col.p-3
+          %p
+            =event.description
+          %p
+            %i.bi-pin
+            %i
+              =event.display_location
+      .card-footer.d-flex.justify-content-between
+
+        .user-controls
+          %a{href: event_path(event)}
+            %i.bi-star
+            = event.display_likes(current_user)
+          -# = link_to favicon_link_tag('favicon.ico'), event, class: 'btn btn-outline-secondary btn-sm'
+
+
+            -# = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+            -# = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'

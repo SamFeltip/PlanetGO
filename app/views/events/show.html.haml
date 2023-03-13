@@ -1,22 +1,113 @@
-.row.justify-content-center
-  .col-sm-8.col-lg-6
-    .card
-      .card-header
-        Event details
-      .card-body
-        %dl.row.mb-0
-          %dt.col-md-3 Name:
-          %dd.col-md-9= @event.name
-          %dt.col-md-3 Date:
-          %dd.col-md-9= @event.time_of_event
-          %dt.col-md-3 Description:
-          %dd.col-md-9= @event.description
-          %dt.col-md-3 Category:
-          %dd.col-md-9= @event.category
-          %dt.col-md-3 Approved:
-          %dd.col-md-9= @event.approved
-          %dt.col-md-3 Created by:
-          %dd.col-md-9= @event.user
-      .card-footer.d-flex
-        = link_to 'Edit', edit_event_path(@event), class: 'btn btn-link'
-        = link_to 'Back', events_path, class: 'btn btn-link ms-auto'
+.event-header{:class => @event.category}
+  .content
+    %h1
+      =@event.name
+    %h2
+      =@event.time_of_event
+  = image_pack_tag "event_images/#{@event.category}.png", id: "event-image"
+
+.event-body
+  .d-flex.justify-content-between
+    .likes
+      %a.btn.btn-outline-primary{href: event_path(@event)}
+        %i.bi-star
+        ="#{@event.likes} likes"
+
+    .end
+
+      -#TODO figure this out
+      .btn.btn-outline-primary.dropdown
+        %a.dropdown-toggle{:href => "#", "role" => "button", "data-toggle" => "dropdown", "data-target" => "#"}
+          %i.bi-share
+          %b.caret
+        %ul.dropdown-menu{"role" => "menu"}
+          %li
+            %a{:href => "#link1"}
+              Dropdown #1
+            %a{:href => "#link2"}
+              Dropdown #2
+            %a{:href => "#link3"}
+              Dropdown #3
+            %a{:href => "#link4"}
+              Dropdown #4
+
+      -#%a.btn.btn-outline-primary{href: "https://www.instagram.com"}
+      -#  %i.bi-instagram
+
+
+      - if current_user.admin?
+        %a{href: edit_event_path(@event), class: 'btn btn-outline-secondary ms-1' }
+          %i.bi-gear
+        -#%a{href: event_path(@event), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1' }
+        -#  %i.bi-trash
+
+  %hr
+  #event-info
+    %h2 Event Info
+    #event-tags.pb-3
+      - @event.tags.each do |tag|
+        .btn.btn-secondary
+          %i.bi-tag
+          =tag
+
+    .d-flex.flex-column.flex-md-row
+      .card.p-3.mb-3.col-md-9
+
+        %h2
+          Description
+        %p
+          =@event.description
+
+        %h2
+          Time of Event
+        %p
+          =@event.time_of_event
+        %h2
+          Creator
+        %p
+          %a{href: user_path(@event.user)}
+            =@event.user
+      .card.p-3.mb-3.col-md-3
+        %h2
+          Location
+        %p
+          =@event.display_location
+
+  %hr
+  #more_events
+    %h2 More Events Like This
+
+    .d-flex.justify-content-evenly
+      - @users_events.each do |event|
+        .card.text-center.mx-3
+          .text-center
+            = image_pack_tag "event_images/#{event.category}.png", class: "rounded"
+
+          %h2.py-2
+            %a{href: event_path(event)}
+              =event.name
+
+  -#.card.p-3.mb-3
+
+-#.row.justify-content-center
+-#.col-sm-8.col-lg-6
+-#  .card
+-#    .card-header
+-#      Event details
+-#    .card-body
+-#      %dl.row.mb-0
+-#        %dt.col-md-3 Name:
+-#        %dd.col-md-9= @event.name
+-#        %dt.col-md-3 Date:
+-#        %dd.col-md-9= @event.time_of_event
+-#        %dt.col-md-3 Description:
+-#        %dd.col-md-9= @event.description
+-#        %dt.col-md-3 Category:
+-#        %dd.col-md-9= @event.category
+-#        %dt.col-md-3 Approved:
+-#        %dd.col-md-9= @event.approved
+-#        %dt.col-md-3 Created by:
+-#        %dd.col-md-9= @event.user
+-#    .card-footer.d-flex
+-#      = link_to 'Edit', edit_event_path(@event), class: 'btn btn-link'
+-#      = link_to 'Back', events_path, class: 'btn btn-link ms-auto'
