@@ -4,9 +4,9 @@ class MetricsController < ApplicationController
   include DBQueries
   include MetricsGraphHelper
   include Geocoder
-  before_action :set_metric, only: %i[update]
-  before_action :authenticate_user!, only: %i[index update]
-  load_and_authorize_resource
+  before_action :set_metric, only: %i[show edit update destroy]
+  before_action :authenticate_user!, only: %i[show edit update destroy]
+  load_and_authorize_resource only: %i[index show edit update destroy]
 
   # GET /metrics or /metrics.json
   def index
