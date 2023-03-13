@@ -35,16 +35,20 @@
               %i.bi-house-fill
               Home
 
-            %li.nav-item.active
-              = link_to :events, class: 'nav-link' do
-                Events
-
-            %li.nav-item.active
-              = link_to :outings, class: 'nav-link' do
-                Outings
-
             - if user_signed_in?
+              %li.nav-item.active
+                = link_to edit_user_registration_path, class: 'nav-link' do
+                  Edit your account
               - if current_user.admin? || current_user.reporter?
+
+                %li.nav-item.active
+                  = link_to :events, class: 'nav-link' do
+                    Events
+
+                %li.nav-item.active
+                  = link_to :outings, class: 'nav-link' do
+                    Outings
+
                 %li.nav-item.active
                   = link_to '/metrics', class: 'nav-link' do
                     Site Metrics

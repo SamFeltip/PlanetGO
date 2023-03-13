@@ -18,12 +18,11 @@ document.addEventListener('DOMContentLoaded', () => {
       metrics.append('number_interactions', interactions);
       metrics.append('pricing_selected', 0);
       metrics.append('authenticity_token', CSRFToken);
-      navigator.sendBeacon('/metrics', metrics);
       if (location) {
         metrics.append('latitude', location.coords.latitude);
         metrics.append('longitude', location.coords.longitude);
       }
-
+      navigator.sendBeacon('/metrics', metrics);
       resetValues();
     }
   })

@@ -89,27 +89,11 @@ The metrics page contains a summary of general metrics collected on each page, a
 
 The metrics page also contains a map of countries around the world from which the landing page was visited. Each country can be hovered over with the mouse to display the exact number of visits from that country. Keep in mind the start and end date used for the graph does not filter the visits as they appear on the map.
 
-### Reviews
-
-Reviews can be created by any user, and added to the landing page by admins.
-
-Go to the /reviews page to see all reviews uploaded by users.
-
-Go to the /edit page of any review as an admin to correct spelling in the review body, or add the review to the landing page.
-
-Reviews can be reordered on the landing page by visiting the /welcome page as an admin and clicking on the up/down arrows next to each review.
-
-Reviews can also be “liked” by any user to track review engagement, and they can be removed by admins.
-
 ### Register interest and Pricing
 
 A user can “register interest” by visiting the /pricings page and selecting any of the pricing options. This takes the user to a sign up page, where they can register their email for contact when the application has reached MVP. After registering interest, the user is prompted to create an account.
 
 Admins can visit /register_interests to see all emails which have been registered, and which plan was selected
-
-### FAQs
-
-On the /faqs page, a user can see all approved frequently asked questions. If an admin visits this page, they can see all submitted questions, and can edit a question to answer it and display it for all users.
 
 ## Coding Standards
 

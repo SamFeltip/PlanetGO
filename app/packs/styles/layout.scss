@@ -1,5 +1,5 @@
 html {
-  min-height: 100%
+  min-height: 100%;
 }
 
 body {
@@ -10,8 +10,6 @@ body {
   footer {
     margin-top: auto;
   }
-
-
 }
 
 .container-fluid {
@@ -62,26 +60,13 @@ h3 {
   color: black;
 }
 
-// *****
-
-//landing page review styling
-
-.special_reviews tr {
-  height: 50px;
-}
-
-.special_reviews td {
-  border-style: none;
-}
-
 //******
 
 //landing page images
 
-
 img.full-screen-image {
   max-width: 100%;
-  width: 700px;  // assume this is the default size
+  width: 700px; // assume this is the default size
 }
 
 a {
@@ -94,18 +79,18 @@ p {
 }
 
 // devise styling
-.margin-card{
+.margin-card {
   margin: 0 30%;
 }
 
-// Metrics page styling
+// *************** Metrics page ***************
 
 #myChart {
   width: 100%;
 }
 
 #world-map {
-  height: 600px
+  height: 600px;
 }
 
 .flex_container {
@@ -119,10 +104,56 @@ p {
   cursor: pointer;
 }
 
+// form used to select information in the graph
 .graph_form {
-  display: inline-block;
+  display: inline-flex;
+  flex-direction: row;
 }
 
+.graph_form div {
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.graph_form div label {
+  text-align: right;
+  margin-right: 5px;
+  height: 30px;
+}
+
+.graph_form div select {
+  text-align: right;
+  height: 30px;
+}
+
+.graph_form div input {
+  text-align: right;
+  height: 30px;
+}
+
+// boxes showing basic metrics for each page
+.informationBox {
+  display: flex;
+  flex-direction: row;
+  overflow: hidden;
+}
+
+.informationKey {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  margin-right: 5px;
+  white-space: nowrap;
+  background-color: var(--bs-card-cap-bg);
+  border: var(--bs-card-border-width) solid var(--bs-card-border-color);
+}
+
+.informationValue {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  white-space: nowrap;
+}
 // register interest styling
 
 .card-hover:hover {
@@ -130,7 +161,7 @@ p {
   background-color: #343a40;
   cursor: pointer;
 
-  .btn-primary{
+  .btn-primary {
     background-color: -moz-activehyperlinktext;
   }
 }
@@ -140,7 +171,7 @@ p {
   bottom: 60px;
   left: 0px;
   width: 100%;
-  text-align:center;
+  text-align: center;
 }
 
 .card-hover:active {

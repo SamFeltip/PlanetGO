@@ -7,7 +7,7 @@ module MetricsGraphHelper
     end_date_array = end_param.split('-')
 
     # Calculate start end Time objects. Default is one month ago and now respectively
-    start_date_time_stamp = Time.zone.now - 1.month
+    start_date_time_stamp = 1.month.ago
     end_date_time_stamp = Time.zone.now
     if start_date_array.length == 3
       start_date_time_stamp = Time.zone.local(start_date_array[0], start_date_array[1], start_date_array[2])
@@ -62,7 +62,7 @@ module MetricsGraphHelper
         start_date_time_stamp += date_increment
       end
 
-      data_values = JSON.generate([{ label: 'x̄ time on page', data: }])
+      data_values = JSON.generate([{ label: 'x̄ time on page (s)', data: }])
     when 'Pricing page bounce outs'
       data = []
       while start_date_time_stamp < end_date_time_stamp

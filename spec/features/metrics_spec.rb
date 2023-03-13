@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Managing metrics', type: :request do
   context 'When I am signed in as an admin' do
     before do
-      @admin = FactoryBot.create(:user, role: 2)
+      @admin = create(:user, role: 2)
       login_as @admin
     end
 
@@ -16,7 +16,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: '/')
+        @metric = create(:metric, route: '/')
       end
 
       context 'I am on the metrics page' do
@@ -25,8 +25,8 @@ RSpec.describe 'Managing metrics', type: :request do
           expect(page).to have_current_path '/metrics'
         end
 
-        specify 'I can view the metric' do
-          expect(page).to have_content('# visits: 1')
+        specify 'I can view my visit to the page' do
+          expect(page).to have_selector('div', text: '1')
         end
 
         specify 'The graph should be empty by default' do
@@ -39,7 +39,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
   context 'When I am signed in as a reporter' do
     before do
-      @reporter = FactoryBot.create(:user, role: 1)
+      @reporter = create(:user, role: 1)
       login_as @reporter
     end
 
@@ -50,7 +50,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
     context 'There are metrics in the system' do
       before do
-        @metric = FactoryBot.create(:metric, route: '/')
+        @metric = create(:metric, route: '/')
       end
 
       context 'I am on the metrics page' do
@@ -59,8 +59,9 @@ RSpec.describe 'Managing metrics', type: :request do
           expect(page).to have_current_path '/metrics'
         end
 
-        specify 'I can view the metric' do
-          expect(page).to have_content('# visits: 1')
+        specify 'I can view my visit to the page' do
+          # Since the admin visited the metrics page earlier, the reporter's visit is the second visit to the metrics page
+          expect(page).to have_selector('div', text: '2')
         end
 
         specify 'The graph should be empty by default' do
@@ -73,7 +74,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
   context 'I am signed in as a user' do
     before do
-      @user = FactoryBot.create(:user, role: 0)
+      @user = create(:user, role: 0)
       login_as @user
     end
 

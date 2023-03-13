@@ -13,7 +13,7 @@
 #  email                  :string           default(""), not null
 #  encrypted_password     :string           default(""), not null
 #  failed_attempts        :integer          default(0), not null
-#  full_name              :string
+#  full_name              :string           not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
 #  locked_at              :datetime
@@ -34,14 +34,14 @@
 #
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   it 'Returns the name when converted to a string' do
-    user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
+    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.to_s).to eq 'John Smith'
   end
 
   it 'Returns the prefix of an email' do
-    user = FactoryBot.create(:user, full_name: 'John Smith', email: 'testemail@email.com')
+    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
     expect(user.email_prefix).to eq 'testemail'
   end
   

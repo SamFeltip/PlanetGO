@@ -13,6 +13,6 @@
             = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }, wrapper_html: { class: "pb-3" }                                                       |
             = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }, wrapper_html: { class: "pb-3" }
           .form-actions
-            = f.button :submit, "Sign up", class: "btn btn-dark my-2"
+            = f.button :submit, "Sign up", class: "btn btn-dark my-4"
       .card-footer
         = render "devise/shared/links"
