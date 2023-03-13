@@ -22,6 +22,7 @@
         %th Name
         %th Date
         %th Description
+        %th Event Type
         %th
     %tbody
       - @outings.each do |outing|
@@ -29,6 +30,7 @@
           %td= outing.name
           %td= outing.date
           %td= outing.description
+          %td= outing.outing_type
           %td
             .btn-toolbar.float-end
               = link_to 'Show', outing, class: 'btn btn-outline-secondary btn-sm'

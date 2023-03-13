@@ -2,12 +2,14 @@
 #
 # Table name: outings
 #
-#  id          :bigint           not null, primary key
-#  date        :date
-#  description :text
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id               :bigint           not null, primary key
+#  date             :date
+#  description      :text
+#  invitation_token :bigint
+#  name             :string
+#  outing_type      :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 require 'rails_helper'
 

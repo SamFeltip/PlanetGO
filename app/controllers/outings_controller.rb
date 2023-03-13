@@ -6,9 +6,9 @@ class OutingsController < ApplicationController
   def index
 
     @outings = Outing.all.order(date: :desc)
-    # unless current_user.admin?
-    #   @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
-    # end
+    unless current_user.admin?
+      @outings = Outing.joins(:participants).where("participants.user_id" => current_user.id).order(:date)
+    end
 
   end
 
@@ -28,6 +28,11 @@ class OutingsController < ApplicationController
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
+    
+    # There has to be a better way to do this, dont @ me
+    token_prefix = @outing.id.to_s
+    token = token_prefix + rand(100000).to_s
+    @outing.invitation_token = token.to_i
 
     # @participant = @outing.participants.new(
     #   user_id: current_user.id,
@@ -42,7 +47,6 @@ class OutingsController < ApplicationController
 
     respond_to do |format|
       if @outing.save
-
 
         format.html { redirect_to outing_url(@outing), notice: "Outing was successfully created." }
         format.json { render :show, status: :created, location: @outing }
@@ -87,6 +91,6 @@ class OutingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def outing_params
-    params.require(:outing).permit(:name, :date, :description)
+    params.require(:outing).permit(:name, :date, :description, :outing_type, :invitation_token)
   end
 end

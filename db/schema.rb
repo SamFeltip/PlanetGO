@@ -61,6 +61,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_07_111123) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "invitation_token"
+    t.integer "outing_type"
   end
 
   create_table "participants", force: :cascade do |t|

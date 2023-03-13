@@ -2,17 +2,24 @@
 #
 # Table name: outings
 #
-#  id          :bigint           not null, primary key
-#  date        :date
-#  description :text
-#  name        :string
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
+#  id               :bigint           not null, primary key
+#  date             :date
+#  description      :text
+#  invitation_token :bigint
+#  name             :string
+#  outing_type      :integer
+#  created_at       :datetime         not null
+#  updated_at       :datetime         not null
 #
 class Outing < ApplicationRecord
   has_many :participants
   has_many :users, class_name: "User", :through => :participants
-  # has_many :events, :through => :
+  has_many :events, :through => :proposed_events
+
+  enum outing_type: {
+    personal: 0,
+    open: 1
+  }
 
   def to_s
     self.name

@@ -4,8 +4,8 @@
     = f.input :name, wrapper_html: { class: 'mb-3' }
     = f.input :time_of_event, wrapper_html: { class: 'mb-3' }
     = f.input :description, wrapper_html: { class: 'mb-3' }
-    = f.input :category, wrapper_html: { class: 'mb-3' }
     = f.input :approved, wrapper_html: { class: 'mb-3' }
+    = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
 
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }
