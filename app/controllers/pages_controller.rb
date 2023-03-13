@@ -5,7 +5,7 @@ class PagesController < ApplicationController
   before_action :authenticate_user!, only: %i[account]
 
   def landing
-    @special_reviews = Review.where(is_on_landing_page: 'true').order(:landing_page_position)
+
   end
 
   def account

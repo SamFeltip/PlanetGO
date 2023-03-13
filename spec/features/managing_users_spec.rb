@@ -28,7 +28,7 @@ RSpec.describe 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I can see the link to the users management page' do
-        expect(page).to have_content 'Accounts Management'
+        expect(page).to have_content 'Account Management'
       end
     end
 

@@ -33,7 +33,7 @@ RSpec.describe 'Outings' do
 
   context 'when the user is not logged in' do
     describe 'when the user joins by a link' do
-      it 'forces them to make an account' do
+      describe 'forces them to make an account' do
         # redirects to new account page with a notice
         it 'redirects them to the outing, with their account authenticated on this outing' do
           # on signup redirect
