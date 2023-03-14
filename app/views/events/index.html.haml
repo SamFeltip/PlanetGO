@@ -27,7 +27,7 @@
 
         .user-controls
           %a{href: event_path(event)}
-            %i.bi-star
+            %i{:class => event.like_icon(current_user)}
             = event.display_likes(current_user)
           -# = link_to favicon_link_tag('favicon.ico'), event, class: 'btn btn-outline-secondary btn-sm'
 

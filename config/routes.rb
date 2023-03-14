@@ -2,6 +2,11 @@
 
 Rails.application.routes.draw do
   resources :proposed_events
+
+  resources :events, except: [:new, :show] do
+    patch :like, on: :member
+  end
+
   resources :events
   resources :participants
   resources :outings

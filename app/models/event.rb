@@ -23,6 +23,7 @@
 class Event < ApplicationRecord
 
   belongs_to :user
+  has_many :event_reacts
 
   enum category: {
     bar: 0,
@@ -33,21 +34,43 @@ class Event < ApplicationRecord
   }
 
   def likes
-    rand(100)
+    EventReact.where(event_id: self.id, status: EventReact.statuses[:like])
   end
 
   #TODO make this actually get a friend and the like count of an event
-  def display_likes(user)
-    # TODO get likes of event
+  def display_likes(user, compressed=false)
 
-    # TODO get random friend who liked this event
-    friend = User.where(id: rand(5)).first
+    event_likes = self.likes
+
+
+    user_liked = user.event_reaction(self) == "like"
+
+    if compressed
+
+      if user_liked
+        return "liked"
+      else
+        return "#{event_likes.count} likes"
+      end
+
+    end
+
+    friend = nil
+    if event_likes.count > 0
+      # TODO get random friend
+      friend = event_likes.first.user
+    end
 
     # return string to display
+
+    if user_liked
+      return "liked by yourself and #{event_likes.count - 1} others"
+    end
+
     if friend
-      "liked by #{friend} and #{self.likes - 1} others"
+      "liked by #{friend} and #{event_likes.count - 1} others"
     else
-      "#{self.likes} likes"
+      "#{event_likes.count} likes"
     end
   end
 
@@ -59,8 +82,22 @@ class Event < ApplicationRecord
     end
   end
 
+  def like_icon(user)
+    user_liked = user.event_reaction(self) == "like"
+
+    if user_liked
+      "bi-star-fill"
+    else
+      "bi-star"
+    end
+
+  end
+
   def tags
     ["exciting", "good", "popular"]
   end
 
+  def to_s
+    "#{self.name} @ #{self.time_of_event}"
+  end
 end

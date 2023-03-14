@@ -10,6 +10,36 @@ class EventsController < ApplicationController
   # GET /events/1 or /events/1.json
   def show
     @users_events = Event.where(user_id: @event.user_id).where.not(id: @event.id).limit(2)
+    @event = Event.find(params[:id])
+  end
+
+
+  def like
+    @event = Event.find(params[:id])
+    @event_liked = current_user.event_reaction(@event) == "like"
+
+    if @event_liked
+      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
+      EventReact.destroy(event_react_id)
+
+    else
+      @event_react = @event.event_reacts.build(
+        user_id: current_user.id,
+        status: EventReact.statuses[:like]
+      )
+
+      @event.save
+    end
+
+    @event_liked = current_user.event_reaction(@event) == "like"
+
+    # redirect_to posts_path
+    respond_to do |format|
+      format.html { redirect_to events_path, notice: "Event liked" }
+      format.js
+    end
+
+
   end
 
   # GET /events/new
@@ -64,6 +94,7 @@ class EventsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_event
       @event = Event.find(params[:id])
+      @event_liked = current_user.event_reaction(@event) == "like"
     end
 
     # Only allow a list of trusted parameters through.

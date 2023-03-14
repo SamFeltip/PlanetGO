@@ -42,7 +42,7 @@ class OutingsController < ApplicationController
     # @participant.save
     @participant = @outing.participants.build(
       user_id: current_user.id,
-      status: "creator"
+      status: Participant.statuses[:creator]
     )
 
     respond_to do |format|

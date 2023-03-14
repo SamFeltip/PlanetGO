@@ -9,9 +9,12 @@
 .event-body
   .d-flex.justify-content-between
     .likes
-      %a.btn.btn-outline-primary{href: event_path(@event)}
-        %i.bi-star
-        ="#{@event.likes} likes"
+      = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
+        %i.like_icon{:class => @event.like_icon(current_user)}
+          %span.event_like{:id => "event_#{@event.id}"}=@event.display_likes(current_user, compressed=true)
+
+      -#%a.btn.btn-outline-primary{href: event_path(@event)}
+
 
     .end
 

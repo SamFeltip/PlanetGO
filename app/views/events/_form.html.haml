@@ -8,6 +8,7 @@
     = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
 
   .card-footer.d-flex
+    -#TODO include delete button
     %button.btn.btn-primary{ type: 'submit' }
       Save
     = link_to 'Back', events_path, class: 'btn btn-link ms-auto'
