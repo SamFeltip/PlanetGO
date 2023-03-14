@@ -7,6 +7,9 @@
     = f.input :approved, wrapper_html: { class: 'mb-3' }
     = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
 
+    = f.fields_for :event_reacts do |event_react|
+      = render 'event_react', f: event_react
+
   .card-footer.d-flex
     -#TODO include delete button
     %button.btn.btn-primary{ type: 'submit' }

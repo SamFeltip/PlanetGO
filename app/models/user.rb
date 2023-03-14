@@ -82,6 +82,10 @@ class User < ApplicationRecord
     email.split('@')[0]
   end
 
+  def liked(event)
+    EventReact.where(user_id: self.id, event_id: event.id, status: EventReact.statuses[:like]).count > 0
+  end
+
   def event_reaction(event)
     reactions = EventReact.where(user_id: self.id, event_id: event.id)
     if reactions.length > 0

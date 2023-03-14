@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :events, except: [:new, :show] do
     patch :like, on: :member
+    patch :tag, on: :member
   end
 
   resources :events

@@ -43,7 +43,7 @@ class Event < ApplicationRecord
     event_likes = self.likes
 
 
-    user_liked = user.event_reaction(self) == "like"
+    user_liked = user.liked(self)
 
     if compressed
 
@@ -83,7 +83,7 @@ class Event < ApplicationRecord
   end
 
   def like_icon(user)
-    user_liked = user.event_reaction(self) == "like"
+    user_liked = user.liked(self)
 
     if user_liked
       "bi-star-fill"
@@ -94,7 +94,8 @@ class Event < ApplicationRecord
   end
 
   def tags
-    ["exciting", "good", "popular"]
+    all_tags = EventReact.where(event_id: self).where.not(status: 0).pluck(:status).uniq
+
   end
 
   def to_s

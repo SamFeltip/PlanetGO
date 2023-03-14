@@ -8,10 +8,16 @@
 
 .event-body
   .d-flex.justify-content-between
-    .likes
-      = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
-        %i.like_icon{:class => @event.like_icon(current_user)}
-          %span.event_like{:id => "event_#{@event.id}"}=@event.display_likes(current_user, compressed=true)
+    .reacts
+      .likes
+        = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
+          %i.like_icon{:class => @event.like_icon(current_user)}
+            %span.event_like{:id => "event_#{@event.id}"}=@event.display_likes(current_user, compressed=true)
+
+      .tag
+        = link_to tag_event_path(@event), class: 'btn btn-outline-primary', title: 'Tag this Event', method: :patch, data: { remote: true } do
+          %i.bi-tag
+            Tag
 
       -#%a.btn.btn-outline-primary{href: event_path(@event)}
 
@@ -49,9 +55,10 @@
     %h2 Event Info
     #event-tags.pb-3
       - @event.tags.each do |tag|
-        .btn.btn-secondary
+        .btn.btn-secondary.me-1
           %i.bi-tag
-          =tag
+          %span
+            =tag
 
     .d-flex.flex-column.flex-md-row
       .card.p-3.mb-3.col-md-9
