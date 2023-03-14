@@ -12,7 +12,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 20_230_307_111_123) do
+ActiveRecord::Schema[7.0].define(version: 20_230_314_092_725) do
   # These are extensions that must be enabled in order to support this database
   enable_extension 'plpgsql'
 
@@ -29,6 +29,18 @@ ActiveRecord::Schema[7.0].define(version: 20_230_307_111_123) do
     t.datetime 'created_at'
     t.datetime 'updated_at'
     t.index %w[priority run_at], name: 'delayed_jobs_priority'
+  end
+
+  create_table 'followability_relationships', force: :cascade do |t|
+    t.string 'followerable_type', null: false
+    t.bigint 'followerable_id', null: false
+    t.string 'followable_type', null: false
+    t.bigint 'followable_id', null: false
+    t.integer 'status'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index %w[followable_type followable_id], name: 'index_followability_relationships_on_followable'
+    t.index %w[followerable_type followerable_id], name: 'index_followability_relationships_on_followerable'
   end
 
   create_table 'metrics', force: :cascade do |t|
