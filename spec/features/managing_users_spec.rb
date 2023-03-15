@@ -80,9 +80,6 @@ end
 RSpec.describe 'Managing users', type: :request do
   context 'when signed in as an administrator and there are users in the system' do
     let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
-    let!(:user1) { create(:user, email: 'user1@user.com') }
-    let!(:user2) { create(:user, email: 'user2@user.com', suspended: true) }
-    let!(:rep1) { create(:user, email: 'rep1@rep.com', role: 'reporter') }
 
     before do
       login_as admin1
@@ -154,87 +151,112 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when looking at a user' do
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+        before do
+          create(:user, email: 'user1@user.com')
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]')
+        end
 
         specify 'I can show user details' do
-          within(user_content) { click_on 'Show' }
+          within(@user_content) { click_on 'Show' }
           expect(page).to have_content '2023-01-12' # The factory last sign in date
         end
 
         specify 'I can edit the user role' do
-          within(user_content) { click_on 'Edit' }
+          within(@user_content) { click_on 'Edit' }
           select 'reporter', from: 'Role'
           click_on 'Save'
-          expect(user_content).to have_content 'reporter'
+          expect(@user_content).to have_content 'reporter'
         end
 
         specify 'I can destroy the user' do
-          within(user_content) { click_on 'Destroy' }
+          within(@user_content) { click_on 'Destroy' }
           expect(page).not_to have_content 'user1@user.com'
         end
       end
 
       context 'when the user is not suspended' do
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+        let!(:user) { create(:user, email: 'user1@user.com') }
+
+        before do
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]')
+        end
 
         specify 'I can suspend a commercial account' do
           expect do
-            within(user_content) { click_on 'Suspend' }
-            user1.reload
-          end.to change(user1, :suspended)
+            within(@user_content) { click_on 'Suspend' }
+            user.reload
+          end.to change(user, :suspended)
         end
       end
 
       context 'when looking at a suspended account' do
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]') }
+        let!(:user) { create(:user, email: 'user2@user.com', suspended: true) }
+
+        before do
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]')
+        end
 
         specify 'I can reinstate a commercial account' do
           expect do
-            within(user_content) { click_on 'Reinstate' }
-            user2.reload
-          end.to change(user2, :suspended)
+            within(@user_content) { click_on 'Reinstate' }
+            user.reload
+          end.to change(user, :suspended)
         end
       end
 
       context 'when the user is not locked' do
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]') }
+        let!(:user) { create(:user, email: 'user1@user.com') }
+
+        before do
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]')
+        end
 
         specify 'I can lock an account' do
-          within(user_content) { click_on 'Lock' }
-          user1.reload
-          expect(user1.access_locked?).to be(true)
+          within(@user_content) { click_on 'Lock' }
+          user.reload
+          expect(user.access_locked?).to be(true)
         end
       end
 
       context 'when the user is locked' do
+        let!(:user) { create(:user, email: 'user2@user.com', suspended: true) }
+
         before do
-          user2.lock_access!({ send_instructions: false })
-          page.refresh
+          user.lock_access!({ send_instructions: false })
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]')
         end
 
-        let!(:user_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user2")]') }
-
         specify 'I can unlock and account' do
-          within(user_content) { click_on 'Unlock' }
-          user2.reload
-          expect(user2.access_locked?).to be(false)
+          within(@user_content) { click_on 'Unlock' }
+          user.reload
+          expect(user.access_locked?).to be(false)
         end
       end
 
       context 'when looking at a non-commercial account' do
-        let!(:rep_content) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]') }
+        let!(:user) { create(:user, email: 'rep1@rep.com', role: 'reporter') }
+
+        before do
+          refresh
+          @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "rep1")]')
+        end
 
         specify 'I cannot see an option to suspend' do
-          within(rep_content) { click_on 'Edit' }
+          within(@user_content) { click_on 'Edit' }
           expect(page).not_to have_button 'Suspend'
         end
 
         specify 'I cannot suspend' do
           expect do
             login_as admin1
-            put suspend_user_path(rep1)
-            rep1.reload
-          end.not_to change(rep1, :suspended)
+            put suspend_user_path(user)
+            user.reload
+          end.not_to change(user, :suspended)
         end
       end
     end
