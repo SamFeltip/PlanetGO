@@ -117,3 +117,5 @@ group :test do
   gem 'simplecov'
   gem 'webdrivers'
 end
+
+gem 'followability', '~> 1.1'
