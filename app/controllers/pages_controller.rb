@@ -12,7 +12,7 @@ class PagesController < ApplicationController
     # TODO make this actually my friends
     @friends = User.where("id < 5")
 
-    @future_outings = Outing.future_outings(current_user)
-    @past_outings = Outing.past_outings(current_user)
+    @future_outings = current_user.future_outings
+    @past_outings = current_user.past_outings
   end
 end

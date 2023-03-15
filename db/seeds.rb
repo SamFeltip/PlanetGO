@@ -1,178 +1,244 @@
 # frozen_string_literal: true
 
 default_password = 'SneakyPassword100'
-Rails.logger.debug 'Seeding Database'
+puts 'Seeding Database'
 
-Rails.logger.debug '[+] Adding raw users.'
+print '[+] Adding raw users.'
 
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: User.roles[:admin],
                     password: default_password,
                     full_name: 'Arielle Norman'
                   )
 
-Rails.logger.debug '.'
+print '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: User.roles[:admin],
                     password: default_password,
                     full_name: 'Miguel Whitaker'
                   )
 
-Rails.logger.debug '.'
+print '.'
 
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: User.roles[:reporter],
                   password: default_password,
                   full_name: 'Houston Davila'
                 )
 
-Rails.logger.debug '.'
+print '.'
 
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: User.roles[:reporter],
                   password: default_password,
                   full_name: 'Lea Park'
                 )
 
-Rails.logger.debug '.'
+print '.'
 
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: User.roles[:user],
                    password: default_password,
                    full_name: 'Anna Hudson'
                  )
 
-Rails.logger.debug '.'
+puts '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: User.roles[:user],
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )
 
-Rails.logger.debug '[+] Adding new metrics.'
+
+
+print '[+] Adding new outings'
+print '.'
+outing1 = Outing.where(
+  name: "Pizza Time",
+  date: Time.now + 1.week,
+  creator_id: user_user1.id
+).first_or_create
+
+
+puts '.'
+outing2 = Outing.where(
+  name: "Hoover Convention",
+  date: Time.now + 2.week,
+  creator_id: user_user1.id
+).first_or_create
+
+puts '.'
+outing3 = Outing.where(
+  name: "Bar Crawl",
+  date: Time.now - 1.week,
+  creator_id: user_user2.id
+).first_or_create
+
+
+print '[+] Adding new participants'
+
+print "."
+participant_outing1_1 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing1,
+  status: Participant.statuses[:creator]
+).first_or_create
+
+
+print "."
+participant_outing1_2 = Participant.where(
+  user_id: user_user2.id,
+  outing_id: outing1,
+  status: Participant.statuses[:pending]
+).first_or_create
+
+print "."
+participant_outing3_1 = Participant.where(
+  user_id: user_user2.id,
+  outing_id: outing3,
+  status: Participant.statuses[:creator]
+).first_or_create
+
+
+print "."
+participant_outing3_2 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing3,
+  status: Participant.statuses[:pending]
+).first_or_create
+
+puts "."
+participant_outing2_1 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing2,
+  status: Participant.statuses[:creator]
+).first_or_create
+
+
+print '[+] Adding new metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_6 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 39.341952,
   longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_7 = Metric.where(
   time_enter: '2022-11-26 12:24:16', time_exit: '2022-11-26 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_8 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_9 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_10 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_11 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_12 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_13 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_14 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_15 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_16 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_17 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_18 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_19 = Metric.where(
   time_enter: '2022-11-27 12:24:17', time_exit: '2022-11-27 12:25:17', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+print '.'
 
 metric_20 = Metric.where(
   time_enter: '2022-11-27 12:24:18', time_exit: '2022-11-27 12:25:18', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug '.'
+puts '.'
 
 metric_21 = Metric.where(
   time_enter: '2022-11-27 12:24:19', time_exit: '2022-11-27 12:25:19', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
-Rails.logger.debug 'Seed complete!'
+puts 'Seed complete!'

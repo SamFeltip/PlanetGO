@@ -22,5 +22,7 @@
 FactoryBot.define do
   factory :participant do
     status { 1 }
+    user
+    outing
   end
 end

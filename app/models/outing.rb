@@ -10,11 +10,22 @@
 #  outing_type      :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  creator_id       :bigint           not null
+#
+# Indexes
+#
+#  index_outings_on_creator_id  (creator_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (creator_id => users.id)
 #
 class Outing < ApplicationRecord
   has_many :participants
-  has_many :users, class_name: "User", :through => :participants
+  has_many :users, class_name: 'User', :through => :participants
   has_many :events, :through => :proposed_events
+
+  belongs_to :user, foreign_key: :creator_id
 
   enum outing_type: {
     personal: 0,
@@ -26,49 +37,11 @@ class Outing < ApplicationRecord
   end
 
   def time_status
-    (Date.today - self.date) > 0 ? "past" : "future"
+    (Date.today - self.date) > 0 ? 'past' : 'future'
   end
 
-  def self.future_outings(cu=nil)
-
-    outings = Outing.all
-    if cu
-      outings = cu.my_outings
-    end
-
-    future_outings = Outing.none
-
-    outings.each do |outing|
-      if outing.time_status == "future"
-        future_outings = future_outings.or(Outing.where(id: outing.id))
-      end
-    end
-
-    future_outings
-
-  end
-
-
-  def self.past_outings(cu=nil)
-
-    outings = Outing.all
-    if cu
-      outings = cu.my_outings
-    end
-
-    future_outings = Outing.none
-
-    outings.each do |outing|
-      if outing.time_status == "past"
-        future_outings = future_outings.or(Outing.where(id: outing.id))
-      end
-    end
-
-    future_outings
-
-  end
 
   def creator
-    Participant.where(outing_id: self.id, status: Participant.statuses[:creator]).first.user
+    User.find(self.creator_id)
   end
 end

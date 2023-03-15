@@ -10,12 +10,27 @@
 #  outing_type      :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  creator_id       :bigint           not null
+#
+# Indexes
+#
+#  index_outings_on_creator_id  (creator_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (creator_id => users.id)
 #
 FactoryBot.define do
   factory :outing do
     name { "My exciting adventure" }
-    date { "2023-02-23" }
+    date { Time.now }
     description { "This is a really cool adventure, with all my friends!" }
+
+    after :create do |outing|
+      creator = create(:user)
+      create(:partipant, user: creator, outing: outing, status: Participant.statuses[:creator])
+    end
+
     # participant {association :participant, status: "creator" }
   end
 end

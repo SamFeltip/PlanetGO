@@ -50,23 +50,39 @@ class User < ApplicationRecord
     admin: 2
   }
 
-  # this function is trying to get all outings this user has created using a joiner with the participants table
+  # this function is trying to get all outings this user has created
+  # using a joiner with the participants table
   def my_outings
+    Outing.where(creator_id: self.id)
+  end
 
-    outings = Outing.all
-    future_outings = Outing.none
+  def future_outings(creator=nil)
+    outings_future = Outing.none
 
-    outings.each do |outing|
-      if outing.time_status == "future"
-          future_outings = future_outings.or(
-            Outing.where(
-              id: Outing.joins(:participants).where(id: outing.id, participants: { status: Participant.statuses[:creator], user_id: self.id })
-            )
-          )
+    outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_future = outings.where('date > ?', Time.now)
 
-      end
-
+    if creator
+      outings_future = outings_future.where(creator_id: creator.id)
     end
+
+    outings_future
+
+  end
+
+  def past_outings(creator=nil)
+    outings_past = Outing.none
+
+    outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_past = outings.where('date <= ?', Time.now)
+
+    if creator
+      outings_past = outings_past.where(creator_id: creator.id)
+    end
+
+    outings_past
 
   end
 
