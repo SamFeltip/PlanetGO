@@ -34,7 +34,7 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  has_many :participants
+  # has_many :participants
   has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter

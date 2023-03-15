@@ -137,6 +137,7 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/metrics_controller.rb'
     - 'app/controllers/register_interests_controller.rb'
     - 'app/controllers/users_controller.rb'
+    - 'app/controllers/*'
 
 # Offense count: 2
 # Configuration parameters: Include.

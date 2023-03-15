@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-shared_context 'non-suspended account', type: :request do |user_role|
+shared_context 'when using a non-suspended account', type: :request do |user_role|
   let!(:current_user) { create(:user, role: user_role) }
   before do
     create(:event, description: 'CurrentUser', user_id: current_user.id)
@@ -44,7 +44,7 @@ shared_context 'non-suspended account', type: :request do |user_role|
   end
 end
 
-shared_context 'suspended account', type: :request do |user_role|
+shared_context 'when using a suspended account', type: :request do |user_role|
   let!(:current_user) { create(:user, role: user_role, suspended: true) }
 
   let!(:event) { create(:event, description: 'CurrentUser', user_id: current_user.id) }
@@ -144,12 +144,12 @@ RSpec.describe 'Events' do
   end
 
   context 'when I am logged in with a non-suspended commercial account' do
-    it_behaves_like 'non-suspended account', 'user'
-    it_behaves_like 'non-suspended account', 'advertiser'
+    it_behaves_like 'when using a non-suspended account', 'user'
+    it_behaves_like 'when using a non-suspended account', 'advertiser'
   end
 
   context 'when I am logged in as a suspended commercial account' do
-    it_behaves_like 'suspended account', 'user'
-    it_behaves_like 'suspended account', 'advertiser'
+    it_behaves_like 'when using a suspended account', 'user'
+    it_behaves_like 'when using a suspended account', 'advertiser'
   end
 end

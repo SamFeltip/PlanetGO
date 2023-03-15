@@ -23,7 +23,3 @@
 #  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
-
-RSpec.describe Event do
-  pending "add some examples to (or delete) #{__FILE__}"
-end

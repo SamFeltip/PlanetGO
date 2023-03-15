@@ -11,3 +11,4 @@ AllCops:
     - config/deploy.rb
     - bin/bundle
     - config/initializers/version.rb
+    - Rails/I18nLocaleTexts
