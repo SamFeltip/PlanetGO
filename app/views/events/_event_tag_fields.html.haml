@@ -1,0 +1,3 @@
+.nested-fields
+  =f.input :tag, :label => "Tag", :collection => EventTag.tags, :value_method => :id, wrapper_html:{ class: 'col-3' }
+  -#.col-1.delete-field.my-auto= link_to_remove_association "", f, :class=>"fas fa-times-circle fa-lg"

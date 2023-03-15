@@ -6,6 +6,7 @@
     "@babel/plugin-transform-runtime": "7",
     "@babel/preset-env": "7",
     "@babel/runtime": "7",
+    "@nathanvda/cocoon": "^1.2.14",
     "@popperjs/core": "^2.11.6",
     "@rails/ujs": "^7.0.3-1",
     "babel-loader": "8",

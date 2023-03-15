@@ -64,7 +64,7 @@ class Event < ApplicationRecord
     # return string to display
 
     if user_liked
-      return "liked by yourself and #{event_likes.count - 1} others"
+      return "liked by me and #{event_likes.count - 1} others"
     end
 
     if friend

@@ -186,6 +186,7 @@ p {
   justify-content: space-between;
 }
 
+
 .event-header .content{
   position: absolute;
   padding-top: 50px;
@@ -206,11 +207,12 @@ p {
 
 #event-image{
   width: 100%;
-  //height: 170px;
-  //height: 100%;
-  /* Add the blur effect */
-  filter: blur(20px);
-  -webkit-filter: blur(8px);
+
+  /* Add the blur effect
+   darken the image */
+  filter: blur(20px) brightness(50%);
+
+  -webkit-filter: blur(8px) brightness(50%);
   transform: scale(150%) translateY(-10%);
   //transform: ;
 }
@@ -222,4 +224,19 @@ p {
 #more_events .card{
   //padding: 20px;
   max-width: 250px;
+}
+
+
+
+// icons
+.lg-icon {
+  font-size: 200%;
+}
+
+.red {
+  color: red;
+}
+
+.red:hover {
+  color: darkred;
 }

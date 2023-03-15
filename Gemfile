@@ -62,6 +62,7 @@ gem 'hamlit'
 gem 'hamlit-rails'
 
 gem 'simple_form'
+gem 'cocoon'
 
 gem 'draper'
 
