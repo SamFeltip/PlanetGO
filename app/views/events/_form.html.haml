@@ -7,14 +7,6 @@
     = f.input :approved, wrapper_html: { class: 'mb-3' }
     = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
 
-
-    -# = f.simple_fields_for :event_rags do |event_tag|
-    -#   = render 'event_tag_fields', f: event_tag
-    -# .links
-    -#   = link_to_add_association 'add tag', f, :event_tags
-
-
-      -# = link_to_add_association 'Add Tag', f, :event_tags, partial: 'event_tag',  :class=>"btn btn-outline-dark"
   .card-footer.d-flex
 
 

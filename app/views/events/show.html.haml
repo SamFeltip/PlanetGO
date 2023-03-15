@@ -14,14 +14,6 @@
           %i.like_icon{:class => @event.like_icon(current_user)}
             %span.event_like{:id => "event_#{@event.id}"}=@event.display_likes(current_user, compressed=true)
 
-      -#.tag
-      -#  = link_to tag_event_path(@event), class: 'btn btn-outline-primary', title: 'Tag this Event', method: :patch, data: { remote: true } do
-      -#    %i.bi-tag
-      -#      Random Tag
-
-      -#%a.btn.btn-outline-primary{href: event_path(@event)}
-
-
     .end.d-flex
 
       .dropdown.me-1

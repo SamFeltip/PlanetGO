@@ -13,23 +13,6 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
-  # def tag
-  #   @event = Event.find(params[:id])
-  #
-  #   @event_tag = @event.event_tags.build(
-  #     description: params[:tag]
-  #   )
-  #
-  #   @event.save
-  #
-  #   # redirect_to posts_path
-  #   respond_to do |format|
-  #     format.html { redirect_to events_path, notice: "Event tagged" }
-  #     format.js
-  #   end
-  #
-  # end
-
   def like
     @event = Event.find(params[:id])
 
