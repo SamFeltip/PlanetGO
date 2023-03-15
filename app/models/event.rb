@@ -11,7 +11,7 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  user_id       :bigint           not null
-#
+
 # Indexes
 #
 #  index_events_on_user_id  (user_id)
@@ -48,7 +48,7 @@ class Event < ApplicationRecord
     if compressed
 
       if user_liked
-        return "liked"
+        return 'liked'
       else
         return "#{event_likes.count} likes"
       end
@@ -78,7 +78,7 @@ class Event < ApplicationRecord
     if self.has_attribute?(:location)
       self.location
     else
-      "location unknown"
+      'location unknown'
     end
   end
 
@@ -86,9 +86,9 @@ class Event < ApplicationRecord
     user_liked = user.liked(self)
 
     if user_liked
-      "bi-star-fill"
+      'bi-star-fill'
     else
-      "bi-star"
+      'bi-star'
     end
 
   end
@@ -100,5 +100,46 @@ class Event < ApplicationRecord
 
   def to_s
     "#{self.name} @ #{self.time_of_event}"
+  end
+
+  def approved_icon
+
+    if self.approved.nil?
+      'bi-question-circle'
+    else
+      if self.approved
+        'bi-tick'
+      else
+        'bi-x'
+      end
+    end
+  end
+
+  def approved_colour
+
+    if self.approved.nil?
+      'purple'
+    else
+      if self.approved
+        'green'
+      else
+        'red'
+      end
+    end
+
+  end
+
+  def approved_desc
+
+    if self.approved.nil?
+      'pending approval'
+    else
+      if self.approved
+        'approved'
+      else
+        'event rejected<br/>Change the details to request re-evalutation'
+      end
+    end
+
   end
 end

@@ -47,7 +47,8 @@ class User < ApplicationRecord
   enum role: {
     user: 0,
     reporter: 1,
-    admin: 2
+    admin: 2,
+    advertiser: 3
   }
 
   # this function is trying to get all outings this user has created using a joiner with the participants table

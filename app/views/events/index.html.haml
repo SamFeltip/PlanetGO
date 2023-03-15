@@ -1,11 +1,7 @@
-.card.mb-5
-  .card-header.d-flex.align-items-center
-    %span Listing Events
-
-    = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
-
+- if current_user.admin? || current_user.advertiser?
+  = render "registering_events"
 #events
-  - @events.each do |event|
+  - @approved_events.each do |event|
     .card.mb-2
       .card-header
         = link_to event.name, event

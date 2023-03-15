@@ -5,8 +5,10 @@ Rails.application.routes.draw do
 
   resources :events, except: [:new, :show] do
     patch :like, on: :member
-    patch :tag, on: :member
+
   end
+
+  patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
   resources :events
   resources :participants

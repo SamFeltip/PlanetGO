@@ -4,13 +4,24 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.all
+    @approved_events = Event.where(approved: true)
+
+    @my_pending_events = Event.where(user_id: current_user.id, approved: false).or(Event.where(user_id: current_user.id, approved: nil))
+    @all_pending_events = Event.where(approved: nil).where.not(user_id: current_user.id)
   end
 
   # GET /events/1 or /events/1.json
   def show
-    @users_events = Event.where(user_id: @event.user_id).where.not(id: @event.id).limit(2)
+    @users_events = Event.where(user_id: @event.user_id).where.not(id: @event.id).limit(3)
+
     @event = Event.find(params[:id])
+  end
+
+  def approval
+    @event = Event.find(params[:id])
+    @event.approved = params[:approved]
+    @event.save
+
   end
 
   def like
@@ -67,6 +78,11 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1 or /events/1.json
   def update
+    # any changes need to be approved by admins
+    unless current_user.admin?
+      @event.approved = nil
+    end
+
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to event_url(@event), notice: "Event was successfully updated." }

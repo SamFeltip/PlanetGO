@@ -12,6 +12,13 @@ user_admin1 = User.where(email: 'admin1@planetgo.com')
                     full_name: 'Arielle Norman'
                   )
 
+user_advertiser1 = User.where(email: 'advertiser1@company.com')
+                       .first_or_create(
+                         role: User.roles[:advertiser],
+                         password: default_password,
+                         full_name: 'Billy Adams'
+                       )
+
 Rails.logger.debug '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
@@ -55,6 +62,15 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )
+
+Rails.logger.debug '[+] Adding new events.'
+event_1 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pizza",
+  description: 'Edible Pizza at suspiciously low prices',
+  category: Event.categories[:restaurant],
+  time_of_event: Time.now + 7.days
+).first_or_create
 
 Rails.logger.debug '[+] Adding new metrics.'
 

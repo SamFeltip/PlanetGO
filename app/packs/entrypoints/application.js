@@ -16,6 +16,11 @@ require("@nathanvda/cocoon")
 Rails.start();
 console.log("application loaded.");
 
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
+
 window.onload = () => {
   if (window.location.pathname === "/metrics") {
     // Setup the chart
