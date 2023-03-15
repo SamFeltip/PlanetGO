@@ -48,29 +48,23 @@ RSpec.describe User do
 
   describe '#commercial' do
     it 'Returns true if the user is of role user or advertiser' do
-      user = FactoryBot.create(:user, role: 'user')
-      expect(user.commercial).to eq true
+      user = create(:user, role: 'user')
+      expect(user.commercial).to be true
     end
 
     it 'Returns false if the user is of role admin or reporter' do
-      user = FactoryBot.create(:user, role: 'reporter')
-      expect(user.commercial).to eq false
+      user = create(:user, role: 'reporter')
+      expect(user.commercial).to be false
     end
   end
 
-  context "declaring availability" do
-    describe "when submit a time I am available" do
-      it "is recorded" do
-
+  context 'declaring availability' do
+    describe 'when submit a time I am available' do
+      it 'is recorded' do
       end
 
-      it "is visible on my personal user page" do
-
+      it 'is visible on my personal user page' do
       end
-
     end
   end
-
-
-
 end

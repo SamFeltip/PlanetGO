@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show edit update destroy lock unlock suspend reinstate]
   before_action :authenticate_user!, only: %i[index show edit update destroy lock unlock suspend reinstate]
   load_and_authorize_resource
-  
+
   def index
     @users = User.accessible_by(current_ability)
     @users = @users.order(:id)
@@ -60,13 +60,13 @@ class UsersController < ApplicationController
 
   def suspend
     respond_to do |format|
-      if !@user.commercial
-        format.html { redirect_to users_path, alert: 'Cannot suspend a non-commercial user' }
-        format.json { render :show, status: :ok, location: @user}
-      else
+      if @user.commercial
         @user.update(suspended: true)
         format.html { redirect_to users_path, notice: 'User was successfully suspended' }
         format.json { render json: @user.errors, status: :unprocessable_entity }
+      else
+        format.html { redirect_to users_path, alert: 'Cannot suspend a non-commercial user' }
+        format.json { render :show, status: :ok, location: @user }
       end
     end
   end

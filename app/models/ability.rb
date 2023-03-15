@@ -60,11 +60,9 @@ class Ability
     can :create, RegisterInterest
   end
 
-  def user_permissions(user)
-  end
+  def user_permissions(user); end
 
-  def advertiser_permissions(user)
-  end
+  def advertiser_permissions(user); end
 
   def commercial_permissions(user)
     can :create, Event

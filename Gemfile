@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
-gem 'rails', '~> 7.0.3', '>= 7.0.3.1'
+gem 'rails', '~> 7.0.4', '>= 7.0.4.3'
 
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 1.1'
@@ -39,7 +39,7 @@ gem 'bootsnap', require: false
 # Geocoding gem for getting country code in metrics
 gem 'geocoder', require: true
 
-gem 'rack', '>= 2.2.6.3'
+gem 'rack', '>= 2.2.6.4'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

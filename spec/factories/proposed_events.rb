@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: proposed_events
@@ -24,7 +26,7 @@ FactoryBot.define do
   factory :proposed_event do
     event { nil }
     outing { nil }
-    date { "2023-02-24" }
+    date { '2023-02-24' }
     status { 1 }
   end
 end

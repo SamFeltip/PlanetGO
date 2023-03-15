@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -22,6 +24,6 @@
 #
 require 'rails_helper'
 
-RSpec.describe Event, type: :model do
+RSpec.describe Event do
   pending "add some examples to (or delete) #{__FILE__}"
 end

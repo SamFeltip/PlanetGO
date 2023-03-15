@@ -51,13 +51,13 @@ shared_context 'non-admin account', type: :request do |account_type|
 
   specify 'I cannot lock an account' do
     put lock_user_path(user1)
-    expect(user1.access_locked?).to eq(false)
+    expect(user1.access_locked?).to be(false)
   end
 
   specify 'I cannot unlock an account' do
     user2.lock_access!({ send_instructions: false })
     put unlock_user_path(user2)
-    expect(user2.access_locked?).to eq(true)
+    expect(user2.access_locked?).to be(true)
   end
 
   specify 'I cannot suspend a commercial account' do
@@ -95,13 +95,13 @@ RSpec.describe 'Managing users', type: :request do
 
     specify 'I cannot lock my own account' do
       put lock_user_path(admin1)
-      expect(admin1.access_locked?).to eq(false)
+      expect(admin1.access_locked?).to be(false)
     end
 
     specify 'I cannot unlock my own account' do
       admin1.lock_access!({ send_instructions: false })
       put unlock_user_path(admin1)
-      expect(admin1.access_locked?).to eq(true)
+      expect(admin1.access_locked?).to be(true)
     end
 
     specify 'I cannot suspend my own account' do
@@ -202,7 +202,7 @@ RSpec.describe 'Managing users', type: :request do
         specify 'I can lock an account' do
           within(user_content) { click_on 'Lock' }
           user1.reload
-          expect(user1.access_locked?).to eq(true)
+          expect(user1.access_locked?).to be(true)
         end
       end
 
@@ -217,7 +217,7 @@ RSpec.describe 'Managing users', type: :request do
         specify 'I can unlock and account' do
           within(user_content) { click_on 'Unlock' }
           user2.reload
-          expect(user2.access_locked?).to eq(false)
+          expect(user2.access_locked?).to be(false)
         end
       end
 
@@ -239,6 +239,7 @@ RSpec.describe 'Managing users', type: :request do
       end
     end
   end
+
   context 'when signed in as a non administrator' do
     it_behaves_like 'non-admin account', nil
     it_behaves_like 'non-admin account', 'user'

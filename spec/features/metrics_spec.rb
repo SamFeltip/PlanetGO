@@ -26,7 +26,6 @@ RSpec.describe 'Managing metrics', type: :request do
         end
 
         specify 'I can see the metric on the page' do
-          save_page()
           expect(page).to have_selector('div', text: '1')
         end
 
@@ -63,7 +62,6 @@ RSpec.describe 'Managing metrics', type: :request do
         end
 
         specify 'I can see the metrics on the page' do
-          save_page()
           expect(page).to have_selector('div', text: '3')
         end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: outings
@@ -11,8 +13,8 @@
 #
 FactoryBot.define do
   factory :outing do
-    name { "My exciting adventure" }
-    date { "2023-02-23" }
-    description { "This is a really cool adventure, with all my friends!" }
+    name { 'My exciting adventure' }
+    date { '2023-02-23' }
+    description { 'This is a really cool adventure, with all my friends!' }
   end
 end
