@@ -19,6 +19,14 @@ user_advertiser1 = User.where(email: 'advertiser1@company.com')
                          password: default_password,
                          full_name: 'Billy Adams'
                        )
+print '.'
+
+user_advertiser2 = User.where(email: 'advertiser2@company.com')
+                       .first_or_create(
+                         role: User.roles[:advertiser],
+                         password: default_password,
+                         full_name: 'Mango Cavern'
+                       )
 
 print '.'
 
@@ -66,16 +74,65 @@ user_user2 = User.where(email: 'user2@gmail.com')
 
 
 
-Rails.logger.debug '[+] Adding new events.'
+puts '[+] Adding new events.'
+
 event_1 = Event.where(
   user_id: user_advertiser1.id,
-  name: "Billy's Pizza",
+  name: "Billy's Pizza cooking class",
   description: 'Edible Pizza at suspiciously low prices',
   category: Event.categories[:restaurant],
   time_of_event: Time.now + 7.days
 ).first_or_create
+print '.'
 
+event_2 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pasta tasting",
+  description: "I'll be honest, even I wouldn't eat the food we serve",
+  category: Event.categories[:restaurant],
+  time_of_event: Time.now + 7.days
+).first_or_create
+print '.'
 
+event_3 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Pub Quiz",
+  description: "Our pub quiz is so hard you'll probably want a drink after getting all the questions wrong. 'Beer' £8 per half pint",
+  category: Event.categories[:bar],
+  time_of_event: Time.now + 7.days,
+  approved: true
+).first_or_create
+puts '.'
+
+event_4 = Event.where(
+  user_id: user_advertiser2.id,
+  name: "Half Price Wednesdays",
+  description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
+  category: Event.categories[:bar],
+  time_of_event: Time.now + 3.days,
+  approved: true
+).first_or_create
+
+print "[+] Adding Event Reactions."
+
+EventReact.where(
+  user_id: user_admin1.id,
+  event_id: event_4.id).first_or_create
+
+print "."
+EventReact.where(
+  user_id: user_admin2.id,
+  event_id: event_4.id).first_or_create
+
+print "."
+EventReact.where(
+  user_id: user_advertiser1.id,
+  event_id: event_4.id).first_or_create
+
+puts "."
+EventReact.where(
+  user_id: user_user2.id,
+  event_id: event_4.id)
 
 print '[+] Adding new outings'
 print '.'
@@ -86,7 +143,7 @@ outing1 = Outing.where(
 ).first_or_create
 
 
-puts '.'
+print '.'
 outing2 = Outing.where(
   name: "Hoover Convention",
   date: Time.now + 2.week,
@@ -102,7 +159,6 @@ outing3 = Outing.where(
 
 
 print '[+] Adding new participants'
-
 print "."
 participant_outing1_1 = Participant.where(
   user_id: user_user1.id,
@@ -142,16 +198,6 @@ participant_outing2_1 = Participant.where(
 
 
 print '[+] Adding new metrics.'
-Rails.logger.debug '[+] Adding new events.'
-event_1 = Event.where(
-  user_id: user_advertiser1.id,
-  name: "Billy's Pizza",
-  description: 'Edible Pizza at suspiciously low prices',
-  category: Event.categories[:restaurant],
-  time_of_event: Time.now + 7.days
-).first_or_create
-
-Rails.logger.debug '[+] Adding new metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,

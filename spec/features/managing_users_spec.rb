@@ -5,7 +5,7 @@ require 'rails_helper'
 RSpec.describe 'Managing users', type: :request do
   context 'Signed in as an administrator' do
     before do
-      @admin = create(:user, role: 2)
+      @admin = create(:user, role: User.roles[:admin])
       login_as @admin
     end
 
@@ -28,7 +28,7 @@ RSpec.describe 'Managing users', type: :request do
       before { visit '/' }
 
       specify 'I can see the link to the users management page' do
-        expect(page).to have_content 'Account Management'
+        expect(page).to have_content 'Accounts'
       end
     end
 

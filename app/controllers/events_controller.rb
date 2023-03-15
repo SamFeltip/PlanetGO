@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!, only: %i[new create destroy edit like unlike]
+  before_action :authenticate_user!, only: %i[index new create destroy edit like unlike]
 
   # GET /events or /events.json
   def index
@@ -12,7 +12,7 @@ class EventsController < ApplicationController
 
   # GET /events/1 or /events/1.json
   def show
-    @users_events = Event.where(user_id: @event.user_id).where.not(id: @event.id).limit(3)
+    @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
 
     @event = Event.find(params[:id])
   end

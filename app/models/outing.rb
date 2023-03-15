@@ -19,7 +19,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (creator_id => users.id)
-#
+
 class Outing < ApplicationRecord
   has_many :participants
   has_many :users, class_name: 'User', :through => :participants

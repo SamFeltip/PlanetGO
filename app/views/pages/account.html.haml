@@ -1,13 +1,26 @@
 #account
   %h1 Account
   .card
-    .card-header.d-flex
-      Account details
+    .card-header.d-flex.justify-content-between
+      %p
+        Account details
+
+      = link_to edit_user_registration_path, class: 'nav-link btn btn-outline-secondary p-2' do
+        %i.bi-pencil-square
+        Edit
     .card-body
       %h2
         = current_user.full_name
       %p
         = current_user.email
+
+    .card-footer
+      .d-flex.justify-content-end
+
+        = link_to destroy_user_session_path, class: 'nav-link btn btn-outline-secondary p-2', method: :delete do
+          %i.bi-box-arrow-right
+          Sign out
+
 
 .row
   .col-md-3.mt-4

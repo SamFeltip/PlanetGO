@@ -56,17 +56,17 @@ RSpec.describe 'Outings' do
       end
 
       # the user clicks on the button "New Outing"
-      before "fill in outing details and presses save" do
+      before do
         # the user fills in a name, a date, a description, and selects "open" as the outing type
         fill_in 'Name', with: 'My Outing'
-
         find('#outing_date_1i').set("2023")
         find('#outing_date_2i').set("March")
         find('#outing_date_3i').set("15")
-
         fill_in 'Description', with: 'A fun outing!'
         select 'open', from: 'Outing type'
+      end
 
+      before do
         # the user clicks the "save" button
         click_button 'Save'
       end
@@ -74,19 +74,19 @@ RSpec.describe 'Outings' do
       it "saves an outing" do
         # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Outing.last).to have_attributes(
-          name: 'My Outing',
-          date: Date.parse('2023-03-20'),
-          description: 'A fun outing!',
-          type: 'Open',
-          creator_id: @outing_creator.id)
+                                 name: 'My Outing',
+                                 date: Date.parse('2023-03-20'),
+                                 description: 'A fun outing!',
+                                 type: 'Open',
+                                 creator_id: @outing_creator.id)
       end
 
       it "creates a participant" do
         # expect the program to create a participant with current_user and new outing present, and the status set to "creator"
         expect(Participant.last).to have_attributes(
-          user_id: @outing_creator.id,
-          outing_id: Outing.last.id,
-          status: 'creator')
+                                      user_id: @outing_creator.id,
+                                      outing_id: Outing.last.id,
+                                      status: 'creator')
       end
 
       it "alerts the user" do
@@ -104,9 +104,6 @@ RSpec.describe 'Outings' do
         # show the outing's name in the page html
         expect(page).to have_content('My Outing')
       end
-
-
-
     end
 
     describe 'lets the user inspect an outing' do

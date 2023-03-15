@@ -1,6 +1,12 @@
 - if current_user.admin? || current_user.advertiser?
   = render "registering_events"
+
+
 #events
+  - if @approved_events.count == 0
+    %h1 Hmm...
+    %p There doesn't seem to be any events yet
+    %p come back later and they'll be more for you!
   - @approved_events.each do |event|
     .card.mb-2
       .card-header
