@@ -21,7 +21,7 @@
 
   %body
 
-    %header.navbar.navbar-expand-lg.bg-light.mb-3
+    %header.navbar.navbar-expand-md.bg-light.mb-3
       .container-fluid
         = link_to '/', class: 'navbar-brand' do
           = image_pack_tag 'temp_logo.png', height: 40
@@ -29,40 +29,52 @@
           %span.navbar-toggler-icon
 
         #navbar-content.navbar-collapse.collapse
-          %ul.navbar-nav.mr-auto
-            %li.nav-item.active
-            = link_to '/', class: 'nav-link' do
-              %i.bi-house-fill
-              Home
-
+          .navbar-nav.mr-auto
             - if user_signed_in?
-              %li.nav-item.active
-                = link_to edit_user_registration_path, class: 'nav-link' do
-                  Edit your account
+
               - if current_user.admin? || current_user.reporter?
 
-                %li.nav-item.active
+                .nav-item.active
                   = link_to :events, class: 'nav-link' do
-                    Events
+                    %i.bi-calendar-event
+                    %span.nav-title
+                      Events
+
+                .nav-item.active
+                  = link_to :outings, class: 'nav-link' do
+                    %i.bi-map
+                    %span.nav-title
+                      Outings
+
+              - if current_user.admin?
 
                 %li.nav-item.active
-                  = link_to :outings, class: 'nav-link' do
-                    Outings
+                  = link_to users_path, class: 'nav-link' do
+                    %i.bi-person
+                    %span.nav-title
+                      Accounts
 
                 %li.nav-item.active
                   = link_to '/metrics', class: 'nav-link' do
-                    Site Metrics
-              - if current_user.admin?
-                %li.nav-item.active
-                  = link_to users_path, class: 'nav-link' do
-                    Account Management
+                    %i.bi-list-ol
+                    %span.nav-title
+                      Site Metrics
 
           %ul.navbar-nav.mr-auto
             - if user_signed_in?
+              %hr
               %li.nav-item.active
+                %li.nav-item.active
+                = link_to edit_user_registration_path, class: 'nav-link' do
+                  %i.bi-person-badge
+                  %span.nav-title
+
+                    #{current_user.full_name}
+
                 = link_to destroy_user_session_path, class: 'nav-link', method: :delete do
+
                   %i.bi-box-arrow-right
-                  #{current_user.email} (Sign out)
+                  (Sign out)
             - else
               %li.nav-item.active
                 = link_to :new_user_session, class: 'nav-link' do

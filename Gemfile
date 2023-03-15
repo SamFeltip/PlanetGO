@@ -62,6 +62,7 @@ gem 'hamlit'
 gem 'hamlit-rails'
 
 gem 'simple_form'
+gem 'cocoon'
 
 gem 'draper'
 
@@ -119,3 +120,5 @@ group :test do
   gem 'simplecov'
   gem 'webdrivers'
 end
+
+gem 'followability', '~> 1.1'

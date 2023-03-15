@@ -47,7 +47,8 @@ class User < ApplicationRecord
   enum role: {
     user: 0,
     reporter: 1,
-    admin: 2
+    admin: 2,
+    advertiser: 3
   }
 
   # this function is trying to get all outings this user has created
@@ -97,4 +98,20 @@ class User < ApplicationRecord
   def email_prefix
     email.split('@')[0]
   end
+
+  def liked(event)
+    EventReact.where(user_id: self.id, event_id: event.id, status: EventReact.statuses[:like]).count > 0
+  end
+
+  def event_reaction(event)
+    reactions = EventReact.where(user_id: self.id, event_id: event.id)
+    if reactions.length > 0
+      reactions.first.status
+    else
+      nil
+    end
+
+  end
+
+
 end

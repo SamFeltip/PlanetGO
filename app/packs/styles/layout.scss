@@ -1,5 +1,6 @@
 html {
   min-height: 100%;
+
 }
 
 body {
@@ -15,6 +16,17 @@ body {
 .container-fluid {
   padding: 0 27px;
 }
+
+// alert styling
+.flash-messages{
+  padding: 0;
+  margin-top: -16px;
+}
+
+.alert {
+  --bs-alert-border-radius: 0;
+}
+
 
 h1 {
   font-size: 37px;
@@ -36,7 +48,8 @@ h3 {
   margin-left: 5px;
 }
 
-// ***** who when where table stylings
+// landing page
+// ***** who when where table styles
 
 .row p {
   margin: 0;
@@ -75,7 +88,7 @@ a {
 
 p {
   font-size: 17px;
-  margin-bottom: 50px;
+  //margin-bottom: 50px;
 }
 
 // devise styling
@@ -169,7 +182,7 @@ p {
 .prices {
   position: absolute;
   bottom: 60px;
-  left: 0px;
+  left: 0;
   width: 100%;
   text-align: center;
 }
@@ -184,4 +197,150 @@ p {
 
 #navbar-content{
   justify-content: space-between;
+}
+
+.event-header .content{
+  position: absolute;
+  padding-top: 50px;
+  width: 100%;
+  color: white;
+  z-index: 9999;
+}
+
+.event-header{
+  text-align: center;
+  width: calc(100% + 27px*2);
+  height: 170px;
+  left: -27px;
+  top: -20px;
+  overflow: hidden;
+  position: relative;
+}
+
+#event-image{
+  width: 100%;
+
+  /* Add the blur effect
+   darken the image */
+  filter: blur(20px) brightness(50%);
+
+  -webkit-filter: blur(8px) brightness(50%);
+  transform: scale(150%) translateY(-10%);
+  //transform: ;
+
+}
+
+.horizontal-scroll{
+  display: flex;
+  overflow-x: auto;
+}
+
+#more-events{
+}
+
+
+#more_events img{
+  width: 100%;
+}
+
+
+// horizontal scrolling cards
+.horizontal-scroll > a {
+  transform: translateX(-50%);
+  transition: 0.5s ease;
+}
+
+.horizontal-scroll > :first-child{
+  margin-left: 50%;
+  //transition: 0.5s ease;
+}
+
+
+.horizontal-scroll {
+  flex-wrap: nowrap;
+}
+
+
+// card
+.horizontal-card {
+
+  width:250px;
+  min-width: 250px;
+  max-width: 250px;
+  margin-right: 10px;
+  border: lightgrey 2px solid;
+  border-radius: 8px;
+}
+
+// large screens
+@media(min-width: 700px){
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child{
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+}
+
+
+
+#more_events .card{
+  //padding: 20px;
+  //display: inline;
+  //max-width: 250px;
+  //min-width: 250px;
+}
+
+
+
+// icons
+.lg-icon {
+  font-size: 200%;
+}
+
+.xl-icon {
+  font-size: 400%;
+}
+
+// colours
+
+.black {
+  color: black;
+}
+.red {
+  color: red;
+}
+
+.red:hover {
+  color: darkred;
+}
+
+.purple {
+  color: mediumpurple;
+}
+
+.purple:hover {
+  color: rebeccapurple;
+}
+
+.green {
+  color: green;
+}
+
+.green:hover {
+  color: darkgreen;
 }

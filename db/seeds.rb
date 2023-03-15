@@ -13,6 +13,14 @@ user_admin1 = User.where(email: 'admin1@planetgo.com')
                   )
 
 print '.'
+user_advertiser1 = User.where(email: 'advertiser1@company.com')
+                       .first_or_create(
+                         role: User.roles[:advertiser],
+                         password: default_password,
+                         full_name: 'Billy Adams'
+                       )
+
+print '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
@@ -55,6 +63,17 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )
+
+
+
+Rails.logger.debug '[+] Adding new events.'
+event_1 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pizza",
+  description: 'Edible Pizza at suspiciously low prices',
+  category: Event.categories[:restaurant],
+  time_of_event: Time.now + 7.days
+).first_or_create
 
 
 
@@ -123,6 +142,16 @@ participant_outing2_1 = Participant.where(
 
 
 print '[+] Adding new metrics.'
+Rails.logger.debug '[+] Adding new events.'
+event_1 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pizza",
+  description: 'Edible Pizza at suspiciously low prices',
+  category: Event.categories[:restaurant],
+  time_of_event: Time.now + 7.days
+).first_or_create
+
+Rails.logger.debug '[+] Adding new metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,

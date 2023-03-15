@@ -7,13 +7,19 @@ import '../scripts/jquery-jvectormap-world-merc';
 import '../scripts/hover-cards';
 import Chart from 'chart.js/auto';
 
-//= require jquery3
-//= require jquery_ujs
+
 //= require_tree .
 
+require("jquery")
+require("@nathanvda/cocoon")
 
 Rails.start();
 console.log("application loaded.");
+
+var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+  return new bootstrap.Tooltip(tooltipTriggerEl)
+})
 
 window.onload = () => {
   if (window.location.pathname === "/metrics") {

@@ -163,5 +163,4 @@ RSpec.describe 'Outings' do
 
     end
   end
-
 end
