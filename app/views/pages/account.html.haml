@@ -36,7 +36,7 @@
             = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
               %i.bi-trash
 
-    #future_outings.py-3
+    #past_outings.py-3
       %h2 Past Outings
       - @past_outings.each do |outing|
         .mb-3.card[outing]

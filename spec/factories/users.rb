@@ -33,11 +33,14 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 FactoryBot.define do
+
   sequence :email do |n|
     "test#{n}@planetgo.com"
   end
 
   factory :user do
+    sequence(:id)
+
     email
     password { 'SneakyPassword100' }
     full_name { 'John Smith' }

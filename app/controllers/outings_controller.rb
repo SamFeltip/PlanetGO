@@ -45,10 +45,12 @@ class OutingsController < ApplicationController
       status: "creator"
     )
 
+    @outing.creator_id = current_user.id
+
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outing_url(@outing), notice: "Outing was successfully created." }
+        format.html { redirect_to outings_path, notice: "Outing was successfully created." }
         format.json { render :show, status: :created, location: @outing }
       else
         puts "outing failed"

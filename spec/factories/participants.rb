@@ -20,7 +20,10 @@
 #  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
+
   factory :participant do
+    sequence(:id)
+
     status { 1 }
     user
     outing

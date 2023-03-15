@@ -22,13 +22,16 @@
 #
 FactoryBot.define do
   factory :outing do
+    sequence(:id)
+
     name { "My exciting adventure" }
     date { Time.now }
     description { "This is a really cool adventure, with all my friends!" }
+    creator {create(:user)}
 
     after :create do |outing|
-      creator = create(:user)
-      create(:partipant, user: creator, outing: outing, status: Participant.statuses[:creator])
+      # creator = create(:user)
+      create(:participant, user: outing.creator, outing: outing, status: Participant.statuses[:creator])
     end
 
     # participant {association :participant, status: "creator" }
