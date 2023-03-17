@@ -151,4 +151,8 @@ class Event < ApplicationRecord
     end
 
   end
+
+  def creator
+    self.user
+  end
 end

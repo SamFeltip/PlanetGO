@@ -7,32 +7,6 @@
     %h1 Hmm...
     %p There doesn't seem to be any events yet
     %p come back later and they'll be more for you!
+
   - @approved_events.each do |event|
-    .card.mb-2
-      .card-header
-        = link_to event.name, event
-
-
-      .row
-        .col-auto
-          = image_pack_tag "event_images/#{event.category}.png", width: 120
-          -# =event.category
-
-        .col.p-3
-          %p
-            =event.description
-          %p
-            %i.bi-pin
-            %i
-              =event.display_location
-      .card-footer.d-flex.justify-content-between
-
-        .user-controls
-          %a{href: event_path(event)}
-            %i{:class => event.like_icon(current_user)}
-            = event.display_likes(current_user)
-
-          -# = link_to favicon_link_tag('favicon.ico'), event, class: 'btn btn-outline-secondary btn-sm'
-
-            -# = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
-            -# = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'
+    = render "event_card", event: event

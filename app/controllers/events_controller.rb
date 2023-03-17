@@ -7,7 +7,7 @@ class EventsController < ApplicationController
     @approved_events = Event.where(approved: true)
 
     @my_pending_events = Event.where(user_id: current_user.id, approved: false).or(Event.where(user_id: current_user.id, approved: nil))
-    @all_pending_events = Event.where(approved: nil).where.not(user_id: current_user.id)
+    @all_pending_events = Event.where(approved: nil).where.not(user_id: current_user.id).or(Event.where(approved: false).where.not(user_id: current_user.id))
   end
 
   # GET /events/1 or /events/1.json
@@ -22,6 +22,14 @@ class EventsController < ApplicationController
     @event.approved = params[:approved]
     @event.save
 
+    @approved_events = Event.where(approved: true)
+
+
+    # redirect_to posts_path
+    respond_to do |format|
+      format.html { redirect_to events_path, notice: "Event approved" }
+      format.js
+    end
   end
 
   def like
@@ -79,7 +87,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1 or /events/1.json
   def update
     # any changes need to be approved by admins
-    unless current_user.admin?
+    if @event.creator == current_user
       @event.approved = nil
     end
 

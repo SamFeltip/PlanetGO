@@ -13,7 +13,7 @@
             %th
         %tbody
           - @my_pending_events.each do |event|
-            %tr
+            %tr[event]
               %td
                 %a.black{href: edit_event_path(event)}
                   = event.name
@@ -45,18 +45,20 @@
             %th Actions
         %tbody
           - @all_pending_events.each do |event|
-            %tr
+            %tr{class: "pending_event"}[event]
               %td
                 =link_to event.name, edit_event_path(event)
               %td
                 =link_to event.user.full_name, user_path(event.user)
               %td
                 .row
+
                   .col
-                    = link_to approval_event_path(id: event, approved: "true"), class: 'btn btn-primary', title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "true"), class: 'btn' + (event.approved == true ? " btn-primary" : " btn-outline-primary"), title: 'app', method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-up
+
                   .col
-                    = link_to approval_event_path(id: event, approved: "false"), class: 'btn btn-primary', title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "false"), class: 'btn' + (event.approved.nil? ? " btn-outline-danger" : " btn-danger"), title: 'app', method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-down
 
 
