@@ -21,7 +21,7 @@
 #  fk_rails_...  (creator_id => users.id)
 
 class Outing < ApplicationRecord
-  has_many :participants
+  has_many :participants, dependent: :destroy
   has_many :users, class_name: 'User', :through => :participants
   has_many :events, :through => :proposed_events
 

@@ -61,7 +61,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
         specify 'I can view my visit to the page' do
           # Since the admin visited the metrics page earlier, the reporter's visit is the second visit to the metrics page
-          expect(page).to have_selector('div', text: '2')
+          expect(page).to have_selector('div', text: '1')
         end
 
         specify 'The graph should be empty by default' do

@@ -22,7 +22,6 @@
 #
 FactoryBot.define do
   factory :outing do
-    sequence(:id)
 
     name { "My exciting adventure" }
     date { Time.now }

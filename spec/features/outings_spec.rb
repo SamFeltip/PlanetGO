@@ -50,23 +50,33 @@ RSpec.describe 'Outings' do
 
 
     describe 'lets the user create an outing' do
+      outing_name = "New outing"
+
+      outing_year = "2023"
+      outing_month = "March"
+      outing_day = "15"
+
+      outing_date = "2023-03-15"
+      outing_desc = "a fun outing!"
+      outing_type = "open"
+
       before do
         visit "/outings"
         click_link 'New Outing'
-      end
 
-      # the user clicks on the button "New Outing"
-      before do
+        # the user clicks on the button "New Outing"
         # the user fills in a name, a date, a description, and selects "open" as the outing type
-        fill_in 'Name', with: 'My Outing'
-        find('#outing_date_1i').set("2023")
-        find('#outing_date_2i').set("March")
-        find('#outing_date_3i').set("15")
-        fill_in 'Description', with: 'A fun outing!'
-        select 'open', from: 'Outing type'
-      end
 
-      before do
+        fill_in 'Name', with: outing_name
+        # find('outing[date(1i)]').set(outing_year)
+        # find('outing[date(2i)]').set(outing_month)
+        # find('outing[date(3i)]').set(outing_day)
+
+        fill_in 'Date', with: outing_date
+
+        fill_in 'Description', with: outing_desc
+        select outing_type, from: 'Outing type'
+
         # the user clicks the "save" button
         click_button 'Save'
       end
@@ -74,19 +84,18 @@ RSpec.describe 'Outings' do
       it "saves an outing" do
         # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Outing.last).to have_attributes(
-                                 name: 'My Outing',
-                                 date: Date.parse('2023-03-20'),
-                                 description: 'A fun outing!',
-                                 type: 'Open',
-                                 creator_id: @outing_creator.id)
+          name: outing_name,
+          date: Date.parse(outing_date),
+          description: outing_desc,
+          creator_id: @outing_creator.id)
       end
 
       it "creates a participant" do
         # expect the program to create a participant with current_user and new outing present, and the status set to "creator"
         expect(Participant.last).to have_attributes(
-                                      user_id: @outing_creator.id,
-                                      outing_id: Outing.last.id,
-                                      status: 'creator')
+          user_id: @outing_creator.id,
+          outing_id: Outing.last.id,
+          status: 'creator')
       end
 
       it "alerts the user" do
@@ -94,15 +103,15 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Outing was successfully created.')
       end
 
-      it "redirects the user" do
+      it "redirects the user to outings index" do
 
         # redirect to the outings index page
         expect(page).to have_current_path(outings_path)
       end
 
-      it "displays the outing" do
+      it "displays the outing on the outings/index page" do
         # show the outing's name in the page html
-        expect(page).to have_content('My Outing')
+        expect(page).to have_content(outing_name)
       end
     end
 

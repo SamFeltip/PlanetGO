@@ -22,7 +22,6 @@
 FactoryBot.define do
 
   factory :participant do
-    sequence(:id)
 
     status { 1 }
     user
