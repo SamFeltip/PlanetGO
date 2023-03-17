@@ -13,19 +13,16 @@ class Ability
     if user.admin?
       admin_permissions(user)
       reporter_permissions
-      commercial_permissions(user)
+      advertiser_permissions(user)
       user_permissions(user)
       guest_permissions
     elsif user.reporter?
       reporter_permissions
-      user_permissions(user)
       guest_permissions
     elsif user.advertiser?
-      commercial_permissions(user)
       advertiser_permissions(user)
       guest_permissions
     elsif user.user?
-      commercial_permissions(user)
       user_permissions(user)
       guest_permissions
     end
@@ -60,9 +57,13 @@ class Ability
     can :create, RegisterInterest
   end
 
-  def user_permissions(user); end
+  def user_permissions(user)
+    commercial_permissions(user)
+  end
 
-  def advertiser_permissions(user); end
+  def advertiser_permissions(user)
+    commercial_permissions(user)
+  end
 
   def commercial_permissions(user)
     can :create, Event
