@@ -4,14 +4,18 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe 'Outings' do
-  before do
+  past_outing_desc = "this outing was so much fun! thanks for coming guys!"
+  past_outing_name = "past outing"
+
+  before :each do
     @outing_creator = create(:user)
-    @past_outing = create(:outing, name: "past outing", creator_id: @outing_creator.id, date: Time.now - 1.week)
+    @other_outing_creator = create(:user, full_name: "David Richards")
+
+    @past_outing = create(:outing, name: past_outing_name, creator_id: @outing_creator.id, date: Time.now - 1.week, description: past_outing_desc)
     @future_outing = create(:outing, creator_id: @outing_creator.id, name: "future outing", date: Time.now + 1.week)
-
-    login_as @outing_creator
+    @another_outing = create(:outing, creator_id: @other_outing_creator.id, name: "a better outing!", date: Time.now + 1.week)
+    participant = create(:participant, user_id: @outing_creator.id, outing_id: @another_outing.id)
   end
-
 
   context "setting up user" do
     it "should record the creators name in the user object" do
@@ -21,13 +25,16 @@ RSpec.describe 'Outings' do
   end
 
   context 'when a user is logged in' do
+    before do
+      login_as @outing_creator
+    end
+
     describe 'user visit their account' do
-      before :each do
+      before do
         visit "/myaccount"
         @future_outings_element = find("#future_outings")
         @past_outings_element = find("#past_outings")
       end
-
 
       it "shows user their future outings" do
         expect(@future_outings_element).to have_content(@future_outing.name)
@@ -46,15 +53,8 @@ RSpec.describe 'Outings' do
       end
     end
 
-
-
-
     describe 'lets the user create an outing' do
       outing_name = "New outing"
-
-      outing_year = "2023"
-      outing_month = "March"
-      outing_day = "15"
 
       outing_date = "2023-03-15"
       outing_desc = "a fun outing!"
@@ -68,9 +68,6 @@ RSpec.describe 'Outings' do
         # the user fills in a name, a date, a description, and selects "open" as the outing type
 
         fill_in 'Name', with: outing_name
-        # find('outing[date(1i)]').set(outing_year)
-        # find('outing[date(2i)]').set(outing_month)
-        # find('outing[date(3i)]').set(outing_day)
 
         fill_in 'Date', with: outing_date
 
@@ -104,7 +101,6 @@ RSpec.describe 'Outings' do
       end
 
       it "redirects the user to outings index" do
-
         # redirect to the outings index page
         expect(page).to have_current_path(outings_path)
       end
@@ -115,47 +111,85 @@ RSpec.describe 'Outings' do
       end
     end
 
-    describe 'lets the user inspect an outing' do
-
-    end
-
-    describe 'lets the user accept an outing invite' do
-
-    end
-
-    describe 'lets a user delete their own outings' do
-
-    end
-
-    describe "doesnt let a user delete someone elses outings" do
-
-    end
-  end
-
-  context 'when the user is not logged in' do
-    describe 'when the user joins by a link' do
-      describe 'forces them to make an account' do
-        # redirects to new account page with a notice
-        it 'redirects them to the outing, with their account authenticated on this outing' do
-          # on signup redirect
-        end
+    context "managing outings" do
+      before :each do
+        visit outings_url
       end
 
-    end
+      context 'lets the user inspect an outing' do
+        before do
+          # Find the "Show" link for the Hoover outing and click it
+          within "#outing_#{@past_outing.id}" do
+            click_link 'Show'
+          end
+        end
 
+        # Expect to be on the outing show page and to see the outing's description
+        specify "should bring the user to the outings show page" do
+          expect(page).to have_current_path(outing_path(@past_outing))
+        end
 
-    it 'does not let them view outings' do
+        specify "should show details of the outing to be visible on the page" do
+          expect(page).to have_content(past_outing_desc)
+        end
 
-    end
+      end
 
-    it 'does not let them accept outing invites' do
+      context 'lets the user accept an outing invite' do
 
-    end
+      end
 
-    it 'does not let the user create an outing' do
+      context 'lets a user delete their own outings' do
+        before do
+          # Find the "Show" link for the Hoover outing and click it
+          within "#outing_#{@past_outing.id}" do
+            click_link 'Destroy'
+          end
 
+        end
+
+        specify "should no longer show the outing" do
+          # Expect the outing to be deleted and not be on the page anymore
+          expect(page).not_to have_content(past_outing_name)
+        end
+
+        specify "should alert the user the outing was deleted" do
+          expect(page).to have_content("Outing was successfully destroyed.")
+        end
+
+        specify "doesnt let a user delete someone elses outings" do
+          within "#outing_#{@another_outing.id}" do
+            expect(page).to_not have_content("Destroy")
+          end
+        end
+      end
     end
   end
+
+  # context 'when the user is not logged in' do
+  #   describe 'when the user joins by a link' do
+  #     describe 'forces them to make an account' do
+  #       # redirects to new account page with a notice
+  #       it 'redirects them to the outing, with their account authenticated on this outing' do
+  #         # on signup redirect
+  #       end
+  #     end
+  #
+  #   end
+  #
+  #
+  #   it 'does not let them view outings' do
+  #
+  #   end
+  #
+  #   it 'does not let them accept outing invites' do
+  #
+  #   end
+  #
+  #   it 'does not let the user create an outing' do
+  #
+  #   end
+  # end
 
   context 'when a user wants to change outing details' do
     describe "when a user is logged in as the outing creator" do
