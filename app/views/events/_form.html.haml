@@ -2,7 +2,9 @@
 = simple_form_for(@event) do |f|
   .card-body
     = f.input :name, label: "Event Name", wrapper_html: { class: 'mb-3' }
-    = f.input :time_of_event, label: "Time and Date", wrapper_html: { class: 'mb-3' }
+    = f.input :time_of_event, label: "Time and Date", wrapper_html: { class: 'mb-3' }, html5: true
+
+
     = f.input :description, wrapper_html: { class: 'mb-3' }
     - if locals[:edit] && current_user.admin? && !(@event.user == current_user)
       .row

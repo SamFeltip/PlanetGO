@@ -1,4 +1,4 @@
-.card.mb-5
+#my_pending_events.card.mb-5
   .card-header.d-flex.align-items-center
     %span My Pending Events
 
@@ -31,7 +31,7 @@
                       %i.bi-trash
 
 - if current_user.admin? && @all_pending_events.count > 0
-  .card.mb-5
+  #pending_events.card.mb-5
     .card-header.d-flex.align-items-center
       %span Pending Events
 
