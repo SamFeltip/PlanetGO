@@ -6,6 +6,7 @@ require 'rails_helper'
 RSpec.describe 'Events' do
   pending "add some examples to (or delete) #{__FILE__}"
 
+
   # context 'when there are users in the system', type: :request do
   #   let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
   #   let!(:user1) { create(:user, email: 'user1@user.com') }
