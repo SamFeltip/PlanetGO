@@ -63,7 +63,7 @@ class User < ApplicationRecord
 
     outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
-    outings_future = outings.where('date > ?', Time.now)
+    outings_future = outings.where('date > ?', Date.today)
 
     if creator
       outings_future = outings_future.where(creator_id: creator.id)
@@ -78,7 +78,7 @@ class User < ApplicationRecord
 
     outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
-    outings_past = outings.where('date <= ?', Time.now)
+    outings_past = outings.where('date <= ?', Date.today)
 
     if creator
       outings_past = outings_past.where(creator_id: creator.id)
