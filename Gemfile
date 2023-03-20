@@ -61,8 +61,8 @@ gem 'activerecord-session_store'
 gem 'hamlit'
 gem 'hamlit-rails'
 
-gem 'simple_form'
 gem 'cocoon'
+gem 'simple_form'
 
 gem 'draper'
 

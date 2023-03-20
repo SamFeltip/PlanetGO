@@ -34,48 +34,51 @@
 #
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
+  let!(:creator_user) { create(:user, email: 'testemail@email.com') }
 
-  before :each do
-
-    @creator_user = create(:user, email: 'testemail@email.com')
-
-    @past_outing_1 = create(
+  let!(:past_outing_1) do
+    create(
       :outing,
-      name: "past outing 1",
-      creator_id: @creator_user.id,
-      date: Time.now - 1.day
+      name: 'past outing 1',
+      creator_id: creator_user.id,
+      date: 1.day.ago
     )
+  end
 
-    @past_outing_2 = create(
+  let!(:past_outing_2) do
+    create(
       :outing,
-      name: "past outing 2",
-      creator_id: @creator_user.id,
-      date: Time.now - 1.week
+      name: 'past outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.ago
     )
+  end
 
-    @future_outing_1 = create(
+  let!(:future_outing_1) do
+    create(
       :outing,
-      name: "future outing 1",
-      creator_id: @creator_user.id,
-      date: Time.now + 1.day
+      name: 'future outing 1',
+      creator_id: creator_user.id,
+      date: 1.day.from_now
     )
+  end
 
-    @future_outing_2 = create(
+  let!(:future_outing_2) do
+    create(
       :outing,
-      name: "future outing 2",
-      creator_id: @creator_user.id,
-      date: Time.now + 1.week
+      name: 'future outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.from_now
     )
-
   end
 
   it 'Returns the name when converted to a string' do
-    expect(@creator_user.to_s).to eq 'John Smith'
+    expect(creator_user.to_s).to eq 'John Smith'
   end
 
   it 'Returns the prefix of an email' do
-    expect(@creator_user.email_prefix).to eq 'testemail'
+    expect(creator_user.email_prefix).to eq 'testemail'
   end
   
   context "declaring availability" do
@@ -91,18 +94,19 @@ RSpec.describe User, type: :model do
     end
   end
 
+  it 'shows future outings' do
+    expect(future_outing_1.date).to eq(Time.zone.today + 1.day)
+  end
+
   describe '#future_outings' do
     it 'returns all outings in the future' do
-      expect(@creator_user.future_outings).to include(@future_outing_1)
-      expect(@creator_user.future_outings).to include(@future_outing_2)
+      expect(creator_user.future_outings).to include(future_outing_1)
+      expect(creator_user.future_outings).to include(future_outing_2)
     end
 
     it 'doesnt return outings in the past' do
-      expect(@creator_user.future_outings).not_to include(@past_outing_1)
-      expect(@creator_user.future_outings).not_to include(@past_outing_2)
+      expect(creator_user.future_outings).not_to include(past_outing_1)
+      expect(creator_user.future_outings).not_to include(past_outing_2)
     end
   end
-
-  
-  
 end

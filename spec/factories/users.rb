@@ -33,7 +33,6 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 FactoryBot.define do
-
   sequence :email do |n|
     "test#{n}@planetgo.com"
   end
