@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class RegisterInterestsController < ApplicationController
-  before_action :set_register_interest, only: %i[show edit update destroy]
-  authorize_resource only: %i[index show edit update destroy]
+  before_action :set_register_interest, only: %i[edit destroy]
+  before_action :authenticate_user!, only: %i[index edit destroy]
+  load_and_authorize_resource
 
   # GET /register_interests or /register_interests.json
   def index

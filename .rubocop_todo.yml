@@ -137,6 +137,7 @@ Rails/I18nLocaleTexts:
     - 'app/controllers/metrics_controller.rb'
     - 'app/controllers/register_interests_controller.rb'
     - 'app/controllers/users_controller.rb'
+    - 'app/controllers/*'
 
 # Offense count: 2
 # Configuration parameters: Include.
@@ -171,6 +172,22 @@ Style/Documentation:
 # SupportedStyles: annotated, template, unannotated
 Style/FormatStringToken:
   EnforcedStyle: unannotated
+
+Style/WordArray:
+  Exclude:
+    - 'db/schema.rb'
+
+Style/StringLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Style/NumericLiterals:
+  Exclude:
+    - 'db/schema.rb'
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - 'db/schema.rb'
 
 # Offense count: 7
 # This cop supports safe autocorrection (--autocorrect).

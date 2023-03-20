@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -30,8 +32,8 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Event < ApplicationRecord
-
   belongs_to :user
+
   has_many :event_reacts
 
   enum category: {

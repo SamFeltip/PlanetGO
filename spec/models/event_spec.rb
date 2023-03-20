@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -19,7 +21,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (user_id => users.id)
-#
+
 require 'rails_helper'
 
 RSpec.describe Event, type: :model do

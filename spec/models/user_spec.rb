@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -77,17 +78,16 @@ RSpec.describe User, type: :model do
   it 'Returns the prefix of an email' do
     expect(@creator_user.email_prefix).to eq 'testemail'
   end
-  
-  context "declaring availability" do
-    describe "when submit a time I am available" do
-      it "is recorded" do
-        
-      end
-      
-      it "is visible on my personal user page" do
-        
-      end
-      
+
+  describe '#commercial' do
+    it 'Returns true if the user is of role user or advertiser' do
+      user = create(:user, role: 'user')
+      expect(user.commercial).to be true
+    end
+
+    it 'Returns false if the user is of role admin or reporter' do
+      user = create(:user, role: 'reporter')
+      expect(user.commercial).to be false
     end
   end
 

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateEvents < ActiveRecord::Migration[7.0]
   def change
     create_table :events do |t|
@@ -7,7 +9,7 @@ class CreateEvents < ActiveRecord::Migration[7.0]
       t.integer :category
       t.boolean :approved
 
-      t.references :user, null: false, foreign_key: true #owner of the event
+      t.references :user, null: false, foreign_key: true # owner of the event
 
       t.timestamps
     end

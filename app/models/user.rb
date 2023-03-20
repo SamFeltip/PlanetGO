@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -34,8 +35,8 @@
 #
 class User < ApplicationRecord
   has_many :participants
-  has_many :outings, class_name: "Outing", :through => :participants
   has_many :events
+  has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter
   # Include default devise modules. Others available are:
@@ -113,5 +114,7 @@ class User < ApplicationRecord
 
   end
 
-
+  def commercial
+    %w[user advertiser].include? role
+  end
 end
