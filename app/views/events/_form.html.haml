@@ -3,9 +3,9 @@
   .card-body
     = f.input :name, label: "Event Name", wrapper_html: { class: 'mb-3' }
     = f.input :time_of_event, label: "Time and Date", wrapper_html: { class: 'mb-3' }, html5: true
-
-
     = f.input :description, wrapper_html: { class: 'mb-3' }
+    = f.input :category, collection: Event.categories.keys, wrapper_html: { class: 'mb-3' }
+    = f.input :approved, wrapper_html: { class: 'mb-3' }
     - if locals[:edit] && current_user.admin? && !(@event.user == current_user)
       .row
         .col
@@ -17,8 +17,6 @@
     = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
 
   .card-footer.d-flex
-
-
     %button.btn.btn-primary{ type: 'submit' }
       Save
 

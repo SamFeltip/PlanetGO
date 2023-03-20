@@ -1,20 +1,9 @@
--# - if current_user.admin?
-  -#.card#admin_box
-    -#.row
-    -#  .col
-    -#    %label{:for => "toggle_outings"}
-    -#      Toggle all outings
-    -#  .col-2
-    -#    %input#toggle_outings{:type => "checkbox", :name => "toggle_outings"}
-
-    -# = check_box_tag 'filter_outings', '1', false, id: 'filter_outings'
-    -#%label{:for => 'filter_outings'} Filter Outings
-
 .card
   .card-header.d-flex.align-items-center
     %span Listing Outings
 
-    = link_to 'New Outing', new_outing_path, class: 'btn btn-outline-secondary ms-auto'
+    - if !current_user.suspended
+      = link_to 'New Outing', new_outing_path, class: 'btn btn-outline-secondary ms-auto'
 
   %table.table
     %thead
@@ -35,6 +24,6 @@
             .btn-toolbar.float-end
               = link_to 'Show', outing, class: 'btn btn-outline-secondary btn-sm'
 
-              - if outing.creator == current_user || current_user.admin?
+              - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
                 = link_to 'Edit', edit_outing_path(outing), class: 'btn btn-outline-secondary ms-1 btn-sm'
                 = link_to 'Destroy', outing, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'

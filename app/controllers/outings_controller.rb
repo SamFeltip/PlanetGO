@@ -28,7 +28,7 @@ class OutingsController < ApplicationController
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
-    
+
     # There has to be a better way to do this, dont @ me
     token_prefix = @outing.id.to_s
     token = token_prefix + rand(100000).to_s
