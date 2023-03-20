@@ -1,0 +1,18 @@
+.row.justify-content-center
+  .col-sm-8.col-lg-6
+    .card
+      .card-header
+        Proposed Event details
+      .card-body
+        %dl.row.mb-0
+          %dt.col-md-3 Event:
+          %dd.col-md-9= @proposed_event.event
+          %dt.col-md-3 Outing:
+          %dd.col-md-9= @proposed_event.outing
+          %dt.col-md-3 Date:
+          %dd.col-md-9= @proposed_event.date
+          %dt.col-md-3 Status:
+          %dd.col-md-9= @proposed_event.status
+      .card-footer.d-flex
+        = link_to 'Edit', edit_proposed_event_path(@proposed_event), class: 'btn btn-link'
+        = link_to 'Back', proposed_events_path, class: 'btn btn-link ms-auto'

@@ -8,7 +8,6 @@ variables:
   POSTGRES_DB: 'ci_test'
   POSTGRES_USER: 'runner'
   POSTGRES_PASSWORD: 'runner'
-  POSTGRES_HOST_AUTH_METHOD: 'trust'
   SELENIUM_HOST: chrome
   SELENIUM_PORT: 4444
 

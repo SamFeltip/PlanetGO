@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -40,6 +41,7 @@ FactoryBot.define do
   factory :user do
     email
     password { 'Testuserpassword123' }
+    last_sign_in_at { Time.new(2023, 1, 12).utc }
     full_name { 'John Smith' }
   end
 end

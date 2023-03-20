@@ -7,7 +7,7 @@ Rails.logger.debug '[+] Adding raw users.'
 
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: 'admin',
                     password: default_password,
                     full_name: 'Arielle Norman'
                   )
@@ -16,7 +16,7 @@ Rails.logger.debug '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
-                    role: 2,
+                    role: 'admin',
                     password: default_password,
                     full_name: 'Miguel Whitaker'
                   )
@@ -25,7 +25,7 @@ Rails.logger.debug '.'
 
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: 'reporter',
                   password: default_password,
                   full_name: 'Houston Davila'
                 )
@@ -34,7 +34,7 @@ Rails.logger.debug '.'
 
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
-                  role: 1,
+                  role: 'reporter',
                   password: default_password,
                   full_name: 'Lea Park'
                 )
@@ -43,7 +43,7 @@ Rails.logger.debug '.'
 
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: 'user',
                    password: default_password,
                    full_name: 'Anna Hudson'
                  )
@@ -51,7 +51,7 @@ user_user1 = User.where(email: 'user1@gmail.com')
 Rails.logger.debug '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 0,
+                   role: 'user',
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )

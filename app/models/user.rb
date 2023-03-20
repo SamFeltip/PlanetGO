@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -33,6 +34,9 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
+  # has_many :participants
+  has_many :outings, class_name: 'Outing', through: :participants
+
   acts_as_voter
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -42,8 +46,9 @@ class User < ApplicationRecord
 
   enum role: {
     user: 0,
-    reporter: 1,
-    admin: 2
+    advertiser: 1,
+    reporter: 2,
+    admin: 3
   }
 
   def to_s
@@ -56,5 +61,9 @@ class User < ApplicationRecord
 
   def email_prefix
     email.split('@')[0]
+  end
+
+  def commercial
+    %w[user advertiser].include? role
   end
 end

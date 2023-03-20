@@ -1,0 +1,26 @@
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Proposed Events
+
+    = link_to 'New Proposed event', new_proposed_event_path, class: 'btn btn-outline-secondary ms-auto'
+
+  %table.table
+    %thead
+      %tr
+        %th Event
+        %th Outing
+        %th Date
+        %th Status
+        %th
+    %tbody
+      - @proposed_events.each do |proposed_event|
+        %tr
+          %td= proposed_event.event
+          %td= proposed_event.outing
+          %td= proposed_event.proposed_time
+          %td= proposed_event.status
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', proposed_event, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_proposed_event_path(proposed_event), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', proposed_event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
