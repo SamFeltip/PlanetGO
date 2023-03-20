@@ -118,9 +118,11 @@ RSpec.describe 'Events' do
     context "I can remove my event" do
 
     end
+
   end
 
   context "as an admin" do
+
     context "I can approve events" do
 
     end
