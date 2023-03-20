@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: https://github.com/faker-ruby/faker.git
-  revision: 6ce775b268f14dca447a7df1945607847e706d6a
+  revision: 53843386b662445d1d766f7b4226aa63549954a6
   branch: main
   specs:
     faker (3.1.1)
@@ -183,7 +183,7 @@ GEM
       railties (>= 5.0.0)
     followability (1.1.1)
     geocoder (1.8.1)
-    git (1.17.2)
+    git (1.18.0)
       addressable (~> 2.8)
       rchardet (~> 1.8)
     globalid (1.1.0)
@@ -434,8 +434,8 @@ DEPENDENCIES
   letter_opener
   pg (~> 1.1)
   puma (~> 5.0)
-  rack (>= 2.2.6.4)
-  rails (~> 7.0.4, >= 7.0.4.3)
+  rack (>= 2.2.6.3)
+  rails (~> 7.0.3, >= 7.0.3.1)
   rspec-rails
   rubocop
   rubocop-rails
