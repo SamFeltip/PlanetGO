@@ -39,7 +39,7 @@ RSpec.describe Event do
         end
       end
 
-      describe 'search and filtering' do
+      describe 'when searching and filtering' do
         it 'lets a user search for events by title' do
         end
 
@@ -48,41 +48,41 @@ RSpec.describe Event do
       end
     end
 
-    describe 'a user can view a particular event' do
-      it "shows the event's title" do
+    describe 'when a user views a particular event' do
+      it "let the user see event's title" do
       end
 
-      it "shows the event's location" do
+      it "let the user see event's location" do
       end
 
-      it "shows the event's tags" do
+      it "let the user see event's tags" do
       end
 
-      it "shows the event's description" do
+      it "let the user see event's description" do
       end
 
-      it 'shows the events likes' do
+      it 'let the user see events likes' do
       end
     end
   end
 
-  context 'submitting events for approval' do
-    context 'an advertiser logs in' do
-      describe 'advertisers can submit events for approval' do
+  context 'when submitting events for approval' do
+    context 'when an advertiser logs in' do
+      describe 'when advertisers submit events for approval' do
         it 'sends an event publicity request to admins' do
         end
 
-        it 'admins can view the publicity request' do
+        it 'lets admins view the publicity request' do
         end
 
-        it 'advertisers cannot approve their own events' do
+        it 'doesnt let advertisers approve their own events' do
         end
       end
     end
   end
 
-  context 'approving events' do
-    context 'an admin logs in' do
+  context 'when approving events' do
+    context 'when an admin logs in' do
       it 'lets admins view all pending event publicity' do
       end
 
@@ -95,7 +95,7 @@ RSpec.describe Event do
   end
 
   context 'changing events' do
-    context 'admins can change the details of events' do
+    context 'when admins change the details of events' do
       it 'lets admins change the title of an event' do
       end
     end

@@ -95,7 +95,7 @@ RSpec.describe User do
   end
 
   it 'shows future outings' do
-    expect(future_outing_1.date).to eq(Date.today + 1.day)
+    expect(future_outing_1.date).to eq(Time.zone.today + 1.day)
   end
 
   describe '#future_outings' do

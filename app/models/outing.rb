@@ -39,7 +39,7 @@ class Outing < ApplicationRecord
   end
 
   def time_status
-    (Date.today - date).positive? ? 'past' : 'future'
+    (Time.zone.today - date).positive? ? 'past' : 'future'
   end
 
   def creator
