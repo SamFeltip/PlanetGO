@@ -155,4 +155,13 @@ class Event < ApplicationRecord
   def creator
     self.user
   end
+
+  def image_path
+    if self.category
+      return "event_images/#{self.category}.png"
+    else
+      return "event_images/unknown.png"
+    end
+
+  end
 end

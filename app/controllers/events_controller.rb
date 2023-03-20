@@ -76,7 +76,7 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id if current_user
     respond_to do |format|
       if @event.save
-        format.html { redirect_to event_url(@event), notice: 'Event was created and is under review.' }
+        format.html { redirect_to events_url, notice: 'Event was created and is under review.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
