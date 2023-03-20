@@ -45,38 +45,32 @@ class Event < ApplicationRecord
   }
 
   def likes
-    EventReact.where(event_id: self.id, status: EventReact.statuses[:like])
+    EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end
 
-  #TODO make this actually get a friend and the like count of an event
-  def display_likes(user, compressed=false)
-
-    event_likes = self.likes
-
+  # TODO: make this actually get a friend and the like count of an event
+  def display_likes(user, compressed = false)
+    event_likes = likes
 
     user_liked = user.liked(self)
 
     if compressed
 
-      if user_liked
-        return 'liked'
-      else
-        return "#{event_likes.count} likes"
-      end
+      return 'liked' if user_liked
+
+      return "#{event_likes.count} likes"
 
     end
 
     friend = nil
-    if event_likes.count > 0
-      # TODO get random friend
+    if event_likes.count.positive?
+      # TODO: get random friend
       friend = event_likes.first.user
     end
 
     # return string to display
 
-    if user_liked
-      return "liked by me and #{event_likes.count - 1} others"
-    end
+    return "liked by me and #{event_likes.count - 1} others" if user_liked
 
     if friend
       "liked by #{friend} and #{event_likes.count - 1} others"
@@ -86,8 +80,8 @@ class Event < ApplicationRecord
   end
 
   def display_location
-    if self.has_attribute?(:location)
-      self.location
+    if has_attribute?(:location)
+      location
     else
       'location unknown'
     end
@@ -101,60 +95,47 @@ class Event < ApplicationRecord
     else
       'bi-star'
     end
-
   end
 
   def tags
     all_tags = EventReact.where(event_id: self).where.not(status: 0).pluck(:status).uniq
-
   end
 
   def to_s
-    "#{self.name} @ #{self.time_of_event}"
+    "#{name} @ #{time_of_event}"
   end
 
   def approved_icon
-
-    if self.approved.nil?
+    if approved.nil?
       'bi-question-circle'
+    elsif approved
+      'bi-tick'
     else
-      if self.approved
-        'bi-tick'
-      else
-        'bi-x'
-      end
+      'bi-x'
     end
   end
 
   def approved_colour
-
-    if self.approved.nil?
+    if approved.nil?
       'purple'
+    elsif approved
+      'green'
     else
-      if self.approved
-        'green'
-      else
-        'red'
-      end
+      'red'
     end
-
   end
 
   def approved_desc
-
-    if self.approved.nil?
+    if approved.nil?
       'pending approval'
+    elsif approved
+      'approved'
     else
-      if self.approved
-        'approved'
-      else
-        'event rejected<br/>Change the details to request re-evalutation'
-      end
+      'event rejected<br/>Change the details to request re-evalutation'
     end
-
   end
 
   def creator
-    self.user
+    user
   end
 end

@@ -55,37 +55,31 @@ class User < ApplicationRecord
   # this function is trying to get all outings this user has created
   # using a joiner with the participants table
   def my_outings
-    Outing.where(creator_id: self.id)
+    Outing.where(creator_id: id)
   end
 
-  def future_outings(creator=nil)
+  def future_outings(creator = nil)
     outings_future = Outing.none
 
-    outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
     outings_future = outings.where('date > ?', Date.today)
 
-    if creator
-      outings_future = outings_future.where(creator_id: creator.id)
-    end
+    outings_future = outings_future.where(creator_id: creator.id) if creator
 
     outings_future
-
   end
 
-  def past_outings(creator=nil)
+  def past_outings(creator = nil)
     outings_past = Outing.none
 
-    outing_ids = Participant.where(user_id: self.id).pluck(:outing_id)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
     outings_past = outings.where('date <= ?', Date.today)
 
-    if creator
-      outings_past = outings_past.where(creator_id: creator.id)
-    end
+    outings_past = outings_past.where(creator_id: creator.id) if creator
 
     outings_past
-
   end
 
   def to_s
@@ -101,17 +95,14 @@ class User < ApplicationRecord
   end
 
   def liked(event)
-    EventReact.where(user_id: self.id, event_id: event.id, status: EventReact.statuses[:like]).count > 0
+    EventReact.where(user_id: id, event_id: event.id, status: EventReact.statuses[:like]).count.positive?
   end
 
   def event_reaction(event)
-    reactions = EventReact.where(user_id: self.id, event_id: event.id)
-    if reactions.length > 0
-      reactions.first.status
-    else
-      nil
-    end
+    reactions = EventReact.where(user_id: id, event_id: event.id)
+    return unless reactions.length.positive?
 
+    reactions.first.status
   end
 
   def commercial

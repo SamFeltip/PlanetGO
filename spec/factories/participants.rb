@@ -22,9 +22,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 FactoryBot.define do
-
   factory :participant do
-
     status { 1 }
     user
     outing

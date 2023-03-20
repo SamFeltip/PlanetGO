@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[ show edit update destroy ]
+  before_action :set_event, only: %i[show edit update destroy]
   before_action :authenticate_user!, only: %i[index show new create destroy edit like unlike]
 
   # GET /events or /events.json
@@ -26,10 +26,9 @@ class EventsController < ApplicationController
 
     @approved_events = Event.where(approved: true)
 
-
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: "Event approved" }
+      format.html { redirect_to events_path, notice: 'Event approved' }
       format.js
     end
   end
@@ -54,11 +53,9 @@ class EventsController < ApplicationController
 
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: "Event liked" }
+      format.html { redirect_to events_path, notice: 'Event liked' }
       format.js
     end
-
-
   end
 
   # GET /events/new
@@ -67,8 +64,7 @@ class EventsController < ApplicationController
   end
 
   # GET /events/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /events or /events.json
   def create
@@ -88,9 +84,7 @@ class EventsController < ApplicationController
   # PATCH/PUT /events/1 or /events/1.json
   def update
     # any changes need to be approved by admins
-    if @event.creator == current_user
-      @event.approved = nil
-    end
+    @event.approved = nil if @event.creator == current_user
 
     respond_to do |format|
       if @event.update(event_params)
@@ -115,15 +109,14 @@ class EventsController < ApplicationController
 
   private
 
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event
-      @event = Event.find(params[:id])
-      @event_liked = current_user.liked(@event)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event
+    @event = Event.find(params[:id])
+    @event_liked = current_user.liked(@event)
+  end
 
-    # Only allow a list of trusted parameters through.
-    def event_params
-      params.require(:event).permit(:name, :time_of_event, :description, :category, :approved, :user_id, event_reacts_attributes: [:id, :event_id, :user_id, :status])
-    end
-
+  # Only allow a list of trusted parameters through.
+  def event_params
+    params.require(:event).permit(:name, :time_of_event, :description, :category, :approved, :user_id, event_reacts_attributes: %i[id event_id user_id status])
+  end
 end

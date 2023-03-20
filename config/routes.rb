@@ -3,9 +3,8 @@
 Rails.application.routes.draw do
   resources :proposed_events
 
-  resources :events, except: [:new, :show] do
+  resources :events, except: %i[new show] do
     patch :like, on: :member
-
   end
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
@@ -34,8 +33,8 @@ Rails.application.routes.draw do
 
   root 'pages#landing'
 
-  match '/welcome', to: 'pages#landing', via: 'get'
-  match '/myaccount', to: 'pages#account', via: 'get'
+  get '/welcome', to: 'pages#landing'
+  get '/myaccount', to: 'pages#account'
 
   get '/pricings', to: 'pricings#index'
 end

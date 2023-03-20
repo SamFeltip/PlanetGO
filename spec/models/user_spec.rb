@@ -35,43 +35,44 @@
 #
 require 'rails_helper'
 
-RSpec.describe User, type: :model do
-
-
+RSpec.describe User do
   let!(:creator_user) { create(:user, email: 'testemail@email.com') }
 
-  let!(:past_outing_1) {
+  let!(:past_outing_1) do
     create(
       :outing,
       name: 'past outing 1',
       creator_id: creator_user.id,
-      date: Time.now - 1.day
+      date: 1.day.ago
     )
-  }
+  end
 
-  let!(:past_outing_2) {
+  let!(:past_outing_2) do
     create(
       :outing,
       name: 'past outing 2',
       creator_id: creator_user.id,
-      date: Time.now - 1.week
+      date: 1.week.ago
     )
-  }
+  end
 
-  let!(:future_outing_1) { create(
-    :outing,
-    name: 'future outing 1',
-    creator_id: creator_user.id,
-    date: Time.now + 1.day
-  ) }
+  let!(:future_outing_1) do
+    create(
+      :outing,
+      name: 'future outing 1',
+      creator_id: creator_user.id,
+      date: 1.day.from_now
+    )
+  end
 
-  let!(:future_outing_2) { create(
-    :outing,
-    name: 'future outing 2',
-    creator_id: creator_user.id,
-    date: Time.now + 1.week
-  ) }
-
+  let!(:future_outing_2) do
+    create(
+      :outing,
+      name: 'future outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.from_now
+    )
+  end
 
   it 'Returns the name when converted to a string' do
     expect(creator_user.to_s).to eq 'John Smith'
@@ -93,7 +94,7 @@ RSpec.describe User, type: :model do
     end
   end
 
-  it "should show future outings" do
+  it 'shows future outings' do
     expect(future_outing_1.date).to eq(Date.today + 1.day)
   end
 
@@ -108,7 +109,4 @@ RSpec.describe User, type: :model do
       expect(creator_user.future_outings).not_to include(past_outing_2)
     end
   end
-
-
-
 end

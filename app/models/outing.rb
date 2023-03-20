@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: outings
@@ -22,8 +24,8 @@
 
 class Outing < ApplicationRecord
   has_many :participants, dependent: :destroy
-  has_many :users, class_name: 'User', :through => :participants
-  has_many :events, :through => :proposed_events
+  has_many :users, class_name: 'User', through: :participants
+  has_many :events, through: :proposed_events
 
   belongs_to :user, foreign_key: :creator_id
 
@@ -33,15 +35,14 @@ class Outing < ApplicationRecord
   }
 
   def to_s
-    self.name
+    name
   end
 
   def time_status
-    (Date.today - self.date) > 0 ? 'past' : 'future'
+    (Date.today - date).positive? ? 'past' : 'future'
   end
 
-
   def creator
-    User.find(self.creator_id)
+    User.find(creator_id)
   end
 end
