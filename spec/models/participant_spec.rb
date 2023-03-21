@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: participants
@@ -21,27 +23,18 @@
 #
 require 'rails_helper'
 
-RSpec.describe Participant, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-
-  context "circumstances that create participants" do
-    context "an outing has been created" do
-      describe "when an outing is created" do
-
-        it "creates a participant for the creator" do
-
+RSpec.describe Participant do
+  context 'when circumstances that create participants' do
+    context 'when an outing has been created' do
+      describe 'when an outing is created' do
+        it 'creates a participant for the creator' do
+          pending 'woarked on soon'
         end
 
-        it "the participant status is set to creator" do
-
+        it 'makes participant with creator status' do
+          pending 'worked on soon'
         end
       end
     end
-
-    context "the creator of an event invites a user to an outing" do
-
-    end
-
   end
-
 end

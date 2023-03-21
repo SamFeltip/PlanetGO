@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ParticipantsController < ApplicationController
-  before_action :set_participant, only: %i[ show edit update destroy ]
+  before_action :set_participant, only: %i[show edit update destroy]
 
   # GET /participants or /participants.json
   def index
@@ -7,8 +9,7 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1 or /participants/1.json
-  def show
-  end
+  def show; end
 
   # GET /participants/new
   def new
@@ -16,8 +17,7 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /participants or /participants.json
   def create
@@ -31,7 +31,7 @@ class ParticipantsController < ApplicationController
 
     respond_to do |format|
       if @participant.save
-        format.html { redirect_to participant_url(@participant), notice: "Participant was successfully created." }
+        format.html { redirect_to participant_url(@participant), notice: 'Participant was successfully created.' }
         format.json { render :show, status: :created, location: @participant }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -44,7 +44,7 @@ class ParticipantsController < ApplicationController
   def update
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html { redirect_to participant_url(@participant), notice: "Participant was successfully updated." }
+        format.html { redirect_to participant_url(@participant), notice: 'Participant was successfully updated.' }
         format.json { render :show, status: :ok, location: @participant }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -58,19 +58,20 @@ class ParticipantsController < ApplicationController
     @participant.destroy
 
     respond_to do |format|
-      format.html { redirect_to participants_url, notice: "Participant was successfully destroyed." }
+      format.html { redirect_to participants_url, notice: 'Participant was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_participant
-      @participant = Participant.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def participant_params
-      params.require(:participant).permit(:status)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_participant
+    @participant = Participant.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def participant_params
+    params.require(:participant).permit(:status)
+  end
 end

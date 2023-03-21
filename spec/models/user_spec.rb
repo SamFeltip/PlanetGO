@@ -80,17 +80,16 @@ RSpec.describe User do
   it 'Returns the prefix of an email' do
     expect(creator_user.email_prefix).to eq 'testemail'
   end
-  
-  context "declaring availability" do
-    describe "when submit a time I am available" do
-      it "is recorded" do
-        
+
+  context 'when declaring availability' do
+    describe 'when submit a time I am available' do
+      it 'is recorded' do
+        pending 'soon'
       end
-      
-      it "is visible on my personal user page" do
-        
+
+      it 'is visible on my personal user page' do
+        pending 'not yet developed'
       end
-      
     end
   end
 
