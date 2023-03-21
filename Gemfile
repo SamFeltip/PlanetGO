@@ -61,7 +61,6 @@ gem 'activerecord-session_store'
 gem 'hamlit'
 gem 'hamlit-rails'
 
-gem 'cocoon'
 gem 'simple_form'
 
 gem 'draper'
@@ -87,8 +86,6 @@ gem 'sanitize_email'
 gem 'acts_as_votable'
 gem 'sentry-rails'
 gem 'sentry-ruby'
-
-gem 'jquery-rails'
 
 group :development do
   gem 'annotate'
