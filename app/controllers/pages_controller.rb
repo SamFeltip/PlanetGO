@@ -12,5 +12,6 @@ class PagesController < ApplicationController
 
     @future_outings = current_user.future_outings
     @past_outings = current_user.past_outings
+    @liked_events = current_user.liked_events
   end
 end
