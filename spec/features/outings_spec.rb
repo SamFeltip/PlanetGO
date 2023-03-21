@@ -6,7 +6,8 @@ require 'faker'
 RSpec.describe 'Outings' do
   past_outing_desc = 'this outing was so much fun! thanks for coming guys!'
   past_outing_name = 'past outing'
-  other_outing_creator = create(:user, full_name: 'David Richards')
+
+  let(:other_outing_creator) { create(:user, full_name: 'David Richards') }
 
   let!(:outing_creator) { create(:user) }
   let!(:past_outing) { create(:outing, name: past_outing_name, creator_id: outing_creator.id, date: 1.week.ago, description: past_outing_desc) }
@@ -135,6 +136,9 @@ RSpec.describe 'Outings' do
 
       context 'when a user deletes their own outings' do
         before do
+          create(:participant, user_id: outing_creator.id, outing_id: another_outing.id, status: Participant.statuses[:confirmed])
+          visit outings_url
+
           # Find the "Show" link for the Hoover outing and click it
           within "#outing_#{past_outing.id}" do
             click_link 'Destroy'
@@ -152,7 +156,7 @@ RSpec.describe 'Outings' do
 
         specify 'doesnt let a user delete someone elses outings' do
           within "#outing_#{another_outing.id}" do
-            expect(page).not_to have_content('Destroy')
+            expect(page).to have_no_content('Destroy')
           end
         end
       end
@@ -183,16 +187,4 @@ RSpec.describe 'Outings' do
   #
   #   end
   # end
-
-  context 'when a user wants to change outing details' do
-    describe 'when a user is logged in as the outing creator' do
-      it 'lets them add an event to an exist outing' do
-        pending 'not developed yet'
-      end
-
-      # it 'lets them remove an event from an existing outing' do
-      #   pending 'not developed yet'
-      # end
-    end
-  end
 end

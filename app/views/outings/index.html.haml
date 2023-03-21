@@ -15,7 +15,7 @@
         %th
     %tbody
       - @outings.each do |outing|
-        %tr{:id => "outing_#{outing.id}"}
+        %tr[outing]
           %td= outing.name
           %td= outing.date
           %td= outing.description
