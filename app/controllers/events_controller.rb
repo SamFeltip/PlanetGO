@@ -2,7 +2,7 @@
 
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit like unlike]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit like]
 
   # GET /events or /events.json
   def index

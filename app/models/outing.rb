@@ -26,8 +26,7 @@ class Outing < ApplicationRecord
   has_many :participants, dependent: :destroy
   has_many :users, class_name: 'User', through: :participants
   has_many :events, through: :proposed_events
-
-  belongs_to :user, foreign_key: :creator_id
+  belongs_to :user, foreign_key: :creator_id, inverse_of: false
 
   enum outing_type: {
     personal: 0,
