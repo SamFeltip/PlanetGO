@@ -34,8 +34,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  has_many :participants
-  has_many :events
+  has_many :participants, dependent: :destroy
+  has_many :events, dependent: :restrict_with_error
   has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter
@@ -59,7 +59,6 @@ class User < ApplicationRecord
   end
 
   def future_outings(creator = nil)
-
     outing_ids = Participant.where(user_id: id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
     outings_future = outings.where('date > ?', Time.zone.today)
@@ -70,7 +69,6 @@ class User < ApplicationRecord
   end
 
   def past_outings(creator = nil)
-
     outing_ids = Participant.where(user_id: id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)
     outings_past = outings.where('date <= ?', Time.zone.today)

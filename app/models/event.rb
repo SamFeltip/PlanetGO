@@ -34,7 +34,7 @@
 class Event < ApplicationRecord
   belongs_to :user
 
-  has_many :event_reacts
+  has_many :event_reacts, dependent: :destroy
 
   enum category: {
     bar: 0,
@@ -49,7 +49,7 @@ class Event < ApplicationRecord
   end
 
   # TODO: make this actually get a friend and the like count of an event
-  def display_likes(user, compressed = false)
+  def display_likes(user, compressed: false)
     event_likes = likes
 
     user_liked = user.liked(self)
@@ -95,10 +95,6 @@ class Event < ApplicationRecord
     else
       'bi-star'
     end
-  end
-
-  def tags
-    all_tags = EventReact.where(event_id: self).where.not(status: 0).pluck(:status).uniq
   end
 
   def to_s

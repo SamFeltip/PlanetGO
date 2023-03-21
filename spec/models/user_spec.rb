@@ -38,7 +38,7 @@ require 'rails_helper'
 RSpec.describe User do
   let!(:creator_user) { create(:user, email: 'testemail@email.com') }
 
-  let!(:past_outing_1) do
+  let!(:past_outing1) do
     create(
       :outing,
       name: 'past outing 1',
@@ -47,7 +47,7 @@ RSpec.describe User do
     )
   end
 
-  let!(:past_outing_2) do
+  let!(:past_outing2) do
     create(
       :outing,
       name: 'past outing 2',
@@ -56,7 +56,7 @@ RSpec.describe User do
     )
   end
 
-  let!(:future_outing_1) do
+  let!(:future_outing1) do
     create(
       :outing,
       name: 'future outing 1',
@@ -65,7 +65,7 @@ RSpec.describe User do
     )
   end
 
-  let!(:future_outing_2) do
+  let!(:future_outing2) do
     create(
       :outing,
       name: 'future outing 2',
@@ -95,18 +95,18 @@ RSpec.describe User do
   end
 
   it 'shows future outings' do
-    expect(future_outing_1.date).to eq(Time.zone.today + 1.day)
+    expect(future_outing1.date).to eq(Time.zone.today + 1.day)
   end
 
   describe '#future_outings' do
     it 'returns all outings in the future' do
-      expect(creator_user.future_outings).to include(future_outing_1)
-      expect(creator_user.future_outings).to include(future_outing_2)
+      expect(creator_user.future_outings).to include(future_outing1)
+      expect(creator_user.future_outings).to include(future_outing2)
     end
 
     it 'doesnt return outings in the past' do
-      expect(creator_user.future_outings).not_to include(past_outing_1)
-      expect(creator_user.future_outings).not_to include(past_outing_2)
+      expect(creator_user.future_outings).not_to include(past_outing1)
+      expect(creator_user.future_outings).not_to include(past_outing2)
     end
   end
 end
