@@ -8,8 +8,8 @@ class EventsController < ApplicationController
   def index
     @approved_events = Event.where(approved: true)
 
-    @my_pending_events = Event.where(user_id: current_user.id, approved: false).or(Event.where(user_id: current_user.id, approved: nil))
-    @all_pending_events = Event.where(approved: nil).where.not(user_id: current_user.id).or(Event.where(approved: false).where.not(user_id: current_user.id))
+    @my_pending_events = Event.my_pending_events(current_user)
+    @all_pending_events = Event.other_users_pending_events(current_user)
   end
 
   # GET /events/1 or /events/1.json

@@ -134,4 +134,12 @@ class Event < ApplicationRecord
   def creator
     user
   end
+
+  def self.my_pending_events(user)
+    Event.where(user_id: user.id).where.not(approved: true)
+  end
+
+  def self.other_users_pending_events(user)
+    Event.where.not(user_id: user.id).where.not(approved: true)
+  end
 end

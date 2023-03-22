@@ -81,17 +81,17 @@ RSpec.describe User do
     expect(creator_user.email_prefix).to eq 'testemail'
   end
 
-  context 'when declaring availability' do
-    describe 'when submit a time I am available' do
-      it 'is recorded' do
-        skip 'not yet developed'
-      end
-
-      it 'is visible on my personal user page' do
-        pending 'not yet developed'
-      end
-    end
-  end
+  # context 'when declaring availability' do
+  #   describe 'when submit a time I am available' do
+  #     it 'is recorded' do
+  #       pending 'not yet developed'
+  #     end
+  #
+  #     it 'is visible on my personal user page' do
+  #       pending 'not yet developed'
+  #     end
+  #   end
+  # end
 
   it 'shows future outings' do
     expect(future_outing1.date).to eq(Time.zone.today + 1.day)
