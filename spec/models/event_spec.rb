@@ -25,11 +25,14 @@
 require 'rails_helper'
 
 # RSpec.describe Event do
-#   context 'when viewing events' do
-#     describe 'when a user can view all open events' do
-#       it 'shows the titles of events' do
-#         pending 'not developed yet'
-#       end
+#   let!(:event_creator) { create(:user) }
+#   let(:created_event) { create(:event, user_id: event_creator) }
+#   # let!(:other_event_creator) { create(:user) }
+#
+#   describe '#pending_events' do
+#     specify 'returns all pending events' do
+#       events = described_class.my_pending_events(event_creator)
+#       expect(events.count).to eq(1)
 #     end
 #   end
 # end
