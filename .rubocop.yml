@@ -4,7 +4,6 @@ require:
   - rubocop-rails
   - rubocop-rspec
 
-
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 

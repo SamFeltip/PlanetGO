@@ -4,12 +4,7 @@
 
   .row
     .col-auto
-      - if event.category
-        = image_pack_tag event.image_path, width: 120
-      - else
-        = image_pack_tag "event_images/unknown.png", width: 120
-
-
+      = image_pack_tag event.image_path, width: 120
     .col.p-3
       %p
         =event.description

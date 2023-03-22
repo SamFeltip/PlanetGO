@@ -14,13 +14,11 @@
           .col
             = f.input :approved
 
-
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }
       Save
 
     - if locals[:edit] && (@event.creator == current_user || current_user.admin?)
-      -# = link_to 'Destroy', @event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
 
       %a#destroy_event{href: event_path(@event), data: {method: :delete, confirm: 'Are you sure you want to delete this event?' }, class: 'red ms-auto' }
         %i.bi-trash.lg-icon

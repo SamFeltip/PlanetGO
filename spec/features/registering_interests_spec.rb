@@ -10,7 +10,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as an administrator' do
       before do
-        @admin = create(:user, role: 2)
+        @admin = create(:user, role: User.roles[:admin])
         login_as @admin
       end
 
@@ -51,7 +51,7 @@ RSpec.describe 'RegisterInterest' do
 
       specify 'I am not allowed access to others interest' do
         visit 'pricings/3/register_interests'
-        expect(page).to have_content 'You are not authorized to access this page.'
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
       specify 'I cannot delete a registered interest' do
@@ -63,7 +63,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a user' do
       before do
-        @user = create(:user, role: 0)
+        @user = create(:user, role: User.roles[:user])
         login_as @user
       end
 
@@ -89,7 +89,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a reporter' do
       before do
-        @reporter = create(:user, role: 1)
+        @reporter = create(:user, role: User.roles[:reporter])
         login_as @reporter
       end
 
