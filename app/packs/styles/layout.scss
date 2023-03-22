@@ -233,21 +233,8 @@ p {
 .horizontal-scroll{
   display: flex;
   overflow-x: auto;
-
   padding-bottom: 20px;
-
 }
-
-///* Hide scrollbar for Chrome, Safari and Opera */
-//.horizontal-scroll::-webkit-scrollbar {
-//  display: none;
-//}
-//
-///* Hide scrollbar for IE, Edge and Firefox */
-//.horizontal-scroll {
-//  -ms-overflow-style: none;  /* IE and Edge */
-//  scrollbar-width: none;  /* Firefox */
-//}
 
 #more-events{
 }
@@ -260,15 +247,8 @@ p {
 
 // horizontal scrolling cards
 .horizontal-scroll > a {
-  //transform: translateX(-50%);
   transition: 0.5s ease;
 }
-
-.horizontal-scroll > :first-child{
-  //margin-left: 50%;
-  //transition: 0.5s ease;
-}
-
 
 .horizontal-scroll {
   flex-wrap: nowrap;
@@ -309,17 +289,6 @@ p {
     margin-bottom: 10px;
   }
 }
-
-
-
-#more_events .card{
-  //padding: 20px;
-  //display: inline;
-  //max-width: 250px;
-  //min-width: 250px;
-}
-
-
 
 // icons
 .lg-icon {

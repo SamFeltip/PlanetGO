@@ -22,6 +22,7 @@
 #  reset_password_token   :string
 #  role                   :integer          default("user")
 #  sign_in_count          :integer          default(0), not null
+#  suspended              :boolean          default(FALSE)
 #  unconfirmed_email      :string
 #  unlock_token           :string
 #  created_at             :datetime         not null
@@ -81,17 +82,17 @@ RSpec.describe User do
     expect(creator_user.email_prefix).to eq 'testemail'
   end
 
-  # context 'when declaring availability' do
-  #   describe 'when submit a time I am available' do
-  #     it 'is recorded' do
-  #       pending 'not yet developed'
-  #     end
-  #
-  #     it 'is visible on my personal user page' do
-  #       pending 'not yet developed'
-  #     end
-  #   end
-  # end
+  describe '#commercial' do
+    it 'Returns true if the user is of role user or advertiser' do
+      user = create(:user, role: User.roles[:user])
+      expect(user.commercial).to be true
+    end
+
+    it 'Returns false if the user is of role admin or reporter' do
+      user = create(:user, role: User.roles[:reporter])
+      expect(user.commercial).to be false
+    end
+  end
 
   it 'shows future outings' do
     expect(future_outing1.date).to eq(Time.zone.today + 1.day)

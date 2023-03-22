@@ -8,6 +8,8 @@
         %th Role
         %th Full Name
         %th Email
+        %th Suspended
+        %th Locking
         %th
     %tbody
       - @users.each do |user|
@@ -15,6 +17,18 @@
           %td= user.role
           %td= user.full_name
           %td= user.email
+          %td
+            - if user != current_user &&  user.commercial
+              - if !user.suspended
+                = link_to 'Suspend', suspend_user_path(user), method: :put, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+              - else
+                = link_to 'Reinstate', reinstate_user_path(user), method: :put, class: 'btn btn-outline-secondary ms-1 btn-sm'
+          %td
+            - if user != current_user
+              - if !user.access_locked?
+                = link_to 'Lock', lock_user_path(user), method: :put, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+              - else
+                = link_to 'Unlock', unlock_user_path(user), method: :put, class: 'btn btn-outline-secondary ms-1 btn-sm'
           %td
             .btn-toolbar.float-end
               = link_to 'Show', user, class: 'btn btn-outline-secondary btn-sm'

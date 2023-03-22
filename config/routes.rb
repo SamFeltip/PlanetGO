@@ -18,6 +18,15 @@ Rails.application.routes.draw do
 
   resources :users, :metrics, :register_interests
 
+  resources :users do
+    member do
+      put 'lock', to: 'users#lock'
+      put 'unlock', to: 'users#unlock'
+      put 'suspend', to: 'users#suspend'
+      put 'reinstate', to: 'users#reinstate'
+    end
+  end
+
   resources :pricings, only: [] do
     resources :register_interests, only: %i[index new create destroy]
   end

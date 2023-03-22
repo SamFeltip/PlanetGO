@@ -4,20 +4,29 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    can :create, RegisterInterest
+    # Guard check to make sure user exists
+    if user.blank?
+      guest_permissions
+      return
+    end
 
-    return if user.blank?
+    if user.admin?
+      admin_permissions(user)
+      reporter_permissions
+      advertiser_permissions(user)
+      user_permissions(user)
+      guest_permissions
+    elsif user.reporter?
+      reporter_permissions
+      guest_permissions
+    elsif user.advertiser?
+      advertiser_permissions(user)
+      guest_permissions
+    elsif user.user?
+      user_permissions(user)
+      guest_permissions
+    end
 
-    return unless user.reporter? || user.admin?
-
-    can :manage, Metric
-
-    return unless user.admin?
-
-    can %i[read update destroy], User
-    cannot %i[update destroy], User, id: user.id
-
-    can :manage, RegisterInterest
     # Define abilities for the user here. For example:
     #
     #   return unless user.present?
@@ -42,5 +51,42 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
+  end
+
+  def guest_permissions
+    can :create, RegisterInterest
+  end
+
+  def user_permissions(user)
+    commercial_permissions(user)
+  end
+
+  def advertiser_permissions(user)
+    commercial_permissions(user)
+  end
+
+  def commercial_permissions(user)
+    can :create, Event
+    can %i[read update destroy], Event, user_id: user.id
+    can :create, Outing
+    can %i[read update destroy], Outing, creator_id: user.id
+
+    return unless user.suspended
+
+    cannot %i[create update destroy], Event
+    cannot %i[create update destroy], Outing
+  end
+
+  def reporter_permissions
+    can :manage, Metric
+  end
+
+  def admin_permissions(user)
+    can %i[read update destroy lock unlock suspend reinstate], User
+    cannot %i[update destroy lock unlock suspend reinstate], User, id: user.id
+
+    can :manage, RegisterInterest
+    can :manage, Event
+    can :manage, Outing
   end
 end
