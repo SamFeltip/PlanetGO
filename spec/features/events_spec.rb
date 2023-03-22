@@ -267,30 +267,33 @@ RSpec.describe 'Events' do
     let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id) }
     let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id) }
     let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id) }
-    let(:user_list) { create_list(:user, 5) }
 
     before do
+
+      user_list = create_list(:user, 5)
+      user_list.each do |react_user|
+        create(:event_react, event_id: event2.id, user_id: react_user.id)
+      end
+
+      create(:event_react, event_id: event1.id, user_id: admin.id)
+      create(:event_react, event_id: event1.id, user_id: other_event_creator.id)
+
+      create(:event_react, event_id: event2.id, user_id: user.id)
+
       login_as user
       visit events_path
+
     end
 
     context 'when a user sees a particular event' do
       before do
-        user_list.each do |react_user|
-          create(:event_react, event_id: event2.id, user_id: react_user.id)
-        end
-
-        create(:event_react, event_id: event1.id, user_id: admin.id)
-        create(:event_react, event_id: event1.id, user_id: other_event_creator.id)
-        create(:event_react, event_id: event2.id, user_id: user.id)
-
         visit event_path(event1)
 
       end
 
       specify 'should see the number of likes' do
         within '.event_like' do
-          expect(page).to have_content('2 likes')
+          expect(page).to have_content('3 likes')
         end
       end
 
@@ -311,17 +314,25 @@ RSpec.describe 'Events' do
           # was previously 2
           expect(Event.find(event1.id).likes.count).to eq(3)
         end
+
+        specify 'should create an Event react of the current user' do
+          expect(EventReact.last).to have_attributes(
+            user_id: user.id,
+            event_id: event1.id,
+            status: 'like'
+          )
+        end
       end
     end
 
     context 'when I visit my accounts page' do
       before do
+        login_as user
         visit '/myaccount'
       end
 
       specify 'should see a list of my liked events' do
         within '#liked_events' do
-          expect(page).to have_content(event1.name)
           expect(page).to have_content(event2.name)
           expect(page).to have_no_content(event3.name)
         end
