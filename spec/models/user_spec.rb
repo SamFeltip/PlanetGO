@@ -84,7 +84,7 @@ RSpec.describe User do
   context 'when declaring availability' do
     describe 'when submit a time I am available' do
       it 'is recorded' do
-        pending 'soon'
+        skip 'not yet developed'
       end
 
       it 'is visible on my personal user page' do

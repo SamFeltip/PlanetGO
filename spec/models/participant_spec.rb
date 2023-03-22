@@ -22,19 +22,3 @@
 #  fk_rails_...  (user_id => users.id)
 #
 require 'rails_helper'
-
-RSpec.describe Participant do
-  context 'when circumstances that create participants' do
-    context 'when an outing has been created' do
-      describe 'when an outing is created' do
-        it 'creates a participant for the creator' do
-          pending 'woarked on soon'
-        end
-
-        it 'makes participant with creator status' do
-          pending 'worked on soon'
-        end
-      end
-    end
-  end
-end

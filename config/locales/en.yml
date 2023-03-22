@@ -31,3 +31,41 @@
 
 en:
   hello: "Hello world"
+
+  proposed_events:
+    destroy:
+      notice: 'Proposed event was successfully destroyed.'
+    update:
+      notice: 'Proposed event was successfully updated.'
+    create:
+      notice: 'Proposed event was successfully created.'
+
+  participants:
+    destroy:
+      notice: 'Participant was successfully destroyed.'
+    update:
+      notice: 'Participant was successfully updated.'
+    create:
+      notice: 'Participant was successfully created.'
+
+  outings:
+    destroy:
+      notice: 'Outing was successfully destroyed.'
+    update:
+      notice: 'Outing was successfully updated.'
+    create:
+      notice: 'Outing was successfully created.'
+
+  events:
+    like:
+      notice: 'Event liked'
+    approval:
+      notice: 'Event approved'
+    destroy:
+      notice: 'Event was successfully destroyed.'
+    update:
+      notice: 'Event was successfully updated.'
+    create:
+      notice: 'Event was created and is under review.'
+
+
