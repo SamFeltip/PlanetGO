@@ -1,0 +1,17 @@
+console.log("#{@event}")
+
+- if @event_liked
+  document.querySelector(".event_like").innerHTML ="liked"
+  document.querySelector(".like_icon").classList.remove("bi-star")
+  document.querySelector(".like_icon").classList.add("bi-star-fill")
+
+- else
+  document.querySelector(".event_like").innerHTML = "#{@event.likes.count} likes"
+  document.querySelector(".like_icon").classList.remove("bi-star-fill")
+  document.querySelector(".like_icon").classList.add("bi-star")
+
+
+
+
+console.log("other stuff");
+-#console.log("event liked #{@event}");

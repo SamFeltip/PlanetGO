@@ -34,7 +34,8 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  # has_many :participants
+  has_many :participants, dependent: :destroy
+  has_many :events, dependent: :restrict_with_error
   has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter
@@ -46,10 +47,36 @@ class User < ApplicationRecord
 
   enum role: {
     user: 0,
-    advertiser: 1,
-    reporter: 2,
-    admin: 3
+    reporter: 1,
+    admin: 2,
+    advertiser: 3
   }
+
+  # this function is trying to get all outings this user has created
+  # using a joiner with the participants table
+  def my_outings
+    Outing.where(creator_id: id)
+  end
+
+  def future_outings(creator = nil)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_future = outings.where('date > ?', Time.zone.today)
+
+    outings_future = outings_future.where(creator_id: creator.id) if creator
+
+    outings_future
+  end
+
+  def past_outings(creator = nil)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_past = outings.where('date <= ?', Time.zone.today)
+
+    outings_past = outings_past.where(creator_id: creator.id) if creator
+
+    outings_past
+  end
 
   def to_s
     if full_name?
@@ -61,6 +88,17 @@ class User < ApplicationRecord
 
   def email_prefix
     email.split('@')[0]
+  end
+
+  def liked(event)
+    EventReact.where(user_id: id, event_id: event.id, status: EventReact.statuses[:like]).count.positive?
+  end
+
+  def event_reaction(event)
+    reactions = EventReact.where(user_id: id, event_id: event.id)
+    return unless reactions.length.positive?
+
+    reactions.first.status
   end
 
   def commercial

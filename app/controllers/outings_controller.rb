@@ -7,7 +7,10 @@ class OutingsController < ApplicationController
 
   # GET /outings or /outings.json
   def index
-    @outings = Outing.all
+    @outings = Outing.all.order(date: :desc)
+    return if current_user.admin?
+
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(:date)
   end
 
   # GET /outings/1 or /outings/1.json
@@ -25,6 +28,11 @@ class OutingsController < ApplicationController
   def create
     @outing = Outing.new(outing_params)
 
+    # There has to be a better way to do this, dont @ me
+    token_prefix = @outing.id.to_s
+    token = token_prefix + rand(100_000).to_s
+    @outing.invitation_token = token.to_i
+
     # @participant = @outing.participants.new(
     #   user_id: current_user.id,
     #   status: "creator"
@@ -33,13 +41,15 @@ class OutingsController < ApplicationController
     # @participant.save
     @participant = @outing.participants.build(
       user_id: current_user.id,
-      status: 'creator'
+      status: Participant.statuses[:creator]
     )
+
+    @outing.creator_id = current_user.id
 
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outing_url(@outing), notice: 'Outing was successfully created.' }
+        format.html { redirect_to outings_path, notice: 'Outing was successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
         Rails.logger.debug 'outing failed'
@@ -82,6 +92,6 @@ class OutingsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def outing_params
-    params.require(:outing).permit(:name, :date, :description)
+    params.require(:outing).permit(:name, :date, :description, :outing_type, :invitation_token)
   end
 end

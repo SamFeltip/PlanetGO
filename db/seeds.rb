@@ -7,16 +7,32 @@ Rails.logger.debug '[+] Adding raw users.'
 
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
-                    role: 'admin',
+                    role: User.roles[:admin],
                     password: default_password,
                     full_name: 'Arielle Norman'
                   )
 
 Rails.logger.debug '.'
+user_advertiser1 = User.where(email: 'advertiser1@company.com')
+                       .first_or_create(
+                         role: User.roles[:advertiser],
+                         password: default_password,
+                         full_name: 'Billy Adams'
+                       )
+Rails.logger.debug '.'
+
+user_advertiser2 = User.where(email: 'advertiser2@company.com')
+                       .first_or_create(
+                         role: User.roles[:advertiser],
+                         password: default_password,
+                         full_name: 'Mango Cavern'
+                       )
+
+Rails.logger.debug '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
-                    role: 'admin',
+                    role: User.roles[:admin],
                     password: default_password,
                     full_name: 'Miguel Whitaker'
                   )
@@ -25,7 +41,7 @@ Rails.logger.debug '.'
 
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
-                  role: 'reporter',
+                  role: User.roles[:reporter],
                   password: default_password,
                   full_name: 'Houston Davila'
                 )
@@ -34,7 +50,7 @@ Rails.logger.debug '.'
 
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
-                  role: 'reporter',
+                  role: User.roles[:reporter],
                   password: default_password,
                   full_name: 'Lea Park'
                 )
@@ -43,7 +59,7 @@ Rails.logger.debug '.'
 
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
-                   role: 'user',
+                   role: User.roles[:user],
                    password: default_password,
                    full_name: 'Anna Hudson'
                  )
@@ -51,10 +67,132 @@ user_user1 = User.where(email: 'user1@gmail.com')
 Rails.logger.debug '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
-                   role: 'user',
+                   role: User.roles[:user],
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )
+
+Rails.logger.debug '[+] Adding new events.'
+
+event_1 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pizza cooking class",
+  description: 'Edible Pizza at suspiciously low prices',
+  category: Event.categories[:restaurant],
+  time_of_event: 7.days.from_now
+).first_or_create
+Rails.logger.debug '.'
+
+event_2 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Billy's Pasta tasting",
+  description: "I'll be honest, even I wouldn't eat the food we serve",
+  category: Event.categories[:restaurant],
+  time_of_event: 7.days.from_now
+).first_or_create
+Rails.logger.debug '.'
+
+event_3 = Event.where(
+  user_id: user_advertiser1.id,
+  name: 'Pub Quiz',
+  description: "Our pub quiz is so hard you'll probably want a drink after getting all the questions wrong. 'Beer' £8 per half pint",
+  category: Event.categories[:bar],
+  time_of_event: 7.days.from_now,
+  approved: true
+).first_or_create
+Rails.logger.debug '.'
+
+event_4 = Event.where(
+  user_id: user_advertiser2.id,
+  name: 'Half Price Wednesdays',
+  description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
+  category: Event.categories[:bar],
+  time_of_event: 3.days.from_now,
+  approved: true
+).first_or_create
+
+Rails.logger.debug '[+] Adding Event Reactions.'
+
+EventReact.where(
+  user_id: user_admin1.id,
+  event_id: event_4.id
+).first_or_create
+
+Rails.logger.debug '.'
+EventReact.where(
+  user_id: user_admin2.id,
+  event_id: event_4.id
+).first_or_create
+
+Rails.logger.debug '.'
+EventReact.where(
+  user_id: user_advertiser1.id,
+  event_id: event_4.id
+).first_or_create
+
+Rails.logger.debug '.'
+EventReact.where(
+  user_id: user_user2.id,
+  event_id: event_4.id
+)
+
+Rails.logger.debug '[+] Adding new outings'
+Rails.logger.debug '.'
+outing1 = Outing.where(
+  name: 'Pizza Time',
+  date: 1.week.from_now,
+  creator_id: user_user1.id
+).first_or_create
+
+Rails.logger.debug '.'
+outing2 = Outing.where(
+  name: 'Hoover Convention',
+  date: 2.weeks.from_now,
+  creator_id: user_user1.id
+).first_or_create
+
+Rails.logger.debug '.'
+outing3 = Outing.where(
+  name: 'Bar Crawl',
+  date: 1.week.ago,
+  creator_id: user_user2.id
+).first_or_create
+
+Rails.logger.debug '[+] Adding new participants'
+Rails.logger.debug '.'
+participant_outing1_1 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing1,
+  status: Participant.statuses[:creator]
+).first_or_create
+
+Rails.logger.debug '.'
+participant_outing1_2 = Participant.where(
+  user_id: user_user2.id,
+  outing_id: outing1,
+  status: Participant.statuses[:pending]
+).first_or_create
+
+Rails.logger.debug '.'
+participant_outing3_1 = Participant.where(
+  user_id: user_user2.id,
+  outing_id: outing3,
+  status: Participant.statuses[:creator]
+).first_or_create
+
+Rails.logger.debug '.'
+participant_outing3_2 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing3,
+  status: Participant.statuses[:pending]
+).first_or_create
+
+Rails.logger.debug '.'
+participant_outing2_1 = Participant.where(
+  user_id: user_user1.id,
+  outing_id: outing2,
+  status: Participant.statuses[:creator]
+).first_or_create
 
 Rails.logger.debug '[+] Adding new metrics.'
 

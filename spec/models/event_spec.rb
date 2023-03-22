@@ -23,3 +23,13 @@
 #  fk_rails_...  (user_id => users.id)
 
 require 'rails_helper'
+
+# RSpec.describe Event do
+#   context 'when viewing events' do
+#     describe 'when a user can view all open events' do
+#       it 'shows the titles of events' do
+#         pending 'not developed yet'
+#       end
+#     end
+#   end
+# end

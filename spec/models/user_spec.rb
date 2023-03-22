@@ -36,14 +36,50 @@
 require 'rails_helper'
 
 RSpec.describe User do
+  let!(:creator_user) { create(:user, email: 'testemail@email.com') }
+
+  let!(:past_outing1) do
+    create(
+      :outing,
+      name: 'past outing 1',
+      creator_id: creator_user.id,
+      date: 1.day.ago
+    )
+  end
+
+  let!(:past_outing2) do
+    create(
+      :outing,
+      name: 'past outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.ago
+    )
+  end
+
+  let!(:future_outing1) do
+    create(
+      :outing,
+      name: 'future outing 1',
+      creator_id: creator_user.id,
+      date: 1.day.from_now
+    )
+  end
+
+  let!(:future_outing2) do
+    create(
+      :outing,
+      name: 'future outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.from_now
+    )
+  end
+
   it 'Returns the name when converted to a string' do
-    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
-    expect(user.to_s).to eq 'John Smith'
+    expect(creator_user.to_s).to eq 'John Smith'
   end
 
   it 'Returns the prefix of an email' do
-    user = create(:user, full_name: 'John Smith', email: 'testemail@email.com')
-    expect(user.email_prefix).to eq 'testemail'
+    expect(creator_user.email_prefix).to eq 'testemail'
   end
 
   describe '#commercial' do
@@ -58,13 +94,19 @@ RSpec.describe User do
     end
   end
 
-  # context 'declaring availability' do
-  #   describe 'when submit a time I am available' do
-  #     it 'is recorded' do
-  #     end
-  #
-  #     it 'is visible on my personal user page' do
-  #     end
-  #   end
-  # end
+  it 'shows future outings' do
+    expect(future_outing1.date).to eq(Time.zone.today + 1.day)
+  end
+
+  describe '#future_outings' do
+    it 'returns all outings in the future' do
+      expect(creator_user.future_outings).to include(future_outing1)
+      expect(creator_user.future_outings).to include(future_outing2)
+    end
+
+    it 'doesnt return outings in the past' do
+      expect(creator_user.future_outings).not_to include(past_outing1)
+      expect(creator_user.future_outings).not_to include(past_outing2)
+    end
+  end
 end

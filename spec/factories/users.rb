@@ -40,8 +40,8 @@ FactoryBot.define do
 
   factory :user do
     email
-    password { 'Testuserpassword123' }
-    last_sign_in_at { Time.new(2023, 1, 12).utc }
+    password { 'SneakyPassword100' }
     full_name { 'John Smith' }
+    last_sign_in_at { Time.new(2023, 1, 12).utc }
   end
 end

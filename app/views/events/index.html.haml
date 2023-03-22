@@ -1,30 +1,12 @@
-.card
-  .card-header.d-flex.align-items-center
-    %span Listing Events
+- if current_user.admin? || current_user.advertiser?
+  = render "registering_events"
 
-    - if !current_user.suspended
-      = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
 
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Date
-        %th Description
-        %th Category
-        %th Approved
-        %th
-    %tbody
-      - @events.each do |event|
-        %tr
-          %td= event.name
-          %td= event.time_of_event
-          %td= event.description
-          %td= event.category
-          %td= event.approved
-          %td
-            .btn-toolbar.float-end
-              = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
-              - if !current_user.suspended
-                = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'
-                = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+#events
+  - if @approved_events.count == 0
+    %h1 Hmm...
+    %p There doesn't seem to be any events yet
+    %p come back later and they'll be more for you!
+
+  - @approved_events.each do |event|
+    = render "event_card", event: event

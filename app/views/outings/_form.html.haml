@@ -2,8 +2,10 @@
 = simple_form_for(@outing) do |f|
   .card-body
     = f.input :name, wrapper_html: { class: 'mb-3' }
-    = f.input :date, wrapper_html: { class: 'mb-3' }
+    = f.input :date, wrapper_html: { class: 'mb-3' }, html5: true
+
     = f.input :description, wrapper_html: { class: 'mb-3' }
+    = f.input :outing_type, wrapper_html: { class: 'mb-3' }, collection: Outing.outing_types.keys
 
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }

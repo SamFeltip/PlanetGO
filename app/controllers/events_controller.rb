@@ -2,16 +2,61 @@
 
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[show new create destroy edit]
-  load_and_authorize_resource
+  before_action :authenticate_user!, only: %i[index show new create destroy edit like]
 
   # GET /events or /events.json
   def index
-    @events = Event.all
+    @approved_events = Event.where(approved: true)
+
+    @my_pending_events = Event.where(user_id: current_user.id, approved: false).or(Event.where(user_id: current_user.id, approved: nil))
+    @all_pending_events = Event.where(approved: nil).where.not(user_id: current_user.id).or(Event.where(approved: false).where.not(user_id: current_user.id))
   end
 
   # GET /events/1 or /events/1.json
-  def show; end
+  def show
+    @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
+
+    @event = Event.find(params[:id])
+  end
+
+  def approval
+    @event = Event.find(params[:id])
+    @event.approved = params[:approved]
+    @event.save
+
+    @approved_events = Event.where(approved: true)
+
+    # redirect_to posts_path
+    respond_to do |format|
+      format.html { redirect_to events_path, notice: 'Event approved' }
+      format.js
+    end
+  end
+
+  def like
+    @event = Event.find(params[:id])
+
+    if current_user.liked(@event)
+      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
+      EventReact.destroy(event_react_id)
+
+    else
+      @event_react = @event.event_reacts.build(
+        user_id: current_user.id,
+        status: EventReact.statuses[:like]
+      )
+
+      @event.save
+    end
+
+    @event_liked = current_user.liked(@event)
+
+    # redirect_to posts_path
+    respond_to do |format|
+      format.html { redirect_to events_path, notice: 'Event liked' }
+      format.js
+    end
+  end
 
   # GET /events/new
   def new
@@ -38,6 +83,9 @@ class EventsController < ApplicationController
 
   # PATCH/PUT /events/1 or /events/1.json
   def update
+    # any changes need to be approved by admins
+    @event.approved = nil if @event.creator == current_user
+
     respond_to do |format|
       if @event.update(event_params)
         format.html { redirect_to event_url(@event), notice: 'Event was successfully updated.' }
@@ -64,10 +112,11 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
+    @event_liked = current_user.liked(@event)
   end
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :time_of_event, :description, :category, :approved)
+    params.require(:event).permit(:name, :time_of_event, :description, :category, :approved, :user_id, event_reacts_attributes: %i[id event_id user_id status])
   end
 end
