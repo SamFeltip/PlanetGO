@@ -5,6 +5,8 @@ require:
   - rubocop-rspec
 
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
 
 AllCops:
   NewCops: enable

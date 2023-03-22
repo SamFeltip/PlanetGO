@@ -22,4 +22,4 @@
     .user-controls
       %a{href: event_path(event)}
         %i{:class => event.like_icon(current_user)}
-        = event.display_likes(current_user)
+        = event.display_likes(current_user, compressed: false)

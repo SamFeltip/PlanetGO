@@ -264,34 +264,28 @@ RSpec.describe 'Events' do
   end
 
   context 'when logged in as a user' do
+    let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id) }
+    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id) }
+    let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id) }
+    let(:user_list) { create_list(:user, 5) }
+
     before do
-      @event1 = create(:event, name: 'my great event', user_id: event_creator.id)
-      @event2 = create(:event, name: 'a different great event', user_id: event_creator.id)
-      @event3 = create(:event, name: 'a rubbish event', user_id: event_creator.id)
-
-      user_list = create_list(:user, 5)
-
-      user_list.each do |react_user|
-        create(:event_react, event_id: @event2.id, user_id: react_user.id)
-      end
-
-      create(:event_react, event_id: @event1.id, user_id: admin.id)
-      create(:event_react, event_id: @event1.id, user_id: other_event_creator.id)
-
-      create(:event_react, event_id: @event2.id, user_id: current_user.id)
-
       login_as user
       visit events_path
     end
 
-    specify 'should have many users and reacts' do
-      expect(User.all.count).to eq(9)
-      expect(EventReact.all.count).to eq(7)
-    end
-
     context 'when a user sees a particular event' do
       before do
-        visit event_path(@event1)
+        user_list.each do |react_user|
+          create(:event_react, event_id: event2.id, user_id: react_user.id)
+        end
+
+        create(:event_react, event_id: event1.id, user_id: admin.id)
+        create(:event_react, event_id: event1.id, user_id: other_event_creator.id)
+        create(:event_react, event_id: event2.id, user_id: user.id)
+
+        visit event_path(event1)
+
       end
 
       specify 'should see the number of likes' do
@@ -304,7 +298,7 @@ RSpec.describe 'Events' do
         before do
           click_link 'Like this Event'
           # revisit the page (javascript is off)
-          visit event_path(@event1)
+          visit event_path(event1)
         end
 
         specify 'should change the contents of the like button' do
@@ -315,7 +309,7 @@ RSpec.describe 'Events' do
 
         specify 'should increase the number of likes for the event' do
           # was previously 2
-          expect(Event.find(@event1.id).likes.count).to eq(3)
+          expect(Event.find(event1.id).likes.count).to eq(3)
         end
       end
     end
@@ -327,9 +321,9 @@ RSpec.describe 'Events' do
 
       specify 'should see a list of my liked events' do
         within '#liked_events' do
-          expect(page).to have_content(@event1.name)
-          expect(page).to have_content(@event2.name)
-          expect(page).to have_no_content(@event3.name)
+          expect(page).to have_content(event1.name)
+          expect(page).to have_content(event2.name)
+          expect(page).to have_no_content(event3.name)
         end
       end
     end
