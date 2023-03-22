@@ -62,7 +62,6 @@ class User < ApplicationRecord
     Outing.where(creator_id: id)
   end
 
-
   def future_outings(creator = nil)
     outing_ids = Participant.where(user_id: id).pluck(:outing_id)
     outings = Outing.where(id: outing_ids)

@@ -1,8 +1,9 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 require 'faker'
 
 RSpec.describe 'Events' do
-
   let!(:event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:other_event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:admin) { create(:user, role: User.roles[:admin]) }
@@ -10,21 +11,18 @@ RSpec.describe 'Events' do
 
   # Submit my event
   context 'when logged in as an advertiser' do
-
     event_name = 'Reading group'
 
     event_date = '15/03/2023 17:00'
     event_desc = 'a fun event!'
     event_category = 'bar'
 
-    before :each do
+    before do
       login_as event_creator
       visit events_url
     end
 
-
     context 'I can submit my event' do
-
       before do
         click_link 'New Event'
 
@@ -46,9 +44,10 @@ RSpec.describe 'Events' do
         # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Event.last).to have_attributes(
           name: event_name,
-          time_of_event: Time.parse(event_date),
+          time_of_event: Time.zone.parse(event_date),
           description: event_desc,
-          user_id: event_creator.id)
+          user_id: event_creator.id
+        )
       end
 
       specify 'alerts the user the event is under review' do
@@ -62,7 +61,6 @@ RSpec.describe 'Events' do
       end
 
       context 'should not show the event in list of events for the current user' do
-
         context 'if there are no other events' do
           specify 'pending_events card should not exist' do
             page.should have_no_css('#pending_events')
@@ -80,9 +78,6 @@ RSpec.describe 'Events' do
         #     end
         #   end
         # end
-
-
-
       end
 
       specify 'should show the event in list of my pending events' do
@@ -98,10 +93,7 @@ RSpec.describe 'Events' do
         within '#pending_events' do
           expect(page).to have_content(event_name)
         end
-
-
       end
-
     end
 
     context 'I can remove my event' do
@@ -110,7 +102,7 @@ RSpec.describe 'Events' do
 
       before do
         visit edit_event_path(event)
-        page.find('#destroy_event').click
+        page.find_by_id('destroy_event').click
       end
 
       specify 'should bring the user to the event show page' do
@@ -132,23 +124,19 @@ RSpec.describe 'Events' do
         end
 
         specify 'should not let the user delete this event' do
-          expect(page).to_not have_css('#destroy_event')
+          expect(page).not_to have_css('#destroy_event')
         end
       end
     end
-
   end
 
   context 'when logged in as an admin' do
-
-    before :each do
-
+    before do
       @other_person_event = create(:event, name: 'an event created by someone else', user_id: other_event_creator.id)
       @cool_event = create(:event, name: 'this is a cool event', user_id: event_creator.id)
 
       login_as admin
       visit events_path
-
     end
 
     specify 'should show pending events in the pending events element' do
@@ -158,9 +146,7 @@ RSpec.describe 'Events' do
     end
 
     context 'when an admin click the thumbs up button' do
-
       before do
-
         within '#pending_events' do
           within "#event_#{@other_person_event.id}" do
             page.find('.approve_event').click
@@ -183,7 +169,6 @@ RSpec.describe 'Events' do
         within '#pending_events' do
           expect(page).to have_content(@cool_event.name)
         end
-
       end
 
       specify 'should show approved event in list of events' do
@@ -191,13 +176,10 @@ RSpec.describe 'Events' do
           expect(page).to have_content(@other_person_event.name)
         end
       end
-
     end
 
     context 'when an admin clicks the disapprove button' do
-
       before do
-
         within '#pending_events' do
           within "#event_#{@other_person_event.id}" do
             page.find('.disapprove_event').click
@@ -214,15 +196,13 @@ RSpec.describe 'Events' do
         within '#pending_events' do
           within ".event#event_#{@other_person_event.id}" do
             expect(page).to have_css('.disapprove_event.btn-danger')
-            expect(page).to have_no_css('.disapprove_event.btn-outline-danger')
+            expect(page).not_to have_css('.disapprove_event.btn-outline-danger')
           end
         end
       end
-
     end
 
     context 'when I revoke approval of events' do
-
       before do
         @cool_event = create(:event, name: 'this is a third event', user_id: event_creator.id, approved: true)
 
@@ -230,7 +210,7 @@ RSpec.describe 'Events' do
         visit event_path(@cool_event)
 
         # go to settings
-        page.find('#event_settings').click
+        page.find_by_id('event_settings').click
 
         # disapprove the event
         find(:css, '#event_approved').set(false)
@@ -289,7 +269,7 @@ RSpec.describe 'Events' do
       @event2 = create(:event, name: 'a different great event', user_id: event_creator.id)
       @event3 = create(:event, name: 'a rubbish event', user_id: event_creator.id)
 
-      user_list = FactoryBot.create_list(:user, 5)
+      user_list = create_list(:user, 5)
 
       user_list.each do |react_user|
         create(:event_react, event_id: @event2.id, user_id: react_user.id)
@@ -299,7 +279,6 @@ RSpec.describe 'Events' do
       create(:event_react, event_id: @event1.id, user_id: other_event_creator.id)
 
       create(:event_react, event_id: @event2.id, user_id: current_user.id)
-
 
       login_as user
       visit events_path
@@ -341,7 +320,6 @@ RSpec.describe 'Events' do
       end
     end
 
-
     context 'when I visit my accounts page' do
       before do
         visit '/myaccount'
@@ -355,7 +333,5 @@ RSpec.describe 'Events' do
         end
       end
     end
-
-
   end
 end

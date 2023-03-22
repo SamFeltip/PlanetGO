@@ -142,7 +142,7 @@ class Event < ApplicationRecord
       'event_images/unknown.png'
     end
   end
-  
+
   def self.my_pending_events(user)
     # Event.where(user_id: user.id).where.not(approved: true)
     Event.where(user_id: user.id, approved: false).or(Event.where(user_id: user.id, approved: nil))
