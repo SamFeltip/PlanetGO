@@ -51,7 +51,7 @@ RSpec.describe 'RegisterInterest' do
 
       specify 'I am not allowed access to others interest' do
         visit 'pricings/3/register_interests'
-        expect(page).to have_content 'You are not authorized to access this page.'
+        expect(page).to have_content 'You need to sign in or sign up before continuing.'
       end
 
       specify 'I cannot delete a registered interest' do

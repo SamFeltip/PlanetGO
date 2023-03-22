@@ -84,12 +84,12 @@ RSpec.describe User do
 
   describe '#commercial' do
     it 'Returns true if the user is of role user or advertiser' do
-      user = create(:user, role: User.roles[:user])
+      user = create(:user, role: described_class.roles[:user])
       expect(user.commercial).to be true
     end
 
     it 'Returns false if the user is of role admin or reporter' do
-      user = create(:user, role: User.roles[:reporter])
+      user = create(:user, role: described_class.roles[:reporter])
       expect(user.commercial).to be false
     end
   end
