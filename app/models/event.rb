@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -30,9 +32,9 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class Event < ApplicationRecord
-
   belongs_to :user
-  has_many :event_reacts
+
+  has_many :event_reacts, dependent: :destroy
 
   enum category: {
     bar: 0,
@@ -47,7 +49,7 @@ class Event < ApplicationRecord
   end
 
   # TODO: make this actually get a friend and the like count of an event
-  def display_likes(user, compressed = false)
+  def display_likes(user, compressed: false)
     event_likes = likes
 
     user_liked = user.liked(self)
@@ -95,10 +97,6 @@ class Event < ApplicationRecord
     end
   end
 
-  def tags
-    all_tags = EventReact.where(event_id: self).where.not(status: 0).pluck(:status).uniq
-  end
-
   def to_s
     "#{name} @ #{time_of_event}"
   end
@@ -137,12 +135,11 @@ class Event < ApplicationRecord
     user
   end
 
-  def image_path
-    if self.category
-      return "event_images/#{self.category}.png"
-    else
-      return "event_images/unknown.png"
-    end
+  def self.my_pending_events(user)
+    Event.where(user_id: user.id).where.not(approved: true)
+  end
 
+  def self.other_users_pending_events(user)
+    Event.where.not(user_id: user.id).where.not(approved: true)
   end
 end

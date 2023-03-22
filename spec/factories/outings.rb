@@ -27,7 +27,7 @@ FactoryBot.define do
     name { 'My exciting adventure' }
     date { Time.zone.now }
     description { 'This is a really cool adventure, with all my friends!' }
-    creator { create(:user) }
+    creator_id { create(:user).id }
 
     after :create do |outing|
       # creator = create(:user)

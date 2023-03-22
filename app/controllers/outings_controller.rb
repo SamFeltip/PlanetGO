@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[ show edit update destroy ]
-  before_action :authenticate_user!#, only: %i[show new create destroy edit]
+  before_action :set_outing, only: %i[show edit update destroy]
+  before_action :authenticate_user! # , only: %i[show new create destroy edit]
 
   # GET /outings or /outings.json
   def index
@@ -46,10 +48,10 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outings_path, notice: 'Outing was successfully created.' }
+        format.html { redirect_to outings_path, notice: t('.notice') }
         format.json { render :show, status: :created, location: @outing }
       else
-        puts "outing failed"
+        Rails.logger.debug 'outing failed'
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @outing.errors, status: :unprocessable_entity }
       end
@@ -60,7 +62,7 @@ class OutingsController < ApplicationController
   def update
     respond_to do |format|
       if @outing.update(outing_params)
-        format.html { redirect_to outing_url(@outing), notice: "Outing was successfully updated." }
+        format.html { redirect_to outing_url(@outing), notice: t('.notice') }
         format.json { render :show, status: :ok, location: @outing }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -74,7 +76,7 @@ class OutingsController < ApplicationController
     @outing.destroy
 
     respond_to do |format|
-      format.html { redirect_to outings_url, notice: "Outing was successfully destroyed." }
+      format.html { redirect_to outings_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end
