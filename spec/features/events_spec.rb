@@ -115,8 +115,9 @@ RSpec.describe 'Events' do
   end
 
   context 'when logged in as an admin' do
-    let(:other_person_event) { create(:event, name: 'an event created by someone else', user_id: other_event_creator.id) }
-    let(:cool_event) { create(:event, name: 'this is a cool event', user_id: event_creator.id) }
+    other_person_event_name = 'an event created by someone else'
+    let!(:other_person_event) { create(:event, name: other_person_event_name, user_id: other_event_creator.id) }
+    let!(:cool_event) { create(:event, name: 'this is a cool event', user_id: event_creator.id) }
 
     before do
       login_as admin
@@ -139,7 +140,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'event becomes approved' do
-        other_person_event = Event.find(other_person_event.id)
+        other_person_event = Event.where(name: other_person_event_name).first
         expect(other_person_event.approved).to be_truthy
       end
 
@@ -172,7 +173,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'event becomes disapproved' do
-        other_person_event = Event.find(other_person_event.id)
+        other_person_event = Event.where(name: other_person_event_name).first
         expect(other_person_event.approved).to be_falsey
       end
 
@@ -187,7 +188,8 @@ RSpec.describe 'Events' do
     end
 
     context 'when I revoke approval of events' do
-      let!(:cool_event) { create(:event, name: 'this is a third event', user_id: event_creator.id, approved: true) }
+      cool_event_name = 'this is a cool event'
+      let!(:cool_event) { create(:event, name: cool_event_name, user_id: event_creator.id, approved: true) }
 
       before do
         # visit event
@@ -240,7 +242,7 @@ RSpec.describe 'Events' do
         end
 
         specify 'event status icon should be a cross' do
-          cool_event = Event.find(cool_event.id)
+          cool_event = Event.where(name: cool_event_name).first
           expect(cool_event.approved_icon).to eq('bi-x')
         end
       end
