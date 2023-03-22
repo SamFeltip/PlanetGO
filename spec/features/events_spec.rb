@@ -344,11 +344,11 @@ RSpec.describe 'Events' do
 
     context 'when I visit my accounts page' do
       before do
-        visit "/myaccount"
+        visit '/myaccount'
       end
 
-      specify "should see a list of my liked events" do
-        within "#liked_events" do
+      specify 'should see a list of my liked events' do
+        within '#liked_events' do
           expect(page).to have_content(@event1.name)
           expect(page).to have_content(@event2.name)
           expect(page).to have_no_content(@event3.name)
