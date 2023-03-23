@@ -25,7 +25,9 @@ class ProposedEventsController < ApplicationController
 
     respond_to do |format|
       if @proposed_event.save
-        format.html { redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully created.' }
+        format.html do
+          redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully created.'
+        end
         format.json { render :show, status: :created, location: @proposed_event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -38,7 +40,9 @@ class ProposedEventsController < ApplicationController
   def update
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
-        format.html { redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully updated.' }
+        format.html do
+          redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @proposed_event }
       else
         format.html { render :edit, status: :unprocessable_entity }
