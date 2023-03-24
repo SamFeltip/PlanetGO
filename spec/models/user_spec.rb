@@ -36,7 +36,7 @@
 require 'rails_helper'
 
 RSpec.describe User do
-  let!(:creator_user) { create(:user, email: 'testemail@email.com') }
+  let!(:creator_user) { create(:user, full_name: 'John Smith', email: 'testemail@email.com') }
 
   let!(:past_outing1) do
     create(

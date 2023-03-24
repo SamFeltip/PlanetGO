@@ -52,6 +52,10 @@ class User < ApplicationRecord
     advertiser: 3
   }
 
+  def liked_events
+    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+  end
+
   # this function is trying to get all outings this user has created
   # using a joiner with the participants table
   def my_outings

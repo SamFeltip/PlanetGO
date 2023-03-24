@@ -9,7 +9,7 @@ RSpec.describe 'Outings' do
 
   let(:other_outing_creator) { create(:user, full_name: 'David Richards') }
 
-  let!(:outing_creator) { create(:user) }
+  let!(:outing_creator) { create(:user, full_name: 'John Smith') }
   let!(:past_outing) { create(:outing, name: past_outing_name, creator_id: outing_creator.id, date: 1.week.ago, description: past_outing_desc) }
   let!(:future_outing) { create(:outing, creator_id: outing_creator.id, name: 'future outing', date: 1.week.from_now) }
   let!(:another_outing) { create(:outing, creator_id: other_outing_creator.id, name: 'a better outing!', date: 1.week.from_now) }

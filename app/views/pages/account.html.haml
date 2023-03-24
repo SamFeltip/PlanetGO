@@ -67,6 +67,13 @@
             = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
               %i.bi-trash
 
-
+  #liked_events.col-md-9.mt-4
+    %h1 My Liked Events
+    - @liked_events.each do |event|
+      .mb-3.card[event]
+        .card-header.d-flex
+          %strong= event.name
+        .card-body
+          %p=event.description
 -##past_outings= render "outing", collection: @outings_past
 

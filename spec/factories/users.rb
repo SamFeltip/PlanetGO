@@ -37,10 +37,24 @@ FactoryBot.define do
     "test#{n}@planetgo.com"
   end
 
+  sequence :full_name do
+    # ('a'..'z').to_a.shuffle.join
+    #
+    vowels = (%w[a e i o u] * 8).shuffle
+    letters = (('a'..'z').to_a - vowels - ['q']).shuffle
+
+    first_name = letters.zip(vowels).flatten[0..5].join
+
+    second_name = letters.zip(vowels).flatten[6..8].join + letters.zip(vowels).flatten[10..12].join
+
+    "#{first_name} #{second_name}"
+  end
+
   factory :user do
     email
+    full_name
     password { 'SneakyPassword100' }
-    full_name { 'John Smith' }
+    role { User.roles[:user] }
     last_sign_in_at { Time.new(2023, 1, 12).utc }
   end
 end
