@@ -26,7 +26,7 @@ class ProposedEventsController < ApplicationController
     respond_to do |format|
       if @proposed_event.save
         format.html do
-          redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully created.'
+          redirect_to proposed_event_url(@proposed_event), notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @proposed_event }
       else
@@ -41,7 +41,7 @@ class ProposedEventsController < ApplicationController
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
         format.html do
-          redirect_to proposed_event_url(@proposed_event), notice: 'Proposed event was successfully updated.'
+          redirect_to proposed_event_url(@proposed_event), notice: t('.notice')
         end
         format.json { render :show, status: :ok, location: @proposed_event }
       else
@@ -56,7 +56,7 @@ class ProposedEventsController < ApplicationController
     @proposed_event.destroy
 
     respond_to do |format|
-      format.html { redirect_to proposed_events_url, notice: 'Proposed event was successfully destroyed.' }
+      format.html { redirect_to proposed_events_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end
@@ -70,6 +70,6 @@ class ProposedEventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def proposed_event_params
-    params.require(:proposed_event).permit(:event_id, :outing_id, :date, :status)
+    params.require(:proposed_event).permit(:event_id, :outing_id, :proposed_datetime, :status)
   end
 end

@@ -134,4 +134,22 @@ class Event < ApplicationRecord
   def creator
     user
   end
+
+  def image_path
+    if category
+      "event_images/#{category}.png"
+    else
+      'event_images/unknown.png'
+    end
+  end
+
+  def self.my_pending_events(user)
+    # Event.where(user_id: user.id).where.not(approved: true)
+    Event.where(user_id: user.id, approved: false).or(Event.where(user_id: user.id, approved: nil))
+  end
+
+  def self.other_users_pending_events(user)
+    # Event.where.not(user_id: user.id).where.not(approved: true)
+    Event.where(approved: nil).where.not(user_id: user.id).or(Event.where(approved: false).where.not(user_id: user.id))
+  end
 end

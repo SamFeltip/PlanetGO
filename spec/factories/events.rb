@@ -24,10 +24,9 @@
 #
 FactoryBot.define do
   factory :event do
-    name { 'MyString' }
+    name { 'Disco' }
     time_of_event { '2023-02-24' }
-    description { 'MyText' }
-    category { 1 }
-    approved { false }
+    description { 'Come to the disco for fun vibes' }
+    category { Event.categories[:music] }
   end
 end

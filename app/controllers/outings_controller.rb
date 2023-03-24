@@ -49,7 +49,7 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outings_path, notice: 'Outing was successfully created.' }
+        format.html { redirect_to outings_path, notice: t('.notice') }
         format.json { render :show, status: :created, location: @outing }
       else
         Rails.logger.debug 'outing failed'
@@ -63,7 +63,7 @@ class OutingsController < ApplicationController
   def update
     respond_to do |format|
       if @outing.update(outing_params)
-        format.html { redirect_to outing_url(@outing), notice: 'Outing was successfully updated.' }
+        format.html { redirect_to outing_url(@outing), notice: t('.notice') }
         format.json { render :show, status: :ok, location: @outing }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -77,7 +77,7 @@ class OutingsController < ApplicationController
     @outing.destroy
 
     respond_to do |format|
-      format.html { redirect_to outings_url, notice: 'Outing was successfully destroyed.' }
+      format.html { redirect_to outings_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end

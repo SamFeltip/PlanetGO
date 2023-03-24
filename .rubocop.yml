@@ -5,6 +5,9 @@ require:
   - rubocop-rspec
   - rubocop-capybara
 
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
 AllCops:
   NewCops: enable
   Exclude:

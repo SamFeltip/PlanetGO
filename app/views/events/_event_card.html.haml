@@ -4,8 +4,7 @@
 
   .row
     .col-auto
-      = image_pack_tag "event_images/#{event.category}.png", width: 120
-
+      = image_pack_tag event.image_path, width: 120
     .col.p-3
       %p
         =event.description

@@ -42,7 +42,7 @@
 
       - if current_user.admin? && !current_user.suspended
 
-        %a{href: edit_event_path(@event), class: 'btn btn-outline-secondary ms-1' }
+        %a#event_settings{href: edit_event_path(@event), class: 'btn btn-outline-secondary ms-1' }
           %i.bi-gear
         -#%a{href: event_path(@event), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1' }
         -#  %i.bi-trash
@@ -89,7 +89,7 @@
   .horizontal-scroll
     - @users_events.each do |event|
       %a.horizontal-card{href: event_path(event)}
-        = image_pack_tag "event_images/#{event.category}.png", class: "rounded", width: "100%"
+        = image_pack_tag event.image_path, class: "rounded", width: "100%"
         %p.text-center.pt-3.mx-3= event.name
 
     %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column{href: events_path}

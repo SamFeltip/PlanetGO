@@ -10,7 +10,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as an administrator' do
       before do
-        @admin = create(:user, role: 'admin')
+        @admin = create(:user, role: User.roles[:admin])
         login_as @admin
       end
 
@@ -63,7 +63,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a user' do
       before do
-        @user = create(:user, role: 'user')
+        @user = create(:user, role: User.roles[:user])
         login_as @user
       end
 
@@ -89,7 +89,7 @@ RSpec.describe 'RegisterInterest' do
 
     context 'When I am signed in as a reporter' do
       before do
-        @reporter = create(:user, role: 'reporter')
+        @reporter = create(:user, role: User.roles[:reporter])
         login_as @reporter
       end
 
