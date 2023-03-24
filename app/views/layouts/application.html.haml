@@ -39,6 +39,12 @@
                   %span.nav-title
                     Events
 
+              .nav-item.active
+                = link_to :outings, class: 'nav-link' do
+                  %i.bi-map
+                  %span.nav-title
+                    Outings
+
               - if current_user.admin? || current_user.reporter?
 
                 .nav-item.active

@@ -8,6 +8,11 @@
     = f.input :outing_type, wrapper_html: { class: 'mb-3' }, collection: Outing.outing_types.keys
 
   .card-footer.d-flex
-    %button.btn.btn-primary{ type: 'submit' }
-      Save
+    - if locals[:edit]
+      %button.btn.btn-primary{ type: 'submit' , formmethod: 'PATCH' }
+        Update
+    - else
+      %button.btn.btn-primary{ type: 'submit' , formmethod: 'POST' }
+        Save
+
     = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'

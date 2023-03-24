@@ -69,7 +69,7 @@ class Ability
     can :create, Event
     can %i[read update destroy], Event, user_id: user.id
     can :create, Outing
-    can %i[read update destroy], Outing, creator_id: user.id
+    can %i[read update destroy set_details], Outing, creator_id: user.id
 
     return unless user.suspended
 

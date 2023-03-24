@@ -7,11 +7,18 @@ Rails.application.routes.draw do
     patch :like, on: :member
   end
 
+  resources :outings do
+    member do
+      get 'set_details'
+    end
+  end
+
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
   resources :events
   resources :participants
   resources :outings
+
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')
   devise_for :users

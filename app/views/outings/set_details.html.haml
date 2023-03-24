@@ -1,0 +1,68 @@
+.outing-header
+  .content
+    .row
+      %h1
+        = @outing.name
+    .row
+      .col-1
+        %i.bi-calendar
+      .col
+        - if @outing.date
+          %h2
+            = @outing.date
+        - else
+          %h2
+            Date TBD
+
+
+    .row
+      .col-1
+        %i.bi-pin
+      .col
+        - if @outing.events.count > 0
+          %h2
+            Location is...
+        - else
+          %h2
+            Starting Location TBD
+
+    %p= @outing.description
+
+  .flex_container.justify-content-around
+    #outing-nav-who.underline
+      %a Who?
+    #outing-nav-when
+      %a When?
+    #outing-nav-where
+      %a Where?
+
+  %hr
+#outing-body
+  #content-who.w-100
+    %p.grey #{@outing.participants.count} people interested
+
+    = form_tag users_path, method: :get do
+      = label_tag :search
+      = text_field_tag :search
+      = submit_tag "Search"
+
+
+    - @outing.accepted_participants(current_user).each do |participant|
+      .card
+        %p= participant.full_name
+        %p= participant.status
+
+    - @outing.pending_participants(current_user).each do |participant|
+      .card
+        %p= participant.full_name
+        %p= participant.status
+
+    - current_user.friends.each do |friend|
+      .card
+        %p= friend.full_name
+        %p invite now
+
+
+  #content-when.w-100
+    when
+    %input.w-100

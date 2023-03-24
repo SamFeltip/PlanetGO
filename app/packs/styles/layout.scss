@@ -290,6 +290,17 @@ p {
   }
 }
 
+// ********** outings view **********
+
+#outing-body #content-when {
+  display: none;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
 // icons
 .lg-icon {
   font-size: 200%;

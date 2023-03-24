@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit]
+  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details]
   load_and_authorize_resource
 
   # GET /outings or /outings.json
@@ -10,7 +10,7 @@ class OutingsController < ApplicationController
     @outings = Outing.all.order(date: :desc)
     return if current_user.admin?
 
-    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(:date)
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(date: :desc)
   end
 
   # GET /outings/1 or /outings/1.json
@@ -49,7 +49,7 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outings_path, notice: t('.notice') }
+        format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
         Rails.logger.debug 'outing failed'
@@ -80,6 +80,10 @@ class OutingsController < ApplicationController
       format.html { redirect_to outings_url, notice: t('.notice') }
       format.json { head :no_content }
     end
+  end
+
+  def set_details
+    @variable = 'this is a variable from controller'
   end
 
   private

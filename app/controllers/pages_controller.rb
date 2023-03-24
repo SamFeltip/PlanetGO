@@ -8,7 +8,7 @@ class PagesController < ApplicationController
 
   def account
     # TODO: make this actually my friends
-    @friends = User.where('id < 5')
+    @friends = current_user.friends
 
     @future_outings = current_user.future_outings
     @past_outings = current_user.past_outings

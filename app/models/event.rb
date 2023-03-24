@@ -33,6 +33,8 @@
 #
 class Event < ApplicationRecord
   belongs_to :user
+  has_many :proposed_events, dependent: :destroy
+  has_many :outings, through: :proposed_events
 
   has_many :event_reacts, dependent: :destroy
 

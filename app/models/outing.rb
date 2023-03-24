@@ -25,8 +25,11 @@
 class Outing < ApplicationRecord
   has_many :participants, dependent: :destroy
   has_many :users, class_name: 'User', through: :participants
-  has_many :events, through: :proposed_events
+
   belongs_to :user, foreign_key: :creator_id, inverse_of: false
+
+  has_many :proposed_events, dependent: :destroy
+  has_many :events, through: :proposed_events
 
   enum outing_type: {
     personal: 0,
@@ -43,5 +46,13 @@ class Outing < ApplicationRecord
 
   def creator
     User.find(creator_id)
+  end
+
+  def accepted_participants(current_user)
+    Participant.where(outing_id: id, status: Participant.statuses[:confirmed]).where.not(user_id: current_user.id)
+  end
+
+  def pending_participants(current_user)
+    Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
   end
 end

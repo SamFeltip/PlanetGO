@@ -108,4 +108,8 @@ class User < ApplicationRecord
   def commercial
     %w[user advertiser].include? role
   end
+
+  def friends
+    User.where('id < 5')
+  end
 end

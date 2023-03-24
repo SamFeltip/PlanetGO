@@ -35,4 +35,8 @@ class Participant < ApplicationRecord
   def to_s
     "#{user} has been invited to #{outing}. Status: #{status}"
   end
+
+  def full_name
+    user.full_name
+  end
 end
