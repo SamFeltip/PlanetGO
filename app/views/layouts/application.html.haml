@@ -15,9 +15,9 @@
 
     = csrf_meta_tags
     = csp_meta_tag
-
-    = stylesheet_pack_tag 'styles', media: 'all'
-    = javascript_pack_tag 'application'
+    
+    = stylesheet_pack_tag *['styles', *content_for(:additional_stylesheet).to_s.split(' ')].compact, media: 'all'
+    = javascript_pack_tag *['application', *content_for(:additional_javascript).to_s.split(' ')].compact
 
   %body
 
