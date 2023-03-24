@@ -5,9 +5,9 @@ services:
     alias: chrome
 
 variables:
-  POSTGRES_DB: 'ci_test'
-  POSTGRES_USER: 'runner'
-  POSTGRES_PASSWORD: 'runner'
+  POSTGRES_DB: "ci_test"
+  POSTGRES_USER: "runner"
+  POSTGRES_PASSWORD: "runner"
   SELENIUM_HOST: chrome
   SELENIUM_PORT: 4444
 
@@ -156,10 +156,6 @@ rubocop:
   extends: .except
   needs:
     - bundler
-  artifacts:
-    when: always
-    paths:
-      - rubocop
   allow_failure: false
   script:
     - bundle config set --local path 'vendor/gems'
