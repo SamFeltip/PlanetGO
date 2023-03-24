@@ -78,6 +78,29 @@ shared_context 'non-admin account', type: :request do |account_type|
 end
 
 RSpec.describe 'Managing users', type: :request do
+  let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
+
+  context 'when logging in and out' do
+    before do
+      login_as admin1
+    end
+
+    context 'when I log out of my account' do
+      before do
+        visit '/myaccount'
+        click_on 'Sign out'
+      end
+
+      specify 'should show a signed out notice' do
+        expect(page).to have_content('Signed out successfully.')
+      end
+
+      specify 'should take the user to the root path' do
+        expect(page).to have_current_path(root_path, ignore_query: true)
+      end
+    end
+  end
+
   context 'when signed in as an administrator and there are users in the system' do
     let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
 
