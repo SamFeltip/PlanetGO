@@ -110,7 +110,7 @@ class User < ApplicationRecord
   end
 
   def friends
-    User.where('id < 5')
+    User.all
   end
 
   def not_invited_friends(outing)

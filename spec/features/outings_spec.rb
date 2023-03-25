@@ -106,11 +106,13 @@ RSpec.describe 'Outings' do
 
 
       it 'lets the user see a list of their friends' do
-        pending
+        pending 'implement this later'
+        expect(page).to have_content('Select friends to invite')
       end
 
       it 'lets the user share an outing link' do
-        pending
+        pending 'implement this later'
+        expect(page).to have_content('Share this link with your friends')
       end
 
     end
@@ -167,44 +169,98 @@ RSpec.describe 'Outings' do
     end
 
     context 'when the user wants to manage who is coming to the outing' do
-      outing_name = 'A really exciting outing'
 
-      outing_date = '2024-03-15'
-      outing_desc = 'a fun outing!'
-      outing_type = 'open'
+      let!(:user1) { create(:user) }
+      # let!(:user2) { create(:user) }
+      let!(:user3) { create(:user) }
+
+      let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
 
       before do
-        visit '/outings'
-        click_link 'New Outing'
-
-        # the user clicks on the button "New Outing"
-        # the user fills in a name, a date, a description, and selects "open" as the outing type
-
-        fill_in 'Name', with: outing_name
-
-        fill_in 'Description', with: outing_desc
-
-        select outing_type, from: 'Outing type'
-
-        # the user clicks the "save" button
-        click_button 'Continue'
+        login_as outing_creator
+        visit set_details_outing_path(past_outing)
       end
 
 
       it 'shows a list of participants' do
-        pending
+
+        # within #participant-cards, expect to see the names of the participants
+        within '#participant-cards' do
+          expect(page).to have_content(user1.full_name)
+        end
       end
 
-      it 'lets me remove participants' do
-        pending
+      it 'shows a list of friends who are not invited' do
+
+        # within #not_invited_friends, expect to see the names of the friends who are not invited
+        within '#not_invited_friends' do
+          expect(page).to have_content(user3.full_name)
+        end
       end
 
-      it 'lets me send an invite to a friend' do
-        pending
+
+      context 'when you remove participants', js: true do
+        before do
+          # click trash icon on user1 participant
+          within '#participant-cards' do
+            within "#participant_#{participant1.id}" do
+              find('.bi-trash').click
+              # click confirm on alert
+              page.driver.browser.switch_to.alert.accept
+            end
+          end
+        end
+
+        it 'removes the participant from participant cards' do
+          within '#participant-cards' do
+            expect(page).to have_no_content(user1.full_name)
+          end
+        end
+
+        it 'removes participant object' do
+          expect(Participant.find_by(id: participant1.id)).to be_nil
+        end
+
+        it 'shows the user in the deleted participant in #not_invited_friends' do
+          within '#not_invited_friends' do
+            expect(page).to have_content(user1.full_name)
+          end
+        end
+
+      end
+
+      context 'when you invite to a friend', js: true do
+        before do
+          #  when you click check box from '= check_box_tag 'user_ids[]', friend.id' on invite card
+          within '#not_invited_friends' do
+            # within user card
+            within "#user_#{user3.id}" do
+              check 'user_ids[]'
+            end
+            click 'Send Invites'
+          end
+        end
+
+        it 'adds the participant to participant cards' do
+          within '#participant-cards' do
+            expect(page).to have_content(user3.full_name)
+          end
+        end
+
+        it 'adds participant object' do
+          expect(Participant.find_by(user_id: user3.id, outing_id: past_outing.id)).to be_present
+        end
+
+        it 'removes participant from #not_invited_friends' do
+          within '#not_invited_friends' do
+            expect(page).to have_no_content(user3.full_name)
+          end
+        end
       end
 
       it 'lets the user search for a friend' do
-        pending
+        pending 'friend search not implemented yet'
+        expect(page).to have_content('Search for friends')
       end
 
     end
