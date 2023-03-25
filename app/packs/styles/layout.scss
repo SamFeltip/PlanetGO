@@ -270,7 +270,10 @@ p {
 
 
 #outing-body {
+  padding-top: 10px;
   margin-bottom: 100px;
+  border-top: 1px solid #dee2e6;
+
 }
 
 #outing-footer {
@@ -291,6 +294,12 @@ p {
   flex-wrap: wrap;
   text-align: center;
   justify-content: space-around;
+}
+
+
+.outing-nav-item {
+  width: 33%;
+  padding: 5px 0;
 }
 
 #content-who {
@@ -341,7 +350,7 @@ p {
 }
 
 .underline {
-  border-bottom: 1px solid #dee2e6;
+  border-bottom: 2px solid darkgrey;
 }
 
 
@@ -407,6 +416,11 @@ p {
   #content-who {
     width: 30%;
     max-width: 400px;
+    box-shadow: 5px 0px 5px -5px rgba(0,0,0,0.75);
+  }
+
+  #content-who, #content-when {
+    padding: 10px;
   }
 
   .horizontal-scroll {

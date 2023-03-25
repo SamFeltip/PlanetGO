@@ -29,14 +29,13 @@
     %p= @outing.description
 
   #outing-nav
-    #outing-nav-who.underline
+    .outing-nav-item#outing-nav-who.underline
       %a Who?
-    #outing-nav-when
+    .outing-nav-item#outing-nav-when
       %a When?
-    #outing-nav-where
+    .outing-nav-item#outing-nav-where
       %a Where?
 
-  %hr
 #outing-body
   #content-who
     %p.grey #{@outing.participants.count} people interested
