@@ -112,4 +112,8 @@ class User < ApplicationRecord
   def friends
     User.where('id < 5')
   end
+
+  def not_invited_friends(outing)
+    friends.where.not(id: outing.participants.pluck(:user_id))
+  end
 end

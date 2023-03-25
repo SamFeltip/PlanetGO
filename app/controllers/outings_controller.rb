@@ -2,7 +2,7 @@
 
 class OutingsController < ApplicationController
   before_action :set_outing, only: %i[show edit update destroy set_details]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details send_invites]
   load_and_authorize_resource
 
   # GET /outings or /outings.json
@@ -23,6 +23,24 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/edit
   def edit; end
+
+  def send_invites
+    @friend_ids = params[:user_ids]
+    # create list of participants with user_id in the @friend_ids, and outing_id of @outing.id
+    @participants = Participant.none
+
+    @friend_ids.each do |friend_id|
+      # create a participant and add it to the @participants list
+      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
+      @participants = @participants.or(Participant.where(id: new_participant.id))
+    end
+
+    respond_to do |format|
+      format.html { redirect_to outings_url, notice: t('.notice') }
+      format.js
+    end
+
+  end
 
   # POST /outings or /outings.json
   def create
@@ -49,7 +67,7 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing successfully created.' }
+        format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing was successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
         Rails.logger.debug 'outing failed'

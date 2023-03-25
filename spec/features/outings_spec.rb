@@ -67,20 +67,19 @@ RSpec.describe 'Outings' do
 
         fill_in 'Name', with: outing_name
 
-        fill_in 'Date', with: outing_date
 
         fill_in 'Description', with: outing_desc
+
         select outing_type, from: 'Outing type'
 
         # the user clicks the "save" button
-        click_button 'Save'
+        click_button 'Continue'
       end
 
       it 'saves an outing' do
         # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Outing.last).to have_attributes(
           name: outing_name,
-          date: Date.parse(outing_date),
           description: outing_desc,
           creator_id: outing_creator.id
         )
@@ -100,15 +99,20 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Outing was successfully created.')
       end
 
-      it 'redirects the user to outings index' do
+      it 'redirects the user to outings set_details' do
         # redirect to the outings index page
-        expect(page).to have_current_path(outings_path)
+        expect(page).to have_current_path(set_details_outing_path(Outing.last))
       end
 
-      it 'displays the outing on the outings/index page' do
-        # show the outing's name in the page html
-        expect(page).to have_content(outing_name)
+
+      it 'lets the user see a list of their friends' do
+        pending
       end
+
+      it 'lets the user share an outing link' do
+        pending
+      end
+
     end
 
     context 'when visiting the outings index' do
@@ -161,6 +165,50 @@ RSpec.describe 'Outings' do
         end
       end
     end
+
+    context 'when the user wants to manage who is coming to the outing' do
+      outing_name = 'A really exciting outing'
+
+      outing_date = '2024-03-15'
+      outing_desc = 'a fun outing!'
+      outing_type = 'open'
+
+      before do
+        visit '/outings'
+        click_link 'New Outing'
+
+        # the user clicks on the button "New Outing"
+        # the user fills in a name, a date, a description, and selects "open" as the outing type
+
+        fill_in 'Name', with: outing_name
+
+        fill_in 'Description', with: outing_desc
+
+        select outing_type, from: 'Outing type'
+
+        # the user clicks the "save" button
+        click_button 'Continue'
+      end
+
+
+      it 'shows a list of participants' do
+        pending
+      end
+
+      it 'lets me remove participants' do
+        pending
+      end
+
+      it 'lets me send an invite to a friend' do
+        pending
+      end
+
+      it 'lets the user search for a friend' do
+        pending
+      end
+
+    end
+
   end
 
   # context 'when the user is not logged in' do

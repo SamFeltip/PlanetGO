@@ -42,25 +42,43 @@
     %p.grey #{@outing.participants.count} people interested
 
     = form_tag users_path, method: :get do
-      = label_tag :search
       = text_field_tag :search
-      = submit_tag "Search"
+      = submit_tag 'Search'
 
 
-    - @outing.accepted_participants(current_user).each do |participant|
-      .card
-        %p= participant.full_name
-        %p= participant.status
+    .dropdown.me-0
+      %a.btn.btn-outline-secondary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
+        %i.bi-share
+        %b.caret
+      %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
+        %li
+          %a{:href => "#link1"}
+            %i.bi-link
+        %li
+          %a{:href => "#link1"}
+            %i.bi-instagram
+        %li
+          %a{:href => "#link2"}
+            %i.bi-facebook
+        %li
+          %a{:href => "#link3"}
+            %i.bi-twitter
+        %li
 
-    - @outing.pending_participants(current_user).each do |participant|
-      .card
-        %p= participant.full_name
-        %p= participant.status
+    #participant-cards
+      - @outing.participants.each do |participant|
+        = render 'outings/participant_card', participant: participant
 
-    - current_user.friends.each do |friend|
-      .card
-        %p= friend.full_name
-        %p invite now
+    %hr
+
+    = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
+
+      #not_invited_friends
+        - current_user.not_invited_friends(@outing).each do |friend|
+          = render 'invite_friend', friend: friend
+
+      = submit_tag 'Send Invites'
+
 
 
   #content-when.w-100

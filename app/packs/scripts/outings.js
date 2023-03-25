@@ -22,12 +22,12 @@ $(function() {
     });
 });
 
-        // var filter = $(this).is(':checked');
-        // $.ajax({
-        //     url: '/outings/filter',
-        //     type: 'GET',
-        //     data: { filter: filter },
-        //     success: function(data) {
-        //         $('#outings').html(data);
-        //     }
-        // });
+// var filter = $(this).is(':checked');
+// $.ajax({
+//     url: '/outings/filter',
+//     type: 'GET',
+//     data: { filter: filter },
+//     success: function(data) {
+//         $('#outings').html(data);
+//     }
+// });

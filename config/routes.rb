@@ -10,7 +10,9 @@ Rails.application.routes.draw do
   resources :outings do
     member do
       get 'set_details'
+      post 'send_invites'
     end
+    post :send_invites, on: :member
   end
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event

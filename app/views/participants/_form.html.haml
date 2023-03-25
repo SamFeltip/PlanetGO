@@ -2,8 +2,9 @@
 = simple_form_for(@participant) do |f|
   .card-body
     = f.input :status, wrapper_html: { class: 'mb-3' }, collection: Participant.statuses.keys
-    -# = f.association :user, label_method: :name, value_method: :id, include_blank: false
-    -# = f.association :outing, label_method: :name, value_method: :id, include_blank: false
+    - if locals[:new]
+      = f.association :user, label_method: :full_name, value_method: :id, include_blank: false
+      = f.association :outing, label_method: :name, value_method: :id, include_blank: false
 
 
   .card-footer.d-flex
