@@ -84,3 +84,17 @@
   #content-when.w-100
     when
     %input.w-100
+
+%footer#outing-footer
+  -# contains 3 links, 'back', 'done', 'next'
+  .flex_container.justify-content-around
+    #outing-footer-prev
+      %i#prev-chevron.bi-chevron-left
+      Prev
+
+
+    = link_to 'Done', outing_path(@outing), id: 'outing-footer-done'
+
+    #outing-footer-next
+      Next
+      %i#next-chevron.bi-chevron-right

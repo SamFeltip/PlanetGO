@@ -26,8 +26,10 @@ class OutingsController < ApplicationController
 
   def send_invites
     @friend_ids = params[:user_ids]
-    # create list of participants with user_id in the @friend_ids, and outing_id of @outing.id
+
     @participants = Participant.none
+
+    @friend_ids = [] if @friend_ids.nil?
 
     @friend_ids.each do |friend_id|
       # create a participant and add it to the @participants list

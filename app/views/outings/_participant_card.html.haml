@@ -1,7 +1,10 @@
 .card[participant]
-  %p= participant.full_name
-  %p= participant.status
+  .card-body
+    %p= participant.full_name
+    %p= participant.status
 
   - unless participant.status == "creator"
-    = link_to participant_path(participant), class: 'btn btn-outline-primary', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
-      %i.bi-trash
+    .card-footer.d-flex.justify-content-end
+      .end-0
+        = link_to participant_path(participant), class: 'btn btn-outline-danger', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+          %i.bi-trash

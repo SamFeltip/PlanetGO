@@ -1,10 +1,14 @@
 -# make sure all checkboxes in the #not_invited_friends element are unchecked
 $('#not_invited_friends').find('input[type=checkbox]').prop('checked', false);
 
--# remove participants created from the #not_invited_friends element
--@friend_ids.each do |friend_id|
-  $('#not_invited_friends').find("#user_#{friend_id}").remove();
+- if @friend_ids.empty?
+  alert('Please select at least one friend to invite.');
 
--# add participants to the #participant-cards element
-- @participants.each do |participant|
-  $('#participant-cards').append("#{escape_javascript(render('outings/participant_card', participant: participant))}");
+- else
+  -# remove participants created from the #not_invited_friends element
+  -@friend_ids.each do |friend_id|
+    $('#not_invited_friends').find("#user_#{friend_id}").remove();
+
+  -# add participants to the #participant-cards element
+  - @participants.each do |participant|
+    $('#participant-cards').append("#{escape_javascript(render('outings/participant_card', participant: participant))}");

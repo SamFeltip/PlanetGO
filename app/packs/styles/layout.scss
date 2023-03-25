@@ -269,6 +269,9 @@ p {
 // large screens
 @media(min-width: 700px){
 
+  #outing-footer {
+    display: none;
+  }
   .horizontal-scroll {
     flex-wrap: wrap;
     justify-content: center;
@@ -292,12 +295,42 @@ p {
 
 // ********** outings view **********
 
+
+#outing-body {
+  margin-bottom: 100px;
+}
+
+#outing-footer {
+  background-color: white;
+  // attached to the bottom of the page, has a line above it
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #dee2e6;
+  padding: 20px;
+  margin-top: 20px;
+
+}
+
+#not_invited_friends .card-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+#outing-body .card {
+  margin-bottom: 10px;
+}
+
 #outing-body #content-when {
   display: none;
 }
 
 .underline {
-  text-decoration: underline;
+  border-bottom: 1px solid #dee2e6;
 }
 
 

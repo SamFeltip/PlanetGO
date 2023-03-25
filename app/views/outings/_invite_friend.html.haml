@@ -1,3 +1,4 @@
 .card[friend]
-  = friend.full_name
-  = check_box_tag 'user_ids[]', friend.id
+  .card-body
+    = friend.full_name
+    = check_box_tag 'user_ids[]', friend.id
