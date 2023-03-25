@@ -66,11 +66,12 @@ class Ability
   end
 
   def commercial_permissions(user)
+    can :read, User
     can :create, Event
     can %i[read update destroy], Event, user_id: user.id
     can :create, Outing
     can %i[read update destroy], Outing, creator_id: user.id
-
+    can %i[index search requests follow unfollow accept decline cancel], :friend
     return unless user.suspended
 
     cannot %i[create update destroy], Event
@@ -82,7 +83,7 @@ class Ability
   end
 
   def admin_permissions(user)
-    can %i[read update destroy lock unlock suspend reinstate], User
+    can %i[update destroy lock unlock suspend reinstate], User
     cannot %i[update destroy lock unlock suspend reinstate], User, id: user.id
 
     can :manage, RegisterInterest

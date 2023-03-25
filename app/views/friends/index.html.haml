@@ -1,0 +1,21 @@
+%h1.page-header Friends
+
+=link_to 'Find friends', friend_search_path, class: 'btn btn-primary'
+=link_to 'Friend requests', friend_requests_path, class: 'btn btn-primary'
+
+- if @friends.present?
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @friends.each do |friend|
+        %tr
+          %td= friend.full_name
+          %td
+            .btn-toolbar.float-end
+              = button_to 'Unfriend', unfollow_path(friend), class: 'btn btn-outline-primary ms-1 btn-sm'
+- else
+  %p
+    You have no friends yet.
