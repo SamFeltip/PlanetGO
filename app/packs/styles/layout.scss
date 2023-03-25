@@ -266,33 +266,6 @@ p {
   border-radius: 8px;
 }
 
-// large screens
-@media(min-width: 700px){
-
-  #outing-footer {
-    display: none;
-  }
-  .horizontal-scroll {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  // horizontal scrolling cards
-  .horizontal-scroll > a {
-    transform: translateX(0%);
-    transition: 0.5s ease;
-  }
-
-  .horizontal-scroll > :first-child{
-    margin-left: 0;
-    //transition: 0.5s ease;
-  }
-
-  .horizontal-card {
-    margin-bottom: 10px;
-  }
-}
-
 // ********** outings view **********
 
 
@@ -311,6 +284,17 @@ p {
   padding: 20px;
   margin-top: 20px;
 
+}
+
+#outing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: space-around;
+}
+
+#content-who {
+  width: 100%;
 }
 
 #not_invited_friends .card-body {
@@ -371,3 +355,51 @@ p {
 .green:hover {
   color: darkgreen;
 }
+
+
+// large screens
+@media(min-width: 700px){
+
+  #outing-footer {
+    display: none;
+  }
+
+  #outing-body #content-when {
+    display: block;
+  }
+
+  #outing-nav {
+    display: none;
+  }
+
+
+  #outing-body {
+    display: flex;
+  }
+
+  #content-who {
+    width: 30%;
+    max-width: 400px;
+  }
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child{
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+}
+

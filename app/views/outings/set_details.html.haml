@@ -28,7 +28,7 @@
 
     %p= @outing.description
 
-  .flex_container.justify-content-around
+  #outing-nav
     #outing-nav-who.underline
       %a Who?
     #outing-nav-when
@@ -38,7 +38,7 @@
 
   %hr
 #outing-body
-  #content-who.w-100
+  #content-who
     %p.grey #{@outing.participants.count} people interested
 
     = form_tag users_path, method: :get do
@@ -79,11 +79,9 @@
 
       = submit_tag 'Send Invites'
 
-
-
-  #content-when.w-100
+  #content-when
     when
-    %input.w-100
+    %input
 
 %footer#outing-footer
   -# contains 3 links, 'back', 'done', 'next'
