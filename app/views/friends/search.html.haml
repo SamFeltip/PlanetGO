@@ -1,0 +1,30 @@
+%h1.page-header Find friends
+
+=link_to 'All friends', friends_path, class: 'btn btn-primary'
+=link_to 'Friend requests', friend_requests_path, class: 'btn btn-primary'
+
+%h2 Find friends
+= simple_form_for :search, url: friend_search_path, method: :get do |f|
+  = f.input :name, input_html: { value: @name || '' } , label: 'Search for a user by their name'
+
+  = f.submit 'Search', class: 'btn btn-outline-primary'
+  = link_to 'Clear', friend_search_path, class: 'btn btn-outline-secondary'
+
+- if @users
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @users.each do |user|
+        %tr{:id => "friend-#{user.id}"}
+          %td= user.full_name
+          %td
+            .btn-toolbar.float-end
+              - if current_user.following?(user)
+                = button_to 'Unfriend', unfollow_path(user), class: 'btn btn-outline-danger ms-1 btn-sm'
+              - elsif current_user.sent_follow_request_to?(user)
+                = button_to 'Cancel friend request', cancel_path(user), class: 'btn btn-outline-warning ms-1 btn-sm'
+              - else
+                = button_to 'Add friend', follow_path(user), class: 'btn btn-outline-success ms-1 btn-sm'

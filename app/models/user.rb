@@ -39,6 +39,7 @@ class User < ApplicationRecord
   has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter
+  followability
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,

@@ -118,4 +118,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'followability', '~> 1.1'
+gem 'followability', git: 'https://github.com/nejdetkadir/followability'

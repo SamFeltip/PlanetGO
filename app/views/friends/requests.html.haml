@@ -1,0 +1,22 @@
+%h1.page-header Friend requests
+
+=link_to 'All friends', friends_path, class: 'btn btn-primary'
+=link_to 'Friend requests', friend_requests_path, class: 'btn btn-primary'
+
+- if @requests.present?
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th
+    %tbody
+      - @requests.each do |request|
+        %tr
+          %td= request.followerable.full_name
+          %td
+            .btn-toolbar.float-end
+              = button_to 'Accept', accept_path(request.followerable), class: 'btn btn-outline-success ms-1 btn-sm'
+              = button_to 'Decline', decline_path(request.followerable), class: 'btn btn-outline-danger ms-1 btn-sm'
+- else
+  %p
+    You have no pending friend requests.

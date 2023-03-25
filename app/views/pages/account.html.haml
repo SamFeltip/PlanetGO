@@ -25,8 +25,11 @@
 .row
   .col-md-3.mt-4
     %h1 Friends
-    - @friends.each do |friend|
-      %p= friend
+    - if @friends.present?
+      - @friends.each do |friend|
+        %p= friend
+    - else
+      %p You have no friends yet.
   .col-md-9.mt-4
     %h1 My outings
 

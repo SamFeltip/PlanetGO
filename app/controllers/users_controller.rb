@@ -6,11 +6,14 @@ class UsersController < ApplicationController
   load_and_authorize_resource
 
   def index
+    raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
+
     @users = User.accessible_by(current_ability)
-    @users = @users.order(:id)
   end
 
   def show
+    raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
+
     @user = User.find_by(id: params[:id])
   end
 
