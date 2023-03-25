@@ -297,12 +297,39 @@ p {
   width: 100%;
 }
 
+#content-who #friend-search-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#content-who #search {
+  width: 99%;
+  margin-right: 10px;
+}
+
+#content-who #outing-share {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+#content-who #outing-share .dropdown {
+  margin-left: 10px;
+}
+
 #not_invited_friends .card-body {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
 
+}
+
+#content-who #send-invite-button {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
 }
 
 #outing-body .card {
