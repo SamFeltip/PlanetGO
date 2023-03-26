@@ -56,13 +56,21 @@ class ParticipantsController < ApplicationController
   # DELETE /participants/1 or /participants/1.json
   def destroy
     @user = @participant.user
-    @participant.destroy
+    @outing = @participant.outing
+
+    unless @participant.destroy
+      flash[:error] = t('.error')
+      redirect_to @user
+      return
+    end
 
     respond_to do |format|
-      format.html { redirect_to participants_url, notice: t('.notice') }
+      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
       format.js
       format.json { head :no_content }
     end
+
+
   end
 
   private

@@ -38,7 +38,7 @@ class OutingsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to outings_url, notice: t('.notice') }
+      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
       format.js
     end
 
@@ -102,9 +102,7 @@ class OutingsController < ApplicationController
     end
   end
 
-  def set_details
-    @variable = 'this is a variable from controller'
-  end
+  def set_details; end
 
   private
 

@@ -270,7 +270,6 @@ p {
 
 
 #outing-body {
-  padding-top: 10px;
   margin-bottom: 100px;
   border-top: 1px solid #dee2e6;
 
@@ -417,6 +416,10 @@ p {
     width: 30%;
     max-width: 400px;
     box-shadow: 5px 0px 5px -5px rgba(0,0,0,0.75);
+  }
+
+  #content-when {
+    width: 70%;
   }
 
   #content-who, #content-when {

@@ -106,12 +106,12 @@ RSpec.describe 'Outings' do
 
 
       it 'lets the user see a list of their friends' do
-        pending 'implement this later'
+        pending 'depends on friends list'
         expect(page).to have_content('Select friends to invite')
       end
 
       it 'lets the user share an outing link' do
-        pending 'implement this later'
+        pending 'depends on outing URL'
         expect(page).to have_content('Share this link with your friends')
       end
 
@@ -198,15 +198,14 @@ RSpec.describe 'Outings' do
         end
       end
 
-
       context 'when you remove participants', js: true do
-        before do
-          # click trash icon on user1 participant
+
+        it 'removes a participant object' do
           within '#participant-cards' do
             within "#participant_#{participant1.id}" do
-              find('.bi-trash').click
+              find('.destroy-participant').click
               # click confirm on alert
-              page.driver.browser.switch_to.alert.accept
+              expect { page.driver.browser.switch_to.alert.accept }.to change(Participant, :count).by(-1)
             end
           end
         end
@@ -217,10 +216,6 @@ RSpec.describe 'Outings' do
           end
         end
 
-        it 'removes participant object' do
-          expect(Participant.find_by(id: participant1.id)).to be_nil
-        end
-
         it 'shows the user in the deleted participant in #not_invited_friends' do
           within '#not_invited_friends' do
             expect(page).to have_content(user1.full_name)
@@ -229,26 +224,24 @@ RSpec.describe 'Outings' do
 
       end
 
-      context 'when you invite to a friend', js: true do
-        before do
-          #  when you click check box from '= check_box_tag 'user_ids[]', friend.id' on invite card
+      context 'when you invite to a friend' do
+
+        it 'adds participant object' do
+          # expect(Participant.find_by(user_id: user3.id, outing_id: past_outing.id)).to be_present
           within '#not_invited_friends' do
             # within user card
             within "#user_#{user3.id}" do
               check 'user_ids[]'
             end
-            click 'Send Invites'
+            # find_by_id('send-invite-button').click
           end
+          expect { click_button 'send-invite-button' }.to change(Participant, :count).by(1)
         end
 
         it 'adds the participant to participant cards' do
           within '#participant-cards' do
             expect(page).to have_content(user3.full_name)
           end
-        end
-
-        it 'adds participant object' do
-          expect(Participant.find_by(user_id: user3.id, outing_id: past_outing.id)).to be_present
         end
 
         it 'removes participant from #not_invited_friends' do
@@ -262,33 +255,25 @@ RSpec.describe 'Outings' do
         pending 'friend search not implemented yet'
         expect(page).to have_content('Search for friends')
       end
-
     end
-
   end
 
-  # context 'when the user is not logged in' do
-  #   describe 'when the user joins by a link' do
-  #     describe 'forces them to make an account' do
-  #       # redirects to new account page with a notice
-  #       it 'redirects them to the outing, with their account authenticated on this outing' do
-  #         # on signup redirect
-  #       end
-  #     end
-  #
-  #   end
-  #
-  #
-  #   it 'does not let them view outings' do
-  #
-  #   end
-  #
-  #   it 'does not let them accept outing invites' do
-  #
-  #   end
-  #
-  #   it 'does not let the user create an outing' do
-  #
-  #   end
-  # end
+  context 'when the user is not logged in' do
+    describe 'when the user joins by a link' do
+      before do
+        visit outing_path(past_outing)
+      end
+
+      # redirects to log in page
+      it 'redirects to the new user registration page' do
+        expect(page).to have_current_path('/users/sign_in')
+      end
+
+
+
+      it 'shows a notice' do
+        expect(page).to have_content('You need to sign in or sign up before continuing.')
+      end
+    end
+  end
 end

@@ -42,7 +42,8 @@ en:
 
   participants:
     destroy:
-      notice: 'Participant was successfully destroyed.'
+      notice: 'Invitation for this outing was revoked.'
+      error: "participant could not be destroyed"
     update:
       notice: 'Participant was successfully updated.'
     create:

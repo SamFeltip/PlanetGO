@@ -5,5 +5,8 @@
 
   - unless participant.status == "creator"
     .card-footer.d-flex.justify-content-end
-      = link_to participant_path(participant), class: 'btn btn-outline-danger', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+      = link_to participant_path(participant), class: 'btn btn-outline-danger destroy-participant', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
         %i.bi-trash
+
+
+
