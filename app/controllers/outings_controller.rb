@@ -41,7 +41,6 @@ class OutingsController < ApplicationController
       format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
       format.js
     end
-
   end
 
   # POST /outings or /outings.json

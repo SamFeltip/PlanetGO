@@ -69,8 +69,6 @@ class ParticipantsController < ApplicationController
       format.js
       format.json { head :no_content }
     end
-
-
   end
 
   private

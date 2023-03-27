@@ -36,7 +36,5 @@ class Participant < ApplicationRecord
     "#{user} has been invited to #{outing}. Status: #{status}"
   end
 
-  def full_name
-    user.full_name
-  end
+  delegate :full_name, to: :user
 end
