@@ -14,7 +14,7 @@ class FriendsController < ApplicationController
     return unless params[:search].present? && params[:search][:name].present?
 
     @name = params[:search][:name]
-    @users = User.where('full_name LIKE ?', "%#{@name}%")
+    @users = User.where('lower(full_name) LIKE ?', "%#{@name.downcase}%")
     @users = @users.where.not(id: current_user.id)
   end
 
