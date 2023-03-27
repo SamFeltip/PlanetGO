@@ -32,26 +32,24 @@
           .navbar-nav.mr-auto
             - if user_signed_in?
 
-
-              .nav-item.active
+              %li.nav-item.active
                 = link_to :events, class: 'nav-link' do
                   %i.bi-calendar-event
                   %span.nav-title
                     Events
 
-              .nav-item.active
+              %li.nav-item.active
                 = link_to :outings, class: 'nav-link' do
                   %i.bi-map
                   %span.nav-title
                     Outings
 
-              - if current_user.admin? || current_user.reporter?
+              %li.nav-item.active
+                = link_to '/friends', class: 'nav-link' do
+                  %i.bi-people
+                  %span.nav-title
+                    Friends
 
-                .nav-item.active
-                  = link_to :outings, class: 'nav-link' do
-                    %i.bi-map
-                    %span.nav-title
-                      Outings
 
               - if current_user.admin?
 

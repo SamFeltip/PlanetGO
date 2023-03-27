@@ -1,6 +1,5 @@
 html {
   min-height: 100%;
-
 }
 
 body {
@@ -25,19 +24,6 @@ body {
 
 .alert {
   --bs-alert-border-radius: 0;
-}
-
-
-h1 {
-  font-size: 37px;
-}
-
-h2 {
-  font-size: 17px;
-}
-
-h3 {
-  font-size: 26px;
 }
 
 .light {
@@ -84,11 +70,6 @@ img.full-screen-image {
 
 a {
   text-decoration: none;
-}
-
-p {
-  font-size: 17px;
-  //margin-bottom: 50px;
 }
 
 // devise styling
@@ -195,11 +176,11 @@ p {
   padding-bottom: 100px;
 }
 
-#navbar-content{
+#navbar-content {
   justify-content: space-between;
 }
 
-.event-header .content{
+.event-header .content {
   position: absolute;
   padding-top: 50px;
   width: 100%;
@@ -207,9 +188,9 @@ p {
   z-index: 9999;
 }
 
-.event-header{
+.event-header {
   text-align: center;
-  width: calc(100% + 27px*2);
+  width: calc(100% + 27px * 2);
   height: 170px;
   left: -27px;
   top: -20px;
@@ -217,7 +198,7 @@ p {
   position: relative;
 }
 
-#event-image{
+#event-image {
   width: 100%;
 
   /* Add the blur effect
@@ -226,24 +207,17 @@ p {
 
   -webkit-filter: blur(8px) brightness(50%);
   transform: scale(150%) translateY(-10%);
-  //transform: ;
-
 }
 
-.horizontal-scroll{
+.horizontal-scroll {
   display: flex;
   overflow-x: auto;
   padding-bottom: 20px;
 }
 
-#more-events{
-}
-
-
-#more_events img{
+#more_events img {
   width: 100%;
 }
-
 
 // horizontal scrolling cards
 .horizontal-scroll > a {
@@ -254,11 +228,9 @@ p {
   flex-wrap: nowrap;
 }
 
-
 // card
 .horizontal-card {
-
-  width:250px;
+  width: 250px;
   min-width: 250px;
   max-width: 250px;
   margin-right: 10px;
@@ -322,9 +294,11 @@ p {
   align-items: center;
 }
 
+
 #content-who #outing-share .dropdown {
   margin-left: 10px;
 }
+
 
 #not_invited_friends .card-body {
   display: flex;
@@ -352,6 +326,84 @@ p {
   border-bottom: 2px solid darkgrey;
 }
 
+.underline {
+  border-bottom: 2px solid darkgrey;
+}
+
+// large screens
+@media (min-width: 700px) {
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child {
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+
+
+  #outing-footer {
+    display: none;
+  }
+
+  #outing-body #content-when {
+    display: block;
+  }
+
+  #outing-nav {
+    display: none;
+  }
+
+  #outing-body {
+    display: flex;
+  }
+
+  #content-who {
+    width: 30%;
+    max-width: 400px;
+    box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
+  }
+
+  #content-when {
+    width: 70%;
+  }
+
+  #content-who, #content-when {
+    padding: 10px;
+  }
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child{
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+
+}
 
 // icons
 .lg-icon {
@@ -390,60 +442,3 @@ p {
 .green:hover {
   color: darkgreen;
 }
-
-
-// large screens
-@media(min-width: 700px){
-
-  #outing-footer {
-    display: none;
-  }
-
-  #outing-body #content-when {
-    display: block;
-  }
-
-  #outing-nav {
-    display: none;
-  }
-
-
-  #outing-body {
-    display: flex;
-  }
-
-  #content-who {
-    width: 30%;
-    max-width: 400px;
-    box-shadow: 5px 0px 5px -5px rgba(0,0,0,0.75);
-  }
-
-  #content-when {
-    width: 70%;
-  }
-
-  #content-who, #content-when {
-    padding: 10px;
-  }
-
-  .horizontal-scroll {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  // horizontal scrolling cards
-  .horizontal-scroll > a {
-    transform: translateX(0%);
-    transition: 0.5s ease;
-  }
-
-  .horizontal-scroll > :first-child{
-    margin-left: 0;
-    //transition: 0.5s ease;
-  }
-
-  .horizontal-card {
-    margin-bottom: 10px;
-  }
-}
-

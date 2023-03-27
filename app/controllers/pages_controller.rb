@@ -7,8 +7,7 @@ class PagesController < ApplicationController
   def landing; end
 
   def account
-    # TODO: make this actually my friends
-    @friends = current_user.friends
+    @friends = current_user.following
 
     @future_outings = current_user.future_outings
     @past_outings = current_user.past_outings

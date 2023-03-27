@@ -42,8 +42,16 @@ Rails.application.routes.draw do
 
   root 'pages#landing'
 
-  get '/welcome', to: 'pages#landing'
-  get '/myaccount', to: 'pages#account'
+  get 'myaccount', to: 'pages#account'
+  get 'welcome', to: 'pages#landing'
+  get 'pricings', to: 'pricings#index'
 
-  get '/pricings', to: 'pricings#index'
+  get 'friends', to: 'friends#index'
+  get 'friends/search', to: 'friends#search', as: 'friend_search'
+  get 'friends/requests', to: 'friends#requests', as: 'friend_requests'
+  post 'friends/:id/follow', to: 'friends#follow', as: 'follow'
+  post 'friends/:id/unfollow', to: 'friends#unfollow', as: 'unfollow'
+  post 'friends/:id/accept', to: 'friends#accept', as: 'accept'
+  post 'friends/:id/decline', to: 'friends#decline', as: 'decline'
+  post 'friends/:id/cancel', to: 'friends#cancel', as: 'cancel'
 end
