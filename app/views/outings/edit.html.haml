@@ -10,6 +10,9 @@
           = f.input :outing_type, wrapper_html: { class: 'mb-3' }, collection: Outing.outing_types.keys
 
         .card-footer.d-flex
-          %button.btn.btn-primary{ type: 'submit' }
+          %button.btn.btn-primary.me-2{ type: 'submit' }
             Save
+
+          = link_to 'Set Details', set_details_outing_path(@outing), class: 'btn btn-primary'
+
           = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'

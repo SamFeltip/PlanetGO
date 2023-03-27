@@ -3,16 +3,33 @@ console.log("outings js loaded")
 function show_who_content() {
     $('#content-who').show();
     $('#content-when').hide();
+    $('#content-where').hide();
+
     $('#outing-nav-who').addClass("underline");
     $('#outing-nav-when').removeClass("underline");
+    $('#outing-nav-where').removeClass("underline");
 
 }
 
 function show_when_content() {
     $('#content-who').hide();
     $('#content-when').show();
+    $('#content-where').hide();
+
     $('#outing-nav-when').addClass("underline");
     $('#outing-nav-who').removeClass("underline");
+    $('#outing-nav-where').removeClass("underline");
+}
+
+
+function show_where_content() {
+    $('#content-who').hide();
+    $('#content-when').hide();
+    $('#content-where').show();
+
+    $('#outing-nav-who').removeClass("underline");
+    $('#outing-nav-when').removeClass("underline");
+    $('#outing-nav-where').addClass("underline");
 }
 
 // outings
@@ -27,6 +44,21 @@ $(function() {
     $('#outing-nav-when').click(function() {
         console.log("when pressed");
         show_when_content();
+    });
+});
+
+$(function() {
+    $('#outing-nav-where').click(function() {
+        console.log("where pressed");
+        show_where_content();
+    });
+});
+
+
+$(function() {
+    $('#set-events').click(function() {
+        console.log("set event button pressed");
+        show_where_content();
     });
 });
 

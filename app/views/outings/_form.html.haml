@@ -15,4 +15,6 @@
       %button.btn.btn-primary{ type: 'submit' , formmethod: 'POST' }
         Save
 
+    = link_to 'Set Details', set_details_outing_path(@outing), class: 'btn btn-primary'
+
     = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'

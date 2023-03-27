@@ -281,12 +281,12 @@ a {
   width: 100%;
 }
 
-#content-who #friend-search-form {
+#content-who #friend-search-form, #content-where #event-search-form {
   display: flex;
   justify-content: space-between;
 }
 
-#content-who #search {
+#content-who #search, #content-where #search {
   width: 99%;
   margin-right: 10px;
 }
@@ -323,6 +323,10 @@ a {
 }
 
 #outing-body #content-when {
+  display: none;
+}
+
+#outing-body #content-where {
   display: none;
 }
 
