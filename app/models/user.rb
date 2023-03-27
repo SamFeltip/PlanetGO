@@ -110,11 +110,7 @@ class User < ApplicationRecord
     %w[user advertiser].include? role
   end
 
-  def friends
-    User.all
-  end
-
   def not_invited_friends(outing)
-    friends.where.not(id: outing.participants.pluck(:user_id))
+    following.where.not(id: outing.participants.pluck(:user_id))
   end
 end
