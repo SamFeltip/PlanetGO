@@ -1,20 +1,24 @@
 .card.mb-2
-  .card-header
-    = link_to event.name, event
-
   .row
     .col-auto
       = image_pack_tag event.image_path, width: 120
-    .col.p-3
+    .col.p-1
+      %p
+        = link_to event.name, event, class: 'black fw-bold'
+      %p
+        =event.display_time
       %p
         =event.display_description(length = 50)
-      %p
-        %i.bi-pin
-        %i
-          =event.display_location
-  .card-footer.d-flex.justify-content-between
 
-    .user-controls
+
       %a{href: event_path(event)}
         %i{:class => event.like_icon(current_user)}
         = event.display_likes(current_user, compressed: false)
+
+  - if add_event_to_outing
+    .card-footer.d-flex.justify-content-between
+      = link_to create_proposed_event_path(event: event, outing: outing), remote: true do
+        %i.bi-plus-circle
+
+      = link_to create_proposed_event_path(event: event, outing: outing), remote: true do
+        %i.bi-x-circle

@@ -50,6 +50,13 @@ class Event < ApplicationRecord
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end
 
+  def display_time
+    if time_of_event
+      time_of_event.strftime('%d/%m/%Y %H:%M')
+    else
+      'any time'
+    end
+  end
   # TODO: make this actually get a friend and the like count of an event
   def display_likes(user, compressed: false)
     event_likes = likes

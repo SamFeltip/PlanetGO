@@ -114,7 +114,14 @@ class User < ApplicationRecord
     following.where.not(id: outing.participants.pluck(:user_id))
   end
 
-  def recommended_events
-    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+  def recommended_events(outing)
+    event_output = Event.where(id: EventReact.select(:event_id).where(user_id: id))
+
+    if outing
+      event_output = event_output.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id))
+    end
+
+    event_output
+
   end
 end

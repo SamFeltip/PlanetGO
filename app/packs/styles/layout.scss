@@ -277,7 +277,11 @@ a {
   padding: 5px 0;
 }
 
-#content-who {
+#content-where {
+  flex-direction: column;
+}
+
+#content-who, #content-where, #where-sidebar, #where-body {
   width: 100%;
 }
 
@@ -377,17 +381,21 @@ a {
     display: flex;
   }
 
-  #content-who {
+  #content-who, #where-sidebar {
     width: 30%;
     max-width: 400px;
     box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
   }
 
-  #content-when {
+  #content-when, #where-body {
     width: 70%;
   }
 
-  #content-who, #content-when {
+  #content-where {
+    flex-direction: row;
+  }
+
+  #content-who, #content-when, #where-sidebar, #where-body {
     padding: 10px;
   }
 

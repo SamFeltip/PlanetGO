@@ -1,0 +1,38 @@
+.outing-header
+  .content
+    .row
+      %h1
+        = outing.name
+    .row
+      .col-1
+        %i.bi-calendar
+      .col
+        - if outing.date
+          %h2
+            = outing.date
+        - else
+          %h2
+            Date TBD
+
+    .row
+      .col-1
+        %i.bi-pin
+      .col
+        - if outing.events.count > 0
+          %h2
+            Location is...
+        - else
+          %h2
+            Starting Location TBD
+
+    %p= outing.description
+
+  - if nav
+    #outing-nav
+      .outing-nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
+        %a{:href => set_details_outing_path(outing, position: 'who')} Who?
+      .outing-nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
+        %a{:href => set_details_outing_path(outing, position: 'when')} When?
+
+      .outing-nav-item#outing-nav-where{:class => params[:position] == 'where' ? 'underline' : '' }
+        %a.black{:href => set_details_outing_path(outing, position: 'where')} Where?

@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :proposed_events
+  resources :proposed_events do
+    post 'create'
+  end
 
   resources :events, except: %i[new show] do
     patch :like, on: :member
@@ -11,6 +13,8 @@ Rails.application.routes.draw do
     member do
       get 'set_details'
       post 'send_invites'
+      post 'add_event'
+      post 'dismiss_event'
     end
     post :send_invites, on: :member
   end
