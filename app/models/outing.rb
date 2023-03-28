@@ -8,19 +8,22 @@
 #  date             :date
 #  description      :text
 #  invitation_token :bigint
+#  invite_token     :string
 #  name             :string
 #  outing_type      :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
-#  creator_id       :bigint           not null
+#  creator_id       :bigint
 #
 # Indexes
 #
-#  index_outings_on_creator_id  (creator_id)
+#  index_outings_on_creator_id    (creator_id)
+#  index_outings_on_invite_token  (invite_token) UNIQUE
 #
 # Foreign Keys
 #
 #  fk_rails_...  (creator_id => users.id)
+#
 #
 
 class Outing < ApplicationRecord
@@ -37,6 +40,7 @@ class Outing < ApplicationRecord
   validates :name, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 2048 }
   validates :outing_type, presence: true
+  has_secure_token :invite_token
 
   enum outing_type: {
     personal: 0,
@@ -57,5 +61,9 @@ class Outing < ApplicationRecord
 
   def pending_participants(current_user)
     Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
+  end
+  
+  def to_param
+    invite_token
   end
 end

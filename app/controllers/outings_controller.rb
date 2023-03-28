@@ -14,7 +14,9 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1 or /outings/1.json
-  def show; end
+  def show; 
+    @outing = Outing.find(params[:invite_token])
+  end
 
   # GET /outings/new
   def new
@@ -68,10 +70,6 @@ class OutingsController < ApplicationController
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
-
-    token_prefix = @outing.id.to_s
-    token = token_prefix + rand(100_000).to_s
-    @outing.invitation_token = token.to_i
 
     @participant = @outing.participants.build(
       user_id: current_user.id,

@@ -24,11 +24,15 @@ Rails.application.routes.draw do
 
   resources :events
   resources :participants
+  resources :outings, param: :invite_token, only: :show do
+    resources :participants, only: [ :new, :create ]
+    resource :invite_link, only: :show
+  end
   resources :outings
 
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')
-  devise_for :users
+  devise_for :users, controllers: { invitations: 'invitations' }
 
   resources :users, :metrics
 

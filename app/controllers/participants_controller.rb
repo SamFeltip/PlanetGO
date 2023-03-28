@@ -9,7 +9,9 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1 or /participants/1.json
-  def show; end
+  def show; 
+    @outing = Outing.find(params[:invite_token])
+  end
 
   # GET /participants/new
   def new
