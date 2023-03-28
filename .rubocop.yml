@@ -8,6 +8,9 @@ require:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
+Rails/BulkChangeTable:
+  Enabled: false
+
 AllCops:
   NewCops: enable
   Exclude:
