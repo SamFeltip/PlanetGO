@@ -73,10 +73,17 @@ user_user4 = User.where(email: 'user4@gmail.com')
                  )
 
 user_user1.send_follow_request_to(user_user2)
-user_user1.send_follow_request_to(user_user3)
-
 user_user2.accept_follow_request_of(user_user1)
+
+user_user2.send_follow_request_to(user_user1)
+user_user1.accept_follow_request_of(user_user2)
+
+user_user1.send_follow_request_to(user_user3)
 user_user3.accept_follow_request_of(user_user1)
+
+user_user3.send_follow_request_to(user_user1)
+user_user1.accept_follow_request_of(user_user3)
+
 
 
 
