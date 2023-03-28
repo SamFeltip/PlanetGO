@@ -281,7 +281,13 @@ a {
   flex-direction: column;
 }
 
-#content-who, #content-where, #where-sidebar, #where-body {
+#content-who {
+  display: block;
+}
+
+
+
+#content-who, #content-where, #where-sidebar, #where-body, #content-who-and-where {
   width: 100%;
 }
 
@@ -326,13 +332,13 @@ a {
   margin-bottom: 10px;
 }
 
-#outing-body #content-when {
-  display: none;
-}
+//#outing-body #content-when {
+//  display: none;
+//}
 
-#outing-body #content-where {
-  display: none;
-}
+//#outing-body #content-where {
+//  display: none;
+//}
 
 .underline {
   border-bottom: 2px solid darkgrey;
@@ -375,10 +381,6 @@ a {
 
   #outing-nav {
     display: none;
-  }
-
-  #outing-body {
-    display: flex;
   }
 
   #content-who, #where-sidebar {

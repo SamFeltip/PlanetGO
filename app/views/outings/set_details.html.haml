@@ -1,54 +1,55 @@
 = render 'outing_header', outing: @outing, nav: true
 
 #outing-body
-  #content-who{:class => (!params[:position] == 'where' || params[:position].nil?) ?  'd-block' : 'd-none'}
-    %p.grey #{@outing.participants.count} people interested
+  #content-who-and-where{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
+    #content-who{:class => ((params[:position] == 'who')) ?  'd-md-block' : 'd-none d-md-block'}
+      %p.grey #{@outing.participants.count} people interested
 
-    = form_tag users_path, id: 'friend-search-form', method: :get do
-      = text_field_tag :search
+      = form_tag users_path, id: 'friend-search-form', method: :get do
+        = text_field_tag :search
 
-      %button.btn.btn-outline-secondary{:type => "submit"}
-        %i.bi-search
+        %button.btn.btn-outline-secondary{:type => "submit"}
+          %i.bi-search
 
-    #outing-share
-      Share to...
-      .dropdown.me-0
-        %a.btn.btn-outline-primary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
-          %i.bi-share
-          %b.caret
-        %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
-          %li
-            %a{:href => "#link1"}
-              %i.bi-link
-          %li
-            %a{:href => "#link1"}
-              %i.bi-instagram
-          %li
-            %a{:href => "#link2"}
-              %i.bi-facebook
-          %li
-            %a{:href => "#link3"}
-              %i.bi-twitter
-          %li
+      #outing-share
+        Share to...
+        .dropdown.me-0
+          %a.btn.btn-outline-primary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
+            %i.bi-share
+            %b.caret
+          %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
+            %li
+              %a{:href => "#link1"}
+                %i.bi-link
+            %li
+              %a{:href => "#link1"}
+                %i.bi-instagram
+            %li
+              %a{:href => "#link2"}
+                %i.bi-facebook
+            %li
+              %a{:href => "#link3"}
+                %i.bi-twitter
+            %li
 
-    #participant-cards
-      - @outing.participants.each do |participant|
-        = render 'outings/participant_card', participant: participant
+      #participant-cards
+        - @outing.participants.each do |participant|
+          = render 'outings/participant_card', participant: participant
 
-    %hr
+      %hr
 
-    = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
-      = submit_tag 'Send Invites', class: 'btn btn-primary', id: 'send-invite-button'
-      #not_invited_friends
-        - current_user.not_invited_friends(@outing).each do |friend|
-          = render 'invite_friend', friend: friend
+      = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
+        = submit_tag 'Send Invites', class: 'btn btn-primary', id: 'send-invite-button'
+        #not_invited_friends
+          - current_user.not_invited_friends(@outing).each do |friend|
+            = render 'invite_friend', friend: friend
 
-  #content-when{:class => (!params[:position] == 'where' || params[:position].nil?) ? 'd-block' : 'd-none'}
-    %p
-      When
-    .d-flex.justify-content-end
-      %a.btn.btn-primary#set-events{:href => set_details_outing_path(@outing, position: 'where')}
-        Set Events
+    #content-when{:class => ((params[:position] == 'when')) ? 'd-md-block' : 'd-none d-md-block'}
+      %p
+        When
+      .d-flex.justify-content-end
+        %a.btn.btn-primary#set-events{:href => set_details_outing_path(@outing, position: 'where')}
+          Set Events
 
   #content-where{:class => params[:position] == 'where' ? 'd-flex' : 'd-none'}
     #where-sidebar
