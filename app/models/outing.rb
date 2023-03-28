@@ -4,16 +4,15 @@
 #
 # Table name: outings
 #
-#  id               :bigint           not null, primary key
-#  date             :date
-#  description      :text
-#  invitation_token :bigint
-#  invite_token     :string
-#  name             :string
-#  outing_type      :integer
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  creator_id       :bigint
+#  id           :bigint           not null, primary key
+#  date         :date
+#  description  :text
+#  invite_token :string
+#  name         :string
+#  outing_type  :integer
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
+#  creator_id   :bigint
 #
 # Indexes
 #

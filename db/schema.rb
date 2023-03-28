@@ -116,7 +116,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "invitation_token"
     t.integer "outing_type"
     t.bigint "creator_id"
     t.string "invite_token"
