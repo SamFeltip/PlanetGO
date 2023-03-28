@@ -1,10 +1,10 @@
-.event-header{:class => Category.find(@event.category_id).name }
+.event-header{:class => Category.find(@event.category_id).name.downcase }
   .content
     %h1
       =@event.name
     %h2
       =@event.time_of_event
-  = image_pack_tag "event_images/#{Category.find(@event.category_id).name.downcase}.png", id: "event-image"
+  = image_pack_tag @event.image_path, id: "event-image"
 
 .event-body
   .d-flex.justify-content-between

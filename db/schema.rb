@@ -92,6 +92,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_105702) do
     t.datetime "updated_at", null: false
     t.bigint "invitation_token"
     t.integer "outing_type"
+    t.bigint "creator_id"
+    t.index ["creator_id"], name: "index_outings_on_creator_id"
   end
 
   create_table "participants", force: :cascade do |t|
@@ -179,6 +181,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_28_105702) do
   add_foreign_key "event_reacts", "users"
   add_foreign_key "events", "categories"
   add_foreign_key "events", "users"
+  add_foreign_key "outings", "users", column: "creator_id"
   add_foreign_key "participants", "outings"
   add_foreign_key "participants", "users"
   add_foreign_key "proposed_events", "events"
