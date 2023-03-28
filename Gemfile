@@ -62,7 +62,6 @@ gem 'hamlit'
 gem 'hamlit-rails'
 
 gem 'simple_form'
-gem 'cocoon'
 
 gem 'draper'
 
@@ -87,8 +86,6 @@ gem 'sanitize_email'
 gem 'acts_as_votable'
 gem 'sentry-rails'
 gem 'sentry-ruby'
-
-gem 'jquery-rails'
 
 group :development do
   gem 'annotate'
@@ -121,4 +118,4 @@ group :test do
   gem 'webdrivers'
 end
 
-gem 'followability', '~> 1.1'
+gem 'followability', git: 'https://github.com/nejdetkadir/followability'

@@ -4,7 +4,7 @@
     %div{:class=>"informationBox"}
       %div{:class=>"informationKey"}
         - metrics.each do |metric|
-          %div{:class=>"clickable", :onclick=>'document.getElementById("pageSelected").value = "'+route_name+'";document.getElementById("metricSelected").value = "'+metric[0].to_s+'";'}=metric[0].to_s+":"
+          %div{:class=>"clickable", :route_name => route_name, :metric => metric[0].to_s}=metric[0].to_s+":"
       %div{:class=>"informationValue"}
         - metrics.each do |metric|
           %div=metric[1].to_s

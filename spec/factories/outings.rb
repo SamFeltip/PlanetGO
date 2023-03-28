@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: outings
@@ -10,12 +12,28 @@
 #  outing_type      :integer
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  creator_id       :bigint           not null
+#
+# Indexes
+#
+#  index_outings_on_creator_id  (creator_id)
+#
+# Foreign Keys
+#
+#  fk_rails_...  (creator_id => users.id)
 #
 FactoryBot.define do
   factory :outing do
-    name { "My exciting adventure" }
-    date { "2023-02-23" }
-    description { "This is a really cool adventure, with all my friends!" }
+    name { 'My exciting adventure' }
+    date { Time.zone.now }
+    description { 'This is a really cool adventure, with all my friends!' }
+    creator_id { create(:user).id }
+
+    after :create do |outing|
+      # creator = create(:user)
+      create(:participant, user: outing.creator, outing:, status: Participant.statuses[:creator])
+    end
+
     # participant {association :participant, status: "creator" }
   end
 end

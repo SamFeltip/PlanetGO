@@ -1,4 +1,4 @@
-.card.mb-5
+#my_pending_events.card.mb-5
   .card-header.d-flex.align-items-center
     %span My Pending Events
 
@@ -13,12 +13,12 @@
             %th
         %tbody
           - @my_pending_events.each do |event|
-            %tr
-              %td
+            %tr[event]
+              %td.event_name
                 %a.black{href: edit_event_path(event)}
                   = event.name
-              %td
-                -#TODO style tooltips
+              %td.event_status
+
                 %a{href: edit_event_path(event)}
                   %i{:class => event.approved_icon + " " + event.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.approved_desc}}
               %td
@@ -31,7 +31,7 @@
                       %i.bi-trash
 
 - if current_user.admin? && @all_pending_events.count > 0
-  .card.mb-5
+  #pending_events.card.mb-5
     .card-header.d-flex.align-items-center
       %span Pending Events
 
@@ -45,18 +45,20 @@
             %th Actions
         %tbody
           - @all_pending_events.each do |event|
-            %tr
+            %tr{class: "pending_event"}[event]
               %td
                 =link_to event.name, edit_event_path(event)
               %td
                 =link_to event.user.full_name, user_path(event.user)
               %td
                 .row
+
                   .col
-                    = link_to approval_event_path(id: event, approved: "true"), class: 'btn btn-primary', title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "true"), class: 'approve_event btn' + (event.approved == true ? " btn-primary" : " btn-outline-primary"), title: 'app', method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-up
+
                   .col
-                    = link_to approval_event_path(id: event, approved: "false"), class: 'btn btn-primary', title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "false"), class: 'disapprove_event btn' + (event.approved.nil? ? " btn-outline-danger" : " btn-danger"), title: 'app', method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-down
 
 

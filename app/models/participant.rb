@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: participants
@@ -23,7 +25,6 @@ class Participant < ApplicationRecord
   belongs_to :user
   belongs_to :outing
 
-
   enum status: {
     pending: 0,
     confirmed: 1,
@@ -32,7 +33,6 @@ class Participant < ApplicationRecord
   }
 
   def to_s
-    "#{self.user} has been invited to #{self.outing}. Status: #{self.status}"
+    "#{user} has been invited to #{outing}. Status: #{status}"
   end
-
 end

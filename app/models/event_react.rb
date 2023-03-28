@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: event_reacts
@@ -20,7 +22,6 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class EventReact < ApplicationRecord
-
   belongs_to :user
   belongs_to :event
 
@@ -30,6 +31,4 @@ class EventReact < ApplicationRecord
   }
 
   validates :status, presence: true
-
-
 end

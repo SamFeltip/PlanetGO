@@ -4,15 +4,13 @@ class PagesController < ApplicationController
   def home; end
   before_action :authenticate_user!, only: %i[account]
 
-  def landing
-
-  end
+  def landing; end
 
   def account
-    # TODO make this actually my friends
-    @friends = User.where("id < 5")
+    @friends = current_user.following
 
-    @future_outings = Outing.future_outings(current_user)
-    @past_outings = Outing.past_outings(current_user)
+    @future_outings = current_user.future_outings
+    @past_outings = current_user.past_outings
+    @liked_events = current_user.liked_events
   end
 end

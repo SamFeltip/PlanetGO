@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -24,104 +26,50 @@
 #
 require 'rails_helper'
 
-RSpec.describe Event, type: :model do
-  # pending "add some examples to (or delete) #{__FILE__}"
-  context "viewing events" do
-    describe "a user can view all open events" do
-      it "shows the titles of events" do
+RSpec.describe Event do
+  let(:event_creator) { create(:user) }
+  let(:other_event_creator) { create(:user) }
 
+  let!(:my_event) { create(:event, user_id: event_creator.id) }
+  let!(:other_event) { create(:event, user_id: other_event_creator.id) }
+
+  describe '#my_pending_events' do
+    context 'with my events' do
+      let!(:my_approved_event) { create(:event, approved: true, user_id: event_creator.id) }
+
+      it 'does not include my approved events' do
+        expect(described_class.my_pending_events(event_creator)).not_to include(my_approved_event)
       end
 
-      describe "likes" do
-        it "shows the likes of an event" do
-
-        end
-
-        it "shows a friend has liked an event, if there is one to show" do
-
-        end
-      end
-
-      describe "search and filtering" do
-        it "lets a user search for events by title" do
-
-        end
-
-        it "lets a user filter events by tags" do
-
-        end
+      it 'returns all my pending events' do
+        expect(described_class.my_pending_events(event_creator)).to include(my_event)
       end
     end
 
-    describe "a user can view a particular event" do
-      it "shows the event's title" do
-
-      end
-
-      it "shows the event's location" do
-
-      end
-
-      it "shows the event's tags" do
-
-      end
-
-      it "shows the event's description" do
-
-      end
-
-      it "shows the events likes" do
-
+    context 'with other events' do
+      it 'does not include other pending events' do
+        expect(described_class.my_pending_events(event_creator)).not_to include(other_event)
       end
     end
   end
 
-  context "submitting events for approval" do
-    context "an advertiser logs in" do
-      describe "advertisers can submit events for approval" do
-        it "sends an event publicity request to admins" do
+  describe '#other_users_pending_events' do
+    context 'with my events' do
+      it 'does not include my pending events' do
+        expect(described_class.other_users_pending_events(event_creator)).not_to include(my_event)
+      end
+    end
 
-        end
+    context 'with other events' do
+      let!(:other_approved_event) { create(:event, approved: true, user_id: other_event_creator.id) }
 
-        it "admins can view the publicity request" do
+      it 'returns all other pending events' do
+        expect(described_class.other_users_pending_events(event_creator)).to include(other_event)
+      end
 
-        end
-
-        it "advertisers cannot approve their own events" do
-
-        end
+      it 'does not include approved events' do
+        expect(described_class.other_users_pending_events(event_creator)).not_to include(other_approved_event)
       end
     end
   end
-
-  context "approving events" do
-    context "an admin logs in" do
-      it "lets admins view all pending event publicity" do
-
-      end
-
-
-      it "lets admins accept an event for publicity" do
-
-      end
-
-      it "lets admins reject an event for publicity" do
-
-      end
-
-    end
-  end
-
-  context "changing events" do
-    context "admins can change the details of events" do
-      it "lets admins change the title of an event" do
-
-      end
-    end
-
-    context "admins can delete events" do
-
-    end
-  end
-
 end

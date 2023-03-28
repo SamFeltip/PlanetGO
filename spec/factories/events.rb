@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: events
@@ -24,10 +26,9 @@
 #
 FactoryBot.define do
   factory :event do
-    name { "MyString" }
-    date { "2023-02-24" }
-    description { "MyText" }
-    category { 1 }
-    approved { false }
+    name { 'Disco' }
+    time_of_event { '2023-02-24' }
+    description { 'Come to the disco for fun vibes' }
+    category { Event.categories[:music] }
   end
 end

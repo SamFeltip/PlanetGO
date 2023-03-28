@@ -1,6 +1,5 @@
 html {
   min-height: 100%;
-
 }
 
 body {
@@ -15,29 +14,6 @@ body {
 
 .container-fluid {
   padding: 0 27px;
-}
-
-// alert styling
-.flash-messages{
-  padding: 0;
-  margin-top: -16px;
-}
-
-.alert {
-  --bs-alert-border-radius: 0;
-}
-
-
-h1 {
-  font-size: 37px;
-}
-
-h2 {
-  font-size: 17px;
-}
-
-h3 {
-  font-size: 26px;
 }
 
 .light {
@@ -80,15 +56,6 @@ h3 {
 img.full-screen-image {
   max-width: 100%;
   width: 700px; // assume this is the default size
-}
-
-a {
-  text-decoration: none;
-}
-
-p {
-  font-size: 17px;
-  //margin-bottom: 50px;
 }
 
 // devise styling
@@ -195,11 +162,11 @@ p {
   padding-bottom: 100px;
 }
 
-#navbar-content{
+#navbar-content {
   justify-content: space-between;
 }
 
-.event-header .content{
+.event-header .content {
   position: absolute;
   padding-top: 50px;
   width: 100%;
@@ -207,9 +174,9 @@ p {
   z-index: 9999;
 }
 
-.event-header{
+.event-header {
   text-align: center;
-  width: calc(100% + 27px*2);
+  width: calc(100% + 27px * 2);
   height: 170px;
   left: -27px;
   top: -20px;
@@ -217,7 +184,7 @@ p {
   position: relative;
 }
 
-#event-image{
+#event-image {
   width: 100%;
 
   /* Add the blur effect
@@ -227,44 +194,33 @@ p {
   -webkit-filter: blur(8px) brightness(50%);
   transform: scale(150%) translateY(-10%);
   //transform: ;
-
 }
 
-.horizontal-scroll{
+.horizontal-scroll {
   display: flex;
   overflow-x: auto;
+  padding-bottom: 20px;
 }
 
-#more-events{
+#more-events {
 }
 
-
-#more_events img{
+#more_events img {
   width: 100%;
 }
 
-
 // horizontal scrolling cards
 .horizontal-scroll > a {
-  transform: translateX(-50%);
   transition: 0.5s ease;
 }
-
-.horizontal-scroll > :first-child{
-  margin-left: 50%;
-  //transition: 0.5s ease;
-}
-
 
 .horizontal-scroll {
   flex-wrap: nowrap;
 }
 
-
 // card
 .horizontal-card {
-
-  width:250px;
+  width: 250px;
   min-width: 250px;
   max-width: 250px;
   margin-right: 10px;
@@ -273,8 +229,7 @@ p {
 }
 
 // large screens
-@media(min-width: 700px){
-
+@media (min-width: 700px) {
   .horizontal-scroll {
     flex-wrap: wrap;
     justify-content: center;
@@ -286,7 +241,7 @@ p {
     transition: 0.5s ease;
   }
 
-  .horizontal-scroll > :first-child{
+  .horizontal-scroll > :first-child {
     margin-left: 0;
     //transition: 0.5s ease;
   }
@@ -295,17 +250,6 @@ p {
     margin-bottom: 10px;
   }
 }
-
-
-
-#more_events .card{
-  //padding: 20px;
-  //display: inline;
-  //max-width: 250px;
-  //min-width: 250px;
-}
-
-
 
 // icons
 .lg-icon {

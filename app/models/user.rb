@@ -34,11 +34,12 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
-  has_many :participants
-  has_many :outings, class_name: "Outing", :through => :participants
-  has_many :events
+  has_many :participants, dependent: :destroy
+  has_many :events, dependent: :restrict_with_error
+  has_many :outings, class_name: 'Outing', through: :participants
 
   acts_as_voter
+  followability
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -52,24 +53,34 @@ class User < ApplicationRecord
     advertiser: 3
   }
 
-  # this function is trying to get all outings this user has created using a joiner with the participants table
+  def liked_events
+    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+  end
+
+  # this function is trying to get all outings this user has created
+  # using a joiner with the participants table
   def my_outings
+    Outing.where(creator_id: id)
+  end
 
-    outings = Outing.all
-    future_outings = Outing.none
+  def future_outings(creator = nil)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_future = outings.where('date > ?', Time.zone.today)
 
-    outings.each do |outing|
-      if outing.time_status == "future"
-          future_outings = future_outings.or(
-            Outing.where(
-              id: Outing.joins(:participants).where(id: outing.id, participants: { status: Participant.statuses[:creator], user_id: self.id })
-            )
-          )
+    outings_future = outings_future.where(creator_id: creator.id) if creator
 
-      end
+    outings_future
+  end
 
-    end
+  def past_outings(creator = nil)
+    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
+    outings = Outing.where(id: outing_ids)
+    outings_past = outings.where('date <= ?', Time.zone.today)
 
+    outings_past = outings_past.where(creator_id: creator.id) if creator
+
+    outings_past
   end
 
   def to_s
@@ -85,18 +96,17 @@ class User < ApplicationRecord
   end
 
   def liked(event)
-    EventReact.where(user_id: self.id, event_id: event.id, status: EventReact.statuses[:like]).count > 0
+    EventReact.where(user_id: id, event_id: event.id, status: EventReact.statuses[:like]).count.positive?
   end
 
   def event_reaction(event)
-    reactions = EventReact.where(user_id: self.id, event_id: event.id)
-    if reactions.length > 0
-      reactions.first.status
-    else
-      nil
-    end
+    reactions = EventReact.where(user_id: id, event_id: event.id)
+    return unless reactions.length.positive?
 
+    reactions.first.status
   end
 
-
+  def commercial
+    %w[user advertiser].include? role
+  end
 end
