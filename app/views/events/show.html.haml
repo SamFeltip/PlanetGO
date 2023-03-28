@@ -1,10 +1,10 @@
-.event-header{:class => @event.category}
+.event-header{:class => Category.find(@event.category_id).name }
   .content
     %h1
       =@event.name
     %h2
       =@event.time_of_event
-  = image_pack_tag "event_images/#{@event.category}.png", id: "event-image"
+  = image_pack_tag "event_images/#{Category.find(@event.category_id).name.downcase}.png", id: "event-image"
 
 .event-body
   .d-flex.justify-content-between
@@ -88,7 +88,7 @@
   .horizontal-scroll
     - @users_events.each do |event|
       %a.horizontal-card{href: event_path(event)}
-        = image_pack_tag "event_images/#{event.category}.png", class: "rounded", width: "100%"
+        = image_pack_tag "event_images/#{Category.find(@event.category_id).name.downcase}.png", class: "rounded", width: "100%"
         %p.text-center.pt-3.mx-3= event.name
 
     %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column{href: events_path}

@@ -12,8 +12,7 @@
           .col
             = f.input :approved
 
-    = f.input :category, wrapper_html: { class: 'mb-3' }, collection: Event.categories.keys
-
+    = f.input :category_id, wrapper_html: { class: 'mb-3' }, :collection => Category.all.collect {|c| [c.name, c.id]}
   .card-footer.d-flex
 
 
