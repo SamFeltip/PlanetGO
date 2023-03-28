@@ -68,9 +68,9 @@ class Ability
   def commercial_permissions(user)
     can :read, User
     can :create, Event
-    can %i[read update destroy], Event, user_id: user.id
+    can %i[index show edit read update destroy], Event, user_id: user.id
     can :create, Outing
-    can %i[read update destroy set_details send_invites], Outing, creator_id: user.id
+    can %i[index show edit read update destroy set_details], Outing, creator_id: user.id
     can %i[index search requests follow unfollow accept decline cancel], :friend
     return unless user.suspended
 
