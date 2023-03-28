@@ -1,7 +1,7 @@
 = render 'outing_header', outing: @outing, nav: true
 
 #outing-body
-  #content-who-and-where{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
+  #content-who-and-when{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
     #content-who{:class => ((params[:position] == 'who')) ?  'd-md-block' : 'd-none d-md-block'}
       %p.grey #{@outing.participants.count} people interested
 
@@ -53,7 +53,6 @@
 
   #content-where{:class => params[:position] == 'where' ? 'd-flex' : 'd-none'}
     #where-sidebar
-
 
       = form_tag events_path, id: 'event-search-form', class: 'mb-2', method: :get do
         = text_field_tag :search
