@@ -120,6 +120,7 @@ class OutingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
     @outing = Outing.find_by_invite_token(params[:invite_token])
+    @participants = @outing.participants
   end
 
   # Only allow a list of trusted parameters through.

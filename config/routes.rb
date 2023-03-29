@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   resources :events
   
   resources :outings, param: :invite_token do
-    resources :participants, shallow: true
+    resources :participants
     resource :invite_link, only: :show
   end
   resources :participants
