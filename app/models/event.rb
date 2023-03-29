@@ -35,7 +35,6 @@
 #
 class Event < ApplicationRecord
   belongs_to :user
-  belongs_to :category
 
   has_many :event_reacts, dependent: :destroy
   def likes
@@ -130,7 +129,11 @@ class Event < ApplicationRecord
   end
 
   def image_path
-    "event_images/#{Category.find(category_id).name.downcase}.png"
+    if category_id.nil?
+      'event_images/unknown.png'
+    else
+      "event_images/#{Category.find(category_id).name.downcase}.png"
+    end
   end
 
   def self.my_pending_events(user)

@@ -57,28 +57,23 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    password: default_password,
                    full_name: 'Jamie Lindsey'
                  )
-Rails.logger.debug '[+] Adding new event categories.'
 
 category_1 = Category.first_or_create(
   name: 'Bar'
 )
 
-Rails.logger.debug '.'
 category_2 = Category.where(
   name: 'Restaurant'
 ).first_or_create
 
-Rails.logger.debug '.'
 category_3 = Category.where(
   name: 'Theatre'
 ).first_or_create
 
-Rails.logger.debug '.'
 category_4 = Category.where(
   name: 'Music'
 ).first_or_create
 
-Rails.logger.debug '.'
 category_5 = Category.where(
   name: 'Sports'
 ).first_or_create

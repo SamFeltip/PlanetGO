@@ -116,7 +116,6 @@ RSpec/ScatteredSetup:
 # Include: db/migrate/*.rb
 Rails/BulkChangeTable:
   Exclude:
-    - 'db/migrate/*'
 
 # Offense count: 3
 # Configuration parameters: EnforcedStyle.

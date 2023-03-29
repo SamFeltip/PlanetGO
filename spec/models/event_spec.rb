@@ -32,11 +32,15 @@ RSpec.describe Event do
 
   let!(:category) { Category.create(name: 'Bar') }
   let!(:my_event) { create(:event, user_id: event_creator.id, category_id: category.id) }
-  let!(:other_event) { create(:event, user_id: other_event_creator.id, category_id: category.id) }
+  let!(:other_event) { create(:event, user_id: other_event_creator.id) }
 
   describe '#image_path' do
     it 'returns a path to an image corresponding with the category name' do
       expect(my_event.image_path).to eq 'event_images/bar.png'
+    end
+
+    it 'returns a path to the unknown image when no category is available' do
+      expect(other_event.image_path).to eq 'event_images/unknown.png'
     end
   end
 
