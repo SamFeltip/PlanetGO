@@ -23,16 +23,16 @@ Rails.application.routes.draw do
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
   resources :events
-  resources :participants
-  resources :outings, param: :invite_token, only: :show do
-    resources :participants, only: [ :new, :create ]
+  
+  resources :outings, param: :invite_token do
+    resources :participants, shallow: true
     resource :invite_link, only: :show
   end
-  resources :outings
+  resources :participants
 
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')
-  devise_for :users, controllers: { invitations: 'invitations' }
+  devise_for :users, controllers: { invitations: 'invitations', registrations: 'registrations', sessions: 'sessions' }
 
   resources :users, :metrics
 

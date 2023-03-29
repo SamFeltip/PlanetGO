@@ -10,12 +10,16 @@ class ParticipantsController < ApplicationController
 
   # GET /participants/1 or /participants/1.json
   def show; 
-    @outing = Outing.find(params[:invite_token])
+    @outing = Outing.find_by_invite_token(params[:outing_invite_token])
   end
 
   # GET /participants/new
   def new
-    @participant = Participant.new
+    if current_user
+      create
+    else
+      redirect_to new_user_registration_path(invite_token: params[:outing_invite_token])
+    end
   end
 
   # GET /participants/1/edit
@@ -25,6 +29,10 @@ class ParticipantsController < ApplicationController
   def create
     @participant = Participant.new(participant_params)
 
+    outing = Outing.find_by_invite_token(params[:outing_invite_token])
+    Participant.where(outing: outing_id, user: current_user).first_or_create
+    
+
     respond_to do |format|
       if @participant.save
         format.html { redirect_to participant_url(@participant) }
@@ -33,6 +41,7 @@ class ParticipantsController < ApplicationController
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
+    redirect_to outings_path
     end
   end
 

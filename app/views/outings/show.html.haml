@@ -32,3 +32,9 @@
             Add More
 
 
+        %h3 All participants
+        - if !@participants
+          %p no participants
+        - else
+          - @participants.each do |p|
+            %p= p
