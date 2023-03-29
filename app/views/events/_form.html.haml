@@ -4,8 +4,6 @@
     = f.input :name, label: "Event Name", wrapper_html: { class: 'mb-3' }
     = f.input :time_of_event, label: "Time and Date", wrapper_html: { class: 'mb-3' }, html5: true
     = f.input :description, wrapper_html: { class: 'mb-3' }
-    = f.input :category, collection: Event.categories.keys, wrapper_html: { class: 'mb-3' }
-
     - if locals[:edit] && current_user.admin? && !(@event.user == current_user)
       .row
         .col
@@ -14,6 +12,7 @@
           .col
             = f.input :approved
 
+    = f.input :category_id, wrapper_html: { class: 'mb-3' }, :collection => Category.all.collect {|c| [c.name, c.id]}
   .card-footer.d-flex
     %button.btn.btn-primary{ type: 'submit' }
       Save

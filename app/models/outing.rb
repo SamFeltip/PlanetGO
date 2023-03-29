@@ -21,6 +21,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (creator_id => users.id)
+#
 
 class Outing < ApplicationRecord
   has_many :participants, dependent: :destroy

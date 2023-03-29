@@ -58,11 +58,31 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    full_name: 'Jamie Lindsey'
                  )
 
+category_1 = Category.first_or_create(
+  name: 'Bar'
+)
+
+category_2 = Category.where(
+  name: 'Restaurant'
+).first_or_create
+
+category_3 = Category.where(
+  name: 'Theatre'
+).first_or_create
+
+category_4 = Category.where(
+  name: 'Music'
+).first_or_create
+
+category_5 = Category.where(
+  name: 'Sports'
+).first_or_create
+
 event_1 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pizza cooking class",
   description: 'Edible Pizza at suspiciously low prices',
-  category: Event.categories[:restaurant],
+  category_id: category_2.id,
   time_of_event: 7.days.from_now
 ).first_or_create
 
@@ -70,7 +90,7 @@ event_2 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pasta tasting",
   description: "I'll be honest, even I wouldn't eat the food we serve",
-  category: Event.categories[:restaurant],
+  category_id: category_2.id,
   time_of_event: 7.days.from_now
 ).first_or_create
 
@@ -78,7 +98,7 @@ event_3 = Event.where(
   user_id: user_advertiser1.id,
   name: 'Pub Quiz',
   description: "Our pub quiz is so hard you'll probably want a drink after getting all the questions wrong. 'Beer' £8 per half pint",
-  category: Event.categories[:bar],
+  category_id: category_1.id,
   time_of_event: 7.days.from_now,
   approved: true
 ).first_or_create
@@ -87,7 +107,7 @@ event_4 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Half Price Wednesdays',
   description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
-  category: Event.categories[:bar],
+  category_id: category_1.id,
   time_of_event: 3.days.from_now,
   approved: true
 ).first_or_create
