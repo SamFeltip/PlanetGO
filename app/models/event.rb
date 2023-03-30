@@ -57,6 +57,7 @@ class Event < ApplicationRecord
       'any time'
     end
   end
+
   # TODO: make this actually get a friend and the like count of an event
   def display_likes(user, compressed: false)
     event_likes = likes
@@ -135,7 +136,15 @@ class Event < ApplicationRecord
     if description.length <= length
       description
     else
-      "#{description[0..length-3]}..."
+      # get the number of words in description which produces a string no longer than length
+      output = ''
+      word_count = 0
+      while output.length < length
+        word_count += 1
+        output = description.split[..word_count].join(' ')
+      end
+
+      "#{output}..."
     end
   end
 

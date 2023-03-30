@@ -1,8 +1,8 @@
 = render 'outing_header', outing: @outing, nav: true
 
-#outing-body
+#outing-body.pt-3
   #content-who-and-when{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
-    #content-who{:class => ((params[:position] == 'who')) ?  'd-md-block' : 'd-none d-md-block'}
+    #content-who{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  'd-lg-block' : 'd-none d-lg-block'}
       %p.grey #{@outing.participants.count} people interested
 
       = form_tag users_path, id: 'friend-search-form', method: :get do
@@ -44,14 +44,14 @@
           - current_user.not_invited_friends(@outing).each do |friend|
             = render 'invite_friend', friend: friend
 
-    #content-when{:class => ((params[:position] == 'when')) ? 'd-md-block' : 'd-none d-md-block'}
+    #content-when{:class => ((params[:position] == 'when')) ? 'd-lg-block' : 'd-none d-lg-block'}
       %p
         When
-      .d-flex.justify-content-end
+      .d-lg-flex.justify-content-end.d-none
         %a.btn.btn-primary#set-events{:href => set_details_outing_path(@outing, position: 'where')}
           Set Events
 
-  #content-where{:class => params[:position] == 'where' ? 'd-flex' : 'd-none'}
+  #content-where.flex-lg-row.flex-column{:class => params[:position] == 'where' ? 'd-flex' : 'd-none'}
     #where-sidebar
 
       = form_tag events_path, id: 'event-search-form', class: 'mb-2', method: :get do
@@ -62,13 +62,21 @@
 
       #event-cards
         - current_user.recommended_events(@outing).each do |event|
-          = render 'events/event_card', event: event, add_event_to_outing: true, outing: @outing
+          = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
     #where-body
-      %p
-        show all events
+      %h2
+        Timetable
       - @outing.events.each do |event|
-        = render 'events/event_card', event: event, add_event_to_outing: false
+        = render 'events/event_card', event: event, render_params: { add_event_to_outing: false, in_event: true }
+
+      %h2
+        What about after?
+
+
+      .horizontal-scroll.flex-wrap.justify-content-center
+        - current_user.final_events.each do |event|
+          = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
 %footer#outing-footer
   -# contains 3 links, 'back', 'done', 'next'

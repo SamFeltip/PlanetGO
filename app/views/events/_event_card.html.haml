@@ -1,24 +1,57 @@
-.card.mb-2
-  .row
-    .col-auto
-      = image_pack_tag event.image_path, width: 120
-    .col.p-1
-      %p
-        = link_to event.name, event, class: 'black fw-bold'
+.card.event-card
+  .d-flex.flex-row
+    .image
+      = image_pack_tag event.image_path, class: 'event-card-image'
+    .event-card-body
+      .event-card-header.d-flex.justify-content-between
+        %h3
+          = link_to event.name, event, class: 'black'
+        - if render_params[:in_event]
+          %i.bi-pencil-square
+
       %p
         =event.display_time
-      %p
-        =event.display_description(length = 50)
-
+      %p.overflow-hidden.event-description
+        -# =event.display_description(length = 50)
+        =event.description
 
       %a{href: event_path(event)}
         %i{:class => event.like_icon(current_user)}
-        = event.display_likes(current_user, compressed: false)
+        .d-inline.d-md-none
+          = event.display_likes(current_user, compressed: true)
+        .d-none.d-md-inline
+          = event.display_likes(current_user, compressed: false)
 
-  - if add_event_to_outing
-    .card-footer.d-flex.justify-content-between
-      = link_to create_proposed_event_path(event: event, outing: outing), remote: true do
-        %i.bi-plus-circle
+  - if render_params[:add_event_to_outing]
 
-      = link_to create_proposed_event_path(event: event, outing: outing), remote: true do
+    .card-footer
+      -# = form_tag proposed_event_create_url, remote: true do
+      -#   = hidden_field :event_id, value: event.id
+      -#   = hidden_field :outing_id, value: outing.id
+      -#   = hidden_field :proposed_datetime, value: event.time_of_event
+      -#   = hidden_field :status, value: 'pending'
+      -#   = submit_tag 'Add to Outing', class: 'btn btn-primary', id: 'send-proposed-event-button'
+
+      -# cannot figure out remote version of this
+      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'} do |f|
+        = f.hidden_field :event_id, value: event.id
+        = f.hidden_field :outing_id, value: outing.id
+        = f.hidden_field :proposed_datetime, value: event.time_of_event
+        = f.hidden_field :status, value: 'pending'
+
+        %button.btn.btn-outline-primary.reject-event-button{type: "button"}
+          %i.bi-x-circle.ms-1
+          Dismiss
+        %button.btn.btn-outline-primary.send-proposed-event-button{type: "submit"}
+          Add to Outing
+          %i.bi-calendar-plus.ms-1
+
+        -# = f.button :submit, class: 'btn btn-primary' do
+        -#   %i.bi-plus-circle
+
+
+      -# = link_to create_proposed_event_path(event_id: event.id, outing_id: outing.id), remote: true do
+
+
+      -# = link_to proposed_event_create_path, remote: true do
         %i.bi-x-circle

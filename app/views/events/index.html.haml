@@ -9,4 +9,4 @@
     %p come back later and they'll be more for you!
 
   - @approved_events.each do |event|
-    = render "event_card", event: event, add_event_to_outing: false
+    = render "event_card", event: event, render_params: { }

@@ -124,4 +124,9 @@ class User < ApplicationRecord
     event_output
 
   end
+
+  # TODO: make these a restaurant and a hotel nearby
+  def final_events
+    Event.limit(2)
+  end
 end

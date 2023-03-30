@@ -81,10 +81,7 @@
 
   .horizontal-scroll
     - @users_events.each do |event|
-      %a.horizontal-card{href: event_path(event)}
-        = image_pack_tag event.image_path, class: "rounded", width: "100%"
-        %p.text-center.pt-3.mx-3= event.name
-
+      = render 'events/event_card_small', event: event, render_params: {}
     %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column{href: events_path}
 
       %i.bi-calendar-event.xl-icon

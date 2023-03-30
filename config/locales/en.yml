@@ -38,7 +38,7 @@ en:
     update:
       notice: 'Proposed event was successfully updated.'
     create:
-      notice: 'Proposed event was successfully created.'
+      notice: 'Event was added to Outing.'
 
   participants:
     destroy:

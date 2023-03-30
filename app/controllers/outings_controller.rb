@@ -101,7 +101,9 @@ class OutingsController < ApplicationController
     end
   end
 
-  def set_details; end
+  def set_details
+    @proposed_event = ProposedEvent.new
+  end
 
   private
 

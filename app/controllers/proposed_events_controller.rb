@@ -25,10 +25,12 @@ class ProposedEventsController < ApplicationController
 
     respond_to do |format|
       if @proposed_event.save
+        format.js
         format.html do
-          redirect_to proposed_event_url(@proposed_event), notice: t('.notice')
+          redirect_to set_details_outing_path(@proposed_event.outing, position: 'where'), notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @proposed_event }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @proposed_event.errors, status: :unprocessable_entity }
