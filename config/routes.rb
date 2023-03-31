@@ -30,8 +30,7 @@ Rails.application.routes.draw do
 
   resources :category_interests do
     member do
-      put 'like', to: 'category_interests#like'
-      put 'dislike', to: 'category_interests#dislike'
+      put 'set_interest', to: 'category_interests#set_interest'
     end
   end
 

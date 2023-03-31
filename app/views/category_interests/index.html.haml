@@ -13,11 +13,14 @@
           %td= Category.find(category_interest.category_id).name
           %td
             .row
+              .col
+                = link_to set_interest_category_interest_path(category_interest, interest: 1), method: :put, class: 'approve_event btn' + (category_interest.interest == 1 ? " btn-primary" : " btn-outline-primary") do
+                  %i.bi-emoji-heart-eyes
 
               .col
-                = link_to like_category_interest_path(category_interest), method: :put, class: 'approve_event btn' + (category_interest.interest == 1 ? " btn-primary" : " btn-outline-primary") do
-                  %i.bi-hand-thumbs-up
+                = link_to set_interest_category_interest_path(category_interest, interest: 0), method: :put, class: 'approve_event btn' + (category_interest.interest == 0 ? " btn-primary" : " btn-outline-primary") do
+                  %i.bi-emoji-neutral
 
               .col
-                = link_to dislike_category_interest_path(category_interest), method: :put, class: 'disapprove_event btn' + (category_interest.interest == -1 ? " btn-outline-danger" : " btn-danger") do
-                  %i.bi-hand-thumbs-down
+                = link_to set_interest_category_interest_path(category_interest, interest: -1), method: :put, class: 'disapprove_event btn' + (category_interest.interest == -1 ? " btn-danger" : " btn-outline-danger") do
+                  %i.bi-emoji-angry

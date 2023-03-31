@@ -3,7 +3,7 @@ class CategoryInterestsController < ApplicationController
 
   # GET /category_interests or /category_interests.json
   def index
-    @category_interests = CategoryInterest.where(user_id: current_user.id)
+    @category_interests = CategoryInterest.where(user_id: current_user.id).sort
   end
 
   # GET /category_interests/1 or /category_interests/1.json
@@ -57,15 +57,21 @@ class CategoryInterestsController < ApplicationController
     end
   end
 
-  def like
+  def set_interest
     @category_interest = CategoryInterest.find(params[:id])
-    @category_interest.update(interest: 1)
-  end
+    interest_setting = params[:interest]
+    return unless @category_interest.interest != interest_setting # Don't update if nothing changing
+    return unless interest_setting.to_i <= 1 || interest_setting.to_i >= -1 # Only allow within a range
 
-  def dislike
-    @category_interest = CategoryInterest.find(params[:id])
-
-    @category_interest.update(interest: -1)
+    respond_to do |format|
+      if @category_interest.update(interest: interest_setting)
+        format.html { redirect_to category_interests_url, notice: 'Category interest was successfully updated.' }
+        format.json { render :show, status: :ok, location: @category_interest }
+      else
+        format.html { render :edit, status: :unprocessable_entity }
+        format.json { render json: @category_interest.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   private
