@@ -37,7 +37,10 @@ class User < ApplicationRecord
   has_many :participants, dependent: :destroy
   has_many :events, dependent: :restrict_with_error
   has_many :outings, class_name: 'Outing', through: :participants
+  has_many :category_interests, dependent: :destroy
+  has_many :categories, through: :category_interests
 
+  after_create :add_categories
   acts_as_voter
   followability
   # Include default devise modules. Others available are:
@@ -108,5 +111,11 @@ class User < ApplicationRecord
 
   def commercial
     %w[user advertiser].include? role
+  end
+
+  private
+
+  def add_categories
+    Category.all.find_each { |c| categories << c }
   end
 end
