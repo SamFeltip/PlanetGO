@@ -166,14 +166,11 @@ RSpec.describe 'Outings' do
 
     context 'when the user wants to manage who is coming to the outing' do
       let!(:user1) { create(:user, full_name: 'John Appleseed') }
-      # let!(:user2) { create(:user) }
       let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
-
       let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
 
 
       before do
-
         outing_creator.send_follow_request_to(user3)
         user3.accept_follow_request_of(outing_creator)
         user3.send_follow_request_to(outing_creator)
@@ -197,18 +194,42 @@ RSpec.describe 'Outings' do
         end
       end
 
+      def click_destroy_participant
+        within "#participant_#{participant1.id}" do
+          accept_confirm do
+            find('.destroy-participant').click
+          end
+          sleep 1
+
+        end
+      end
+
       context 'when you remove participants', js: true do
         it 'removes a participant object' do
           # pending 'waiting on javascript fix'
-          within "#participant_#{participant1.id}" do
-            expect do
-              find('.destroy-participant').click
-              sleep 1
-            end.to change(Participant, :count).by(-1)
-            # click confirm on alert
-            # expect { page.driver.browser.switch_to.alert.accept }.to change(Participant, :count).by(-1)
+          expect { click_destroy_participant }.to change(Participant, :count).by(-1)
+        end
+
+        it 'removes the participant from participant cards' do
+
+          click_destroy_participant
+
+          # pending 'waiting on javascript fix'
+          within '#participant-cards' do
+            expect(page).to have_no_content(user1.full_name)
           end
         end
+
+        it 'adds participant to #not_invited_friends' do
+          # pending 'waiting on javascript fix'
+
+          click_destroy_participant
+
+          within '#not_invited_friends' do
+            expect(page).to have_content(user1.full_name)
+          end
+        end
+
       end
 
       def press_invite_button
