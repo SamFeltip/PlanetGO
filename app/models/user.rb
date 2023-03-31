@@ -117,12 +117,9 @@ class User < ApplicationRecord
   def recommended_events(outing)
     event_output = Event.where(id: EventReact.select(:event_id).where(user_id: id))
 
-    if outing
-      event_output = event_output.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id))
-    end
+    event_output = event_output.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)) if outing
 
     event_output
-
   end
 
   # TODO: make these a restaurant and a hotel nearby

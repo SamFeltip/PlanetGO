@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details set_events]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details set_events send_invites]
+  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details send_invites]
   load_and_authorize_resource
 
   # GET /outings or /outings.json

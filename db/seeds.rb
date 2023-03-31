@@ -84,7 +84,6 @@ user_user3.accept_follow_request_of(user_user1)
 user_user3.send_follow_request_to(user_user1)
 user_user1.accept_follow_request_of(user_user3)
 
-
 category_1 = Category.first_or_create(
   name: 'Bar'
 )

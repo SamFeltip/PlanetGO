@@ -10,6 +10,10 @@
 #  updated_at :datetime         not null
 #
 class Category < ApplicationRecord
+  def image?
+    # check if file exists in public/event_images
+    File.exist?("public/event_images/#{name.downcase}.png")
+  end
 
   def colour
     # use the name to create a random colour as a seed
@@ -28,6 +32,5 @@ class Category < ApplicationRecord
     blue = "0#{blue}" if blue.length == 1
 
     "##{red}#{green}#{blue}"
-
   end
 end

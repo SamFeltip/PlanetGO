@@ -18,17 +18,16 @@
 
       %p
         %em
-          =event.display_time
+          =event.decorate.display_time
       %p.overflow-hidden.event-description
-        -# =event.display_description(length = 50)
         =event.description
 
       %a{href: event_path(event)}
-        %i{:class => event.like_icon(current_user)}
+        %i{:class => event.decorate.like_icon(current_user)}
         .d-inline.d-md-none
-          = event.display_likes(current_user, compressed: true)
+          = event.decorate.likes(current_user, compressed: true)
         .d-none.d-md-inline
-          = event.display_likes(current_user, compressed: false)
+          = event.decorate.likes(current_user, compressed: false)
 
   - if render_params[:add_event_to_outing]
 
