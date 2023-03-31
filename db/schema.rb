@@ -14,6 +14,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_125656) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "availabilities", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "user_id"
+    t.index ["user_id"], name: "index_availabilities_on_user_id"
+  end
+
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -177,6 +186,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_29_125656) do
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter"
   end
 
+  add_foreign_key "availabilities", "users"
   add_foreign_key "event_reacts", "events"
   add_foreign_key "event_reacts", "users"
   add_foreign_key "events", "categories"
