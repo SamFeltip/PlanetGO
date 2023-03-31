@@ -134,6 +134,7 @@ img.full-screen-image {
   text-align: left;
   white-space: nowrap;
 }
+
 // register interest styling
 
 .card-hover:hover {
@@ -202,8 +203,7 @@ img.full-screen-image {
   padding-bottom: 20px;
 }
 
-#more-events {
-}
+#more-events {}
 
 #more_events img {
   width: 100%;
@@ -265,6 +265,7 @@ img.full-screen-image {
 .black {
   color: black;
 }
+
 .red {
   color: red;
 }
@@ -303,4 +304,106 @@ img.full-screen-image {
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
+}
+
+.initial-avatar {
+  /* Center the content */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  /* Colors */
+  background-color: #6b3b66;
+  color: #fff;
+
+  /* Rounded border */
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+}
+
+// ******************** my account page **************************
+
+.simple-calendar * {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  --bs-body-line-height: 1 !important;
+  --bs-card-border-radius: 0 !important;
+  line-height: 1em;
+  opacity: 0.9;
+}
+
+.simple-calendar * tbody {
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 2px), linear-gradient(#444cf7 1px, transparent 1px);
+  background-size: 2em 2em, 0.5em 0.5em;
+}
+
+.simple-calendar * th {
+  text-align: center;
+}
+
+.simple-calendar * td {
+  border-right: 1px solid !important;
+  position: relative;
+  width: 12%;
+}
+
+#ytd {
+  text-align: center;
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 2px);
+  opacity: 1;
+  background-size: 2em 2em;
+}
+
+.form-inline div {
+  display: inline-block;
+}
+
+.availability_start_hour {
+  display: inline-block;
+}
+
+.availability_start_minute {
+  display: inline-block;
+}
+
+.availability_end_hour {
+  display: inline-block;
+}
+
+.availability_end_minute {
+  display: inline-block;
+}
+
+.availability_start_day {
+  display: inline-block;
+}
+
+.availability_end_day {
+  display: inline-block;
+}
+
+.selected_box {
+  position: absolute;
+  display: none;
+  background-color: #064ca87a;
+  pointer-events: none;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border: 3px solid #004bad !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+
+.delete-availability {
+  background-color: #ffffff;
+  opacity: 1;
 }
