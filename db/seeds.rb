@@ -78,7 +78,6 @@ user_user1.send_follow_request_to(user_user3)
 user_user2.accept_follow_request_of(user_user1)
 user_user3.accept_follow_request_of(user_user1)
 
-
 category_1 = Category.first_or_create(
   name: 'Bar'
 )
@@ -98,7 +97,6 @@ category_4 = Category.where(
 category_5 = Category.where(
   name: 'Sports'
 ).first_or_create
-
 
 event_1 = Event.where(
   user_id: user_advertiser1.id,
@@ -200,7 +198,6 @@ outing3 = Outing.where(
   creator_id: user_user2.id
 ).first_or_create
 
-
 ProposedEvent.where(
   outing_id: outing1.id,
   event_id: event_1.id,
@@ -212,7 +209,6 @@ ProposedEvent.where(
   event_id: event_2.id,
   proposed_datetime: 1.week.from_now + 1.hour
 ).first_or_create
-
 
 participant_outing1_1 = Participant.where(
   user_id: user_user1.id,

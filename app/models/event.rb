@@ -117,11 +117,10 @@ class Event < ApplicationRecord
   end
 
   def display_description(length = 100)
-
     if description.length <= length
       description
     else
-      "#{description[0..length-3]}..."
+      "#{description[0..length - 3]}..."
     end
   end
 

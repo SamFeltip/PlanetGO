@@ -14,7 +14,7 @@ Rails.application.configure do
     policy.object_src  :none
     policy.script_src  :self, :https
     policy.style_src   :self, :https
-    policy.connect_src :self, :https, "ws://localhost:3035/ws"
+    policy.connect_src :self, :https, 'ws://localhost:3035/ws'
     # Specify URI for violation reports
     # policy.report_uri "/csp-violation-report-endpoint"
   end

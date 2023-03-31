@@ -169,7 +169,6 @@ RSpec.describe 'Outings' do
       let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
       let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
 
-
       before do
         outing_creator.send_follow_request_to(user3)
         user3.accept_follow_request_of(outing_creator)
@@ -200,7 +199,6 @@ RSpec.describe 'Outings' do
             find('.destroy-participant').click
           end
           sleep 1
-
         end
       end
 
@@ -211,7 +209,6 @@ RSpec.describe 'Outings' do
         end
 
         it 'removes the participant from participant cards' do
-
           click_destroy_participant
 
           # pending 'waiting on javascript fix'
@@ -229,7 +226,6 @@ RSpec.describe 'Outings' do
             expect(page).to have_content(user1.full_name)
           end
         end
-
       end
 
       def press_invite_button
@@ -238,7 +234,6 @@ RSpec.describe 'Outings' do
       end
 
       context 'when you invite to a friend', js: true do
-
         before do
           within "#user_#{user3.id}" do
             check 'user_ids[]'
@@ -250,7 +245,6 @@ RSpec.describe 'Outings' do
         end
 
         it 'adds the participant to participant cards' do
-
           press_invite_button
 
           # pending 'waiting on javascript fix'
