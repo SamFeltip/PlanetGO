@@ -1,91 +1,59 @@
-.outing-header
-  .content
-    .row
-      %h1
-        = @outing.name
-    .row
-      .col-1
-        %i.bi-calendar
-      .col
-        - if @outing.date
-          %h2
-            = @outing.date
-        - else
-          %h2
-            Date TBD
+= render 'outing_header', outing: @outing, nav: true
 
-    .row
-      .col-1
-        %i.bi-pin
-      .col
-        - if @outing.events.count > 0
-          %h2
-            Location is...
-        - else
-          %h2
-            Starting Location TBD
+#outing-body.pt-3
+  #content-who-and-when{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
+    #content-who{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  'd-lg-block' : 'd-none d-lg-block'}
+      %p.grey #{@outing.participants.count} people interested
 
-    %p= @outing.description
+      = form_tag users_path, id: 'friend-search-form', method: :get do
+        = text_field_tag :search
 
-  #outing-nav
-    .outing-nav-item#outing-nav-who.underline
-      %a Who?
-    .outing-nav-item#outing-nav-when
-      %a When?
-    .outing-nav-item#outing-nav-where
-      %a Where?
+        %button.btn.btn-outline-secondary{:type => "submit"}
+          %i.bi-search
 
-#outing-body
-  #content-who
-    %p.grey #{@outing.participants.count} people interested
+      #outing-share
+        Share to...
+        .dropdown.me-0
+          %a.btn.btn-outline-primary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
+            %i.bi-share
+            %b.caret
+          %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
+            %li
+              %a{:href => "#link1"}
+                %i.bi-link
+            %li
+              %a{:href => "#link1"}
+                %i.bi-instagram
+            %li
+              %a{:href => "#link2"}
+                %i.bi-facebook
+            %li
+              %a{:href => "#link3"}
+                %i.bi-twitter
+            %li
 
-    = form_tag users_path, id: 'friend-search-form', method: :get do
-      = text_field_tag :search
+      #participant-cards
+        - @outing.participants.each do |participant|
+          = render 'outings/participant_card', participant: participant
 
-      %button.btn.btn-outline-secondary{:type => "submit"}
-        %i.bi-search
+      %hr
 
-    #outing-share
-      Share to...
-      .dropdown.me-0
-        %a.btn.btn-outline-primary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
-          %i.bi-share
-          %b.caret
-        %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
-          %li
-            %a{:href => "#link1"}
-              %i.bi-link
-          %li
-            %a{:href => "#link1"}
-              %i.bi-instagram
-          %li
-            %a{:href => "#link2"}
-              %i.bi-facebook
-          %li
-            %a{:href => "#link3"}
-              %i.bi-twitter
-          %li
+      = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
+        = submit_tag 'Send Invites', class: 'btn btn-primary', id: 'send-invite-button'
+        #not_invited_friends
+          - current_user.not_invited_friends(@outing).each do |friend|
+            = render 'invite_friend', friend: friend
 
-    #participant-cards
-      - @outing.participants.each do |participant|
-        = render 'outings/participant_card', participant: participant
+    #content-when{:class => ((params[:position] == 'when')) ? 'd-lg-block' : 'd-none d-lg-block'}
+      %p
+        When
+      .d-lg-flex.justify-content-end.d-none
+        %a.btn.btn-primary#set-events{:href => set_details_outing_path(@outing, position: 'where')}
+          Set Events
 
-    %hr
-
-    = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
-      = submit_tag 'Send Invites', class: 'btn btn-primary', id: 'send-invite-button'
-      #not_invited_friends
-        - current_user.not_invited_friends(@outing).each do |friend|
-          = render 'invite_friend', friend: friend
-
-  #content-when
+  #content-where{:class => params[:position] == 'where' ? 'd-flex' : 'd-none'}
     %p
-      When
-    .d-flex.justify-content-end
-      %a.btn.btn-primary#set-events
-        Set Events
-
-  #content-where
+      Where
 
 %footer#outing-footer
   -# contains 3 links, 'back', 'done', 'next'
@@ -93,7 +61,6 @@
     #outing-footer-prev
       %i#prev-chevron.bi-chevron-left
       Prev
-
 
     = link_to 'Done', outing_path(@outing), id: 'outing-footer-done'
 
