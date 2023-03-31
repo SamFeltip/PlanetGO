@@ -221,6 +221,8 @@ a {
   display: flex;
   overflow-x: auto;
   padding-bottom: 20px;
+  flex-wrap: nowrap;
+
 }
 
 #more_events img {
@@ -230,10 +232,6 @@ a {
 // horizontal scrolling cards
 .horizontal-scroll > a {
   transition: 0.5s ease;
-}
-
-.horizontal-scroll {
-  flex-wrap: nowrap;
 }
 
 // card
@@ -315,12 +313,24 @@ a {
 
 .event-card-image {
   height: 100%;
-  max-height: 140px;
+  max-height: 156px;
 }
 
 .event-card-body {
   padding: 10px;
   width: 100%;
+  max-height: 156px;
+  overflow: hidden;
+}
+
+.event-card-header h3 {
+  // height 1 line high
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.event-card-small .event-card-header h3 {
+  height: 3.6em;
 }
 
 .event-description{
@@ -336,13 +346,17 @@ a {
   margin-bottom: 0;
 }
 
+.event-card .card-footer .action-button-text {
+  display: inline;
+}
+
 #event-cards {
   // only shows the first 3 elements within
   display: flex;
   flex-direction: column;
   overflow: hidden;
   //max-height: calc(($card-height * $card-bottom) * 3);
-  max-height: calc((197px + 10px) * 3);
+  max-height: calc((156px + 55px + 10px) * 3 + 5px);
   //margin-bottom: $card-bottom;
   margin-bottom: 10px;
 }
@@ -350,6 +364,7 @@ a {
 
 .event-card {
   margin-bottom: 10px;
+  //min-width: 410px;
   //height: $card-height;
   //max-height: 175px;
 }
@@ -385,8 +400,14 @@ a {
   border-top: 2px solid darkgrey;
 }
 
-// large screens
-@media (min-width: 992px) {
+// extra small screens
+@media(max-width: 400px) {
+  .event-card .card-footer .action-button-text {
+    display: none;
+  }
+}
+
+@media(min-width: 767px) {
 
   .horizontal-scroll {
     flex-wrap: wrap;
@@ -408,6 +429,14 @@ a {
     margin-bottom: 10px;
   }
 
+
+}
+// large screens
+@media (min-width: 992px) {
+
+  #event-cards {
+    max-height: calc((156px + 55px + 10px) * 5);
+  }
 
   #outing-footer {
     display: none;

@@ -1,4 +1,4 @@
-.card.event-card
+.card.event-card[event]
   .d-flex.flex-row
     .image
       = image_pack_tag event.image_path, class: 'event-card-image'
@@ -7,10 +7,18 @@
         %h3
           = link_to event.name, event, class: 'black'
         - if render_params[:in_event]
-          %i.bi-pencil-square
+          .event-action
+            %button.btn.btn-outline-primary
+              %i.bi-pencil-square
+            -#%button.btn.btn-outline-danger
+            -#  %i.red.bi-trash
+
+            = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+              %i.bi-trash
 
       %p
-        =event.display_time
+        %em
+          =event.display_time
       %p.overflow-hidden.event-description
         -# =event.display_description(length = 50)
         =event.description
@@ -33,7 +41,7 @@
       -#   = submit_tag 'Add to Outing', class: 'btn btn-primary', id: 'send-proposed-event-button'
 
       -# cannot figure out remote version of this
-      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'} do |f|
+      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'}, remote: true do |f|
         = f.hidden_field :event_id, value: event.id
         = f.hidden_field :outing_id, value: outing.id
         = f.hidden_field :proposed_datetime, value: event.time_of_event
@@ -41,9 +49,11 @@
 
         %button.btn.btn-outline-primary.reject-event-button{type: "button"}
           %i.bi-x-circle.ms-1
-          Dismiss
+          %span.action-button-text
+            Dismiss
         %button.btn.btn-outline-primary.send-proposed-event-button{type: "submit"}
-          Add to Outing
+          %span.action-button-text
+            Add to Outing
           %i.bi-calendar-plus.ms-1
 
         -# = f.button :submit, class: 'btn btn-primary' do

@@ -1,0 +1,17 @@
+-# use jquery to
+-# reset inner html of #where-timetable
+-# append new proposed event to #where-timetable
+
+-#document.getElementById('#where-timetable').innerHTML = '';
+
+$('#event-cards').find('.event-card#event_#{@proposed_event.event.id}').remove();
+
+$('#where-timetable').html('');
+
+$('#where-timetable').html("#{ escape_javascript( render 'outings/where_timetable', outing: @outing ) }")
+
+
+-#
+-# - @events.each do |event|
+-#   $('#where-timetable').append("#{ escape_javascript( render( 'events/event_card', event: event, render_params: { add_event_to_outing: false, in_event: true } ) ) }");
+-#

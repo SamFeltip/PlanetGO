@@ -1,16 +1,14 @@
-%a.horizontal-card{href: event_path(event)}
+%a.event-card-small.horizontal-card{href: event_path(event)}
   = image_pack_tag event.image_path, class: "rounded", width: "100%"
   .event-card-header
     %h3.black.text-center.pt-3.mx-3= event.name
   - if render_params[:add_event_to_outing]
     .card-footer.overline
-      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-around align-items-bottom'} do |f|
+      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'} do |f|
         = f.hidden_field :event_id, value: event.id
         = f.hidden_field :outing_id, value: outing.id
         = f.hidden_field :proposed_datetime, value: event.time_of_event
         = f.hidden_field :status, value: 'pending'
-        %button.btn.btn-outline-none.reject-event-button{type: "button"}
-          %i.bi-x-circle.ms-1
         %button.btn.btn-outline-none.send-proposed-event-button{type: "submit"}
           %i.bi-calendar-plus.ms-1
 

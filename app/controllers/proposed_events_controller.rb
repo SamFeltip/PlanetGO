@@ -22,6 +22,8 @@ class ProposedEventsController < ApplicationController
   # POST /proposed_events or /proposed_events.json
   def create
     @proposed_event = ProposedEvent.new(proposed_event_params)
+    @event = @proposed_event.event
+    @outing = @proposed_event.outing
 
     respond_to do |format|
       if @proposed_event.save
@@ -55,11 +57,14 @@ class ProposedEventsController < ApplicationController
 
   # DELETE /proposed_events/1 or /proposed_events/1.json
   def destroy
+    @outing = @proposed_event.outing
+    @event = @proposed_event.event
     @proposed_event.destroy
 
     respond_to do |format|
       format.html { redirect_to proposed_events_url, notice: t('.notice') }
       format.json { head :no_content }
+      format.js
     end
   end
 

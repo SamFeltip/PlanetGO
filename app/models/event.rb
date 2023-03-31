@@ -39,6 +39,9 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
 
   has_many :event_reacts, dependent: :destroy
+
+  belongs_to :category
+
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end
@@ -170,5 +173,14 @@ class Event < ApplicationRecord
   def self.other_users_pending_events(user)
     # Event.where.not(user_id: user.id).where.not(approved: true)
     Event.where(approved: nil).where.not(user_id: user.id).or(Event.where(approved: false).where.not(user_id: user.id))
+  end
+
+
+  def event_colour
+    if category_id
+      category.colour
+    else
+      'bg-gray-200'
+    end
   end
 end

@@ -61,20 +61,18 @@
           %i.bi-search
 
       #event-cards
-        - current_user.recommended_events(@outing).each do |event|
-          = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+        = render 'events/recommended_events'
 
     #where-body
       %h2
         Timetable
-      - @outing.events.each do |event|
-        = render 'events/event_card', event: event, render_params: { add_event_to_outing: false, in_event: true }
-
+      #where-timetable
+        = render 'outings/where_timetable'
       %h2
         What about after?
 
 
-      .horizontal-scroll.flex-wrap.justify-content-center
+      .horizontal-scroll.justify-content-center
         - current_user.final_events.each do |event|
           = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
