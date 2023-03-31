@@ -84,11 +84,11 @@ class User < ApplicationRecord
   end
 
   def to_s
-    if full_name?
-      full_name
-    else
-      email_prefix
-    end
+    full_name
+  end
+
+  def initials
+    full_name.split.map(&:first).join.upcase
   end
 
   def email_prefix

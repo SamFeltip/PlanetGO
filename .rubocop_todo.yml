@@ -116,7 +116,6 @@ RSpec/ScatteredSetup:
 # Include: db/migrate/*.rb
 Rails/BulkChangeTable:
   Exclude:
-    - 'db/migrate/20221209182200_add_answered_and_displayed_to_faqs.rb'
 
 # Offense count: 3
 # Configuration parameters: EnforcedStyle.

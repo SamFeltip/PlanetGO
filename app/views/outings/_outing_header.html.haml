@@ -30,9 +30,9 @@
   - if nav
     #outing-nav
       .outing-nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
-        %a.black{:href => set_details_outing_path(outing, position: 'who')} Who?
+        %a{:href => set_details_outing_path(outing, position: 'who')} Who?
       .outing-nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
-        %a.black{:href => set_details_outing_path(outing, position: 'when')} When?
+        %a{:href => set_details_outing_path(outing, position: 'when')} When?
 
       .outing-nav-item#outing-nav-where{:class => params[:position] == 'where' ? 'underline' : '' }
         %a.black{:href => set_details_outing_path(outing, position: 'where')} Where?

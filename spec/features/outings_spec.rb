@@ -165,13 +165,16 @@ RSpec.describe 'Outings' do
     end
 
     context 'when the user wants to manage who is coming to the outing' do
-      let!(:user1) { create(:user) }
-      # let!(:user2) { create(:user) }
-      let!(:user3) { create(:user) }
-
+      let!(:user1) { create(:user, full_name: 'John Appleseed') }
+      let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
       let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
 
       before do
+        outing_creator.send_follow_request_to(user3)
+        user3.accept_follow_request_of(outing_creator)
+        user3.send_follow_request_to(outing_creator)
+        outing_creator.accept_follow_request_of(user3)
+
         login_as outing_creator
         visit set_details_outing_path(past_outing)
       end
@@ -190,38 +193,71 @@ RSpec.describe 'Outings' do
         end
       end
 
+      def click_destroy_participant
+        within "#participant_#{participant1.id}" do
+          accept_confirm do
+            find('.destroy-participant').click
+          end
+          sleep 1
+        end
+      end
+
       context 'when you remove participants', js: true do
         it 'removes a participant object' do
-          pending 'waiting on javascript fix'
-          within "#participant_#{participant1.id}" do
-            find('.destroy-participant').click
-            # click confirm on alert
-            expect { page.driver.browser.switch_to.alert.accept }.to change(Participant, :count).by(-1)
+          # pending 'waiting on javascript fix'
+          expect { click_destroy_participant }.to change(Participant, :count).by(-1)
+        end
+
+        it 'removes the participant from participant cards' do
+          click_destroy_participant
+
+          # pending 'waiting on javascript fix'
+          within '#participant-cards' do
+            expect(page).to have_no_content(user1.full_name)
+          end
+        end
+
+        it 'adds participant to #not_invited_friends' do
+          # pending 'waiting on javascript fix'
+
+          click_destroy_participant
+
+          within '#not_invited_friends' do
+            expect(page).to have_content(user1.full_name)
           end
         end
       end
 
-      context 'when you invite to a friend' do
-        it 'adds participant object' do
+      def press_invite_button
+        find_by_id('send-invite-button').click
+        sleep 1
+      end
+
+      context 'when you invite to a friend', js: true do
+        before do
           within "#user_#{user3.id}" do
             check 'user_ids[]'
           end
-          expect do
-            find_by_id('send-invite-button').click
-          end.to change(Participant, :count).by(1)
         end
 
-        sleep 0.5
+        it 'adds participant object' do
+          expect { press_invite_button }.to change(Participant, :count).by(1)
+        end
 
         it 'adds the participant to participant cards' do
-          pending 'waiting on javascript fix'
+          press_invite_button
+
+          # pending 'waiting on javascript fix'
           within '#participant-cards' do
             expect(page).to have_content(user3.full_name)
           end
         end
 
         it 'removes participant from #not_invited_friends' do
-          pending 'waiting on javascript fix'
+          # pending 'waiting on javascript fix'
+
+          press_invite_button
+
           within '#not_invited_friends' do
             expect(page).to have_no_content(user3.full_name)
           end

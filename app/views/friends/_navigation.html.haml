@@ -1,0 +1,9 @@
+%h1.col.align-self-center Friends
+
+.row.mb-5
+  .col-sm
+    =link_to 'All friends', friends_path, class: "btn #{current_page?(friends_path) ? 'btn-primary' : 'btn-outline-primary'} w-100 mt-2"
+  .col-sm
+    =link_to 'Friend requests', friend_requests_path, class: "btn #{current_page?(friend_requests_path) ? 'btn-primary' : 'btn-outline-primary'} w-100 mt-2"
+  .col-sm
+    =link_to 'Find friends', friend_search_path, class: "btn #{current_page?(friend_search_path) ? 'btn-primary' : 'btn-outline-primary'} w-100 mt-2"

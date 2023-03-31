@@ -4,6 +4,7 @@ require 'rails_helper'
 require 'faker'
 
 RSpec.describe 'Events' do
+  let!(:category) { Category.create(name: 'Bar') }
   let!(:event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:other_event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:admin) { create(:user, role: User.roles[:admin]) }
@@ -15,7 +16,7 @@ RSpec.describe 'Events' do
 
     event_date = '15/03/2023 17:00'
     event_desc = 'a fun event!'
-    event_category = 'bar'
+    event_category = 'Bar'
 
     before do
       login_as event_creator
@@ -34,6 +35,7 @@ RSpec.describe 'Events' do
         fill_in 'Time and Date', with: event_date
 
         fill_in 'Description', with: event_desc
+
         select event_category, from: 'Category'
 
         # the user clicks the "save" button
@@ -81,8 +83,8 @@ RSpec.describe 'Events' do
     end
 
     context 'when I remove my event' do
-      let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id) }
-      let!(:other_person_event) { create(:event, name: 'an event created by someone else', user_id: other_event_creator.id) }
+      let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id, category_id: category.id) }
+      let!(:other_person_event) { create(:event, name: 'an event created by someone else', user_id: other_event_creator.id, category_id: category.id) }
 
       before do
         visit edit_event_path(event)
@@ -116,8 +118,8 @@ RSpec.describe 'Events' do
 
   context 'when logged in as an admin' do
     other_person_event_name = 'an event created by someone else'
-    let!(:other_person_event) { create(:event, name: other_person_event_name, user_id: other_event_creator.id) }
-    let!(:cool_event) { create(:event, name: 'this is a cool event', user_id: event_creator.id) }
+    let!(:other_person_event) { create(:event, name: other_person_event_name, user_id: other_event_creator.id, category_id: category.id) }
+    let!(:cool_event) { create(:event, name: 'this is a cool event', user_id: event_creator.id, category_id: category.id) }
 
     before do
       login_as admin
@@ -189,7 +191,7 @@ RSpec.describe 'Events' do
 
     context 'when I revoke approval of events' do
       cool_event_name = 'this is a cool event'
-      let!(:cool_event) { create(:event, name: cool_event_name, user_id: event_creator.id, approved: true) }
+      let!(:cool_event) { create(:event, name: cool_event_name, user_id: event_creator.id, approved: true, category_id: category.id) }
 
       before do
         # visit event
@@ -250,9 +252,9 @@ RSpec.describe 'Events' do
   end
 
   context 'when logged in as a user' do
-    let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id) }
-    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id) }
-    let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id) }
+    let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id, category_id: category.id) }
+    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id, category_id: category.id) }
+    let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id, category_id: category.id) }
 
     before do
       user_list = create_list(:user, 5)

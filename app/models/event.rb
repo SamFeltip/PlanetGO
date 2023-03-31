@@ -6,20 +6,22 @@
 #
 #  id            :bigint           not null, primary key
 #  approved      :boolean
-#  category      :integer
 #  description   :text
 #  name          :string
 #  time_of_event :datetime
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
+#  category_id   :bigint
 #  user_id       :bigint           not null
 #
 # Indexes
 #
-#  index_events_on_user_id  (user_id)
+#  index_events_on_category_id  (category_id)
+#  index_events_on_user_id      (user_id)
 #
 # Foreign Keys
 #
+#  fk_rails_...  (category_id => categories.id)
 #  fk_rails_...  (user_id => users.id)
 #
 
@@ -37,15 +39,6 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
 
   has_many :event_reacts, dependent: :destroy
-
-  enum category: {
-    bar: 0,
-    restaurant: 1,
-    theatre: 2,
-    music: 3,
-    sports: 4
-  }
-
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end
@@ -132,7 +125,6 @@ class Event < ApplicationRecord
   end
 
   def display_description(length = 100)
-
     if description.length <= length
       description
     else
@@ -163,10 +155,10 @@ class Event < ApplicationRecord
   end
 
   def image_path
-    if category
-      "event_images/#{category}.png"
-    else
+    if category_id.nil?
       'event_images/unknown.png'
+    else
+      "event_images/#{Category.find(category_id).name.downcase}.png"
     end
   end
 
