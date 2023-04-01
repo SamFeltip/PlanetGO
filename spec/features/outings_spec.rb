@@ -269,6 +269,80 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Search for friends')
       end
     end
+
+    context 'when the user manages which events are in the outing' do
+      let(:event_creator) { create(:user) }
+      let(:category1) { create(:category, name: 'Cafe') }
+      let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true) }
+      let(:event2) { create(:event, category: category1, name: "andy's coffee", user_id: event_creator.id, approved: true) }
+      let!(:event1_react) { create(:event_react, user_id: outing_creator.id, event_id: event1.id) }
+      let!(:event2_react) { create(:event_react, user_id: outing_creator.id, event_id: event2.id) }
+
+      before do
+        visit set_details_outing_path(past_outing, position: 'where')
+      end
+
+      it 'shows events the user has liked in the recommended events section' do
+        within '#recommended-events' do
+          expect(page).to have_content(event1_react.event.name)
+          expect(page).to have_content(event2_react.event.name)
+        end
+      end
+
+      context 'when the user wants to manage events in an outing' do
+        def click_add_event(event)
+          within '#recommended-events' do
+            within "#event_#{event.id}" do
+              find('.send-proposed-event-button').click
+              sleep 0.5
+            end
+          end
+        end
+
+        def click_remove_event(event)
+          within '#where-timetable' do
+            within "#event_#{event.id}" do
+              accept_confirm do
+                click_link 'Remove Event'
+              end
+              sleep 0.5
+            end
+          end
+        end
+
+        before do
+          visit set_details_outing_path(past_outing, position: 'where')
+          click_add_event(event1)
+          click_add_event(event2)
+          click_remove_event(event2)
+        end
+
+        it 'lets the user add an event', js: true do
+          within '#where-timetable' do
+            expect(page).to have_content(event1.name)
+          end
+
+          within '#recommended-events' do
+            expect(page).to have_no_content(event1.name)
+          end
+        end
+
+        it 'lets the user remove an event', js: true do
+          within '#recommended-events' do
+            expect(page).to have_content(event2.name)
+          end
+
+          within '#where-timetable' do
+            expect(page).to have_no_content(event2.name)
+          end
+        end
+
+        it 'lets the user edit an event time' do
+          pending 'event editing not implemented yet'
+          expect(page).to have_content('Edit an event')
+        end
+      end
+    end
   end
 
   context 'when the user is not logged in' do

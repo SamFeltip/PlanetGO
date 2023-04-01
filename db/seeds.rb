@@ -134,7 +134,6 @@ event_4 = Event.where(
   name: 'Half Price Wednesdays',
   description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
   category_id: category_1.id,
-  time_of_event: 3.days.from_now,
   approved: true
 ).first_or_create
 
@@ -144,6 +143,14 @@ event_5 = Event.where(
   description: "We have a super hard quiz, you'll never win the prize!",
   category_id: category_5.id,
   time_of_event: 3.days.from_now,
+  approved: true
+).first_or_create
+
+event_6 = Event.where(
+  user_id: user_advertiser2.id,
+  name: 'Andrews Bar',
+  description: "Come to this bar, it's great!",
+  category_id: category_4.id,
   approved: true
 ).first_or_create
 
@@ -189,6 +196,11 @@ EventReact.where(
 EventReact.where(
   user_id: user_user1.id,
   event_id: event_5.id
+).first_or_create
+
+EventReact.where(
+  user_id: user_user1.id,
+  event_id: event_6.id
 ).first_or_create
 
 outing1 = Outing.where(

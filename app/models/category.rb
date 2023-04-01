@@ -11,8 +11,8 @@
 #
 class Category < ApplicationRecord
   def image?
-    # check if file exists in public/event_images
-    File.exist?("public/event_images/#{name.downcase}.png")
+    # check if file exists in packs/images/event_images
+    Rails.root.join('app', 'packs', 'images', 'event_images', "#{name.downcase}.png").exist?
   end
 
   def colour

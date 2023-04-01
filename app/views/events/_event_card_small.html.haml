@@ -4,7 +4,7 @@
     %h3.black.text-center.pt-3.mx-3= event.name
   - if render_params[:add_event_to_outing]
     .card-footer.overline
-      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'} do |f|
+      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'}, remote: true do |f|
         = f.hidden_field :event_id, value: event.id
         = f.hidden_field :outing_id, value: outing.id
         = f.hidden_field :proposed_datetime, value: event.time_of_event

@@ -4,4 +4,4 @@ console.log('destroy proposed event');
 $('#where-timetable').find('#event_#{@proposed_event.event.id}').remove();
 
 
-$('#event-cards').html("#{ escape_javascript( render 'events/recommended_events' ) }")
+$('#recommended-events').html("#{ escape_javascript( render 'events/recommended_events' ) }")

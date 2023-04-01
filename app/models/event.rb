@@ -56,9 +56,9 @@ class Event < ApplicationRecord
 
   def image_path
     if category.image?
-      'event_images/unknown.png'
-    else
       "event_images/#{Category.find(category_id).name.downcase}.png"
+    else
+      'event_images/unknown.png'
     end
   end
 

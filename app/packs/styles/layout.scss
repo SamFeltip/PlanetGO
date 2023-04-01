@@ -355,7 +355,7 @@ a {
   display: inline;
 }
 
-#event-cards {
+#recommended-events {
   // only shows the first 3 elements within
   display: flex;
   flex-direction: column;
@@ -439,7 +439,7 @@ a {
 // large screens
 @media (min-width: 992px) {
 
-  #event-cards {
+  #recommended-events {
     max-height: calc((156px + 55px + 10px) * 5);
   }
 
