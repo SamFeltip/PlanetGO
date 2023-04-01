@@ -26,8 +26,8 @@ class ParticipantsController < ApplicationController
 
     @participant = Participant.new(participant_params)
 
-    @participant.user = current_user
-    @participant.outing = Outing.first
+    # @participant.user = current_user
+    # @participant.outing = Outing.first
 
     respond_to do |format|
       if @participant.save
@@ -55,10 +55,18 @@ class ParticipantsController < ApplicationController
 
   # DELETE /participants/1 or /participants/1.json
   def destroy
-    @participant.destroy
+    @user = @participant.user
+    @outing = @participant.outing
+
+    unless @participant.destroy
+      flash[:error] = t('.error')
+      redirect_to @user
+      return
+    end
 
     respond_to do |format|
-      format.html { redirect_to participants_url, notice: t('.notice') }
+      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
+      format.js
       format.json { head :no_content }
     end
   end
@@ -72,6 +80,6 @@ class ParticipantsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def participant_params
-    params.require(:participant).permit(:status)
+    params.require(:participant).permit(:status, :user_id, :outing_id)
   end
 end

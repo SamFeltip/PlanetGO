@@ -110,4 +110,12 @@ class User < ApplicationRecord
   def commercial
     %w[user advertiser].include? role
   end
+
+  def not_invited_friends(outing)
+    following.where.not(id: outing.participants.pluck(:user_id))
+  end
+
+  def recommended_events
+    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+  end
 end

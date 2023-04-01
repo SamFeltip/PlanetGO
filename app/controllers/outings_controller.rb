@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit]
+  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details send_invites]
   load_and_authorize_resource
 
   # GET /outings or /outings.json
@@ -10,7 +10,7 @@ class OutingsController < ApplicationController
     @outings = Outing.all.order(date: :desc)
     return if current_user.admin?
 
-    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(:date)
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(date: :desc)
   end
 
   # GET /outings/1 or /outings/1.json
@@ -23,6 +23,25 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/edit
   def edit; end
+
+  def send_invites
+    @friend_ids = params[:user_ids]
+
+    @participants = Participant.none
+
+    @friend_ids = [] if @friend_ids.nil?
+
+    @friend_ids.each do |friend_id|
+      # create a participant and add it to the @participants list
+      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
+      @participants = @participants.or(Participant.where(id: new_participant.id))
+    end
+
+    respond_to do |format|
+      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
+      format.js
+    end
+  end
 
   # POST /outings or /outings.json
   def create
@@ -49,7 +68,7 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to outings_path, notice: t('.notice') }
+        format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing was successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
         Rails.logger.debug 'outing failed'
@@ -81,6 +100,8 @@ class OutingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def set_details; end
 
   private
 

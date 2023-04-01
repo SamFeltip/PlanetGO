@@ -1,0 +1,12 @@
+.card[participant]
+  .card-body
+    %p= participant.full_name
+    %p= participant.status
+
+  - unless participant.status == "creator"
+    .card-footer.d-flex.justify-content-end
+      = link_to participant_path(participant), class: 'btn btn-outline-danger destroy-participant', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+        %i.bi-trash
+
+
+

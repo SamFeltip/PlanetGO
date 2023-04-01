@@ -23,13 +23,3 @@
 #  fk_rails_...  (creator_id => users.id)
 #
 require 'rails_helper'
-
-# RSpec.describe Outing do
-#   context 'when an outing is being created' do
-#     describe 'when creating a participant with my user_id' do
-#       it 'sets participant as "creator"' do
-#         pending 'not developed yet'
-#       end
-#     end
-#   end
-# end

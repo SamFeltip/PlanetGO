@@ -42,7 +42,8 @@ en:
 
   participants:
     destroy:
-      notice: 'Participant was successfully destroyed.'
+      notice: 'Invitation for this outing was revoked.'
+      error: "participant could not be destroyed"
     update:
       notice: 'Participant was successfully updated.'
     create:
@@ -55,6 +56,8 @@ en:
       notice: 'Outing was successfully updated.'
     create:
       notice: 'Outing was successfully created.'
+    send_invites:
+      notice: 'invites sent out to all selected users'
 
   events:
     like:

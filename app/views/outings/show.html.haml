@@ -14,7 +14,7 @@
           %dt.col-md-3 Outing Type:
           %dd.col-md-9= @outing.outing_type
 
-        %h3 All participants
+        %h2 All participants
         - if @participants.length == 0
           %p no participants
         - else
@@ -24,4 +24,6 @@
       .card-footer.d-flex
         - if !current_user.suspended
           = link_to 'Edit', edit_outing_path(@outing), class: 'btn btn-link'
+          = link_to 'Set Details', set_details_outing_path(@outing), class: 'btn btn-link'
+
         = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'
