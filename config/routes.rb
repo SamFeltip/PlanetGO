@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :availabilities
+  resources :proposed_events
   resources :proposed_events do
     post 'create'
   end
