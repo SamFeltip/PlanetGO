@@ -337,7 +337,7 @@ RSpec.describe 'Outings' do
           end
         end
 
-        it 'lets the user edit an event time' do
+        it 'lets the user edit an event time', js: true do
           pending 'event editing not implemented yet'
           expect(page).to have_content('Edit an event')
         end
