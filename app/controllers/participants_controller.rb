@@ -27,22 +27,24 @@ class ParticipantsController < ApplicationController
 
   # POST /participants or /participants.json
   def create
-    @participant = Participant.new(participant_params)
+    # participant_params["user_id"] = current_user.id
+    # participant_params["outing_id"] = Outing.first.id
+
+    #@participant = Participant.new(participant_params)
 
     outing = Outing.find_by_invite_token(params[:outing_invite_token])
-    Participant.where(outing: outing_id, user: current_user).first_or_create
-    
-
-    respond_to do |format|
-      if @participant.save
-        format.html { redirect_to participant_url(@participant) }
-        format.json { render :show, status: :created, location: @participant }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
+    Participant.where(outing: outing, user: current_user).first_or_create
     redirect_to outings_path
-    end
+
+    #respond_to do |format|
+    #  if @participant.save
+    #    format.html { redirect_to participant_url(@participant), notice: t('.notice') }
+    #    format.json { render :show, status: :created, location: @participant }
+    #  else
+    #    format.html { render :new, status: :unprocessable_entity }
+    #    format.json { render json: @participant.errors, status: :unprocessable_entity }
+    #  end
+    #end
   end
 
   # PATCH/PUT /participants/1 or /participants/1.json

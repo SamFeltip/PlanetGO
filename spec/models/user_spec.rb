@@ -20,6 +20,7 @@
 #  invitation_sent_at     :datetime
 #  invitation_token       :string
 #  invitations_count      :integer          default(0)
+#  invite_token           :string
 #  invited_by_type        :string
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string

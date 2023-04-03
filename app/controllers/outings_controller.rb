@@ -17,7 +17,7 @@ class OutingsController < ApplicationController
   # GET /outings/1 or /outings/1.json
   def show
       @outings = Outing.find_by_invite_token(params[:invite_token])
-      @participants = Participant.find_by_outing_id(params[:outing_id])
+      @participants = @outing.participants
   end
 
   # GET /outings/new
@@ -120,7 +120,7 @@ class OutingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
     @outing = Outing.find_by_invite_token(params[:invite_token])
-    @participants = @outing.participants
+    #@participants = @outing.participants
   end
 
   # Only allow a list of trusted parameters through.
