@@ -1,3 +1,6 @@
+- # For additional JS:
+- additional_javascript('account')
+
 #account
   %h1 Account
   .card
@@ -78,5 +81,7 @@
           %strong= event.name
         .card-body
           %p=event.description
--##past_outings= render "outing", collection: @outings_past
 
+  =render 'calendar'
+        
+-##past_outings= render "outing", collection: @outings_past

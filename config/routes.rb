@@ -2,10 +2,19 @@
 
 Rails.application.routes.draw do
   resources :category_interests
+  resources :availabilities
   resources :proposed_events
 
   resources :events, except: %i[new show] do
     patch :like, on: :member
+  end
+
+  resources :outings do
+    member do
+      get 'set_details'
+      post 'send_invites'
+    end
+    post :send_invites, on: :member
   end
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
@@ -13,6 +22,7 @@ Rails.application.routes.draw do
   resources :events
   resources :participants
   resources :outings
+
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')
   devise_for :users

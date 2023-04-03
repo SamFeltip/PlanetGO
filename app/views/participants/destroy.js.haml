@@ -1,0 +1,6 @@
+//participants
+console.log('destroy participant');
+$('#participant_#{@participant.id}').remove();
+
+-# add participant to the top of the #not_invited_friends element
+$('#not_invited_friends').prepend("#{escape_javascript(render('outings/invite_friend', friend: @participant.user))}");

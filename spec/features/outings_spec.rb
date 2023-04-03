@@ -54,7 +54,6 @@ RSpec.describe 'Outings' do
     describe 'lets the user create an outing' do
       outing_name = 'New outing'
 
-      outing_date = '2023-03-15'
       outing_desc = 'a fun outing!'
       outing_type = 'open'
 
@@ -67,20 +66,18 @@ RSpec.describe 'Outings' do
 
         fill_in 'Name', with: outing_name
 
-        fill_in 'Date', with: outing_date
-
         fill_in 'Description', with: outing_desc
+
         select outing_type, from: 'Outing type'
 
         # the user clicks the "save" button
-        click_button 'Save'
+        click_button 'Continue'
       end
 
       it 'saves an outing' do
         # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Outing.last).to have_attributes(
           name: outing_name,
-          date: Date.parse(outing_date),
           description: outing_desc,
           creator_id: outing_creator.id
         )
@@ -100,14 +97,19 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Outing was successfully created.')
       end
 
-      it 'redirects the user to outings index' do
+      it 'redirects the user to outings set_details' do
         # redirect to the outings index page
-        expect(page).to have_current_path(outings_path)
+        expect(page).to have_current_path(set_details_outing_path(Outing.last))
       end
 
-      it 'displays the outing on the outings/index page' do
-        # show the outing's name in the page html
-        expect(page).to have_content(outing_name)
+      it 'lets the user see a list of their friends' do
+        pending 'depends on friends list'
+        expect(page).to have_content('Select friends to invite')
+      end
+
+      it 'lets the user share an outing link' do
+        pending 'depends on outing URL'
+        expect(page).to have_content('Share this link with your friends')
       end
     end
 
@@ -161,30 +163,128 @@ RSpec.describe 'Outings' do
         end
       end
     end
+
+    context 'when the user wants to manage who is coming to the outing' do
+      let!(:user1) { create(:user, full_name: 'John Appleseed') }
+      let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
+      let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
+
+      before do
+        outing_creator.send_follow_request_to(user3)
+        user3.accept_follow_request_of(outing_creator)
+        user3.send_follow_request_to(outing_creator)
+        outing_creator.accept_follow_request_of(user3)
+
+        login_as outing_creator
+        visit set_details_outing_path(past_outing)
+      end
+
+      it 'shows a list of participants' do
+        # within #participant-cards, expect to see the names of the participants
+        within '#participant-cards' do
+          expect(page).to have_content(user1.full_name)
+        end
+      end
+
+      it 'shows a list of friends who are not invited' do
+        # within #not_invited_friends, expect to see the names of the friends who are not invited
+        within '#not_invited_friends' do
+          expect(page).to have_content(user3.full_name)
+        end
+      end
+
+      def click_destroy_participant
+        within "#participant_#{participant1.id}" do
+          accept_confirm do
+            find('.destroy-participant').click
+          end
+          sleep 1
+        end
+      end
+
+      context 'when you remove participants', js: true do
+        it 'removes a participant object' do
+          # pending 'waiting on javascript fix'
+          expect { click_destroy_participant }.to change(Participant, :count).by(-1)
+        end
+
+        it 'removes the participant from participant cards' do
+          click_destroy_participant
+
+          # pending 'waiting on javascript fix'
+          within '#participant-cards' do
+            expect(page).to have_no_content(user1.full_name)
+          end
+        end
+
+        it 'adds participant to #not_invited_friends' do
+          # pending 'waiting on javascript fix'
+
+          click_destroy_participant
+
+          within '#not_invited_friends' do
+            expect(page).to have_content(user1.full_name)
+          end
+        end
+      end
+
+      def press_invite_button
+        find_by_id('send-invite-button').click
+        sleep 1
+      end
+
+      context 'when you invite to a friend', js: true do
+        before do
+          within "#user_#{user3.id}" do
+            check 'user_ids[]'
+          end
+        end
+
+        it 'adds participant object' do
+          expect { press_invite_button }.to change(Participant, :count).by(1)
+        end
+
+        it 'adds the participant to participant cards' do
+          press_invite_button
+
+          # pending 'waiting on javascript fix'
+          within '#participant-cards' do
+            expect(page).to have_content(user3.full_name)
+          end
+        end
+
+        it 'removes participant from #not_invited_friends' do
+          # pending 'waiting on javascript fix'
+
+          press_invite_button
+
+          within '#not_invited_friends' do
+            expect(page).to have_no_content(user3.full_name)
+          end
+        end
+      end
+
+      it 'lets the user search for a friend' do
+        pending 'friend search not implemented yet'
+        expect(page).to have_content('Search for friends')
+      end
+    end
   end
 
-  # context 'when the user is not logged in' do
-  #   describe 'when the user joins by a link' do
-  #     describe 'forces them to make an account' do
-  #       # redirects to new account page with a notice
-  #       it 'redirects them to the outing, with their account authenticated on this outing' do
-  #         # on signup redirect
-  #       end
-  #     end
-  #
-  #   end
-  #
-  #
-  #   it 'does not let them view outings' do
-  #
-  #   end
-  #
-  #   it 'does not let them accept outing invites' do
-  #
-  #   end
-  #
-  #   it 'does not let the user create an outing' do
-  #
-  #   end
-  # end
+  context 'when the user is not logged in' do
+    describe 'when the user joins by a link' do
+      before do
+        visit outing_path(past_outing)
+      end
+
+      # redirects to log in page
+      it 'redirects to the new user registration page' do
+        expect(page).to have_current_path('/users/sign_in')
+      end
+
+      it 'shows a notice' do
+        expect(page).to have_content('You need to sign in or sign up before continuing.')
+      end
+    end
+  end
 end

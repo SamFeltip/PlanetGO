@@ -16,12 +16,30 @@ body {
   padding: 0 27px;
 }
 
+// alert styling
+.flash-messages{
+  padding: 0;
+  margin-top: -16px;
+}
+
+.alert {
+  --bs-alert-border-radius: 0;
+}
+
 .light {
   opacity: 75%;
 }
 
 .subheading {
   margin-left: 5px;
+}
+
+h2 {
+  font-size: 20px;
+}
+
+h3 {
+  font-size: 17px;
 }
 
 // landing page
@@ -56,6 +74,10 @@ body {
 img.full-screen-image {
   max-width: 100%;
   width: 700px; // assume this is the default size
+}
+
+a {
+  text-decoration: none;
 }
 
 // devise styling
@@ -202,9 +224,6 @@ img.full-screen-image {
   padding-bottom: 20px;
 }
 
-#more-events {
-}
-
 #more_events img {
   width: 100%;
 }
@@ -220,16 +239,210 @@ img.full-screen-image {
 
 // card
 .horizontal-card {
-  width: 250px;
-  min-width: 250px;
-  max-width: 250px;
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
   margin-right: 10px;
   border: lightgrey 2px solid;
   border-radius: 8px;
 }
 
+// ********** outings view **********
+
+
+#outing-body {
+  margin-bottom: 100px;
+  border-top: 1px solid #dee2e6;
+
+}
+
+#outing-footer {
+  background-color: white;
+  // attached to the bottom of the page, has a line above it
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #dee2e6;
+  padding: 20px;
+  margin-top: 20px;
+
+}
+
+#outing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: space-around;
+}
+
+
+.outing-nav-item {
+  width: 33%;
+  padding: 5px 0;
+}
+
+#content-where {
+  flex-direction: column;
+}
+
+#content-who {
+  display: block;
+}
+
+
+
+#content-who, #content-where, #where-sidebar, #where-body, #content-who-and-when {
+  width: 100%;
+}
+
+#content-who #friend-search-form, #content-where #event-search-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#content-who #search, #content-where #search {
+  width: 99%;
+  margin-right: 10px;
+}
+
+#content-who #outing-share {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+//$card-bottom: 10px;
+//$card-height: 175px;
+
+.event-card-image {
+  height: 100%;
+  max-height: 140px;
+}
+
+.event-card-body {
+  padding: 10px;
+  width: 100%;
+}
+
+.event-description{
+  max-height: 50px;
+}
+
+.event-card-body .event-card-header {
+  font-weight: bold;
+}
+
+
+.event-card-body p {
+  margin-bottom: 0;
+}
+
+#event-cards {
+  // only shows the first 3 elements within
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  //max-height: calc(($card-height * $card-bottom) * 3);
+  max-height: calc((197px + 10px) * 3);
+  //margin-bottom: $card-bottom;
+  margin-bottom: 10px;
+}
+
+
+.event-card {
+  margin-bottom: 10px;
+  //height: $card-height;
+  //max-height: 175px;
+}
+
+#content-who #outing-share .dropdown {
+  margin-left: 10px;
+}
+
+
+#not_invited_friends .card-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+#content-who #send-invite-button {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+}
+
+#outing-body .card {
+  margin-bottom: 10px;
+}
+
+.underline {
+  border-bottom: 2px solid darkgrey;
+}
+
+.overline {
+  border-top: 2px solid darkgrey;
+}
+
 // large screens
-@media (min-width: 700px) {
+@media (min-width: 992px) {
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child {
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+
+
+  #outing-footer {
+    display: none;
+  }
+
+  #outing-body #content-when {
+    display: block;
+  }
+
+  #outing-nav {
+    display: none;
+  }
+
+  #outing-body {
+    display: flex;
+  }
+
+  #content-who {
+    width: 30%;
+    min-width: 400px;
+    max-width: 450px;
+    box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
+  }
+
+  #content-when {
+    width: 70%;
+  }
+
+  #content-who, #content-when {
+    padding: 10px;
+  }
+
   .horizontal-scroll {
     flex-wrap: wrap;
     justify-content: center;
@@ -265,6 +478,7 @@ img.full-screen-image {
 .black {
   color: black;
 }
+
 .red {
   color: red;
 }
@@ -303,4 +517,106 @@ img.full-screen-image {
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
+}
+
+.initial-avatar {
+  /* Center the content */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  /* Colors */
+  background-color: #6b3b66;
+  color: #fff;
+
+  /* Rounded border */
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+}
+
+// ******************** my account page **************************
+
+.simple-calendar * {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  --bs-body-line-height: 1 !important;
+  --bs-card-border-radius: 0 !important;
+  line-height: 1em;
+  opacity: 0.9;
+}
+
+.simple-calendar * tbody {
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 2px), linear-gradient(#444cf7 1px, transparent 1px);
+  background-size: 2em 2em, 0.5em 0.5em;
+}
+
+.simple-calendar * th {
+  text-align: center;
+}
+
+.simple-calendar * td {
+  border-right: 1px solid !important;
+  position: relative;
+  width: 12%;
+}
+
+#ytd {
+  text-align: center;
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 2px);
+  opacity: 1;
+  background-size: 2em 2em;
+}
+
+.form-inline div {
+  display: inline-block;
+}
+
+.availability_start_hour {
+  display: inline-block;
+}
+
+.availability_start_minute {
+  display: inline-block;
+}
+
+.availability_end_hour {
+  display: inline-block;
+}
+
+.availability_end_minute {
+  display: inline-block;
+}
+
+.availability_start_day {
+  display: inline-block;
+}
+
+.availability_end_day {
+  display: inline-block;
+}
+
+.selected_box {
+  position: absolute;
+  display: none;
+  background-color: #064ca87a;
+  pointer-events: none;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border: 3px solid #004bad !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+
+.delete-availability {
+  background-color: #ffffff;
+  opacity: 1;
 }

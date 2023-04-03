@@ -37,20 +37,19 @@
                   %i.bi-calendar-event
                   %span.nav-title
                     Events
-                  
+
+              %li.nav-item.active
+                = link_to :outings, class: 'nav-link' do
+                  %i.bi-map
+                  %span.nav-title
+                    Outings
+
               %li.nav-item.active
                 = link_to '/friends', class: 'nav-link' do
                   %i.bi-people
                   %span.nav-title
                     Friends
-              
-              - if current_user.admin? || current_user.reporter?
 
-                %li.nav-item.active
-                  = link_to :outings, class: 'nav-link' do
-                    %i.bi-map
-                    %span.nav-title
-                      Outings
 
               - if current_user.admin?
 
@@ -96,6 +95,4 @@
       .container
         = yield
 
-    %footer
-      .container-fluid
-        .d-flex.p-3
+

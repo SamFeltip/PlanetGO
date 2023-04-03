@@ -39,6 +39,7 @@ class User < ApplicationRecord
   has_many :outings, class_name: 'Outing', through: :participants
   has_many :category_interests, dependent: :destroy
   has_many :categories, through: :category_interests
+  has_many :availabilities, dependent: :destroy
 
   after_create :add_categories
   acts_as_voter
@@ -111,6 +112,14 @@ class User < ApplicationRecord
 
   def commercial
     %w[user advertiser].include? role
+  end
+
+  def not_invited_friends(outing)
+    following.where.not(id: outing.participants.pluck(:user_id))
+  end
+
+  def recommended_events
+    Event.where(id: EventReact.select(:event_id).where(user_id: id))
   end
 
   private

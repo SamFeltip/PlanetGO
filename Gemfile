@@ -39,6 +39,9 @@ gem 'bootsnap', require: false
 # Geocoding gem for getting country code in metrics
 gem 'geocoder', require: true
 
+# Gem for displaying calendar
+gem 'simple_calendar', require: true
+
 gem 'rack', '>= 2.2.6.3'
 
 group :development, :test do

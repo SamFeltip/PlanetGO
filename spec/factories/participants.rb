@@ -23,7 +23,7 @@
 #
 FactoryBot.define do
   factory :participant do
-    status { 1 }
+    status { Participant.statuses[:pending] }
     user
     outing
   end
