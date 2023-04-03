@@ -1,61 +1,10 @@
 class CategoryInterestsController < ApplicationController
-  before_action :set_category_interest, only: %i[show edit update destroy set_interest]
-  before_action :authenticate_user!, only: %i[index show edit update destroy set_interest]
+  before_action :set_category_interest, only: %i[set_interest]
+  before_action :authenticate_user!, only: %i[index set_interest]
 
   # GET /category_interests or /category_interests.json
   def index
     @category_interests = CategoryInterest.where(user_id: current_user.id).sort
-  end
-
-  # GET /category_interests/1 or /category_interests/1.json
-  def show
-  end
-
-  # GET /category_interests/new
-  def new
-    @category_interest = CategoryInterest.new
-  end
-
-  # GET /category_interests/1/edit
-  def edit
-  end
-
-  # POST /category_interests or /category_interests.json
-  def create
-    @category_interest = CategoryInterest.new(category_interest_params)
-
-    respond_to do |format|
-      if @category_interest.save
-        format.html { redirect_to category_interest_url(@category_interest), notice: 'Category interest was successfully created.' }
-        format.json { render :show, status: :created, location: @category_interest }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @category_interest.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # PATCH/PUT /category_interests/1 or /category_interests/1.json
-  def update
-    respond_to do |format|
-      if @category_interest.update(category_interest_params)
-        format.html { redirect_to category_interest_url(@category_interest), notice: 'Category interest was successfully updated.' }
-        format.json { render :show, status: :ok, location: @category_interest }
-      else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @category_interest.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # DELETE /category_interests/1 or /category_interests/1.json
-  def destroy
-    @category_interest.destroy
-
-    respond_to do |format|
-      format.html { redirect_to category_interests_url, notice: 'Category interest was successfully destroyed.' }
-      format.json { head :no_content }
-    end
   end
 
   def set_interest

@@ -15,14 +15,32 @@ class Category < ApplicationRecord
 
   after_create :add_users
 
+  def liked_count
+    where_interest_count(1) * 100 / category_interests.count
+  end
+
+  def indifferent_count
+    where_interest_count(0) * 100 / category_interests.count
+  end
+
+  def disliked_count
+    where_interest_count(-1) * 100 / category_interests.count
+  end
+
+  def where_interest_count(rating)
+    score = 0.00
+    category_interests.find_each do |category_interest|
+      score += 1 if category_interest.interest == rating
+    end
+    score
+  end
+
   private
 
   def add_users
-    User.all.find_each do |user|
+    User.all.find_each do |u|
       # Only needed for commercial users and admins for management purposes
-      return unless user.commercial || user.admin?
-
-      users << user
+      users << u if u.commercial || u.admin?
     end
   end
 end
