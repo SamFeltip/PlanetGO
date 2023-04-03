@@ -1,5 +1,6 @@
 class CategoryInterestsController < ApplicationController
-  before_action :set_category_interest, only: %i[ show edit update destroy ]
+  before_action :set_category_interest, only: %i[show edit update destroy set_interest]
+  before_action :authenticate_user!, only: %i[index show edit update destroy set_interest]
 
   # GET /category_interests or /category_interests.json
   def index

@@ -18,6 +18,11 @@ class Category < ApplicationRecord
   private
 
   def add_users
-    User.all.find_each { |u| users << u }
+    User.all.find_each do |user|
+      # Only needed for commercial users and admins for management purposes
+      return unless user.commercial || user.admin?
+
+      users << user
+    end
   end
 end

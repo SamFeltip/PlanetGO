@@ -1,12 +1,17 @@
 .card
   .card-header.d-flex.align-items-center
-    %span Listing Category Interests
+    %span Which events do you like most?
+
+    = link_to 'New Event Category', new_category_interest_path, class: 'btn btn-outline-secondary ms-auto'
 
   %table.table
     %thead
       %tr
-        %th Event Category
-        %th Actions
+        %th Event Type
+        %th Love it!
+        %th Meh
+        %th Not for me
+
     %tbody
       - @category_interests.each do |category_interest|
         %tr
@@ -16,11 +21,13 @@
               .col
                 = link_to set_interest_category_interest_path(category_interest, interest: 1), method: :put, class: 'approve_event btn' + (category_interest.interest == 1 ? " btn-primary" : " btn-outline-primary") do
                   %i.bi-emoji-heart-eyes
-
+          %td
+            .row
               .col
                 = link_to set_interest_category_interest_path(category_interest, interest: 0), method: :put, class: 'approve_event btn' + (category_interest.interest == 0 ? " btn-primary" : " btn-outline-primary") do
                   %i.bi-emoji-neutral
-
+          %td
+            .row
               .col
                 = link_to set_interest_category_interest_path(category_interest, interest: -1), method: :put, class: 'disapprove_event btn' + (category_interest.interest == -1 ? " btn-danger" : " btn-outline-danger") do
                   %i.bi-emoji-angry
