@@ -1,7 +1,6 @@
 class RegistrationsController < Devise::RegistrationsController
   def new
-    @outing = Outing.find_by_invite_token(params[:invite_token]) if params
-    [:invite_token]
+    @outing = Outing.find_by_invite_token(params[:invite_token]) if params[:invite_token]
     super
   end
 
@@ -9,7 +8,7 @@ class RegistrationsController < Devise::RegistrationsController
     super
     if resource.save && params[:user].key?(:invite_token)
       outing = Outing.find_by_invite_token(params[:user][:invite_token])
-      Participant.create(outing_id: outing, user_id: resource)
+      Participant.create(outing: outing, user: resource)
     end
   end
 end
