@@ -72,9 +72,9 @@ gem 'shakapacker', '6.5.0'
 
 gem 'cancancan'
 gem 'devise'
+gem 'devise_invitable', '~> 2.0.0'
 gem 'devise-pwned_password'
 gem 'devise-security'
-gem 'devise_invitable', '~> 2.0.0'
 
 gem 'rubocop', require: false
 gem 'rubocop-rails', require: false

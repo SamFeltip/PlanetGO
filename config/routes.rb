@@ -23,9 +23,9 @@ Rails.application.routes.draw do
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
   resources :events
-  
+
   resources :outings, param: :invite_token do
-    resources :participants, only: [ :new, :create ]
+    resources :participants, only: %i[new create]
     resource :invite_link, only: :show
   end
   resources :participants
