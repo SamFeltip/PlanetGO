@@ -1,6 +1,7 @@
 class CategoryInterestsController < ApplicationController
   before_action :set_category_interest, only: %i[set_interest]
   before_action :authenticate_user!, only: %i[index set_interest]
+  load_and_authorize_resource
 
   # GET /category_interests or /category_interests.json
   def index

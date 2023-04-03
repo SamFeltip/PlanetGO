@@ -15,15 +15,15 @@ class Category < ApplicationRecord
 
   after_create :add_users
 
-  def liked_count
+  def liked_percent
     where_interest_count(1) * 100 / category_interests.count
   end
 
-  def indifferent_count
+  def indifferent_percent
     where_interest_count(0) * 100 / category_interests.count
   end
 
-  def disliked_count
+  def disliked_percent
     where_interest_count(-1) * 100 / category_interests.count
   end
 
