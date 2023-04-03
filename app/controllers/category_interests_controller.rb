@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CategoryInterestsController < ApplicationController
   before_action :set_category_interest, only: %i[set_interest]
   before_action :authenticate_user!, only: %i[index set_interest]
