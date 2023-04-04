@@ -72,11 +72,11 @@ user_user4 = User.where(email: 'user4@gmail.com')
                    full_name: 'Angelina Bevon'
                  )
 
-user_user1.send_follow_request_to(user_user2)
-user_user1.send_follow_request_to(user_user3)
+# user_user1.send_follow_request_to(user_user2)
+# user_user1.send_follow_request_to(user_user3)
 
-user_user2.accept_follow_request_of(user_user1)
-user_user3.accept_follow_request_of(user_user1)
+# user_user2.accept_follow_request_of(user_user1)
+# user_user3.accept_follow_request_of(user_user1)
 
 category_1 = Category.first_or_create(
   name: 'Bar'

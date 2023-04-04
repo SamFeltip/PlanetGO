@@ -12,3 +12,6 @@ $('#not_invited_friends').find('input[type=checkbox]').prop('checked', false);
   -# add participants to the #participant-cards element
   - @participants.each do |participant|
     $('#participant-cards').append("#{escape_javascript(render('outings/participant_card', participant: participant))}");
+
+  -# update the calendar
+  document.getElementById('availability').outerHTML = "#{escape_javascript(render('simple_calendar/outing_availability_calendar', peoples_availabilities: @peoples_availabilities ))}";

@@ -17,7 +17,7 @@ body {
 }
 
 // alert styling
-.flash-messages{
+.flash-messages {
   padding: 0;
   margin-top: -16px;
 }
@@ -156,6 +156,7 @@ a {
   text-align: left;
   white-space: nowrap;
 }
+
 // register interest styling
 
 .card-hover:hover {
@@ -229,7 +230,7 @@ a {
 }
 
 // horizontal scrolling cards
-.horizontal-scroll > a {
+.horizontal-scroll>a {
   transition: 0.5s ease;
 }
 
@@ -292,16 +293,22 @@ a {
 
 
 
-#content-who, #content-where, #where-sidebar, #where-body, #content-who-and-when {
+#content-who,
+#content-where,
+#where-sidebar,
+#where-body,
+#content-who-and-when {
   width: 100%;
 }
 
-#content-who #friend-search-form, #content-where #event-search-form {
+#content-who #friend-search-form,
+#content-where #event-search-form {
   display: flex;
   justify-content: space-between;
 }
 
-#content-who #search, #content-where #search {
+#content-who #search,
+#content-where #search {
   width: 99%;
   margin-right: 10px;
 }
@@ -326,7 +333,7 @@ a {
   width: 100%;
 }
 
-.event-description{
+.event-description {
   max-height: 50px;
 }
 
@@ -397,12 +404,12 @@ a {
   }
 
   // horizontal scrolling cards
-  .horizontal-scroll > a {
+  .horizontal-scroll>a {
     transform: translateX(0%);
     transition: 0.5s ease;
   }
 
-  .horizontal-scroll > :first-child {
+  .horizontal-scroll> :first-child {
     margin-left: 0;
     //transition: 0.5s ease;
   }
@@ -432,14 +439,15 @@ a {
     width: 30%;
     min-width: 400px;
     max-width: 450px;
-    box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
+    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
   }
 
   #content-when {
     width: 70%;
   }
 
-  #content-who, #content-when {
+  #content-who,
+  #content-when {
     padding: 10px;
   }
 
@@ -449,12 +457,12 @@ a {
   }
 
   // horizontal scrolling cards
-  .horizontal-scroll > a {
+  .horizontal-scroll>a {
     transform: translateX(0%);
     transition: 0.5s ease;
   }
 
-  .horizontal-scroll > :first-child {
+  .horizontal-scroll> :first-child {
     margin-left: 0;
     //transition: 0.5s ease;
   }
@@ -537,6 +545,23 @@ a {
 
 // ******************** my account page **************************
 
+.calendar-container {
+  position: relative;
+  height: 49em;
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 0), linear-gradient(#444cf7 1px, transparent 0);
+  background-position-y: 1em;
+  background-size: 2em 2em, 0.5em 0.5em;
+  opacity: 1;
+}
+
+.simple-calendar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 .simple-calendar * {
   border: 0 !important;
   margin: 0 !important;
@@ -544,13 +569,16 @@ a {
   --bs-body-line-height: 1 !important;
   --bs-card-border-radius: 0 !important;
   line-height: 1em;
-  opacity: 0.9;
+
+  background-color: transparent;
+  opacity: 1;
+
+  box-shadow: none !important;
 }
 
-.simple-calendar * tbody {
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px), linear-gradient(#444cf7 1px, transparent 1px);
-  background-size: 2em 2em, 0.5em 0.5em;
+.simple-calendar * thead {
+  background-color: rgb(255, 255, 255);
+  opacity: 1;
 }
 
 .simple-calendar * th {
@@ -565,10 +593,10 @@ a {
 
 #ytd {
   text-align: center;
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px);
-  opacity: 1;
+  background-image: linear-gradient(#000000 2px, transparent 0);
+  background-color: rgb(255, 255, 255, 1);
   background-size: 2em 2em;
+  opacity: 1;
 }
 
 .form-inline div {
@@ -619,4 +647,20 @@ a {
 .delete-availability {
   background-color: #ffffff;
   opacity: 1;
+}
+
+// ***************** set_availability ***************
+
+.calendar-container {
+  position: relative;
+}
+
+.number-people-available {
+  position: absolute;
+  display: none;
+  padding: 5px;
+  line-height: 1;
+  text-align: center;
+  border: solid 2px #000000;
+  background-color: rgb(255, 255, 255);
 }
