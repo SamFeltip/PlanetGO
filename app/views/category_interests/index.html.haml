@@ -17,15 +17,15 @@
           %td
             .row
               .col
-                = link_to set_interest_category_interest_path(category_interest, interest: 1), method: :put, class: 'approve_event btn' + (category_interest.interest == 1 ? " btn-primary" : " btn-outline-primary") do
+                = link_to set_interest_category_interest_path(category_interest, interest: 1), method: :put, id: 'like_button', class: 'approve_event btn' + (category_interest.interest == 1 ? " btn-primary" : " btn-outline-primary") do
                   %i.bi-emoji-heart-eyes
           %td
             .row
               .col
-                = link_to set_interest_category_interest_path(category_interest, interest: 0), method: :put, class: 'approve_event btn' + (category_interest.interest == 0 ? " btn-primary" : " btn-outline-primary") do
+                = link_to set_interest_category_interest_path(category_interest, interest: 0), method: :put, id: 'neutral_button', class: 'approve_event btn' + (category_interest.interest == 0 ? " btn-primary" : " btn-outline-primary") do
                   %i.bi-emoji-neutral
           %td
             .row
               .col
-                = link_to set_interest_category_interest_path(category_interest, interest: -1), method: :put, class: 'disapprove_event btn' + (category_interest.interest == -1 ? " btn-danger" : " btn-outline-danger") do
+                = link_to set_interest_category_interest_path(category_interest, interest: -1), method: :put, id: 'dislike_button', class: 'disapprove_event btn' + (category_interest.interest == -1 ? " btn-danger" : " btn-outline-danger") do
                   %i.bi-emoji-angry

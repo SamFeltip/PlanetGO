@@ -14,7 +14,7 @@ class CategoryInterestsController < ApplicationController
     @category_interest = CategoryInterest.find(params[:id])
     interest_setting = params[:interest]
     return unless @category_interest.interest != interest_setting # Don't update if nothing changing
-    return unless interest_setting.to_i <= 1 || interest_setting.to_i >= -1 # Only allow within a range
+    return unless interest_setting.to_i <= 1 && interest_setting.to_i >= -1 # Only allow within a range
 
     respond_to do |format|
       if @category_interest.update(interest: interest_setting)

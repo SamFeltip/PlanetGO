@@ -125,8 +125,8 @@ class User < ApplicationRecord
   private
 
   def add_categories
-    # Only needed for commercial users and admins for management purposes
-    return unless commercial || admin?
+    # Only needed for commercial users
+    return unless commercial
 
     Category.all.find_each { |c| categories << c }
   end

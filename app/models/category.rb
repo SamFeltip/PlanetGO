@@ -39,8 +39,8 @@ class Category < ApplicationRecord
 
   def add_users
     User.all.find_each do |u|
-      # Only needed for commercial users and admins for management purposes
-      users << u if u.commercial || u.admin?
+      # Only needed for commercial users
+      users << u if u.commercial
     end
   end
 end
