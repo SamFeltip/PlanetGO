@@ -61,7 +61,7 @@
           %i.bi-search
 
       #recommended-events
-        = render 'events/recommended_events'
+        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing)
 
     #where-body
       %h2

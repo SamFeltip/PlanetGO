@@ -98,6 +98,83 @@ RSpec.describe User do
     expect(future_outing1.date).to eq(Time.zone.today + 1.day)
   end
 
+  describe '#get_random_friend' do
+    let!(:user1) { create(:user) }
+    let!(:user2) { create(:user) }
+    let!(:user3) { create(:user) }
+
+    context 'when user1 has no friends' do
+      it 'returns nil' do
+        expect(user1.get_random_friend).to be_nil
+      end
+    end
+
+    context 'when user1 has 2 friends' do
+      before do
+        user1.send_follow_request_to(user2)
+        user2.accept_follow_request_of(user1)
+
+        user1.send_follow_request_to(user3)
+        user3.accept_follow_request_of(user1)
+      end
+
+      it 'returns a random friend' do
+        expect(user1.get_random_friend).to eq(user2).or eq(user3)
+      end
+    end
+
+    context 'when an event is introduced' do
+      let!(:event1) { create(:event, user: creator_user) }
+
+      before do
+        create(:event_react, user: user2, event: event1)
+      end
+
+      context 'when user1 has no friends' do
+        it 'returns nil' do
+          expect(user1.get_random_friend(event: event1)).to be_nil
+        end
+      end
+
+      context 'when user1 has liked the event' do
+        before do
+          create(:event_react, user: user1, event: event1)
+        end
+
+        it 'returns nil' do
+          expect(user1.get_random_friend(event: event1)).to be_nil
+        end
+      end
+
+      context 'when user2 has liked the event and is a friend of user1' do
+        before do
+          create(:event_react, user: user2, event: event1)
+          user1.send_follow_request_to(user2)
+          user2.accept_follow_request_of(user1)
+        end
+
+        it 'returns user2' do
+          expect(user1.get_random_friend(event: event1)).to eq(user2)
+        end
+      end
+
+      context 'when many friends have liked the event' do
+        before do
+          create(:event_react, user: user2, event: event1)
+          create(:event_react, user: user3, event: event1)
+          user1.send_follow_request_to(user2)
+          user2.accept_follow_request_of(user1)
+          user1.send_follow_request_to(user3)
+          user3.accept_follow_request_of(user1)
+        end
+
+        it 'returns user2 or user3' do
+          expect(user1.get_random_friend(event: event1)).to eq(user2).or eq(user3)
+        end
+      end
+    end
+  end
+
   describe '#future_outings' do
     it 'returns all outings in the future' do
       expect(creator_user.future_outings).to include(future_outing1)

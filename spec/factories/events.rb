@@ -26,7 +26,7 @@
 #
 FactoryBot.define do
   factory :event do
-    category_id { Category.find_by_sql('SELECT * FROM categories ORDER BY random() LIMIT 1').first.id }
+    category_id { Category.where(name: 'Sport').first_or_create.id }
     name { 'Disco' }
     time_of_event { '2023-02-24' }
     description { 'Come to the disco for fun vibes' }

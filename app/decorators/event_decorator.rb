@@ -7,10 +7,12 @@ class EventDecorator < ApplicationDecorator
     if object.description.length <= length
       object.description
     else
-      # get the number of words in description which produces a string no longer than length
+
       output = ''
       word_count = 0
-      while output.length < length
+
+      # as long as the output is less than length, add another word
+      while object.description.split[..word_count].join(' ').length < length
         word_count += 1
         output = object.description.split[..word_count].join(' ')
       end
@@ -37,32 +39,34 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  # TODO: make this actually get a friend and the like count of an event
-  def likes(user, compressed: false)
+  def likes(current_user: nil, compressed: false)
+    # get all like objects for this event
     event_likes = object.likes
 
-    user_liked = user.liked(self)
+    # if no user is given, just return the number of likes
+    return "#{event_likes.count} likes" if current_user.nil?
 
+    # boolean: has the given current_user liked this event?
+    current_user_liked = current_user.liked(object)
+
+    # if we want a shorter string
     if compressed
-
-      return 'liked' if user_liked
+      return 'liked' if current_user_liked
 
       return "#{event_likes.count} likes"
-
     end
 
-    friend = nil
-    if event_likes.count.positive?
-      # TODO: get random friend
-      friend = event_likes.first.user
-    end
+    # produces the 'and x other(s)' string
+    and_others_string = "and #{event_likes.count - 1} other#{event_likes.count - 1 == 1 ? '' : 's'}"
 
-    # return string to display
+    # returns early if the current user has already liked the string
+    return "liked by you #{and_others_string}" if current_user_liked
 
-    return "liked by me and #{event_likes.count - 1} others" if user_liked
+    # if the user hasn't liked this event, use a random friend to convince them to like the event
+    random_friend = current_user.get_random_friend(event: object)
 
-    if friend
-      "liked by #{friend} and #{event_likes.count - 1} others"
+    if random_friend
+      "liked by #{random_friend} and #{event_likes.count - 1} others"
     else
       "#{event_likes.count} likes"
     end

@@ -351,16 +351,14 @@ a {
   margin-bottom: 0;
 }
 
-.event-card .card-footer .action-button-text {
-  display: inline;
-}
-
+// fix the recommended-events div to only show 3 event cards
+// TODO: use CSS variables instead of fixed heights
 #recommended-events {
-  // only shows the first 3 elements within
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  //max-height: calc(($card-height * $card-bottom) * 3);
+
+  //max-height: calc(($card-height + $card-bottom + $card-padding) * 3 + 5px);
   max-height: calc((156px + 55px + 10px) * 3 + 5px);
   //margin-bottom: $card-bottom;
   margin-bottom: 10px;
@@ -405,13 +403,6 @@ a {
   border-top: 2px solid darkgrey;
 }
 
-// extra small screens
-@media(max-width: 400px) {
-  .event-card .card-footer .action-button-text {
-    display: none;
-  }
-}
-
 @media(min-width: 767px) {
 
   .horizontal-scroll {
@@ -439,6 +430,7 @@ a {
 // large screens
 @media (min-width: 992px) {
 
+  // let the card show 5 events on large screens
   #recommended-events {
     max-height: calc((156px + 55px + 10px) * 5);
   }
