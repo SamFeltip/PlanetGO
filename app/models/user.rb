@@ -120,7 +120,7 @@ class User < ApplicationRecord
   def get_random_friend(event: nil)
     # if an event is given
     # rubocop made me do it like this :(
-    friends = if event&.likes&.any?
+    friends = if event
                 # get a list of all following users who have liked this event
                 following.where(id: event.likes.pluck(:user_id))
               else

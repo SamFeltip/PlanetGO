@@ -136,7 +136,7 @@ RSpec.describe User do
         end
       end
 
-      context 'when user1 has liked the event' do
+      context 'when user1 has liked the event but they have no friends' do
         before do
           create(:event_react, user: user1, event: event1)
         end
@@ -151,10 +151,17 @@ RSpec.describe User do
           create(:event_react, user: user2, event: event1)
           user1.send_follow_request_to(user2)
           user2.accept_follow_request_of(user1)
+
+          user1.send_follow_request_to(user3)
+          user3.accept_follow_request_of(user1)
         end
 
         it 'returns user2' do
           expect(user1.get_random_friend(event: event1)).to eq(user2)
+        end
+
+        it 'does not return another friend who has no liked the event' do
+          expect(user1.get_random_friend(event: event1)).not_to eq(user3)
         end
       end
 

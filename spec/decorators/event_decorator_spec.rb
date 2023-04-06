@@ -49,6 +49,8 @@ RSpec.describe Event do
     end
 
     context 'when current user hasnt liked' do
+      let(:forth_user) { create(:user) }
+
       before do
         create(:event_react, event_id: my_event.id, user: other_user)
         create(:event_react, event_id: my_event.id, user: third_user)
@@ -67,6 +69,9 @@ RSpec.describe Event do
 
           third_user.accept_follow_request_of(event_creator)
           event_creator.send_follow_request_to(third_user)
+
+          forth_user.accept_follow_request_of(event_creator)
+          event_creator.send_follow_request_to(forth_user)
         end
 
         it 'returns a string including a friends name' do
