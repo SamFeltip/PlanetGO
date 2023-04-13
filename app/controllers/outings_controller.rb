@@ -24,6 +24,16 @@ class OutingsController < ApplicationController
   # GET /outings/1/edit
   def edit; end
 
+  # GET /outings/1/set_details
+  def set_details
+    @calendar_start_date = Time.zone.at(342_000).to_date
+    participants = Participant.where(outing_id: @outing.id)
+    @peoples_availabilities = []
+    participants.each do |participant|
+      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
+    end
+  end
+
   def send_invites
     @friend_ids = params[:user_ids]
 
@@ -35,6 +45,14 @@ class OutingsController < ApplicationController
       # create a participant and add it to the @participants list
       new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
       @participants = @participants.or(Participant.where(id: new_participant.id))
+    end
+
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date = Time.zone.at(342_000).to_date
+    participants = Participant.where(outing_id: @outing.id)
+    @peoples_availabilities = []
+    participants.each do |participant|
+      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
 
     respond_to do |format|
@@ -100,8 +118,6 @@ class OutingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
-  def set_details; end
 
   private
 
