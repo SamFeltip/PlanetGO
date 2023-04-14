@@ -7,7 +7,10 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @approved_events = Event.where(approved: true)
-
+    @description = params['description']
+    @category_id = params['category_id']
+    @approved_events = @approved_events.where('lower(description) LIKE ?', "%#{@description.downcase}%") if @description.present?
+    @approved_events = @approved_events.where(category_id: @category_id) if @category_id.present?
     @my_pending_events = Event.my_pending_events(current_user)
     @all_pending_events = Event.other_users_pending_events(current_user)
   end
