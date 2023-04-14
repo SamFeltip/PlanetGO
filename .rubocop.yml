@@ -11,6 +11,10 @@ RSpec/MultipleMemoizedHelpers:
 Rails/BulkChangeTable:
   Enabled: false
 
+Rails/NotNullColumn:
+  Exclude:
+    - db/migrate/20230331091323_add_category_and_user_to_category_interest.rb # FK doesn't need default
+
 AllCops:
   NewCops: enable
   Exclude:

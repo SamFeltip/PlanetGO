@@ -72,6 +72,7 @@ class Ability
     can :create, Outing
     can %i[index show edit read update destroy set_details send_invites], Outing, creator_id: user.id
     can %i[index search requests follow unfollow accept decline cancel], :friend
+    can %i[index set_interest], CategoryInterest, user_id: user.id
     return unless user.suspended
 
     cannot %i[create update destroy], Event
@@ -87,6 +88,8 @@ class Ability
     cannot %i[update destroy lock unlock suspend reinstate], User, id: user.id
 
     can :manage, RegisterInterest
+    can :manage, Category
+    can :manage, CategoryInterest
     can :manage, Event
     can :manage, Outing
   end
