@@ -27,8 +27,6 @@
         .d-none.d-md-inline
           = event.decorate.likes(current_user: current_user, compressed: false)
 
-  -# q: how do you only run this if render_params exists AND [:add_event_to_outing] exists?
-  -# a:
   - if defined?(render_params) && render_params[:add_event_to_outing]
 
     .card-footer
