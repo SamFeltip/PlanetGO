@@ -4,7 +4,7 @@
 
 #outing-body.pt-3
   #content-who-and-when{:class => (!(params[:position] == 'where') || params[:position].nil?) ?  'd-flex' : 'd-none'}
-    #content-who{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  'd-lg-block' : 'd-none d-lg-block'}
+    #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
       %p.grey #{@outing.participants.count} people interested
 
       = form_tag users_path, id: 'friend-search-form', method: :get do
@@ -46,9 +46,7 @@
           - current_user.not_invited_friends(@outing).each do |friend|
             = render 'invite_friend', friend: friend
 
-    #content-when{:class => ((params[:position] == 'when')) ? 'd-lg-block' : 'd-none d-lg-block'}
-      %p
-        When
+    #content-when.d-lg-block{:class => ((params[:position] == 'when')) ? '' : 'd-none'}
       .d-lg-flex.justify-content-end.d-none
         %a.btn.btn-primary#set-events{:href => set_details_outing_path(@outing, position: 'where')}
           Set Events

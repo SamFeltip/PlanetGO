@@ -405,164 +405,6 @@ a {
   border-top: 2px solid darkgrey;
 }
 
-// medium screens
-@media(min-width: 767px) {
-
-  .horizontal-scroll {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  // horizontal scrolling cards
-  .horizontal-scroll > a {
-    transform: translateX(0%);
-    transition: 0.5s ease;
-  }
-
-  .horizontal-scroll > :first-child {
-    margin-left: 0;
-    //transition: 0.5s ease;
-  }
-
-  .horizontal-card {
-    margin-bottom: 10px;
-  }
-
-
-}
-// large screens
-@media (min-width: 992px) {
-
-  // let the card show 5 events on large screens
-  #recommended-events {
-    max-height: calc((156px + 55px + 10px) * 5);
-  }
-
-  #outing-footer {
-    display: none;
-  }
-
-  #outing-body #content-when {
-    display: block;
-  }
-
-  #outing-nav {
-    display: none;
-  }
-
-  #content-who, #where-sidebar {
-    width: 30%;
-    min-width: 400px;
-    max-width: 450px;
-    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
-  }
-
-  #content-when, #where-body {
-    width: 70%;
-  }
-
-  #content-where {
-    flex-direction: row;
-  }
-
-  #content-who,
-  #content-when,
-  #where-sidebar,
-  #where-body {
-    padding: 10px;
-  }
-
-  .horizontal-scroll {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  // horizontal scrolling cards
-  .horizontal-scroll > a {
-    transform: translateX(0%);
-    transition: 0.5s ease;
-  }
-
-  .horizontal-scroll > :first-child {
-    margin-left: 0;
-    //transition: 0.5s ease;
-  }
-
-  .horizontal-card {
-    margin-bottom: 10px;
-  }
-}
-
-// icons
-.lg-icon {
-  font-size: 200%;
-}
-
-.xl-icon {
-  font-size: 400%;
-}
-
-// colours
-
-.black {
-  color: black;
-}
-
-.red {
-  color: red;
-}
-
-.red:hover {
-  color: darkred;
-}
-
-.purple {
-  color: mediumpurple;
-}
-
-.purple:hover {
-  color: rebeccapurple;
-}
-
-.green {
-  color: green;
-}
-
-.green:hover {
-  color: darkgreen;
-}
-
-.initial-avatar {
-  /* Center the content */
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
-  /* Colors */
-  background-color: #6b3b66;
-  color: #fff;
-
-  /* Rounded border */
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
-}
-
-.initial-avatar {
-  /* Center the content */
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
-  /* Colors */
-  background-color: #6b3b66;
-  color: #fff;
-
-  /* Rounded border */
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
-}
 
 // ******************** my account page **************************
 
@@ -666,4 +508,157 @@ a {
   text-align: center;
   border: solid 2px #000000;
   background-color: rgb(255, 255, 255);
+}
+
+// medium screens
+@media(min-width: 767px) {
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child {
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+
+
+}
+
+// large screens
+@media (min-width: 992px) {
+
+  // let the card show 5 events on large screens
+  #recommended-events {
+    max-height: calc((156px + 55px + 10px) * 5);
+  }
+
+  #outing-footer {
+    display: none;
+  }
+
+  #outing-body #content-when {
+    display: block;
+  }
+
+  #outing-nav {
+    display: none;
+  }
+
+  #content-who, #where-sidebar {
+    width: 30%;
+    min-width: 400px;
+    max-width: 450px;
+    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
+  }
+
+  #content-when, #where-body {
+    width: 70%;
+  }
+
+  #content-who, #content-when, #where-sidebar, #where-body {
+    padding: 10px;
+  }
+
+  .horizontal-scroll {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  // horizontal scrolling cards
+  .horizontal-scroll > a {
+    transform: translateX(0%);
+    transition: 0.5s ease;
+  }
+
+  .horizontal-scroll > :first-child {
+    margin-left: 0;
+    //transition: 0.5s ease;
+  }
+
+  .horizontal-card {
+    margin-bottom: 10px;
+  }
+}
+
+// icons
+.lg-icon {
+  font-size: 200%;
+}
+
+.xl-icon {
+  font-size: 400%;
+}
+
+// colours
+
+.black {
+  color: black;
+}
+
+.red {
+  color: red;
+}
+
+.red:hover {
+  color: darkred;
+}
+
+.purple {
+  color: mediumpurple;
+}
+
+.purple:hover {
+  color: rebeccapurple;
+}
+
+.green {
+  color: green;
+}
+
+.green:hover {
+  color: darkgreen;
+}
+
+.initial-avatar {
+  /* Center the content */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  /* Colors */
+  background-color: #6b3b66;
+  color: #fff;
+
+  /* Rounded border */
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
+}
+
+.initial-avatar {
+  /* Center the content */
+  align-items: center;
+  display: flex;
+  justify-content: center;
+
+  /* Colors */
+  background-color: #6b3b66;
+  color: #fff;
+
+  /* Rounded border */
+  border-radius: 50%;
+  height: 3rem;
+  width: 3rem;
 }
