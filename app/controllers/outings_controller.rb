@@ -32,6 +32,8 @@ class OutingsController < ApplicationController
     participants.each do |participant|
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
+
+    @proposed_event = ProposedEvent.new
   end
 
   def send_invites
@@ -117,10 +119,6 @@ class OutingsController < ApplicationController
       format.html { redirect_to outings_url, notice: t('.notice') }
       format.json { head :no_content }
     end
-  end
-
-  def set_details
-    @proposed_event = ProposedEvent.new
   end
 
   private
