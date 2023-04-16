@@ -128,13 +128,7 @@ Rails/FilePath:
 # Offense count: 22
 Rails/I18nLocaleTexts:
   Exclude:
-    - 'app/controllers/events_controller.rb'
-    - 'app/controllers/metrics_controller.rb'
-    - 'app/controllers/outings_controller.rb'
-    - 'app/controllers/participants_controller.rb'
-    - 'app/controllers/proposed_events_controller.rb'
-    - 'app/controllers/register_interests_controller.rb'
-    - 'app/controllers/users_controller.rb'
+    - 'app/controllers/*.rb'
 
 # Offense count: 2
 # Configuration parameters: Include.

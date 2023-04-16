@@ -1,0 +1,8 @@
+-# frozen_string_literal: true
+= simple_form_for(@category_interest) do |f|
+  .card-body
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Save
+    = link_to 'Back', category_interests_path, class: 'btn btn-link ms-auto'

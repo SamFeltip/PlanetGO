@@ -5,7 +5,7 @@ class AvailabilitiesController < ApplicationController
 
   # POST /availabilities or /availabilities.json
   def create
-    # skip to the first monday of   1970
+    # skip to the first monday of 1970
     # 86 400 = number of seconds in a day
     start_day = 342_000 + (86_400 * availability_params['start_day'].to_i)
     end_day = 342_000 + (86_400 * availability_params['end_day'].to_i)

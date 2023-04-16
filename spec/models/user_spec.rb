@@ -82,6 +82,20 @@ RSpec.describe User do
     expect(creator_user.email_prefix).to eq 'testemail'
   end
 
+  describe '#add_categories' do
+    let!(:category1) { Category.create(name: 'Bar') }
+    let!(:user1) { create(:user, role: described_class.roles[:user]) }
+    let!(:reporter1) { create(:user, role: described_class.roles[:reporter]) }
+
+    it 'creates a link from commercial users through category interests' do
+      expect(user1.categories.find { |c| c == category1 }).not_to be_nil
+    end
+
+    it 'does not create a link from non-commercial users through category interests' do
+      expect(reporter1.categories.find { |c| c == category1 }).to be_nil
+    end
+  end
+
   describe '#commercial' do
     it 'Returns true if the user is of role user or advertiser' do
       user = create(:user, role: described_class.roles[:user])

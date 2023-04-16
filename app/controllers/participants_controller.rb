@@ -64,6 +64,14 @@ class ParticipantsController < ApplicationController
       return
     end
 
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date = Time.zone.at(342_000).to_date
+    participants = Participant.where(outing_id: @outing.id)
+    @peoples_availabilities = []
+    participants.each do |participant|
+      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
+    end
+
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
       format.js

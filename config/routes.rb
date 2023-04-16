@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :categories
   resources :availabilities
   resources :proposed_events
   resources :proposed_events do
@@ -37,6 +38,12 @@ Rails.application.routes.draw do
       put 'unlock', to: 'users#unlock'
       put 'suspend', to: 'users#suspend'
       put 'reinstate', to: 'users#reinstate'
+    end
+  end
+
+  resources :category_interests, only: %i[index] do
+    member do
+      put 'set_interest', to: 'category_interests#set_interest'
     end
   end
 

@@ -17,7 +17,7 @@ body {
 }
 
 // alert styling
-.flash-messages{
+.flash-messages {
   padding: 0;
   margin-top: -16px;
 }
@@ -156,6 +156,7 @@ a {
   text-align: left;
   white-space: nowrap;
 }
+
 // register interest styling
 
 .card-hover:hover {
@@ -284,24 +285,28 @@ a {
   flex-direction: column;
 }
 
-#where-timetable {
-  padding: 5px 0;
-}
-
 #content-who {
   display: block;
 }
 
-#content-who, #content-where, #where-sidebar, #where-body, #content-who-and-when {
+
+
+#content-who,
+#content-where,
+#where-sidebar,
+#where-body,
+#content-who-and-when {
   width: 100%;
 }
 
-#content-who #friend-search-form, #content-where #event-search-form {
+#content-who #friend-search-form,
+#content-where #event-search-form {
   display: flex;
   justify-content: space-between;
 }
 
-#content-who #search, #content-where #search {
+#content-who #search,
+#content-where #search {
   width: 99%;
   margin-right: 10px;
 }
@@ -338,7 +343,7 @@ a {
   height: 3.6em;
 }
 
-.event-description{
+.event-description {
   max-height: 50px;
 }
 
@@ -367,9 +372,6 @@ a {
 
 .event-card {
   margin-bottom: 10px;
-  //min-width: 410px;
-  //height: $card-height;
-  //max-height: 175px;
 }
 
 #content-who #outing-share .dropdown {
@@ -403,6 +405,7 @@ a {
   border-top: 2px solid darkgrey;
 }
 
+// medium screens
 @media(min-width: 767px) {
 
   .horizontal-scroll {
@@ -451,7 +454,7 @@ a {
     width: 30%;
     min-width: 400px;
     max-width: 450px;
-    box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
+    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
   }
 
   #content-when, #where-body {
@@ -462,7 +465,10 @@ a {
     flex-direction: row;
   }
 
-  #content-who, #content-when, #where-sidebar, #where-body {
+  #content-who,
+  #content-when,
+  #where-sidebar,
+  #where-body {
     padding: 10px;
   }
 
@@ -560,6 +566,23 @@ a {
 
 // ******************** my account page **************************
 
+.calendar-container {
+  position: relative;
+  height: 49em;
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 0), linear-gradient(#444cf7 1px, transparent 0);
+  background-position-y: 1em;
+  background-size: 2em 2em, 0.5em 0.5em;
+  opacity: 1;
+}
+
+.simple-calendar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
 .simple-calendar * {
   border: 0 !important;
   margin: 0 !important;
@@ -567,13 +590,16 @@ a {
   --bs-body-line-height: 1 !important;
   --bs-card-border-radius: 0 !important;
   line-height: 1em;
-  opacity: 0.9;
+
+  background-color: transparent;
+  opacity: 1;
+
+  box-shadow: none !important;
 }
 
-.simple-calendar * tbody {
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px), linear-gradient(#444cf7 1px, transparent 1px);
-  background-size: 2em 2em, 0.5em 0.5em;
+.simple-calendar * thead {
+  background-color: rgb(255, 255, 255);
+  opacity: 1;
 }
 
 .simple-calendar * th {
@@ -588,37 +614,19 @@ a {
 
 #ytd {
   text-align: center;
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px);
-  opacity: 1;
+  background-image: linear-gradient(#000000 2px, transparent 0);
+  background-color: rgb(255, 255, 255, 1);
   background-size: 2em 2em;
+  opacity: 1;
 }
 
-.form-inline div {
-  display: inline-block;
-}
-
-.availability_start_hour {
-  display: inline-block;
-}
-
-.availability_start_minute {
-  display: inline-block;
-}
-
-.availability_end_hour {
-  display: inline-block;
-}
-
-.availability_end_minute {
-  display: inline-block;
-}
-
-.availability_start_day {
-  display: inline-block;
-}
-
-.availability_end_day {
+.availability_start_day,
+.availability_end_day,
+.availability_end_minute,
+.availability_end_hour,
+.availability_start_minute,
+.availability_start_hour,
+.form-inline div{
   display: inline-block;
 }
 
@@ -642,4 +650,20 @@ a {
 .delete-availability {
   background-color: #ffffff;
   opacity: 1;
+}
+
+// ***************** set_availability ***************
+
+.calendar-container {
+  position: relative;
+}
+
+.number-people-available {
+  position: absolute;
+  display: none;
+  padding: 5px;
+  line-height: 1;
+  text-align: center;
+  border: solid 2px #000000;
+  background-color: rgb(255, 255, 255);
 }
