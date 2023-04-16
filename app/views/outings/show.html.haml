@@ -1,29 +1,25 @@
-.row.justify-content-center
-  .col-sm-8.col-lg-6
-    .card
-      .card-header
-        Outing details
-      .card-body
-        %dl.row.mb-0
-          %dt.col-md-3 Name:
-          %dd.col-md-9= @outing.name
-          %dt.col-md-3 Date:
-          %dd.col-md-9= @outing.date
-          %dt.col-md-3 Description:
-          %dd.col-md-9= @outing.description
-          %dt.col-md-3 Outing Type:
-          %dd.col-md-9= @outing.outing_type
+- additional_javascript('outings')
+- additional_stylesheet('outings')
 
-        %h2 All participants
-        - if @participants.length == 0
-          %p no participants
-        - else
-          - @participants.each do |p|
-            %p= p
+= render 'outing_header', outing: @outing, action_buttons: true
 
-      .card-footer.d-flex
-        - if !current_user.suspended
-          = link_to 'Edit', edit_outing_path(@outing), class: 'btn btn-link'
-          = link_to 'Set Details', set_details_outing_path(@outing), class: 'btn btn-link'
+#outing-body.pt-3.overline
+  #going
+    %h2 #{@outing.participants.count} Going
+    = render 'users/user_list', users: @outing.users
 
-        = link_to 'Back', outings_path, class: 'btn btn-link ms-auto'
+    - if current_user == @outing.creator || current_user.admin?
+      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
+        %i.bi-plus-circle
+          Invite More
+  #content-where
+    %h2
+      Timetable
+    = render 'outings/where_timetable'
+
+    - if current_user == @outing.creator || current_user.admin?
+      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+        %i.bi-plus-circle
+          Add More
+
+

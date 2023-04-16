@@ -1,5 +1,5 @@
 #availability.col-md-9.mt-4
-  %h1 Everyone's Availability
+  %h1 Availability
   %div.calendar-container
     -peoples_availabilities.each do |persons_availabilities|
       =render :partial => 'simple_calendar/calendar', :locals => {:persons_availabilities => persons_availabilities, :individual => false, :num_calendars => peoples_availabilities.length}

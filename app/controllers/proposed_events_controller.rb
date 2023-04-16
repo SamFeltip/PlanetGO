@@ -2,6 +2,7 @@
 
 class ProposedEventsController < ApplicationController
   before_action :set_proposed_event, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /proposed_events or /proposed_events.json
   def index

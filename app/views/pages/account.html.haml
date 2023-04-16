@@ -25,62 +25,56 @@
           Sign out
 
 
-.row
-  .col-md-3.mt-4
-    %h1 Friends
-    - if @friends.present?
-      - @friends.each do |friend|
-        %p= friend
-    - else
-      %p You have no friends yet.
-  .col-md-9.mt-4
-    %h1 My outings
+  %h1 Friends
+  - if @friends.present?
+    = render 'users/user_list', users: @friends
+  - else
+    %p You have no friends yet.
 
-    #future_outings.py-3
-      %h2 Future Outings
-      - @future_outings.each do |outing|
-        .mb-3.card[outing]
-          .card-header.d-flex
-            %strong= outing.name
-          .card-body
-            %p
-              = outing.description
-            %p
-              = outing.creator
-          .card-footer.d-flex
+  %h1 My outings
 
-            = link_to outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
-              %i.bi-map
+  #future_outings.py-3
+    %h2 Future Outings
+    - @future_outings.each do |outing|
+      .mb-3.card[outing]
+        .card-header.d-flex
+          %strong= outing.name
+        .card-body
+          %p
+            = outing.description
+          %p
+            = outing.creator
+        .card-footer.d-flex
 
-            = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
-              %i.bi-trash
+          = link_to outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
+            %i.bi-map
 
-    #past_outings.py-3
-      %h2 Past Outings
-      - @past_outings.each do |outing|
-        .mb-3.card[outing]
-          .card-header.d-flex
-            %strong= outing.name
-          .card-body
-            %p
-              = outing.description
-            %p
-              = outing.creator
-          .card-footer.d-flex
-            = link_to outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
-              %i.bi-map
+          = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
+            %i.bi-trash
 
-            = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
-              %i.bi-trash
+  #past_outings.py-3
+    %h2 Past Outings
+    - @past_outings.each do |outing|
+      .mb-3.card[outing]
+        .card-header.d-flex
+          %strong= outing.name
+        .card-body
+          %p
+            = outing.description
+          %p
+            = outing.creator
+        .card-footer.d-flex
+          = link_to outing_path(outing), class: 'btn btn-link ms-auto', title: 'Edit this outing' do
+            %i.bi-map
 
-  #liked_events.col-md-9.mt-4
+          = link_to outing_path(outing), class: 'btn btn-link text-danger', method: :delete, title: 'Delete outing', data: { confirm: 'Are you sure you want to delete this outing?' } do
+            %i.bi-trash
+
+  #liked_events
     %h1 My Liked Events
     - @liked_events.each do |event|
-      .mb-3.card[event]
-        .card-header.d-flex
-          %strong= event.name
-        .card-body
-          %p=event.description
+      = render 'events/event_card', event: event
+
 
   =render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
         

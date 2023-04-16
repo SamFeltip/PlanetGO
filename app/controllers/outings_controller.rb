@@ -34,6 +34,8 @@ class OutingsController < ApplicationController
     end
 
     @proposed_event = ProposedEvent.new
+
+    @positions = %w[who when where]
   end
 
   def send_invites
