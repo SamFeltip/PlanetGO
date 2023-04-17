@@ -7,7 +7,8 @@
     = f.input :description, input_html: { name: 'description', value: @description || '' }, label: 'Search for a user by their name'
     = f.input :category_id, input_html: { name: 'category_id'}, :collection => Category.all.collect {|c| [c.name, c.id]},
                                                                           selected: @category_id, :include_blank => ''
-    = f.input :interest_order, as: :boolean, input_html: { name: 'interest_order', checked: @interest_order == "1" },
+    - if current_user.commercial
+      = f.input :interest_order, as: :boolean, input_html: { name: 'interest_order', checked: @interest_order == "1" },
                                                                           label: 'Prioritise events according to your interests?'
     = f.submit 'Search', class: 'btn btn-outline-primary mt-3'
     = link_to 'Clear', events_path, class: 'btn btn-outline-secondary mt-3'
