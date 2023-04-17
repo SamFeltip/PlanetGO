@@ -41,27 +41,44 @@
         .card-header
           %h1 My outings
         .card-body
+          = link_to new_outing_path, class: 'd-flex justify-content-end pb-2' do
+            .pe-2
+              Create New Outing
+            %i.bi-plus-circle
+
           #future_outings
-            %h2 Future
-            - @future_outings.each do |outing|
+            - @future_outings[0..2].each do |outing|
               .click-card[outing]
                 = render 'outings/outing_card', outing: outing
 
           #past_outings.py-3
-            %h2 Past
-            - @past_outings.each do |outing|
+            %h2 Previous
+            - @past_outings[0..2].each do |outing|
               .click-card[outing]
                 = render 'outings/outing_card', outing: outing
+
+        .card-footer
+          = link_to outings_path, class: 'd-flex justify-content-end' do
+            .pe-2
+              More
+            %i.bi-arrow-right-circle
+
     .events.col-lg-6
       .card
         .card-header
           %h1 Liked Events
         .card-body
           #liked_events
-            - @liked_events.each do |event|
+            - @liked_events[0..2].each do |event|
               .click-card[event]
                 = render 'events/event_card', event: event
 
+
+        .card-footer
+          = link_to events_path, class: 'd-flex justify-content-end' do
+            .pe-2
+              More
+            %i.bi-arrow-right-circle
 
   =render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
         

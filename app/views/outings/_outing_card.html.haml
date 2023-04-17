@@ -3,8 +3,16 @@
     .p-2
       .initial-avatar.d-inline-flex= outing.user.initials
     .outing-card-body.w-100
-      %h2
-        =outing.name
+      .outing-card-header.d-flex.flex-row.justify-content-between
+        %h2
+          =outing.name
+        .action-buttons
+          - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
+            = link_to edit_outing_path(outing), class: 'btn btn-outline-primary btn-sm' do
+              %i.bi-pencil-square
+                .d-none.d-sm-inline
+                  Edit
+
       %em.d-inline-flex.gray
         %i.bi-calendar.pe-1
         %p.pe-3

@@ -58,7 +58,7 @@ class User < ApplicationRecord
   }
 
   def liked_events
-    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+    Event.where(id: EventReact.select(:event_id).where(user_id: id)).where(approved: true)
   end
 
   # this function is trying to get all outings this user has created
