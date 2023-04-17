@@ -23,7 +23,6 @@
             = f.input :end_hour, as: :fake_select, collection: @hour_collection, selected: 0, label: "End⠀time"
             = ":"
             = f.input :end_minute, as: :fake_select, collection: @minute_collection, selected: 0, label: false
-
-      .card-footer.d-flex.justify-content-end
-        %button.btn.btn-primary.availability-submit{ type: 'submit' }
-          Save
+          .d-flex.justify-content-end
+            %button.btn.btn-primary.availability-submit{ type: 'submit' }
+              Save

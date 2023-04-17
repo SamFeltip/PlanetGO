@@ -55,9 +55,11 @@ RSpec.describe 'Availabilities', js: true do
           select 'Monday', from: 'start_day'
           select '3', from: 'start_hour'
           select '15', from: 'start_minute'
+
           select 'Monday', from: 'end_day'
           select '5', from: 'end_hour'
           select '45', from: 'end_minute'
+
           click_button 'Save'
         end
 
