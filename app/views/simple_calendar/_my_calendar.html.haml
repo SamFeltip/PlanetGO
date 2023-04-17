@@ -20,9 +20,10 @@
             = f.input :start_minute, as: :fake_select, collection: @minute_collection, selected: 0, label: false
           %div
             = f.input :end_day, as: :fake_select, collection: @end_day_collection, selected: "Monday"
-            = f.input :end_hour, as: :fake_select, collection: @hour_collection, selected: 0, label: "End⠀time"
+            = f.input :end_hour, as: :fake_select, collection: @hour_collection, selected: 0, label: "End time"
             = ":"
             = f.input :end_minute, as: :fake_select, collection: @minute_collection, selected: 0, label: false
+
           .d-flex.justify-content-end
             %button.btn.btn-primary.availability-submit{ type: 'submit' }
               Save
