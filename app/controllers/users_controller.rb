@@ -20,6 +20,7 @@ class UsersController < ApplicationController
   # GET /users/1/edit
   def edit; end
 
+
   # PATCH/PUT /users/1 or /users/1.json
   def update
     respond_to do |format|
@@ -33,6 +34,8 @@ class UsersController < ApplicationController
     end
   end
 
+
+
   # DELETE /users/1 or /users/1.json
   def destroy
     @user.destroy
@@ -42,6 +45,7 @@ class UsersController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   def lock
     @user.lock_access!({ send_instructions: false })

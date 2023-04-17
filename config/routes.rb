@@ -51,7 +51,7 @@ Rails.application.routes.draw do
     resources :register_interests, only: %i[index new create destroy]
   end
 
-  root 'pages#landing'
+  root 'pages#account'
 
   get 'myaccount', to: 'pages#account'
   get 'welcome', to: 'pages#landing'
