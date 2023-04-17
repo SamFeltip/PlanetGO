@@ -1,7 +1,7 @@
 %a.event-card-small.horizontal-card{href: event_path(event)}
   = image_pack_tag event.image_path, class: "rounded", width: "100%"
-  .event-card-header
-    %h3.black.text-center.pt-3.mx-3= event.name
+  .event-card-header.d-flex.align-items-center.justify-content-center
+    %h3.black.text-center.mx-3.mb-0= event.name
   - if render_params[:add_event_to_outing]
     .card-footer.overline
       = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'}, remote: true do |f|

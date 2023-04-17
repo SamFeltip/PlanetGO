@@ -2,16 +2,16 @@
   .d-flex.flex-row
     .image
       = image_pack_tag event.image_path, class: 'event-card-image'
-    .event-card-body
+    .event-card-body.card-body
       .event-card-header.d-flex.justify-content-between
-        %h3
+        %h2
           = link_to event.name, event, class: 'black'
         - if defined?(render_params) && render_params[:in_event] && proposed_event.outing.creator_id == current_user.id
           .event-action.d-flex.flex-row
-            %button.btn.btn-outline-primary.me-2
+            %button.btn.btn-outline-primary.me-2.d-flex.align-items-center
               %i.bi-pencil-square
 
-            = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+            = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
               %i.bi-trash
 
       %p

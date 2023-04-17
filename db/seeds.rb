@@ -72,17 +72,27 @@ user_user4 = User.where(email: 'user4@gmail.com')
                    full_name: 'Angelina Bevon'
                  )
 
-user_user1.send_follow_request_to(user_user2)
-user_user2.accept_follow_request_of(user_user1)
+def make_friend(user_sending, user_receiving)
+  user_sending.send_follow_request_to(user_receiving)
+  user_receiving.accept_follow_request_of(user_sending)
 
-user_user2.send_follow_request_to(user_user1)
-user_user1.accept_follow_request_of(user_user2)
+  user_receiving.send_follow_request_to(user_sending)
+  user_sending.accept_follow_request_of(user_receiving)
+end
 
-user_user1.send_follow_request_to(user_user3)
-user_user3.accept_follow_request_of(user_user1)
+make_friend(user_user1, user_user2)
+make_friend(user_user1, user_user3)
+make_friend(user_user1, user_user4)
+make_friend(user_user2, user_user3)
+make_friend(user_user2, user_user4)
+make_friend(user_user3, user_user4)
+make_friend(user_user1, user_rep1)
+make_friend(user_user1, user_rep2)
+make_friend(user_user1, user_advertiser1)
+make_friend(user_user1, user_advertiser2)
+make_friend(user_user2, user_rep1)
+make_friend(user_user2, user_rep2)
 
-user_user3.send_follow_request_to(user_user1)
-user_user1.accept_follow_request_of(user_user3)
 
 category_1 = Category.first_or_create(
   name: 'Bar'

@@ -54,6 +54,7 @@ Rails.application.routes.draw do
   root 'pages#account'
 
   get 'myaccount', to: 'pages#account'
+  get 'home', to: 'pages#account'
   get 'welcome', to: 'pages#landing'
   get 'pricings', to: 'pricings#index'
 

@@ -86,18 +86,10 @@
   margin-bottom: 10px;
 }
 
-#outing-body .card {
-  margin-bottom: 10px;
-}
 
 
 // large screens
 @media (min-width: 992px) {
-
-  // let the card show 5 events on large screens
-  #recommended-events {
-    max-height: calc((156px + 55px + 10px) * 5);
-  }
 
   #content-who, #where-sidebar {
     width: 30%;
@@ -121,4 +113,3 @@
   border-radius: 5px;
   width: 200px;
 }
-

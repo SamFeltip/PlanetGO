@@ -1,0 +1,19 @@
+.card.outing-card[outing]
+  .card-body.d-flex.flex-row
+    .p-2
+      .initial-avatar.d-inline-flex= outing.user.initials
+    .outing-card-body.w-100
+      %h2
+        =outing.name
+      %em.d-inline-flex.gray
+        %i.bi-calendar.pe-1
+        %p.pe-3
+          - if outing.date
+            = outing.date
+          - else
+            Date TBD
+        - if outing.events.count > 0
+          .d-none.d-sm-inline-flex
+            %i.bi-pin.pe-1
+            %p.pe-3
+              Location is...

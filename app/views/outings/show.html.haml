@@ -4,22 +4,29 @@
 = render 'outing_header', outing: @outing, action_buttons: true
 
 #outing-body.pt-3.overline
-  #going
-    %h2 #{@outing.participants.count} Going
-    = render 'users/user_list', users: @outing.users
+  .card
+    .card-header
+      %h2 #{@outing.participants.count} Going
+    .card-body
+      #going.horizontal-scroll
+        = render 'users/user_list', users: @outing.users
 
-    - if current_user == @outing.creator || current_user.admin?
-      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
-        %i.bi-plus-circle
-          Invite More
-  #content-where
-    %h2
-      Timetable
-    = render 'outings/where_timetable'
+      - if current_user == @outing.creator || current_user.admin?
+        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
+          %i.bi-plus-circle
+            Invite More
+  .card
+    .card-header
+      %h2
+        Timetable
+    .card-body
+      #content-where
 
-    - if current_user == @outing.creator || current_user.admin?
-      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
-        %i.bi-plus-circle
-          Add More
+        = render 'outings/where_timetable'
+
+      - if current_user == @outing.creator || current_user.admin?
+        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+          %i.bi-plus-circle
+            Add More
 
 

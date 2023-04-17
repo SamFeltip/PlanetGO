@@ -4,8 +4,6 @@ class PagesController < ApplicationController
   include CalendarHelper
   require './app/inputs/fake_select_input'
 
-  # before_action :authenticate_user!, only: %i[account]
-
   def landing; end
 
   def account
