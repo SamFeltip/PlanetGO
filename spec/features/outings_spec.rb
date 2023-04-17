@@ -121,8 +121,9 @@ RSpec.describe 'Outings' do
       context 'when the user inspects an outing' do
         before do
           # Find the "Show" link for the Hoover outing and click it
-          within "#outing_#{past_outing.id}" do
-            click_link 'Show'
+
+          within("#outing_#{past_outing.id}") do
+            click_link past_outing.name
           end
         end
 
@@ -139,12 +140,9 @@ RSpec.describe 'Outings' do
       context 'when a user deletes their own outings' do
         before do
           create(:participant, user_id: outing_creator.id, outing_id: another_outing.id, status: Participant.statuses[:confirmed])
-          visit outings_url
+          visit edit_outing_path(past_outing)
 
-          # Find the "Show" link for the Hoover outing and click it
-          within "#outing_#{past_outing.id}" do
-            click_link 'Destroy'
-          end
+          find_by_id('destroy-outing').click
         end
 
         specify 'should no longer show the outing' do

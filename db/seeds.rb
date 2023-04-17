@@ -93,7 +93,6 @@ make_friend(user_user1, user_advertiser2)
 make_friend(user_user2, user_rep1)
 make_friend(user_user2, user_rep2)
 
-
 category_1 = Category.first_or_create(
   name: 'Bar'
 )

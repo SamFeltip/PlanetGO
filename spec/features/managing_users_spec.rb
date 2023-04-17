@@ -95,8 +95,8 @@ RSpec.describe 'Managing users', type: :request do
         expect(page).to have_content('Signed out successfully.')
       end
 
-      specify 'should take the user to the root path' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+      specify 'should take the user to the landing page' do
+        expect(page).to have_current_path("/welcome", ignore_query: true)
       end
     end
   end

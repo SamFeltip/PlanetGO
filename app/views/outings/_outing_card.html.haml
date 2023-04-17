@@ -5,7 +5,7 @@
     .outing-card-body.w-100
       .outing-card-header.d-flex.flex-row.justify-content-between
         %h2
-          =outing.name
+          %a.visit_outing.black{:href => outing_path(outing)}=outing.name
         .action-buttons
           - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
             = link_to edit_outing_path(outing), class: 'btn btn-outline-primary btn-sm' do

@@ -439,7 +439,6 @@ a {
 
   /* Colors */
   background-color: #6b3b66;
-  background-image: linear-gradient(#C94B4B, #4B134F);
   color: #fff;
 
   /* Rounded border */
@@ -449,5 +448,6 @@ a {
 }
 
 .avatar-text{
-  color: #8C304D;
+  //color: var(--bs-primary);
+  //color: #8C304D;
 }

@@ -253,7 +253,7 @@ RSpec.describe 'Events' do
 
   context 'when logged in as a user' do
     let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id, category_id: category.id) }
-    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id, category_id: category.id) }
+    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id, category_id: category.id, approved: true) }
     let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id, category_id: category.id) }
 
     before do
