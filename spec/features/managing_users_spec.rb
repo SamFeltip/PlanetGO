@@ -96,7 +96,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       specify 'should take the user to the landing page' do
-        expect(page).to have_current_path("/welcome", ignore_query: true)
+        expect(page).to have_current_path('/welcome', ignore_query: true)
       end
     end
   end
