@@ -1,12 +1,10 @@
-.card
-  .card-header.d-flex.align-items-center
-    %span Listing Outings
+.d-flex.align-items-center.pb-4
 
-    - if !current_user.suspended
-      = link_to new_outing_path, class: 'btn btn-outline-primary ms-auto' do
-        New Outing
-        %i.bi-plus-circle
+  - if !current_user.suspended
+    = link_to new_outing_path, class: 'btn btn-outline-primary ms-auto' do
+      New Outing
+      %i.bi-plus-circle
 
-  - @outings.each do |outing|
-    .click-card[outing]
-      = render 'outing_card', outing: outing
+- @outings.each do |outing|
+  .click-card[outing]
+    = render 'outing_card', outing: outing

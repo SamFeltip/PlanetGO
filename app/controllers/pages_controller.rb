@@ -11,8 +11,8 @@ class PagesController < ApplicationController
     if user_signed_in?
       @friends = current_user.following
 
-      @future_outings = current_user.future_outings
-      @past_outings = current_user.past_outings
+      @future_outings = current_user.future_outings.limit(3)
+      @past_outings = current_user.past_outings.limit(3)
       @liked_events = current_user.liked_events
 
       @calendar_start_date = Time.zone.at(342_000).to_date

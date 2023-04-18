@@ -8,7 +8,7 @@ class EventsController < ApplicationController
   def index
     @approved_events = Event.where(approved: true)
 
-    @my_pending_events = Event.my_pending_events(current_user)
+    @my_events = Event.my_events(current_user)
     @all_pending_events = Event.other_users_pending_events(current_user)
   end
 

@@ -1,27 +1,32 @@
-#my_pending_events.card.mb-5
+#my_pending_events.card
   .card-header.d-flex.align-items-center
     %span My Pending Events
 
-    = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
-  -if @my_pending_events.count > 0
+    = link_to new_event_path, class: 'btn btn-outline-primary ms-auto' do
+      New Event
+      %i.bi-plus-circle
+  -if @my_events.empty?
+    .card-body
+      %p Post some events and they'll show up here
+  - else
     .card-body
       %table.table
         %thead
           %tr
             %th Name
-            %th Status
+            %th.text-center Status
             %th
         %tbody
-          - @my_pending_events.each do |event|
+          - @my_events.each do |event|
             %tr[event]
               %td.event_name
-                %a.black{href: edit_event_path(event)}
+                %a.black{href: event_path(event)}
                   = event.name
-              %td.event_status
+              %td.event_status.text-center
 
                 %a{href: edit_event_path(event)}
                   %i{:class => event.decorate.approved_icon + " " + event.decorate.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.decorate.approved_desc}}
-              %td
+              %td.text-center
                 .row
                   .col
                     %a{href: edit_event_path(event)}
@@ -31,18 +36,17 @@
                       %i.bi-trash
 
 - if current_user.admin? && @all_pending_events.count > 0
-  #pending_events.card.mb-5
+  #pending_events.card
     .card-header.d-flex.align-items-center
       %span Pending Events
 
-      = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
     .card-body
       %table.table
         %thead
           %tr
             %th Name
             %th Creator
-            %th Actions
+            %th.text-center Actions
         %tbody
           - @all_pending_events.each do |event|
             %tr{class: "pending_event"}[event]
@@ -50,7 +54,7 @@
                 =link_to event.name, edit_event_path(event)
               %td
                 =link_to event.user.full_name, user_path(event.user)
-              %td
+              %td.text-center
                 .row
 
                   .col

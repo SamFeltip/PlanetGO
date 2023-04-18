@@ -146,7 +146,9 @@ a {
 }
 
 .card {
-  margin-bottom: 10px;
+  margin-bottom: 2rem;
+  box-shadow: var(--bs-card-box-shadow);
+  overflow: hidden;
 }
 
 
@@ -217,10 +219,10 @@ a {
   flex-direction: column;
   overflow: hidden;
 
-  max-height: calc((156px + 55px + 10px) * 3);
-  //max-height: calc((var(--event-card-height) + var(--event-card-bottom) + var(--event-card-padding)) * 3 + 5px);
+  //max-height: calc((156px + 55px + 10px) * 3);
+  max-height: calc((var(--bs-event-card-height) + var(--event-card-bottom) + var(--bs-event-card-padding)) * 3 + 5px);
 
-  //margin-bottom: var(--event-card-bottom);
+  //margin-bottom: var(--bs-event-card-bottom);
   margin-bottom: 10px;
 }
 

@@ -36,24 +36,27 @@
 
 
   .events-and-outings.row
-    .outings.col-lg-6
-      .card
+    .outings.col-lg-6.mb-4
+      .card.h-100
         .card-header
           %h1 My outings
         .card-body
-          = link_to new_outing_path, class: 'd-flex justify-content-end pb-2' do
-            .pe-2
-              Create New Outing
-            %i.bi-plus-circle
+          .d-flex.justify-content-end.pb-2
+            = link_to new_outing_path, class: 'btn btn-outline-primary' do
+              New Outing
+              %i.bi-plus-circle
 
           #future_outings
-            - @future_outings[0..2].each do |outing|
+            - @future_outings.each do |outing|
               .click-card[outing]
                 = render 'outings/outing_card', outing: outing
 
           #past_outings.py-3
-            %h2 Previous
-            - @past_outings[0..2].each do |outing|
+            - if @past_outings.empty?
+              %p Plan some outings and see them here!
+            - else
+              %h2 Previous
+            - @past_outings.each do |outing|
               .click-card[outing]
                 = render 'outings/outing_card', outing: outing
 
@@ -63,8 +66,8 @@
               More
             %i.bi-arrow-right-circle
 
-    .events.col-lg-6
-      .card
+    .events.col-lg-6.mb-4
+      .card.h-100
         .card-header
           %h1 Liked Events
         .card-body

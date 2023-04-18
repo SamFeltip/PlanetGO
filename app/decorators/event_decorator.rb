@@ -84,7 +84,7 @@ class EventDecorator < ApplicationDecorator
     if object.approved.nil?
       'bi-question-circle'
     elsif object.approved
-      'bi-tick'
+      'bi-check-circle'
     else
       'bi-x'
     end

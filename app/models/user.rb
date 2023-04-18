@@ -99,13 +99,17 @@ class User < ApplicationRecord
     email.split('@')[0]
   end
 
+  def likes
+    EventReact.where(user_id: id, status: EventReact.statuses[:like])
+  end
+
   def liked(event)
-    EventReact.where(user_id: id, event_id: event.id, status: EventReact.statuses[:like]).count.positive?
+    !likes.where(event_id: event.id).empty?
   end
 
   def event_reaction(event)
     reactions = EventReact.where(user_id: id, event_id: event.id)
-    return unless reactions.length.positive?
+    return if reactions.empty?
 
     reactions.first.status
   end
