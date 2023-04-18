@@ -20,7 +20,7 @@
               %td.event_status
 
                 %a{href: edit_event_path(event)}
-                  %i{:class => event.approved_icon + " " + event.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.approved_desc}}
+                  %i{:class => event.decorate.approved_icon + " " + event.decorate.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.decorate.approved_desc}}
               %td
                 .row
                   .col

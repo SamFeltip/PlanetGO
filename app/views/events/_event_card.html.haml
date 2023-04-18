@@ -1,20 +1,46 @@
-.card.mb-2
-  .card-header
-    = link_to event.name, event
+.card.event-card[event]
+  .d-flex.flex-row
+    .image
+      = image_pack_tag event.image_path, class: 'event-card-image'
+    .event-card-body
+      .event-card-header.d-flex.justify-content-between
+        %h3
+          = link_to event.name, event, class: 'black'
+        - if defined?(render_params) && render_params[:in_event]
+          .event-action
+            %button.btn.btn-outline-primary
+              %i.bi-pencil-square
 
-  .row
-    .col-auto
-      = image_pack_tag event.image_path, width: 120
-    .col.p-3
-      %p
-        =event.display_description(length = 50)
-      %p
-        %i.bi-pin
-        %i
-          =event.display_location
-  .card-footer.d-flex.justify-content-between
+            = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+              %i.bi-trash
 
-    .user-controls
+      %p
+        %em
+          =event.decorate.display_time
+      %p.overflow-hidden.event-description
+        =event.description
+
       %a{href: event_path(event)}
-        %i{:class => event.like_icon(current_user)}
-        = event.display_likes(current_user, compressed: false)
+        %i{:class => event.decorate.like_icon(current_user)}
+        .d-inline.d-md-none
+          = event.decorate.likes(current_user: current_user, compressed: true)
+        .d-none.d-md-inline
+          = event.decorate.likes(current_user: current_user, compressed: false)
+
+  - if defined?(render_params) && render_params[:add_event_to_outing]
+
+    .card-footer
+      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'}, remote: true do |f|
+        = f.hidden_field :event_id, value: event.id
+        = f.hidden_field :outing_id, value: outing.id
+        = f.hidden_field :proposed_datetime, value: event.time_of_event
+        = f.hidden_field :status, value: 'pending'
+
+        %button.btn.btn-outline-primary.reject-event-button{type: "button"}
+          %i.bi-x-circle.ms-1
+          %span.action-button-text.d-none.d-sm-inline
+            Dismiss
+        %button.btn.btn-outline-primary.send-proposed-event-button{type: "submit"}
+          %span.action-button-text.d-none.d-sm-inline
+            Add to Outing
+          %i.bi-calendar-plus.ms-1

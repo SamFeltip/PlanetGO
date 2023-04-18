@@ -118,8 +118,40 @@ class User < ApplicationRecord
     following.where.not(id: outing.participants.pluck(:user_id))
   end
 
-  def recommended_events
-    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+  # get a random friend.
+  # if an event is given, pick from a user who has liked this event
+  def get_random_friend(event: nil)
+    # if an event is given
+    # rubocop made me do it like this :(
+    friends = if event
+                # get a list of all following users who have liked this event
+                following.where(id: event.likes.pluck(:user_id))
+              else
+                following
+              end
+
+    return nil if friends.empty?
+
+    # get a random friend from the list (we are not using .sample because offset works better on large datasets)
+    friend_likes_count = friends.count
+    random_offset = rand(friend_likes_count)
+    # return offset friend
+    friends.offset(random_offset).first
+  end
+
+  def recommended_events(outing: nil)
+    # get all events the user has liked
+    event_list = Event.where(id: EventReact.select(:event_id).where(user_id: id))
+
+    # filter out all events in the outing, if it exists
+    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)) if outing
+
+    event_list
+  end
+
+  # TODO: make these a restaurant and a hotel nearby
+  def final_events
+    Event.limit(2)
   end
 
   private

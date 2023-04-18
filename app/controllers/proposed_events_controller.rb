@@ -22,13 +22,17 @@ class ProposedEventsController < ApplicationController
   # POST /proposed_events or /proposed_events.json
   def create
     @proposed_event = ProposedEvent.new(proposed_event_params)
+    @event = @proposed_event.event
+    @outing = @proposed_event.outing
 
     respond_to do |format|
       if @proposed_event.save
+        format.js
         format.html do
-          redirect_to proposed_event_url(@proposed_event), notice: t('.notice')
+          redirect_to set_details_outing_path(@proposed_event.outing, position: 'where'), notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @proposed_event }
+
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @proposed_event.errors, status: :unprocessable_entity }
@@ -53,11 +57,14 @@ class ProposedEventsController < ApplicationController
 
   # DELETE /proposed_events/1 or /proposed_events/1.json
   def destroy
+    @outing = @proposed_event.outing
+    @event = @proposed_event.event
     @proposed_event.destroy
 
     respond_to do |format|
       format.html { redirect_to proposed_events_url, notice: t('.notice') }
       format.json { head :no_content }
+      format.js
     end
   end
 

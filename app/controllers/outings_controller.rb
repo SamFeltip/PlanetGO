@@ -32,6 +32,8 @@ class OutingsController < ApplicationController
     participants.each do |participant|
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
+
+    @proposed_event = ProposedEvent.new
   end
 
   def send_invites

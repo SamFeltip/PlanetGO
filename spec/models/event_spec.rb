@@ -31,8 +31,9 @@ RSpec.describe Event do
   let(:other_event_creator) { create(:user) }
 
   let!(:category) { Category.create(name: 'Bar') }
+  let!(:category2) { Category.create(name: 'SomethingUnusable') }
   let!(:my_event) { create(:event, user_id: event_creator.id, category_id: category.id) }
-  let!(:other_event) { create(:event, user_id: other_event_creator.id) }
+  let!(:other_event) { create(:event, user_id: other_event_creator.id, category_id: category2.id) }
 
   describe '#image_path' do
     it 'returns a path to an image corresponding with the category name' do
