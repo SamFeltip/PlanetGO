@@ -1,5 +1,5 @@
-%a.event-card-small.horizontal-card{href: event_path(event)}
-  = image_pack_tag event.image_path, class: "rounded", width: "100%"
+%a.card.event-card-small.horizontal-card{href: event_path(event)}
+  = image_pack_tag event.image_path, width: "100%"
   .event-card-header.d-flex.align-items-center.justify-content-center
     %h3.black.text-center.mx-3.mb-0= event.name
   - if render_params[:add_event_to_outing]
