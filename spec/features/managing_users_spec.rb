@@ -199,7 +199,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when the user is not suspended' do
-        let!(:user) { create(:user,  full_name: 'user1', email: 'user1@user.com') }
+        let!(:user) { create(:user, full_name: 'user1', email: 'user1@user.com') }
 
         before do
           refresh
