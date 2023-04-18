@@ -1,6 +1,6 @@
 #my_pending_events.card
   .card-header.d-flex.align-items-center
-    %span My Pending Events
+    %h2 My Events
 
     = link_to new_event_path, class: 'btn btn-outline-primary ms-auto' do
       New Event
@@ -14,7 +14,7 @@
         %thead
           %tr
             %th Name
-            %th.text-center Status
+            %th.text-center Approval Status
             %th
         %tbody
           - @my_events.each do |event|
@@ -38,7 +38,7 @@
 - if current_user.admin? && @all_pending_events.count > 0
   #pending_events.card
     .card-header.d-flex.align-items-center
-      %span Pending Events
+      %h2 Pending Events
 
     .card-body
       %table.table
