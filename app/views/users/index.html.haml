@@ -7,7 +7,6 @@
       %tr
         %th Role
         %th Full Name
-        %th Email
         %th Suspended
         %th Locking
         %th
@@ -16,7 +15,6 @@
         %tr
           %td= user.role
           %td= user.full_name
-          %td= user.email
           %td
             - if user != current_user &&  user.commercial
               - if !user.suspended
