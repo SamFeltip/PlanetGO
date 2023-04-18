@@ -66,9 +66,9 @@ class EventDecorator < ApplicationDecorator
     random_friend = current_user.get_random_friend(event: object)
 
     if random_friend
-      "liked by #{random_friend} and #{event_likes.count - 1} others"
+      "liked by #{random_friend} #{and_others_string}"
     else
-      "#{event_likes.count} likes"
+      "#{event_likes.count} like#{event_likes.count == 1 ? '' : 's'}"
     end
   end
 
