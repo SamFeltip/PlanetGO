@@ -138,8 +138,8 @@ class Event < ApplicationRecord
     user
   end
 
-  def user_interest(other_user)
-    CategoryInterest.where(user_id: other_user.id, category_id: self.category_id).first.interest
+  def user_interest(user)
+    CategoryInterest.where(user_id: user.id, category_id:).first.interest
   end
 
   def image_path

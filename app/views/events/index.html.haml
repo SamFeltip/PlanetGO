@@ -1,15 +1,21 @@
 - if current_user.admin? || current_user.advertiser?
   = render "registering_events"
 
+- if current_user.commercial
+  = link_to category_interests_path, class: 'nav-link btn btn-outline-secondary p-2' do
+    %i.bi-pencil-square
+    Edit Event Category Interests
 
 #events
   = simple_form_for :search, url: events_path, method: :get do |f|
-    = f.input :description, input_html: { name: 'description', value: @description || '' }, label: 'Search for a user by their name'
+    = f.input :description, input_html: { name: 'description', value: @description || '' },
+                                                          label: 'Search for a user by their name', required: false
     = f.input :category_id, input_html: { name: 'category_id'}, :collection => Category.all.collect {|c| [c.name, c.id]},
-                                                                          selected: @category_id, :include_blank => ''
+                                                          selected: @category_id, :include_blank => '', required: false
     - if current_user.commercial
       = f.input :interest_order, as: :boolean, input_html: { name: 'interest_order', checked: @interest_order == "1" },
-                                                                          label: 'Prioritise events according to your interests?'
+                                                          label: 'Prioritise events according to your interests?'
+
     = f.submit 'Search', class: 'btn btn-outline-primary mt-3'
     = link_to 'Clear', events_path, class: 'btn btn-outline-secondary mt-3'
 
