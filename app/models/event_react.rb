@@ -30,5 +30,9 @@ class EventReact < ApplicationRecord
     dislike: 1
   }
 
+  def to_s
+    "#{user.full_name} #{status}d #{event.name}"
+  end
+
   validates :status, presence: true
 end

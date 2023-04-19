@@ -1,0 +1,24 @@
+#availability.col-md-9.mt-4
+  %h1 My Weekly Availability
+  %div.calendar-container
+    =render :partial => 'simple_calendar/calendar', :locals => {:persons_availabilities => persons_availabilities, :individual => true, :num_calendars => 1}
+  
+#availability_form.col-md-3.mt-4
+  %h1 New Slot
+  .card
+  = simple_form_for @availability, remote: true do |f|
+    .card-body
+      %div
+        = f.input :start_day, as: :fake_select, collection: @start_day_collection, selected: "Monday"
+        = f.input :start_hour, as: :fake_select, collection: @hour_collection, selected: 0, label: "Start time" 
+        = ":"
+        = f.input :start_minute, as: :fake_select, collection: @minute_collection, selected: 0, label: false
+      %div
+        = f.input :end_day, as: :fake_select, collection: @end_day_collection, selected: "Monday"
+        = f.input :end_hour, as: :fake_select, collection: @hour_collection, selected: 0, label: "End⠀time"
+        = ":"
+        = f.input :end_minute, as: :fake_select, collection: @minute_collection, selected: 0, label: false
+
+    .card-footer.d-flex
+      %button.btn.btn-primary.availability-submit{ type: 'submit' }
+        Save

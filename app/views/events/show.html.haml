@@ -11,8 +11,8 @@
     .reacts.d-flex
       .likes.me-2
         = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
-          %i.like_icon{:class => @event.like_icon(current_user)}
-            %span.event_like{:id => "event_#{@event.id}"}=@event.display_likes(current_user, compressed: true)
+          %i.like_icon{:class => @event_decorate.like_icon(current_user)}
+            %span.event_like{:id => "event_#{@event.id}"}=@event_decorate.likes(current_user: current_user, compressed: true)
 
     .end.d-flex
 
@@ -70,7 +70,7 @@
         %h2
           Location
         %p
-          =@event.display_location
+          =@event_decorate.location
 
   %hr
 
@@ -81,10 +81,7 @@
 
   .horizontal-scroll
     - @users_events.each do |event|
-      %a.horizontal-card{href: event_path(event)}
-        = image_pack_tag event.image_path, class: "rounded", width: "100%"
-        %p.text-center.pt-3.mx-3= event.name
-
+      = render 'event_card_small', event: event, render_params: {}
     %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column{href: events_path}
 
       %i.bi-calendar-event.xl-icon

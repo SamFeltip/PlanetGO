@@ -33,6 +33,7 @@ class EventsController < ApplicationController
     @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
 
     @event = Event.find(params[:id])
+    @event_decorate = @event.decorate
   end
 
   def approval

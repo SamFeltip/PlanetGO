@@ -1,0 +1,5 @@
+$('#recommended-events').find('.event-card#event_#{@proposed_event.event.id}').remove();
+
+$('#where-timetable').html('');
+
+$('#where-timetable').html("#{ escape_javascript( render 'outings/where_timetable', outing: @outing ) }")

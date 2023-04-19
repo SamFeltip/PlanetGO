@@ -1,7 +1,6 @@
 import Rails from "@rails/ujs";
 import "bootstrap";
 import '../scripts/collecting_metrics';
-import "../scripts/outings";
 import '../scripts/hover-cards';
 
 //= require_tree .

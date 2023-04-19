@@ -254,7 +254,7 @@ RSpec.describe 'Events' do
 
         specify 'event status icon should be a cross' do
           cool_event = Event.where(name: cool_event_name).first
-          expect(cool_event.approved_icon).to eq('bi-x')
+          expect(cool_event.decorate.approved_icon).to eq('bi-x')
         end
       end
     end

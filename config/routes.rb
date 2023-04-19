@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :categories
   resources :availabilities
   resources :proposed_events
+  resources :proposed_events do
+    post 'create'
+  end
 
   resources :events, except: %i[new show] do
     patch :like, on: :member

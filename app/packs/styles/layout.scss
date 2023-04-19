@@ -17,7 +17,7 @@ body {
 }
 
 // alert styling
-.flash-messages{
+.flash-messages {
   padding: 0;
   margin-top: -16px;
 }
@@ -156,6 +156,7 @@ a {
   text-align: left;
   white-space: nowrap;
 }
+
 // register interest styling
 
 .card-hover:hover {
@@ -222,6 +223,8 @@ a {
   display: flex;
   overflow-x: auto;
   padding-bottom: 20px;
+  flex-wrap: nowrap;
+
 }
 
 #more_events img {
@@ -231,10 +234,6 @@ a {
 // horizontal scrolling cards
 .horizontal-scroll > a {
   transition: 0.5s ease;
-}
-
-.horizontal-scroll {
-  flex-wrap: nowrap;
 }
 
 // card
@@ -292,16 +291,22 @@ a {
 
 
 
-#content-who, #content-where, #where-sidebar, #where-body, #content-who-and-when {
+#content-who,
+#content-where,
+#where-sidebar,
+#where-body,
+#content-who-and-when {
   width: 100%;
 }
 
-#content-who #friend-search-form, #content-where #event-search-form {
+#content-who #friend-search-form,
+#content-where #event-search-form {
   display: flex;
   justify-content: space-between;
 }
 
-#content-who #search, #content-where #search {
+#content-who #search,
+#content-where #search {
   width: 99%;
   margin-right: 10px;
 }
@@ -318,15 +323,27 @@ a {
 
 .event-card-image {
   height: 100%;
-  max-height: 140px;
+  max-height: 156px;
 }
 
 .event-card-body {
   padding: 10px;
   width: 100%;
+  max-height: 156px;
+  overflow: hidden;
 }
 
-.event-description{
+.event-card-header h3 {
+  // height 1 line high
+  height: 1.2em;
+  overflow: hidden;
+}
+
+.event-card-small .event-card-header h3 {
+  height: 3.6em;
+}
+
+.event-description {
   max-height: 50px;
 }
 
@@ -339,13 +356,15 @@ a {
   margin-bottom: 0;
 }
 
-#event-cards {
-  // only shows the first 3 elements within
+// fix the recommended-events div to only show 3 event cards
+// TODO: use CSS variables instead of fixed heights
+#recommended-events {
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  //max-height: calc(($card-height * $card-bottom) * 3);
-  max-height: calc((197px + 10px) * 3);
+
+  //max-height: calc(($card-height + $card-bottom + $card-padding) * 3 + 5px);
+  max-height: calc((156px + 55px + 10px) * 3 + 5px);
   //margin-bottom: $card-bottom;
   margin-bottom: 10px;
 }
@@ -353,8 +372,6 @@ a {
 
 .event-card {
   margin-bottom: 10px;
-  //height: $card-height;
-  //max-height: 175px;
 }
 
 #content-who #outing-share .dropdown {
@@ -388,8 +405,113 @@ a {
   border-top: 2px solid darkgrey;
 }
 
-// large screens
-@media (min-width: 992px) {
+
+// ******************** my account page **************************
+
+.calendar-container {
+  position: relative;
+  height: 49em;
+  background-color: #ffffff;
+  background-image: linear-gradient(#000000 2px, transparent 0), linear-gradient(#444cf7 1px, transparent 0);
+  background-position-y: 1em;
+  background-size: 2em 2em, 0.5em 0.5em;
+  opacity: 1;
+}
+
+.simple-calendar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.simple-calendar * {
+  border: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  --bs-body-line-height: 1 !important;
+  --bs-card-border-radius: 0 !important;
+  line-height: 1em;
+
+  background-color: transparent;
+  opacity: 1;
+
+  box-shadow: none !important;
+}
+
+.simple-calendar * thead {
+  background-color: rgb(255, 255, 255);
+  opacity: 1;
+}
+
+.simple-calendar * th {
+  text-align: center;
+}
+
+.simple-calendar * td {
+  border-right: 1px solid !important;
+  position: relative;
+  width: 12%;
+}
+
+#ytd {
+  text-align: center;
+  background-image: linear-gradient(#000000 2px, transparent 0);
+  background-color: rgb(255, 255, 255, 1);
+  background-size: 2em 2em;
+  opacity: 1;
+}
+
+.availability_start_day,
+.availability_end_day,
+.availability_end_minute,
+.availability_end_hour,
+.availability_start_minute,
+.availability_start_hour,
+.form-inline div{
+  display: inline-block;
+}
+
+.selected_box {
+  position: absolute;
+  display: none;
+  background-color: #064ca87a;
+  pointer-events: none;
+  width: 100%;
+  top: 0;
+  left: 0;
+  border: 3px solid #004bad !important;
+  -webkit-box-sizing: border-box;
+  /* Safari/Chrome, other WebKit */
+  -moz-box-sizing: border-box;
+  /* Firefox, other Gecko */
+  box-sizing: border-box;
+  /* Opera/IE 8+ */
+}
+
+.delete-availability {
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+// ***************** set_availability ***************
+
+.calendar-container {
+  position: relative;
+}
+
+.number-people-available {
+  position: absolute;
+  display: none;
+  padding: 5px;
+  line-height: 1;
+  text-align: center;
+  border: solid 2px #000000;
+  background-color: rgb(255, 255, 255);
+}
+
+// medium screens
+@media(min-width: 767px) {
 
   .horizontal-scroll {
     flex-wrap: wrap;
@@ -412,6 +534,16 @@ a {
   }
 
 
+}
+
+// large screens
+@media (min-width: 992px) {
+
+  // let the card show 5 events on large screens
+  #recommended-events {
+    max-height: calc((156px + 55px + 10px) * 5);
+  }
+
   #outing-footer {
     display: none;
   }
@@ -424,22 +556,18 @@ a {
     display: none;
   }
 
-  #outing-body {
-    display: flex;
-  }
-
-  #content-who {
+  #content-who, #where-sidebar {
     width: 30%;
     min-width: 400px;
     max-width: 450px;
-    box-shadow: 5px 0 5px -5px rgba(0,0,0,0.75);
+    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
   }
 
-  #content-when {
+  #content-when, #where-body {
     width: 70%;
   }
 
-  #content-who, #content-when {
+  #content-who, #content-when, #where-sidebar, #where-body {
     padding: 10px;
   }
 
@@ -533,90 +661,4 @@ a {
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
-}
-
-// ******************** my account page **************************
-
-.simple-calendar * {
-  border: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  --bs-body-line-height: 1 !important;
-  --bs-card-border-radius: 0 !important;
-  line-height: 1em;
-  opacity: 0.9;
-}
-
-.simple-calendar * tbody {
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px), linear-gradient(#444cf7 1px, transparent 1px);
-  background-size: 2em 2em, 0.5em 0.5em;
-}
-
-.simple-calendar * th {
-  text-align: center;
-}
-
-.simple-calendar * td {
-  border-right: 1px solid !important;
-  position: relative;
-  width: 12%;
-}
-
-#ytd {
-  text-align: center;
-  background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 2px);
-  opacity: 1;
-  background-size: 2em 2em;
-}
-
-.form-inline div {
-  display: inline-block;
-}
-
-.availability_start_hour {
-  display: inline-block;
-}
-
-.availability_start_minute {
-  display: inline-block;
-}
-
-.availability_end_hour {
-  display: inline-block;
-}
-
-.availability_end_minute {
-  display: inline-block;
-}
-
-.availability_start_day {
-  display: inline-block;
-}
-
-.availability_end_day {
-  display: inline-block;
-}
-
-.selected_box {
-  position: absolute;
-  display: none;
-  background-color: #064ca87a;
-  pointer-events: none;
-  width: 100%;
-  top: 0;
-  left: 0;
-  border: 3px solid #004bad !important;
-  -webkit-box-sizing: border-box;
-  /* Safari/Chrome, other WebKit */
-  -moz-box-sizing: border-box;
-  /* Firefox, other Gecko */
-  box-sizing: border-box;
-  /* Opera/IE 8+ */
-}
-
-.delete-availability {
-  background-color: #ffffff;
-  opacity: 1;
 }

@@ -4,3 +4,6 @@ $('#participant_#{@participant.id}').remove();
 
 -# add participant to the top of the #not_invited_friends element
 $('#not_invited_friends').prepend("#{escape_javascript(render('outings/invite_friend', friend: @participant.user))}");
+
+-# update the calendar
+document.getElementById('availability').outerHTML = "#{escape_javascript(render('simple_calendar/outing_availability_calendar', peoples_availabilities: @peoples_availabilities ))}";

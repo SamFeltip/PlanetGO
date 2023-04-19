@@ -86,6 +86,6 @@
         .card-body
           %p=event.description
 
-  =render 'calendar'
+  =render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
         
 -##past_outings= render "outing", collection: @outings_past
