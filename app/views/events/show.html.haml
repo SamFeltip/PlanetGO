@@ -4,7 +4,7 @@
       =@event.name
     %h2
       =@event.time_of_event
-  = image_pack_tag @event.image_path, id: "event-image"
+  = image_pack_tag @event.image_path, id: "event-image", width: "100px"
 
 .event-body
   .d-flex.justify-content-between
@@ -49,33 +49,28 @@
 
   %hr
   #event-info
-    .d-flex.flex-column.flex-md-row
-      .col-md-9
-        .gutter.m-1.h-100
-          .card.h-100
-            .card-body
-              %h2
-                Description
-              %p
-                =@event.description
+    .card
+      .card-body
+        %h2
+          Description
+        %p
+          =@event.description
 
-              %h2
-                Time of Event
-              %p
-                =@event.time_of_event
-              %h2
-                Creator
-              %p
-                %a{href: user_path(@event.user)}
-                  =@event.user
-      .col-md-3
-        .gutter.m-1.h-100
-          .card.h-100
-            .card-body
-              %h2
-                Location
-              %p
-                =@event_decorate.location
+        %h2
+          Time of Event
+        %p
+          =@event.time_of_event
+        %h2
+          Creator
+        %p
+          %a{href: user_path(@event.user)}
+            =@event.user
+    .card
+      .card-body
+        %h2
+          Location
+        %p
+          =@event_decorate.location
 
   %hr
 

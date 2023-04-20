@@ -156,35 +156,6 @@ a {
   justify-content: space-between;
 }
 
-.event-header .content {
-  position: absolute;
-  padding-top: 50px;
-  width: 100%;
-  color: white;
-  z-index: 9999;
-}
-
-.event-header {
-  text-align: center;
-  width: 100%;
-  height: 170px;
-  top: -20px;
-  overflow: hidden;
-  position: relative;
-}
-
-#event-image {
-  width: 100%;
-
-  /* Add the blur effect
-   darken the image */
-  filter: blur(20px) brightness(50%);
-
-  -webkit-filter: blur(8px) brightness(50%);
-  transform: scale(150%) translateY(-10%);
-  //transform: ;
-}
-
 .horizontal-scroll {
   display: flex;
   overflow-x: auto;
