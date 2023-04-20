@@ -88,7 +88,6 @@ class EventDecorator < ApplicationDecorator
   end
 
   def like_icon(current_user_liked)
-
     if current_user_liked
       'bi-star-fill'
     else

@@ -14,9 +14,7 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1 or /outings/1.json
-  def show
-    puts current_user.likes
-  end
+  def show; end
 
   # GET /outings/new
   def new
