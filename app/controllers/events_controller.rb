@@ -2,7 +2,9 @@
 
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit like]
+  before_action :authenticate_user!
+  load_and_authorize_resource
+  before_action :set_liked, only: %i[show]
 
   # GET /events or /events.json
   def index
@@ -113,6 +115,9 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def set_liked
     @event_liked = current_user.liked(@event)
   end
 

@@ -2,7 +2,7 @@
 
 class OutingsController < ApplicationController
   before_action :set_outing, only: %i[show edit update destroy set_details]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit set_details send_invites]
+  before_action :authenticate_user!
   load_and_authorize_resource
 
   # GET /outings or /outings.json
@@ -14,7 +14,9 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1 or /outings/1.json
-  def show; end
+  def show
+    puts current_user.likes
+  end
 
   # GET /outings/new
   def new

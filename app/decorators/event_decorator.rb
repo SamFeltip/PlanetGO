@@ -39,15 +39,12 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def likes(current_user: nil, compressed: false)
+  def likes(current_user: nil, compressed: false, current_user_liked: false)
     # get all like objects for this event
     event_likes = object.likes
 
     # if no user is given, just return the number of likes
     return "#{event_likes.count} likes" if current_user.nil?
-
-    # boolean: has the given current_user liked this event?
-    current_user_liked = current_user.liked(object)
 
     # if we want a shorter string
     if compressed
@@ -90,10 +87,9 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def like_icon(user)
-    user_liked = user.liked(object)
+  def like_icon(current_user_liked)
 
-    if user_liked
+    if current_user_liked
       'bi-star-fill'
     else
       'bi-star'
