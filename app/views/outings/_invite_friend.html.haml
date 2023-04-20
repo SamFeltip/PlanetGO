@@ -1,4 +1,4 @@
 .card[friend]
-  .card-body
+  .card-body.d-flex.flex-row.justify-content-between.align-items-center
     = friend.full_name
     = check_box_tag 'user_ids[]', friend.id

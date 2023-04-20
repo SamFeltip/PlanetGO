@@ -5,32 +5,27 @@
         %h1
           = outing.name
     .outing-details
-      .row
-        .col-1
-          %i.bi-calendar
-        .col
-          - if outing.date
-            %h2
-              = outing.date
-          - else
-            %h2
-              Date TBD
 
-      .row
-        .col-1
-          %i.bi-pin
-        .col
-          - if outing.events.count > 0
-            %h2
-              Location is...
-          - else
-            %h2
-              Starting Location TBD
-      .row
-        - if outing.description && outing.description != ''
-          %p= outing.description
-        - else
-          %p No Description
+      %i.bi-calendar
+      - if outing.date
+        %h2.outing-date
+          = outing.date
+      - else
+        %h2.outing-date
+          Date TBD
+
+      %i.bi-pin
+      - if outing.events.count > 0
+        %h2.outing-location
+          Location is...
+      - else
+        %h2.outing-location
+          Starting Location TBD
+
+      - if outing.description && outing.description != ''
+        %p= outing.description
+      - else
+        %p No Description
 
   -# if action buttons are included in the header, and the current user either created this outing or is admin
   - if defined?(action_buttons) && action_buttons && (current_user == outing.creator || current_user.admin?)
@@ -39,11 +34,12 @@
         %i.bi-gear
 
   - if defined?(nav) && nav
-    #outing-nav.d-lg-none
-      .outing-nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
-        %a#outing-nav-who-link.black{:href => set_details_outing_path(outing, position: 'who')} Who?
-      .outing-nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
-        %a#outing-nav-when-link.black{:href => set_details_outing_path(outing, position: 'when')} When?
+    #outing-nav.d-lg-none.text-center
+      .outing-nav-item#outing-nav-who.pb-2{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
+        #outing-nav-who-link.black Who?
 
-      .outing-nav-item#outing-nav-where{:class => params[:position] == 'where' ? 'underline' : '' }
-        %a#outing-nav-where-link.black{:href => set_details_outing_path(outing, position: 'where')} Where?
+      .outing-nav-item#outing-nav-when.pb-2{:class => params[:position] == 'when' ? 'underline' : '' }
+        #outing-nav-when-link.black When?
+
+      .outing-nav-item#outing-nav-where.pb-2{:class => params[:position] == 'where' ? 'underline' : '' }
+        #outing-nav-where-link.black Where?

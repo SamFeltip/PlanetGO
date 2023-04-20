@@ -1,7 +1,3 @@
-#outing-body {
-  margin-bottom: 100px;
-}
-
 #outing-footer {
   background-color: white;
   // attached to the bottom of the page, has a line above it
@@ -10,33 +6,13 @@
   left: 0;
   width: 100%;
   border-top: 1px solid #dee2e6;
-  padding: 20px;
-  margin-top: 20px;
-
 }
 
+// included so the columns dont fill the entire screen
 #outing-nav {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  justify-content: space-around;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
-
-
-.outing-nav-item {
-  width: 33%;
-  padding: 5px 0;
-}
-
-#content-where {
-  flex-direction: column;
-}
-
-#content-who {
-  display: block;
-}
-
-
 
 #content-who,
 #content-where,
@@ -46,47 +22,51 @@
   width: 100%;
 }
 
-#content-who #friend-search-form,
-#content-where #event-search-form {
-  display: flex;
-  justify-content: space-between;
+// included to allow a gap between the columns
+#friend-search-form,
+#event-search-form {
+  display: grid;
+  grid-template-columns: auto 40px;
+  grid-column-gap: 10px;
 }
 
-#content-who #search,
-#content-where #search {
-  width: 99%;
-  margin-right: 10px;
+.outing-details .bi-calendar{
+  grid-area: bi-cal;
 }
 
-#content-who #outing-share {
-  margin: 10px 0;
-  display: flex;
-  justify-content: end;
-  align-items: center;
+.outing-details .bi-pin{
+  grid-area: bi-pin;
 }
 
-
-
-#content-who #outing-share .dropdown {
-  margin-left: 10px;
+.outing-details .outing-date {
+grid-area: date;
 }
 
-
-#not_invited_friends .card-body {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
+.outing-details .outing-location {
+grid-area: location;
 }
 
-#content-who #send-invite-button {
-  display: flex;
-  justify-content: end;
-  margin-bottom: 10px;
+.outing-details p {
+  grid-area: description;
 }
 
+// used for increased control over the space between icons and titles
+.outing-details {
+  display: grid;
+  grid-template-columns: 20px auto;
+  grid-template-rows: auto;
+  grid-template-areas:
+    "bi-cal date"
+    "bi-pin location"
+    "description description";
 
+  grid-column-gap: 1rem;
+}
+
+// used to include the bootstrap variable
+#content-who, #content-when, #where-sidebar, #where-body {
+  padding: 0 var(--bs-gutter-x)
+}
 
 // large screens
 @media (min-width: 992px) {
@@ -102,14 +82,4 @@
     width: 70%;
   }
 
-  #content-who, #content-when, #where-sidebar, #where-body {
-    padding: 10px;
-  }
-}
-
-// ******* show **********
-#find-more-events {
-  border: black 1px solid;
-  border-radius: 5px;
-  width: 200px;
 }
