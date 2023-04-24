@@ -21,17 +21,11 @@ class ParticipantsController < ApplicationController
 
   # POST /participants or /participants.json
   def create
-    # participant_params["user_id"] = current_user.id
-    # participant_params["outing_id"] = Outing.first.id
-
     @participant = Participant.new(participant_params)
-
-    # @participant.user = current_user
-    # @participant.outing = Outing.first
 
     respond_to do |format|
       if @participant.save
-        format.html { redirect_to participant_url(@participant), notice: t('.notice') }
+        format.html { redirect_to participant_url(@participant) }
         format.json { render :show, status: :created, location: @participant }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -44,7 +38,7 @@ class ParticipantsController < ApplicationController
   def update
     respond_to do |format|
       if @participant.update(participant_params)
-        format.html { redirect_to participant_url(@participant), notice: t('.notice') }
+        format.html { redirect_to participant_url(@participant) }
         format.json { render :show, status: :ok, location: @participant }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -73,7 +67,7 @@ class ParticipantsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
+      format.html { redirect_to set_details_outing_path(@outing) }
       format.js
       format.json { head :no_content }
     end

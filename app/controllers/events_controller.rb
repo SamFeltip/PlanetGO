@@ -16,8 +16,7 @@ class EventsController < ApplicationController
   def show
     @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
 
-    @event = Event.find(params[:id])
-    @event_decorate = @event.decorate
+    @event = Event.find(params[:id]).decorate
   end
 
   def approval
@@ -29,7 +28,7 @@ class EventsController < ApplicationController
 
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: t('.notice') }
+      format.html { redirect_to events_path }
       format.js
     end
   end
@@ -54,7 +53,7 @@ class EventsController < ApplicationController
 
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: t('.notice') }
+      format.html { redirect_to events_path }
       format.js
     end
   end
@@ -73,7 +72,7 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id if current_user
     respond_to do |format|
       if @event.save
-        format.html { redirect_to events_url, notice: t('.notice') }
+        format.html { redirect_to events_url, notice: 'Event was created and is under review.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -89,7 +88,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to event_url(@event), notice: t('.notice') }
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -103,7 +102,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url, notice: t('.notice') }
+      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

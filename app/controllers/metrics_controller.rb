@@ -17,9 +17,6 @@ class MetricsController < ApplicationController
                             '/users/sign_in', '/users/sign_up', '/users/unlock/new',
                             '/users/password/new']
 
-    # lists all routes of application. Way too many to display metrics for. Need to specify pages manually
-    # p Rails.application.routes.routes.map { |r| {alias: r.name, path: r.path.spec.to_s, controller: r.defaults[:controller], action: r.defaults[:action]}}
-
     @all_metrics = []
     routes_interested_in.each do |route|
       metrics_list = metrics.where(route:)
