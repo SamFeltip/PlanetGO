@@ -3,6 +3,14 @@
 require 'rails_helper'
 require 'faker'
 
+Geocoder::Lookup::Test.set_default_stub(
+  [
+    {
+      'coordinates' => [53.3811691, -1.4747707]
+    }
+  ]
+)
+
 RSpec.describe 'Events' do
   let!(:category) { Category.create(name: 'Bar') }
   let!(:event_creator) { create(:user, role: User.roles[:advertiser]) }
@@ -13,6 +21,10 @@ RSpec.describe 'Events' do
   # Submit my event
   context 'when logged in as an advertiser' do
     event_name = 'Reading group'
+    event_address_line1 = '104 West St'
+    event_address_line2 = 'City Centre'
+    event_town = 'Sheffield'
+    event_postcode = 'S1 4EP'
 
     event_date = '15/03/2023 17:00'
     event_desc = 'a fun event!'
@@ -27,38 +39,45 @@ RSpec.describe 'Events' do
       before do
         click_link 'New Event'
 
-        # the user clicks on the button "New Outing"
-        # the user fills in a name, a date, a description, and selects "open" as the outing type
-
         fill_in 'Event Name', with: event_name
-
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Address Line 2', with: event_address_line2
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: event_postcode
         fill_in 'Time and Date', with: event_date
-
         fill_in 'Description', with: event_desc
-
         select event_category, from: 'Category'
 
-        # the user clicks the "save" button
         click_button 'Save'
       end
 
+      # rubocop:disable RSpec/ExampleLength
       specify 'saves an event' do
-        # expect the program to create an outing object with the above information, and with a creator_id of the logged in user's user_id
         expect(Event.last).to have_attributes(
           name: event_name,
+          address_line1: event_address_line1,
+          address_line2: event_address_line2,
+          town: event_town,
+          postcode: event_postcode,
           time_of_event: Time.zone.parse(event_date),
           description: event_desc,
           user_id: event_creator.id
         )
       end
+      # rubocop:enable RSpec/ExampleLength
+
+      specify 'the event address gets geocoded' do
+        expect(Event.last).to have_attributes(
+          longitude: -1.4747707,
+          latitude: 53.3811691
+        )
+      end
 
       specify 'alerts the user the event is under review' do
-        # show a notice saying the outing was created
         expect(page).to have_content('Event was created and is under review.')
       end
 
       specify 'redirects the user to events index' do
-        # redirect to the outings index page
         expect(page).to have_current_path(events_path)
       end
 
@@ -82,6 +101,140 @@ RSpec.describe 'Events' do
       end
     end
 
+    context 'when I try to submit an event without a name' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: event_postcode
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Name can't be blank"
+      end
+    end
+
+    context 'when I try to submit an event without an address line' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: event_postcode
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Address line1 can't be blank"
+      end
+    end
+
+    context 'when I try to submit an event without a town' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Postcode', with: event_postcode
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Town can't be blank"
+      end
+    end
+
+    context 'when I try to submit an event without a postcode' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Town', with: event_town
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Postcode can't be blank"
+      end
+    end
+
+    context 'when I try to submit an event with an invalid postcode' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: 'AB CDE'
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content 'Postcode is invalid'
+      end
+    end
+
+    context 'when I try to submit an event without a description' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: event_postcode
+        fill_in 'Time and Date', with: event_date
+        select event_category, from: 'Category'
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Description can't be blank"
+      end
+    end
+
+    context 'when I try to submit an event without a category' do
+      before do
+        click_link 'New Event'
+
+        fill_in 'Event Name', with: event_name
+        fill_in 'Address Line 1', with: event_address_line1
+        fill_in 'Town', with: event_town
+        fill_in 'Postcode', with: event_postcode
+        fill_in 'Time and Date', with: event_date
+        fill_in 'Description', with: event_desc
+
+        click_button 'Save'
+      end
+
+      specify do
+        expect(page).to have_content "Category can't be blank"
+      end
+    end
+
     context 'when I remove my event' do
       let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id, category_id: category.id) }
       let!(:other_person_event) { create(:event, name: 'an event created by someone else', user_id: other_event_creator.id, category_id: category.id) }
@@ -96,7 +249,6 @@ RSpec.describe 'Events' do
       end
 
       specify 'should no longer show the outing' do
-        # Expect the outing to be deleted and not be on the page anymore
         expect(page).not_to have_content(event.name)
       end
 
@@ -194,16 +346,12 @@ RSpec.describe 'Events' do
       let!(:cool_event) { create(:event, name: cool_event_name, user_id: event_creator.id, approved: true, category_id: category.id) }
 
       before do
-        # visit event
         visit event_path(cool_event)
 
-        # go to settings
         page.find_by_id('event_settings').click
 
-        # disapprove the event
         find(:css, '#event_approved').set(false)
 
-        # save changes
         click_button 'Save'
       end
 
