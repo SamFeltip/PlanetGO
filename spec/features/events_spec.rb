@@ -13,6 +13,7 @@ Geocoder::Lookup::Test.set_default_stub(
 
 RSpec.describe 'Events' do
   let!(:category) { Category.create(name: 'Bar') }
+  let!(:music_category) { Category.create(name: 'Music') }
   let!(:event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:other_event_creator) { create(:user, role: User.roles[:advertiser]) }
   let!(:admin) { create(:user, role: User.roles[:admin]) }
@@ -278,6 +279,14 @@ RSpec.describe 'Events' do
       visit events_path
     end
 
+    specify 'there is no option to edit my interests' do
+      expect(page).not_to have_content 'Edit Event Category Interests'
+    end
+
+    specify 'there is no option to re-order events by my interests' do
+      expect(page).not_to have_content 'Prioritise events according to your interests?'
+    end
+
     specify 'should show pending events in the pending events element' do
       within '#pending_events' do
         expect(page).to have_content(other_person_event.name)
@@ -400,9 +409,9 @@ RSpec.describe 'Events' do
   end
 
   context 'when logged in as a user' do
-    let(:event1) { create(:event, name: 'my great event', user_id: event_creator.id, category_id: category.id) }
-    let(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id, category_id: category.id) }
-    let(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id, category_id: category.id) }
+    let!(:event1) { create(:event, name: 'my great event', user_id: event_creator.id, category_id: category.id, approved: true) }
+    let!(:event2) { create(:event, name: 'a different great event', user_id: event_creator.id, category_id: category.id, approved: true) }
+    let!(:event3) { create(:event, name: 'a rubbish event', user_id: event_creator.id, category_id: music_category.id, approved: true) }
 
     before do
       user_list = create_list(:user, 5)
@@ -417,6 +426,60 @@ RSpec.describe 'Events' do
 
       login_as user
       visit events_path
+    end
+
+    context 'when on the events page' do
+      before do
+        visit events_path
+      end
+
+      specify 'I can see events in the system' do
+        expect(page).to have_content 'my great event'
+      end
+
+      specify 'I click on the button to take my to my category interests' do
+        click_on 'Edit Event Category Interests'
+        expect(page).to have_current_path category_interests_path, ignore_query: true
+      end
+
+      specify 'I can search for an event' do
+        fill_in 'description', with: 'my great event'
+        click_on 'Search'
+        expect(page).to have_content 'my great event'
+        expect(page).not_to have_content 'a different great event'
+        expect(page).not_to have_content 'a rubbish event'
+      end
+
+      specify 'I can search by event category' do
+        select 'Bar', from: 'category_id'
+        click_on 'Search'
+        expect(page).to have_content 'my great event'
+        expect(page).to have_content 'a different great event'
+        expect(page).not_to have_content 'a rubbish event'
+      end
+
+      specify 'I can search by event and category' do
+        fill_in 'description', with: 'my great event'
+        select 'Music', from: 'category_id'
+        click_on 'Search'
+        expect(page).not_to have_content 'my great event'
+        expect(page).not_to have_content 'a different great event'
+        expect(page).not_to have_content 'a rubbish event'
+      end
+
+      context 'when I have specified an interest in a category' do
+        before do
+          interest = CategoryInterest.where(user_id: user.id, category_id: music_category.id).first
+          interest.update(interest: 1) # user is interested
+        end
+
+        specify 'the events belonging to this category are push to the top' do
+          check('Prioritise events according to your interests?')
+          click_on 'Search'
+          # Expect first item shown on page to be the rubbish music event
+          expect(page.find('#events > div:nth-child(1)')).to have_content 'a rubbish event'
+        end
+      end
     end
 
     context 'when a user sees a particular event' do

@@ -71,6 +71,10 @@ class Event < ApplicationRecord
     user
   end
 
+  def user_interest(user)
+    CategoryInterest.where(user_id: user.id, category_id:).first.interest
+  end
+
   def image_path
     if category.image?
       "event_images/#{Category.find(category_id).name.downcase}.png"

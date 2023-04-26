@@ -102,4 +102,17 @@ RSpec.describe Event do
       end
     end
   end
+
+  describe '#user_interest' do
+    context 'when another user has an associated interest with an event' do
+      before do
+        interest = CategoryInterest.where(user_id: other_event_creator.id, category_id: my_event.category_id).first
+        interest.update(interest: 1) # user is interested
+      end
+
+      it 'finds the interest level of a specified user to this event' do
+        expect(my_event.user_interest(other_event_creator)).to eq 1
+      end
+    end
+  end
 end

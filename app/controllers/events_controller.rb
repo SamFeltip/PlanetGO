@@ -7,9 +7,25 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @approved_events = Event.where(approved: true)
-
     @my_pending_events = Event.my_pending_events(current_user)
     @all_pending_events = Event.other_users_pending_events(current_user)
+
+    # Filter by name & description
+    @description = params['description']
+    if @description.present?
+      @approved_events = @approved_events.where('lower(description) LIKE ? OR lower(name) LIKE ?',
+                                                "%#{@description.downcase}%", "%#{@description.downcase}%")
+    end
+
+    # Filter by category
+    @category_id = params['category_id']
+    @approved_events = @approved_events.where(category_id: @category_id) if @category_id.present?
+
+    return unless current_user.commercial
+
+    # Re-organise events page according to user interests
+    @interest_order = params['interest_order']
+    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse! if @interest_order == '1'
   end
 
   # GET /events/1 or /events/1.json
