@@ -25,7 +25,6 @@ module MetricsGraphHelper
                      else
                        1.day
                      end
-    Rails.logger.debug date_increment
 
     register_interests = RegisterInterest.all
     metrics = page_param ? Metric.where(route: page_param) : Metric.where(route: '/')

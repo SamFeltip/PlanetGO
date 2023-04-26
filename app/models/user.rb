@@ -44,8 +44,7 @@ class User < ApplicationRecord
   after_create :add_categories
   acts_as_voter
   followability
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :secure_validatable,
          :pwned_password, :lockable, :trackable
@@ -61,8 +60,6 @@ class User < ApplicationRecord
     Event.where(id: EventReact.select(:event_id).where(user_id: id))
   end
 
-  # this function is trying to get all outings this user has created
-  # using a joiner with the participants table
   def my_outings
     Outing.where(creator_id: id)
   end

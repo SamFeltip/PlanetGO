@@ -30,10 +30,7 @@ FactoryBot.define do
     creator_id { create(:user).id }
 
     after :create do |outing|
-      # creator = create(:user)
       create(:participant, user: outing.creator, outing:, status: Participant.statuses[:creator])
     end
-
-    # participant {association :participant, status: "creator" }
   end
 end
