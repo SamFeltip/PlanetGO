@@ -116,6 +116,11 @@ category_5 = Category.where(
 event_1 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pizza cooking class",
+  address_line1: '44 Highfield Road',
+  town: 'Southampton',
+  postcode: 'SO17 1PJ',
+  latitude: 50.93179575,
+  longitude: -1.40230945,
   description: 'Edible Pizza at suspiciously low prices',
   category_id: category_2.id,
   time_of_event: 7.days.from_now
@@ -125,6 +130,11 @@ event_2 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pasta tasting",
   description: "I'll be honest, even I wouldn't eat the food we serve",
+  address_line1: '9273 London Road',
+  town: 'Romford',
+  postcode: 'RM7 9QD',
+  latitude: 51.5760019,
+  longitude: 0.1768541,
   category_id: category_2.id,
   time_of_event: 7.days.from_now
 ).first_or_create
@@ -132,6 +142,11 @@ event_2 = Event.where(
 event_3 = Event.where(
   user_id: user_advertiser1.id,
   name: 'Pub Quiz',
+  address_line1: '442 Queen Street',
+  town: 'Manchester',
+  postcode: 'M2 5HS',
+  latitude: 53.5375048,
+  longitude: -2.0653505,
   description: "Our pub quiz is so hard you'll probably want a drink after getting all the questions wrong. 'Beer' £8 per half pint",
   category_id: category_1.id,
   time_of_event: 7.days.from_now,
@@ -141,6 +156,11 @@ event_3 = Event.where(
 event_4 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Half Price Wednesdays',
+  address_line1: '75 Park Lane',
+  town: 'Walsall',
+  postcode: 'B42 1TX',
+  latitude: 52.5704048,
+  longitude: -2.0184091,
   description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
   category_id: category_1.id,
   approved: true
@@ -149,6 +169,11 @@ event_4 = Event.where(
 event_5 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Quiz night',
+  address_line1: '9698 Chester Road',
+  town: 'Hull',
+  postcode: 'HU5 5QE',
+  latitude: 53.7599899,
+  longitude: -0.4138144,
   description: "We have a super hard quiz, you'll never win the prize!",
   category_id: category_5.id,
   time_of_event: 3.days.from_now,
@@ -158,6 +183,11 @@ event_5 = Event.where(
 event_6 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Andrews Bar',
+  address_line1: '90 Grove Road',
+  town: 'Brighton',
+  postcode: 'BN2 9NY',
+  latitude: 53.4304007,
+  longitude: -3.0568491,
   description: "Come to this bar, it's great!",
   category_id: category_4.id,
   approved: true

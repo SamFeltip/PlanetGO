@@ -1,12 +1,6 @@
-//when reject-event-button is pressed, hide the event card
 $('.reject-event-button').click( function() {
-    console.log('reject-event-button clicked');
     $(this).closest('.event-card').hide();
 });
-
-
-
-
 
 // when outing-nav-who-link is clicked, show the who tab
 $('#outing-nav-who').click( function() {

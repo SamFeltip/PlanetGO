@@ -9,6 +9,10 @@
         = render 'friends/user', user: current_user
 
       .action-buttons.d-flex
+        = link_to category_interests_path, class: 'btn btn-outline-primary p-2 me-2' do
+          %i.bi-pencil-square
+          Edit Event Category Interests
+
         = link_to edit_user_registration_path, class: 'btn btn-outline-primary p-2 me-2' do
           %i.bi-pencil-square
           .d-none.d-sm-inline-flex

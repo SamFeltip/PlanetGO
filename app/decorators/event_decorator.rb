@@ -69,14 +69,6 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def location
-    if object.has_attribute?(:location)
-      object.location
-    else
-      'location unknown'
-    end
-  end
-
   def approved_icon
     if object.approved.nil?
       'bi-question-circle'

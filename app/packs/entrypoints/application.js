@@ -10,7 +10,6 @@ require("jquery")
 require("@nathanvda/cocoon")
 
 Rails.start();
-console.log("application loaded.");
 
 var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
 var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {

@@ -25,9 +25,9 @@ class RegisterInterestsController < ApplicationController
     @pricing_id = params[:pricing_id]
     @register_interest.pricing_id = @pricing_id
     @registered_email = register_interest_params[:email]
+
     respond_to do |format|
       if @register_interest.save
-        # This could be better
         format.html do
           redirect_to "/users/sign_up?email=#{@registered_email}",
                       notice: 'Your interest has been recorded, and you will be contacted when we are ready for new users.'

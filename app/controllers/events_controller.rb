@@ -9,17 +9,32 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @approved_events = Event.where(approved: true)
-
     @my_events = Event.my_events(current_user)
     @all_pending_events = Event.other_users_pending_events(current_user)
+
+    # Filter by name & description
+    @description = params['description']
+    if @description.present?
+      @approved_events = @approved_events.where('lower(description) LIKE ? OR lower(name) LIKE ?',
+                                                "%#{@description.downcase}%", "%#{@description.downcase}%")
+    end
+
+    # Filter by category
+    @category_id = params['category_id']
+    @approved_events = @approved_events.where(category_id: @category_id) if @category_id.present?
+
+    return unless current_user.commercial
+
+    # Re-organise events page according to user interests
+    @interest_order = params['interest_order']
+    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse! if @interest_order == '1'
   end
 
   # GET /events/1 or /events/1.json
   def show
     @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
 
-    @event = Event.find(params[:id])
-    @event_decorate = @event.decorate
+    @event = Event.find(params[:id]).decorate
   end
 
   def approval
@@ -31,7 +46,7 @@ class EventsController < ApplicationController
 
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: t('.notice') }
+      format.html { redirect_to events_path }
       format.js
     end
   end
@@ -56,7 +71,7 @@ class EventsController < ApplicationController
 
     # redirect_to posts_path
     respond_to do |format|
-      format.html { redirect_to events_path, notice: t('.notice') }
+      format.html { redirect_to events_path }
       format.js
     end
   end
@@ -75,7 +90,7 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id if current_user
     respond_to do |format|
       if @event.save
-        format.html { redirect_to events_url, notice: t('.notice') }
+        format.html { redirect_to events_url, notice: 'Event was created and is under review.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -91,7 +106,7 @@ class EventsController < ApplicationController
 
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to event_url(@event), notice: t('.notice') }
+        format.html { redirect_to event_url(@event) }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -105,7 +120,7 @@ class EventsController < ApplicationController
     @event.destroy
 
     respond_to do |format|
-      format.html { redirect_to events_url, notice: t('.notice') }
+      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -123,6 +138,7 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :time_of_event, :description, :category_id, :approved, :user_id, event_reacts_attributes: %i[id event_id user_id status])
+    params.require(:event).permit(:name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
+                                  event_reacts_attributes: %i[id event_id user_id status])
   end
 end

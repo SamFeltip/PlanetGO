@@ -60,7 +60,7 @@ class OutingsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html { redirect_to set_details_outing_path(@outing), notice: t('.notice') }
+      format.html { redirect_to set_details_outing_path(@outing) }
       format.js
     end
   end
@@ -69,17 +69,10 @@ class OutingsController < ApplicationController
   def create
     @outing = Outing.new(outing_params)
 
-    # There has to be a better way to do this, dont @ me
     token_prefix = @outing.id.to_s
     token = token_prefix + rand(100_000).to_s
     @outing.invitation_token = token.to_i
 
-    # @participant = @outing.participants.new(
-    #   user_id: current_user.id,
-    #   status: "creator"
-    # )
-
-    # @participant.save
     @participant = @outing.participants.build(
       user_id: current_user.id,
       status: Participant.statuses[:creator]
@@ -93,7 +86,6 @@ class OutingsController < ApplicationController
         format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing was successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
-        Rails.logger.debug 'outing failed'
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @outing.errors, status: :unprocessable_entity }
       end
@@ -104,7 +96,7 @@ class OutingsController < ApplicationController
   def update
     respond_to do |format|
       if @outing.update(outing_params)
-        format.html { redirect_to outing_url(@outing), notice: t('.notice') }
+        format.html { redirect_to outing_url(@outing) }
         format.json { render :show, status: :ok, location: @outing }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -118,7 +110,7 @@ class OutingsController < ApplicationController
     @outing.destroy
 
     respond_to do |format|
-      format.html { redirect_to outings_url, notice: t('.notice') }
+      format.html { redirect_to outings_url, notice: 'Outing was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

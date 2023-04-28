@@ -30,7 +30,7 @@ class ProposedEventsController < ApplicationController
       if @proposed_event.save
         format.js
         format.html do
-          redirect_to set_details_outing_path(@proposed_event.outing, position: 'where'), notice: t('.notice')
+          redirect_to set_details_outing_path(@proposed_event.outing, position: 'where')
         end
         format.json { render :show, status: :created, location: @proposed_event }
 
@@ -46,7 +46,7 @@ class ProposedEventsController < ApplicationController
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
         format.html do
-          redirect_to proposed_event_url(@proposed_event), notice: t('.notice')
+          redirect_to proposed_event_url(@proposed_event)
         end
         format.json { render :show, status: :ok, location: @proposed_event }
       else
@@ -63,7 +63,7 @@ class ProposedEventsController < ApplicationController
     @proposed_event.destroy
 
     respond_to do |format|
-      format.html { redirect_to proposed_events_url, notice: t('.notice') }
+      format.html { redirect_to proposed_events_url }
       format.json { head :no_content }
       format.js
     end

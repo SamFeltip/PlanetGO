@@ -1,6 +1,5 @@
 - if @event.approved
   -# remove from pending events
-  console.log("approval");
   document.querySelector("#events").innerHTML = "";
   document.querySelector(".event.pending_event#event_#{@event.id}").innerHTML = "";
 

@@ -11,8 +11,8 @@
     .reacts.d-flex
       .likes.me-2
         = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
-          %i.like_icon{:class => @event_decorate.like_icon(@event_liked)}
-            %span.event_like{:id => "event_#{@event.id}"}=@event_decorate.likes(current_user: current_user, compressed: true, current_user_liked: @event_liked)
+          %i.like_icon{:class => @event.like_icon(@event_liked)}
+            %span.event_like{:id => "event_#{@event.id}"}=@event.likes(current_user: current_user, compressed: true, current_user_liked: @event_liked)
 
     .end.d-flex
 
@@ -72,7 +72,7 @@
           Location
       .card-body
         %p
-          =@event_decorate.location
+          =@event.address
 
   %hr
 

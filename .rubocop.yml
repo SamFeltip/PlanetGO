@@ -11,6 +11,9 @@ RSpec/MultipleMemoizedHelpers:
 Rails/BulkChangeTable:
   Enabled: false
 
+Rails/I18nLocaleTexts:
+  Enabled: false
+
 Rails/NotNullColumn:
   Exclude:
     - db/migrate/20230331091323_add_category_and_user_to_category_interest.rb # FK doesn't need default
@@ -23,3 +26,4 @@ AllCops:
     - bin/bundle
     - config/initializers/version.rb
     - db/schema.rb
+    - db/seeds.rb
