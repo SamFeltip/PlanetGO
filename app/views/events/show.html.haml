@@ -50,9 +50,10 @@
   %hr
   #event-info
     .card
-      .card-body
+      .card-header
         %h2
           Description
+      .card-body
         %p
           =@event.description
 
@@ -66,9 +67,10 @@
           %a{href: user_path(@event.user)}
             =@event.user
     .card
-      .card-body
+      .card-header
         %h2
           Location
+      .card-body
         %p
           =@event_decorate.location
 
