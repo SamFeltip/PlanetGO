@@ -71,7 +71,6 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-
   def approved_icon
     if object.approved.nil?
       'bi-question-circle'

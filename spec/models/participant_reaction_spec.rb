@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # == Schema Information
 #
 # Table name: participant_reactions
@@ -21,6 +23,6 @@
 #
 require 'rails_helper'
 
-RSpec.describe ParticipantReaction, type: :model do
+RSpec.describe ParticipantReaction do
   pending "add some examples to (or delete) #{__FILE__}"
 end

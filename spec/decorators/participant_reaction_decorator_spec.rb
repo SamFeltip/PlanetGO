@@ -1,4 +1,3 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
-RSpec.describe ParticipantReactionDecorator do
-end
+require 'rails_helper'

@@ -39,5 +39,4 @@ class ProposedEvent < ApplicationRecord
   def failed_vote
     participant_reactions.where(reaction: 0).count < (outing.participants.count / 2)
   end
-
 end

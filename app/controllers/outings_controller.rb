@@ -18,7 +18,6 @@ class OutingsController < ApplicationController
     # for proposed event cards
     @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
     @participant_reaction = ParticipantReaction.new
-
   end
 
   # GET /outings/new
@@ -84,7 +83,7 @@ class OutingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
@@ -134,7 +133,6 @@ class OutingsController < ApplicationController
       format.json { head :no_content }
     end
   end
-
 
   private
 

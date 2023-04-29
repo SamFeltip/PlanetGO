@@ -7,7 +7,6 @@ class PagesController < ApplicationController
   def landing; end
 
   def account
-
     unless user_signed_in?
       redirect_to '/welcome'
       return
@@ -29,6 +28,5 @@ class PagesController < ApplicationController
     @end_day_collection = { 'Monday' => 0, 'Tuesday' => 1, 'Wednesday' => 2, 'Thursday' => 3, 'Friday' => 4, 'Saturday' => 5, 'Sunday' => 6, 'Mon-next' => 7 }
     @hour_collection = (0..23)
     @minute_collection = (0..59).step(15)
-
   end
 end

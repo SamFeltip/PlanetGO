@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ProposedEventDecorator < ApplicationDecorator
   delegate_all
 
@@ -13,17 +15,12 @@ class ProposedEventDecorator < ApplicationDecorator
   def proposed_datetime(compact: true)
     return 'No time selected' if object.proposed_datetime.nil?
 
-    if compact
-      return object.proposed_datetime.strftime('%b %d, %I:%M')
-    else
-      object.proposed_datetime.strftime('%A %B %d, at %I:%M %p')
-    end
+    return object.proposed_datetime.strftime('%b %d, %I:%M') if compact
+
+    object.proposed_datetime.strftime('%A %B %d, at %I:%M %p')
   end
 
   def vote_likes
     "#{participant_reactions.where(reaction: 'like').count} votes"
   end
-
 end
-
-
