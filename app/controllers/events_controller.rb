@@ -26,8 +26,7 @@ class EventsController < ApplicationController
     return unless current_user.commercial
 
     # Re-organise events page according to user interests
-    @interest_order = params['interest_order']
-    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse! if @interest_order == '1'
+    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse!
   end
 
   # GET /events/1 or /events/1.json

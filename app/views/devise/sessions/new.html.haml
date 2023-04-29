@@ -1,7 +1,8 @@
 .row.justify-content-center
   .col-sm-8.col-lg-6
-    %h1 Log in
     .card
+      .card-header
+        %h1 Log in
       .card-body
         = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
           .form-inputs

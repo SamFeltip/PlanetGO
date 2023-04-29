@@ -59,6 +59,10 @@ class Category < ApplicationRecord
     "##{red}#{green}#{blue}"
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def add_users

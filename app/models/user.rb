@@ -145,7 +145,7 @@ class User < ApplicationRecord
     event_list = Event.where(id: EventReact.select(:event_id).where(user_id: id))
 
     # filter out all events in the outing, if it exists
-    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)) if outing
+    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)).limit(3) if outing
 
     event_list
   end

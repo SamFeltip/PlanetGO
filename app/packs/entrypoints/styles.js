@@ -7,6 +7,6 @@ import '../styles/layout';
 import "../styles/event-cards";
 import "../styles/outing-cards";
 
-import '../styles/events';
+// import '../styles/events';
 
 import '../styles/jquery-jvectormap-2.0.5';

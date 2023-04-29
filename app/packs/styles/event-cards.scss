@@ -1,25 +1,20 @@
-.event-card {
-  //margin: 0 15px 2rem;
-}
+@import "variables";
 
 .event-card-image {
   height: 100%;
-  //max-height: var(--event-card-height);
-  max-height: 156px;
+  max-height: $event-card-height;
 }
+
 
 .event-card-body {
   padding: 10px;
-  //width: 100%;
-  max-height: 156px;
-  //max-height: var(--event-card-height);
+  max-height: $event-card-height;
   overflow: hidden;
 }
 
 .event-card-header {
   // keeps long event names from pushing the description under the bottom of the card
-  // height: calc(var(--h2-font-size + 0.5rem))
-  height: calc(1.25rem + 0.5rem);
+  height: calc($h2-font-size + 0.5rem);
   overflow: hidden;
 }
 

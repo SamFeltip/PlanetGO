@@ -9,7 +9,9 @@
       %h2 #{@outing.participants.count} Going
     .card-body
       #going.horizontal-scroll
-        = render 'users/user_list', users: @outing.users
+
+        - @outing.users.each do |user|
+          = render 'users/user_icon', user: user
 
       - if current_user == @outing.creator || current_user.admin?
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}

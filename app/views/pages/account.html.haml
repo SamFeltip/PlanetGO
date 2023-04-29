@@ -2,91 +2,109 @@
 - additional_javascript('account')
 - additional_stylesheet('account')
 
-#account
-  .card
-    .card-body.d-flex.justify-content-between.align-items-center
-      .user
-        = render 'friends/user', user: current_user
+.card
+  .card-body.d-flex.justify-content-between.align-items-center
+    .user
+      = render 'friends/user', user: current_user
 
-      .action-buttons.d-flex
-        = link_to category_interests_path, class: 'btn btn-outline-primary p-2 me-2' do
-          %i.bi-pencil-square
-          Edit Event Category Interests
-
-        = link_to edit_user_registration_path, class: 'btn btn-outline-primary p-2 me-2' do
-          %i.bi-pencil-square
-          .d-none.d-sm-inline-flex
-            Edit
-        = link_to destroy_user_session_path, class: 'btn btn-outline-primary p-2', method: :delete do
-          %i.bi-box-arrow-right
-          .d-none.d-sm-inline-flex
-            Sign out
-
-  .card
-    .card-header
-      %h1 Friends
-    .card-body
-      .horizontal-scroll
-        - if @friends.present?
-          = render 'users/user_list', users: @friends[0..4]
-        - else
-          %p You have no friends yet.
-    .card-footer
-      = link_to friends_path, class: 'd-flex justify-content-end' do
-        .pe-2
-          More
-        %i.bi-arrow-right-circle
+    .action-buttons.d-flex
+      = link_to edit_user_registration_path, class: 'btn btn-outline-primary p-2 me-2' do
+        %i.bi-pencil-square
+        .d-none.d-sm-inline-flex
+          Edit
+      = link_to destroy_user_session_path, class: 'btn btn-outline-primary p-2', method: :delete do
+        %i.bi-box-arrow-right
+        .d-none.d-sm-inline-flex
+          Sign out
 
 
 
-  .events-and-outings.row
-    .outings.col-lg-6.mb-4
-      .card.h-100
-        .card-header
-          %h1 My outings
-        .card-body
-          .d-flex.justify-content-end.pb-2
-            = link_to new_outing_path, class: 'btn btn-outline-primary' do
-              New Outing
-              %i.bi-plus-circle
 
-          #future_outings
-            - @future_outings.each do |outing|
-              .click-card[outing]
-                = render 'outings/outing_card', outing: outing
-
-          #past_outings.py-3
-            - if @past_outings.empty?
-              %p Plan some outings and see them here!
-            - else
-              %h2 Previous
-            - @past_outings.each do |outing|
-              .click-card[outing]
-                = render 'outings/outing_card', outing: outing
-
-        .card-footer
-          = link_to outings_path, class: 'd-flex justify-content-end' do
-            .pe-2
-              More
-            %i.bi-arrow-right-circle
-
-    .events.col-lg-6.mb-4
-      .card.h-100
-        .card-header
-          %h1 Liked Events
-        .card-body
-          #liked_events
-            - @liked_events[0..2].each do |event|
-              .click-card[event]
-                = render 'events/event_card', event: event
+.card
+  .card-header
+    %h1 Friends
+  .card-body
+    .horizontal-scroll
+      - if @friends.present?
+        - @friends.each do |user|
+          = render 'users/user_icon', user: user
+      - else
+        %p You have no friends yet.
+  .card-footer
+    = link_to friends_path, class: 'd-flex justify-content-end' do
+      .pe-2
+        More
+      %i.bi-arrow-right-circle
 
 
-        .card-footer
-          = link_to events_path, class: 'd-flex justify-content-end' do
-            .pe-2
-              More
-            %i.bi-arrow-right-circle
 
-  =render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
+.events-and-outings.row
+  .outings.col-lg-6.mb-4
+    .card.h-100
+      .card-header
+        %h1 My outings
+      .card-body
+        .d-flex.justify-content-end.pb-2
+          = link_to new_outing_path, class: 'btn btn-outline-primary' do
+            New Outing
+            %i.bi-plus-circle
+
+        #future_outings
+          - @future_outings.each do |outing|
+            .click-card[outing]
+              = render 'outings/outing_card', outing: outing
+
+        #past_outings.py-3
+          - if @past_outings.empty?
+            %p Plan some outings and see them here!
+          - else
+            %h2 Previous
+          - @past_outings.each do |outing|
+            .click-card[outing]
+              = render 'outings/outing_card', outing: outing
+
+      .card-footer
+        = link_to outings_path, class: 'd-flex justify-content-end' do
+          .pe-2
+            More
+          %i.bi-arrow-right-circle
+
+  .events.col-lg-6.mb-4
+    .card.h-100
+      .card-header
+        %h1 Liked Events
+      .card-body
+        #liked_events
+          - @liked_events[0..2].each do |event|
+            .click-card[event]
+              = render 'events/event_card', event: event
+
+
+      .card-footer
+        = link_to events_path, class: 'd-flex justify-content-end' do
+          .pe-2
+            More
+          %i.bi-arrow-right-circle
+
+
+.card
+  .card-header
+    %h1 My Categories
+  .card-body
+    .horizontal-scroll
+      - if @categories.present?
+        - @categories.each do |category|
+          = render 'categories/category_icon', category: category
+      - else
+        %p You have no categories yet.
+  .card-footer
+    = link_to category_interests_path, class: 'd-flex justify-content-end' do
+      .pe-2
+        More
+      %i.bi-arrow-right-circle
+
+
+
+=render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
         
 -##past_outings= render "outing", collection: @outings_past

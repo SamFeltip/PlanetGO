@@ -39,7 +39,9 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def likes(current_user: nil, compressed: false, current_user_liked: false)
+  # returns a string describing who has liked this event and how many people there are,
+  # using the current user to include friends names if they have liked it
+  def likes(current_user, compressed: false, current_user_liked: false)
     # get all like objects for this event
     event_likes = object.likes
 

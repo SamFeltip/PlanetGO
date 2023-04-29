@@ -1,3 +1,5 @@
+@import "variables";
+
 html {
   min-height: 100%;
 }
@@ -26,6 +28,7 @@ body {
   --bs-alert-border-radius: 0;
 }
 
+// reset reboot
 .card-header h2 {
   margin: 0.5rem 0;
 }
@@ -147,9 +150,10 @@ a {
 
 .card {
   margin-bottom: 2rem;
-  box-shadow: var(--bs-card-box-shadow);
+  box-shadow: $card-box-shadow;
   overflow: hidden;
 }
+
 
 
 #navbar-content {
@@ -178,22 +182,9 @@ a {
 
 }
 
-//$card-bottom: 10px;
-//$card-height: 175px;
-
-
-// fix the recommended-events div to only show 3 event cards
-// TODO: use CSS variables instead of fixed heights
 #recommended-events {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-
-  //max-height: calc((156px + 55px + 10px) * 3);
-  max-height: calc((var(--bs-event-card-height) + var(--event-card-bottom) + var(--bs-event-card-padding)) * 3 + 5px);
-
-  //margin-bottom: var(--bs-event-card-bottom);
-  margin-bottom: 10px;
 }
 
 .underline {
@@ -340,14 +331,6 @@ a {
 // large screens
 @media (min-width: 992px) {
 
-  // let the card show 5 events on large screens
-  #recommended-events {
-    max-height: calc((156px + 55px + 10px) * 5 + 5px);
-    //max-height: calc((var(--event-card-height) + var(--event-card-bottom) + var(--event-card-padding)) * 5 + 5px);
-
-  }
-
-
   // horizontal scrolling cards
   .horizontal-scroll > a {
     transform: translateX(0%);
@@ -356,7 +339,6 @@ a {
 
   .horizontal-scroll > :first-child {
     margin-left: 0;
-    //transition: 0.5s ease;
   }
 
   .horizontal-card {
@@ -417,9 +399,4 @@ a {
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
-}
-
-.avatar-text{
-  //color: var(--bs-primary);
-  //color: #8C304D;
 }

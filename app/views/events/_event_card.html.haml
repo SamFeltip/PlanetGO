@@ -23,9 +23,9 @@
       %a{href: event_path(event)}
         %i{:class => event.decorate.like_icon(current_user.liked(event))}
           .d-inline.d-md-none
-            = event.decorate.likes(current_user: current_user, current_user_liked: current_user.liked(event), compressed: true)
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
           .d-none.d-md-inline
-            = event.decorate.likes(current_user: current_user, current_user_liked: current_user.liked(event), compressed: false)
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
 
   - if defined?(render_params) && render_params[:add_event_to_outing]
 
