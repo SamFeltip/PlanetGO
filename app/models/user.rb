@@ -16,7 +16,10 @@
 #  full_name              :string           not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  latitude               :float
 #  locked_at              :datetime
+#  longitude              :float
+#  postcode               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -31,6 +34,8 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_latitude              (latitude)
+#  index_users_on_longitude             (longitude)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
@@ -41,9 +46,14 @@ class User < ApplicationRecord
   has_many :categories, through: :category_interests
   has_many :availabilities, dependent: :destroy
 
+  validates :postcode, length: { maximum: 8 }, allow_blank: true, format: { with: /\A([A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}|GIR ?0A{2})\z/ }
+
+  after_validation :geocode, if: ->(obj) { obj.postcode.present? and obj.postcode_changed? }
   after_create :add_categories
   acts_as_voter
   followability
+
+  geocoded_by :postcode
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :secure_validatable,

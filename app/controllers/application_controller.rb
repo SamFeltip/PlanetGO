@@ -30,12 +30,12 @@ class ApplicationController < ActionController::Base
 
   # Appending parameters to the devise sanitizer.
   def configure_sign_up_params
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:full_name])
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[full_name postcode])
   end
 
   # Appending parameters to the devise sanitizer.
   def configure_account_update_params
-    devise_parameter_sanitizer.permit(:account_update, keys: [:full_name])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[full_name postcode])
   end
 
   private

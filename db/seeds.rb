@@ -59,7 +59,8 @@ user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
                    password: default_password,
-                   full_name: 'Anna Hudson'
+                   full_name: 'Anna Hudson',
+                   postcode: 'S3 7RS'
                  )
 
 print '.'
@@ -67,7 +68,8 @@ user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
                    password: default_password,
-                   full_name: 'Jamie Lindsey'
+                   full_name: 'Jamie Lindsey',
+                   postcode: 'S3 8RA'
                  )
 
 print '.'
@@ -75,7 +77,8 @@ user_user3 = User.where(email: 'user3@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
                    password: default_password,
-                   full_name: 'Mason Mccoy'
+                   full_name: 'Mason Mccoy',
+                   postcode: 'S3 7PN'
                  )
 
 print '.'
@@ -83,9 +86,9 @@ user_user4 = User.where(email: 'user4@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
                    password: default_password,
-                   full_name: 'Angelina Bevon'
+                   full_name: 'Angelina Bevon',
+                   postcode: 'WC2B 4PA'
                  )
-
 
 print '.'
 user_emails = ['user5@gmail.com','user6@gmail.com','user7@gmail.com','user8@gmail.com','user9@gmail.com','user10@gmail.com','user11@gmail.com','user12@gmail.com']
@@ -397,6 +400,98 @@ event_17 = Event.where(
   category_id:category_bar.id,
   approved:true
 ).first_or_create
+
+print '.'
+event_18 = Event.where(
+  user_id: user_advertiser2.id,
+  name: "Taste of India pop-up restaurant",
+  address_line1: '71 High Street',
+  town: 'Birmingham',
+  postcode: 'B17 9NS',
+  latitude: 52.4581445,
+  longitude: -1.9795945,
+  description: "Come and experience the flavours of India at our pop-up restaurant. Our talented chefs have created a delicious menu featuring a range of traditional dishes and modern twists. Start with our spicy samosas or tangy chaat, before moving on to our rich curries and biryanis. And don't forget to leave room for our decadent desserts! Our pop-up is only open for a limited time, so book your table now to avoid disappointment.",
+  category_id: category_2.id,
+  time_of_event: 14.days.from_now,
+  approved: true
+).first_or_create
+
+print '.'
+event_19 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "The Phantom of the Opera",
+  address_line1: 'Shaftesbury Avenue',
+  town: 'London',
+  postcode: 'W1D 7EZ',
+  latitude: 51.5132894,
+  longitude: -0.1319312,
+  description: "Experience the magic of The Phantom of the Opera at Her Majesty's Theatre. This timeless musical tells the story of a mysterious figure who haunts the Paris Opera House, and the young soprano who becomes his obsession. Featuring unforgettable songs such as 'Music of the Night' and 'All I Ask of You', this production has been wowing audiences for over 30 years. Don't miss your chance to see it live!",
+  category_id: category_3.id,
+  time_of_event: 21.days.from_now,
+  approved: true
+).first_or_create
+
+print '.'
+event_20 = Event.where(
+  user_id: user_advertiser2.id,
+  name: "Summer Music Festival",
+  address_line1: 'Victoria Park',
+  town: 'Leicester',
+  postcode: 'LE1 7RY',
+  latitude: 52.636847,
+  longitude: -1.141858,
+  description: "Get ready for a day of fantastic live music at the Summer Music Festival! Featuring some of the UK's best up-and-coming artists, as well as established favourites, this festival promises to be a day to remember. Enjoy the sunshine (fingers crossed!) with a cold drink in hand, and let the music transport you to another world. With food stalls, crafts and activities for all ages, this is a perfect family day out.",
+  category_id: category_4.id,
+  time_of_event: 35.days.from_now,
+  approved: true
+).first_or_create
+
+print '.'
+event_21 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Six Nations Rugby: Scotland vs Wales",
+  address_line1: 'Murrayfield Stadium',
+  town: 'Edinburgh',
+  postcode: 'EH12 5PJ',
+  latitude: 55.942137,
+  longitude: -3.240835,
+  description: "Get ready for an electrifying match as Scotland take on Wales in the Six Nations rugby tournament. Watch as two of the sport's top teams battle it out on the field, with tackles, tries and all the excitement you could want. With a buzzing atmosphere in the stands, and food and drink available to keep you fuelled, this is a must-see event for all rugby fans.",
+  category_id: category_5.id,
+  time_of_event: 42.days.from_now,
+  approved: true
+).first_or_create
+
+print '.'
+event_22 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "Comedy Night at The Stand",
+  address_line1: '31 High Bridge',
+  town: 'Newcastle upon Tyne',
+  postcode: 'NE1 1EW',
+  latitude: 54.9698657,
+  longitude: -1.6108123,
+  description: "Get ready to laugh until your sides ache at The Stand comedy club. Featuring some of the funniest comedians on the UK circuit, this is the perfect way to let off steam and have a good time. With a fully stocked bar and delicious snacks available, settle in for an evening of hilarity that you won't forget anytime soon.",
+  category_id: category_1.id,
+  time_of_event: 28.days.from_now,
+  approved: true
+).first_or_create
+
+
+print '.'
+event_23 = Event.where(
+  user_id: user_advertiser1.id,
+  name: "The Golden Lion Pub Quiz",
+  address_line1: '36 York Street',
+  town: 'Norwich',
+  postcode: 'NR2 2DU',
+  latitude: 52.6266995,
+  longitude: 1.2927062,
+  description: "Come along to The Golden Lion pub and join in our weekly quiz. Test your knowledge with our fun and challenging questions, while enjoying a pint of our locally brewed beer. Our quiz is free to enter, and the winning team receives a £50 bar tab. Plus, we have plenty of other prizes up for grabs throughout the night. So gather your friends and come along for a great evening of fun and games!",
+  category_id: category_1.id,
+  time_of_event: 10.days.from_now,
+  approved: true
+).first_or_create
+
 
 random_event_and_user_pairs = [
   [1, 1],

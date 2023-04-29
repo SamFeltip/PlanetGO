@@ -16,7 +16,10 @@
 #  full_name              :string           not null
 #  last_sign_in_at        :datetime
 #  last_sign_in_ip        :string
+#  latitude               :float
 #  locked_at              :datetime
+#  longitude              :float
+#  postcode               :string
 #  remember_created_at    :datetime
 #  reset_password_sent_at :datetime
 #  reset_password_token   :string
@@ -31,6 +34,8 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
+#  index_users_on_latitude              (latitude)
+#  index_users_on_longitude             (longitude)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 require 'rails_helper'
