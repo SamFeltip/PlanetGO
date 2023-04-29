@@ -418,8 +418,10 @@ outing5 = Outing.where(
   creator_id: user_user3.id
 ).first_or_create
 
+each_outing = [outing1, outing2, outing3, outing4, outing5]
+
 # create participants for every creator of every outing
-[outing1, outing2, outing3, outing4, outing5].each do |outing|
+each_outing.each do |outing|
   Participant.where(
     user_id: outing.creator_id,
     outing_id: outing.id,
@@ -499,7 +501,47 @@ participant_zips.each do |user_id, outing|
 end
 
 puts ''
-print 'printing metrics'
+print 'making participant reactions'
+each_outing.each do |outing|
+  participants = outing.participants
+
+  first_event_interest = (participants.count * 0.8).floor
+  second_event_interest = (participants.count * 0.5).floor
+  third_event_interest = (participants.count * 0.4).floor
+
+  participants.limit(first_event_interest).each_with_index do |participant, index|
+    print '.'
+    # 80% of participants will vote for the first event
+    ParticipantReaction.where(
+      participant_id: participant.id,
+      proposed_event: outing.proposed_events.first,
+      reaction: 0
+    ).first_or_create
+
+    # 50% of participants will vote for the second event
+    if index < second_event_interest
+      print '.'
+      ParticipantReaction.where(
+        participant_id: participant.id,
+        proposed_event: outing.proposed_events.second,
+        reaction: 0
+      ).first_or_create
+    end
+
+    # 40% of participants will vote for the third event
+    if index < third_event_interest
+      print '.'
+      ParticipantReaction.where(
+        participant_id: participant.id,
+        proposed_event: outing.proposed_events.third,
+        reaction: 0
+      ).first_or_create
+    end
+  end
+end
+
+puts ''
+print 'making metrics'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,

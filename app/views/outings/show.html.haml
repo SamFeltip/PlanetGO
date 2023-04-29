@@ -18,9 +18,13 @@
           %i.bi-plus-circle
             Invite More
   .card
-    .card-header
+    .card-header.d-flex.justify-content-between
       %h2
         Timetable
+
+      = form_tag stop_count_outing_path(@outing), method: :post do
+        = submit_tag 'Stop the count!', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
+
     .card-body
       #content-where
 

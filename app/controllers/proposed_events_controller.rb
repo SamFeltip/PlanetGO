@@ -52,7 +52,6 @@ class ProposedEventsController < ApplicationController
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
         format.js
-
         format.html do
           redirect_to proposed_event_url(@proposed_event)
         end

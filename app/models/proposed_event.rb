@@ -28,10 +28,16 @@ class ProposedEvent < ApplicationRecord
 
   has_many :participant_reactions, dependent: :destroy
 
+  scope :failed_vote, -> { select(&:failed_vote) }
+
   def reacted(participant, reaction)
     ParticipantReaction.exists?(participant_id: participant.id,
                                 proposed_event_id: id,
                                 reaction:)
+  end
+
+  def failed_vote
+    participant_reactions.where(reaction: 0).count < (outing.participants.count / 2)
   end
 
 end

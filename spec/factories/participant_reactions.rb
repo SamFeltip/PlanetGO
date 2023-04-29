@@ -23,6 +23,6 @@ FactoryBot.define do
   factory :participant_reaction do
     participant { nil }
     proposed_event { nil }
-    reaction { 1 }
+    reaction { 0 }
   end
 end

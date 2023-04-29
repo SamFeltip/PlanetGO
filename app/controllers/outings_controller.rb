@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :set_outing, only: %i[show edit update destroy set_details stop_count]
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -74,6 +74,17 @@ class OutingsController < ApplicationController
     end
   end
 
+  def stop_count
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
+    @failed_proposed_events.each(&:destroy)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
+      format.json { head :no_content }
+    end
+  end
+  
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
@@ -123,6 +134,7 @@ class OutingsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
 
   private
 

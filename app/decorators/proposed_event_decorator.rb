@@ -21,7 +21,7 @@ class ProposedEventDecorator < ApplicationDecorator
   end
 
   def vote_likes
-    "#{participant_reactions.where(reaction: 'like').count} votes for"
+    "#{participant_reactions.where(reaction: 'like').count} votes"
   end
 
 end
