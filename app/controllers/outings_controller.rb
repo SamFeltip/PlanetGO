@@ -42,6 +42,7 @@ class OutingsController < ApplicationController
 
     @positions = %w[who when where]
 
+    # for proposed event cards
     @participant = Participant.where(outing_id: @outing.id, user_id: current_user.id).first
     @participant_reaction = ParticipantReaction.new
   end

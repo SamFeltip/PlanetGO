@@ -51,6 +51,7 @@ class ParticipantReactionsController < ApplicationController
   def update
     respond_to do |format|
       if @participant_reaction.update(participant_reaction_params)
+        format.js
         format.html { redirect_to participant_reaction_url(@participant_reaction), notice: "Participant reaction was successfully updated." }
         format.json { render :show, status: :ok, location: @participant_reaction }
       else
@@ -62,6 +63,7 @@ class ParticipantReactionsController < ApplicationController
 
   # DELETE /participant_reactions/1 or /participant_reactions/1.json
   def destroy
+    @proposed_event = @participant_reaction.proposed_event
     @participant_reaction.destroy
 
     respond_to do |format|

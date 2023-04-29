@@ -71,14 +71,6 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def vote_likes
-    "3 likes"
-  end
-
-  def vote_dislikes
-    "5 dislikes"
-  end
-
 
   def approved_icon
     if object.approved.nil?

@@ -1,17 +1,14 @@
 var proposed_event_card = $('#proposed_event_#{@proposed_event.id}');
-
 var voteLike = proposed_event_card.find('#vote-like');
-var voteDislike = proposed_event_card.find('#vote-dislike');
+var voteLikeCount = proposed_event_card.find('#vote-like-count');
+var voteButton = proposed_event_card.find('#vote-button');
+
+voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
 
 - if @participant_reaction.reaction == 'like'
+  voteLike.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');
+  voteButton.attr('value', 'dislike');
 
-  voteDislike.removeClass('btn-danger').addClass('btn-outline-danger');
-  voteLike.removeClass('btn-outline-primary').addClass('btn-primary');
-
--elsif @participant_reaction.reaction == 'dislike'
-
-  voteDislike.removeClass('btn-outline-danger').addClass('btn-danger');
-  voteLike.removeClass('btn-primary').addClass('btn-outline-primary');
-
-
--# replace class btn-primary-outline with btn-primary
+- else
+  voteButton.attr('value', 'like');
+  voteLike.removeClass('bi-hand-thumbs-up-fill').addClass('bi-hand-thumbs-up');

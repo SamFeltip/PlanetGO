@@ -68,6 +68,13 @@ grid-area: location;
   padding: 0 var(--bs-gutter-x)
 }
 
+.proposed-event-set-datetime {
+  display: grid;
+  grid-template-columns: auto 100px;
+  grid-column-gap: 10px;
+}
+
+
 // large screens
 @media (min-width: 992px) {
 

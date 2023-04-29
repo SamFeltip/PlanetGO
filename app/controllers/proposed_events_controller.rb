@@ -26,6 +26,8 @@ class ProposedEventsController < ApplicationController
     @event = @proposed_event.event
     @outing = @proposed_event.outing
 
+    @proposed_event.proposed_datetime = @event.time_of_event
+
     # for proposed event cards
     @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
     @participant_reaction = ParticipantReaction.new
@@ -49,6 +51,8 @@ class ProposedEventsController < ApplicationController
   def update
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
+        format.js
+
         format.html do
           redirect_to proposed_event_url(@proposed_event)
         end
