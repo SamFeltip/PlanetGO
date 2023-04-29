@@ -57,7 +57,7 @@ class Event < ApplicationRecord
   validates :category_id, presence: true # rubocop:disable Rails/RedundantPresenceValidationOnBelongsTo
 
   geocoded_by :address
-  after_validation :geocode
+  after_validation :geocode, if: ->(obj) { %i[address_line1 address_line2 town postcode].any? { |attr| obj.public_send("#{attr}_changed?") } }
 
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])

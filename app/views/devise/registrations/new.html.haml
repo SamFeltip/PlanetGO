@@ -9,9 +9,10 @@
           .form-inputs
             = f.input :full_name, required: true, wrapper_html: { class: "pb-3" } |
             = f.input :email, required: true, autofocus: true, input_html: { value: params[:email], autocomplete: "email"}, wrapper_html: { class: "pb-3" }
+            = f.input :postcode, autofocus: true, wrapper_html: { class: "pb-3" }
             = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length), input_html: { autocomplete: "new-password" }, wrapper_html: { class: "pb-3" }                                                       |
             = f.input :password_confirmation, required: true, input_html: { autocomplete: "new-password" }, wrapper_html: { class: "pb-3" }
           .form-actions
-            = f.button :submit, "Sign up", class: "btn btn-dark my-4"
+            = f.button :submit, "Sign up", class: "btn btn-dark"
       .card-footer
         = render "devise/shared/links"

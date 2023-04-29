@@ -474,7 +474,6 @@ RSpec.describe 'Events' do
         end
 
         specify 'the events belonging to this category are push to the top' do
-          check('Prioritise events according to your interests?')
           click_on 'Search'
           # Expect first item shown on page to be the rubbish music event
           expect(page.find('#events > div:nth-child(1)')).to have_content 'a rubbish event'
