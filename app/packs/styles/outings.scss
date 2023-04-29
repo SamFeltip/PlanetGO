@@ -1,0 +1,124 @@
+#outing-body {
+  margin-bottom: 100px;
+}
+
+#outing-footer {
+  background-color: white;
+  // attached to the bottom of the page, has a line above it
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #dee2e6;
+  padding: 20px;
+  margin-top: 20px;
+
+}
+
+#outing-nav {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+  justify-content: space-around;
+}
+
+
+.outing-nav-item {
+  width: 33%;
+  padding: 5px 0;
+}
+
+#content-where {
+  flex-direction: column;
+}
+
+#content-who {
+  display: block;
+}
+
+
+
+#content-who,
+#content-where,
+#where-sidebar,
+#where-body,
+#content-who-and-when {
+  width: 100%;
+}
+
+#content-who #friend-search-form,
+#content-where #event-search-form {
+  display: flex;
+  justify-content: space-between;
+}
+
+#content-who #search,
+#content-where #search {
+  width: 99%;
+  margin-right: 10px;
+}
+
+#content-who #outing-share {
+  margin: 10px 0;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+
+
+#content-who #outing-share .dropdown {
+  margin-left: 10px;
+}
+
+
+#not_invited_friends .card-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+#content-who #send-invite-button {
+  display: flex;
+  justify-content: end;
+  margin-bottom: 10px;
+}
+
+#outing-body .card {
+  margin-bottom: 10px;
+}
+
+
+// large screens
+@media (min-width: 992px) {
+
+  // let the card show 5 events on large screens
+  #recommended-events {
+    max-height: calc((156px + 55px + 10px) * 5);
+  }
+
+  #content-who, #where-sidebar {
+    width: 30%;
+    min-width: 400px;
+    max-width: 450px;
+    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
+  }
+
+  #content-when, #where-body {
+    width: 70%;
+  }
+
+  #content-who, #content-when, #where-sidebar, #where-body {
+    padding: 10px;
+  }
+}
+
+// ******* show **********
+#find-more-events {
+  border: black 1px solid;
+  border-radius: 5px;
+  width: 200px;
+}
+

@@ -1,34 +1,45 @@
 .outing-header
-  .content
-    .row
-      %h1
-        = outing.name
-    .row
-      .col-1
-        %i.bi-calendar
-      .col
-        - if outing.date
-          %h2
-            = outing.date
+  .content.pb-2
+    .outing-banner
+      .d-flex.justify-content-between
+        %h1
+          = outing.name
+    .outing-details
+      .row
+        .col-1
+          %i.bi-calendar
+        .col
+          - if outing.date
+            %h2
+              = outing.date
+          - else
+            %h2
+              Date TBD
+
+      .row
+        .col-1
+          %i.bi-pin
+        .col
+          - if outing.events.count > 0
+            %h2
+              Location is...
+          - else
+            %h2
+              Starting Location TBD
+      .row
+        - if outing.description && outing.description != ''
+          %p= outing.description
         - else
-          %h2
-            Date TBD
+          %p No Description
 
-    .row
-      .col-1
-        %i.bi-pin
-      .col
-        - if outing.events.count > 0
-          %h2
-            Location is...
-        - else
-          %h2
-            Starting Location TBD
+  -# if action buttons are included in the header, and the current user either created this outing or is admin
+  - if defined?(action_buttons) && action_buttons && (current_user == outing.creator || current_user.admin?)
+    .action-buttons.d-flex.justify-content-end.py-2.overline
+      = link_to edit_outing_path(outing), class: 'btn btn-outline-secondary' do
+        %i.bi-gear
 
-    %p= outing.description
-
-  - if nav
-    #outing-nav
+  - if defined?(nav) && nav
+    #outing-nav.d-lg-none
       .outing-nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
         %a#outing-nav-who-link.black{:href => set_details_outing_path(outing, position: 'who')} Who?
       .outing-nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
