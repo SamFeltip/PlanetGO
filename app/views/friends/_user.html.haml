@@ -1,2 +1,4 @@
 .initial-avatar.d-inline-flex= user.initials
-.avatar-text.d-inline.mx-2= user.full_name
+.avatar-text.d-inline.mx-2
+  %b
+    = user.full_name

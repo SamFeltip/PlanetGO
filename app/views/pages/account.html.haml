@@ -17,24 +17,6 @@
         .d-none.d-sm-inline-flex
           Sign out
 
-    .card-body
-      %h2
-        = current_user.full_name
-      %p
-        = current_user.email
-      %p
-        = current_user.postcode
-
-    .card-footer
-      .d-flex.justify-content-end
-
-        = link_to destroy_user_session_path, class: 'nav-link btn btn-outline-secondary p-2', method: :delete do
-          %i.bi-box-arrow-right
-          Sign out
-
-
-
-
 .card
   .card-header
     %h1 Friends
