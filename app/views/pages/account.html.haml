@@ -10,11 +10,26 @@
     .action-buttons.d-flex
       = link_to edit_user_registration_path, class: 'btn btn-outline-primary p-2 me-2' do
         %i.bi-pencil-square
-        .d-none.d-sm-inline-flex
-          Edit
+          .d-none.d-sm-inline-flex
+            Edit
       = link_to destroy_user_session_path, class: 'btn btn-outline-primary p-2', method: :delete do
         %i.bi-box-arrow-right
         .d-none.d-sm-inline-flex
+          Sign out
+
+    .card-body
+      %h2
+        = current_user.full_name
+      %p
+        = current_user.email
+      %p
+        = current_user.postcode
+
+    .card-footer
+      .d-flex.justify-content-end
+
+        = link_to destroy_user_session_path, class: 'nav-link btn btn-outline-secondary p-2', method: :delete do
+          %i.bi-box-arrow-right
           Sign out
 
 
