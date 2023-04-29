@@ -1,15 +1,18 @@
 # frozen_string_literal: true
 
+
 default_password = 'SneakyPassword100'
 
 
-
+print 'creating users'
+print '.'
 user_admin1 = User.where(email: 'admin1@planetgo.com')
                   .first_or_create(
                     role: User.roles[:admin],
                     password: default_password,
                     full_name: 'Arielle Norman'
                   )
+print '.'
 
 user_admin2 = User.where(email: 'admin2@planetgo.com')
                   .first_or_create(
@@ -18,6 +21,7 @@ user_admin2 = User.where(email: 'admin2@planetgo.com')
                     full_name: 'Miguel Whitaker'
                   )
 
+print '.'
 user_advertiser1 = User.where(email: 'advertiser1@company.com')
                        .first_or_create(
                          role: User.roles[:advertiser],
@@ -25,6 +29,7 @@ user_advertiser1 = User.where(email: 'advertiser1@company.com')
                          full_name: 'Billy Adams'
                        )
 
+print '.'
 user_advertiser2 = User.where(email: 'advertiser2@company.com')
                        .first_or_create(
                          role: User.roles[:advertiser],
@@ -33,6 +38,7 @@ user_advertiser2 = User.where(email: 'advertiser2@company.com')
                        )
 
 
+print '.'
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
                   role: User.roles[:reporter],
@@ -40,6 +46,7 @@ user_rep1 = User.where(email: 'rep1@planetgo.com')
                   full_name: 'Houston Davila'
                 )
 
+print '.'
 user_rep2 = User.where(email: 'rep2@planetgo.com')
                 .first_or_create(
                   role: User.roles[:reporter],
@@ -47,6 +54,7 @@ user_rep2 = User.where(email: 'rep2@planetgo.com')
                   full_name: 'Lea Park'
                 )
 
+print '.'
 user_user1 = User.where(email: 'user1@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
@@ -54,6 +62,7 @@ user_user1 = User.where(email: 'user1@gmail.com')
                    full_name: 'Anna Hudson'
                  )
 
+print '.'
 user_user2 = User.where(email: 'user2@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
@@ -61,6 +70,7 @@ user_user2 = User.where(email: 'user2@gmail.com')
                    full_name: 'Jamie Lindsey'
                  )
 
+print '.'
 user_user3 = User.where(email: 'user3@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
@@ -68,6 +78,7 @@ user_user3 = User.where(email: 'user3@gmail.com')
                    full_name: 'Mason Mccoy'
                  )
 
+print '.'
 user_user4 = User.where(email: 'user4@gmail.com')
                  .first_or_create(
                    role: User.roles[:user],
@@ -75,9 +86,13 @@ user_user4 = User.where(email: 'user4@gmail.com')
                    full_name: 'Angelina Bevon'
                  )
 
+
+print '.'
 user_emails = ['user5@gmail.com','user6@gmail.com','user7@gmail.com','user8@gmail.com','user9@gmail.com','user10@gmail.com','user11@gmail.com','user12@gmail.com']
 user_list = []
 user_emails.each do |email|
+
+  print '.'
   user_list << (
     User.where(email: email)
       .first_or_create(
@@ -89,6 +104,7 @@ user_emails.each do |email|
 end
 
 def make_friend(user_sending, user_receiving)
+  print '.'
   user_sending.send_follow_request_to(user_receiving)
   user_receiving.accept_follow_request_of(user_sending)
 
@@ -96,6 +112,8 @@ def make_friend(user_sending, user_receiving)
   user_sending.accept_follow_request_of(user_receiving)
 end
 
+puts ''
+print 'creating friends'
 make_friend(user_user1, user_user2)
 make_friend(user_user1, user_user3)
 make_friend(user_user1, user_user4)
@@ -109,28 +127,37 @@ make_friend(user_user1, user_advertiser2)
 make_friend(user_user2, user_rep1)
 make_friend(user_user2, user_rep2)
 
+puts ''
+print 'creating categories.'
+
 category_bar = Category.first_or_create(
   name: 'Bar'
 )
-
+print '.'
 category_restaurant = Category.where(
   name: 'Restaurant'
 ).first_or_create
+print '.'
 
 category_theatre = Category.where(
   name: 'Theatre'
 ).first_or_create
+print '.'
 
 category_music = Category.where(
   name: 'Music'
 ).first_or_create
+print '.'
 
 category_sports = Category.where(
   name: 'Sports'
 ).first_or_create
 
-event_list = []
 
+
+event_list = []
+puts ''
+print 'creating events.'
 event_1 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pizza cooking class",
@@ -144,6 +171,7 @@ event_1 = Event.where(
   time_of_event: 7.days.from_now
 ).first_or_create
 
+print '.'
 event_2 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pasta tasting",
@@ -157,6 +185,7 @@ event_2 = Event.where(
   time_of_event: 7.days.from_now
 ).first_or_create
 
+print '.'
 event_3 = Event.where(
   user_id: user_advertiser1.id,
   name: 'Pub Quiz',
@@ -171,6 +200,7 @@ event_3 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_4 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Half Price Wednesdays',
@@ -184,6 +214,7 @@ event_4 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_5 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Quiz night',
@@ -198,6 +229,8 @@ event_5 = Event.where(
   approved: true
 ).first_or_create
 
+
+print '.'
 event_6 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Andrews Bar',
@@ -211,6 +244,7 @@ event_6 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_7 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Bobs Comedy Club',
@@ -224,6 +258,7 @@ event_7 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_8 = Event.where(
   user_id: user_advertiser1.id,
   name: 'Tzatziki Tuesdays',
@@ -237,6 +272,7 @@ event_8 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_9 = Event.where(
   user_id: user_advertiser2.id,
   name: "Music Festival",
@@ -250,6 +286,7 @@ event_9 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_10 = Event.where(
   user_id: user_advertiser2.id,
   name: "Art Show",
@@ -263,6 +300,7 @@ event_10 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_11 = Event.where(
   user_id: user_advertiser2.id,
   name: "Food Festival",
@@ -276,6 +314,7 @@ event_11 = Event.where(
   approved: true
 ).first_or_create
 
+print '.'
 event_12 = Event.where(
   user_id: user_advertiser2.id,
   name: "Book Fair",
@@ -289,6 +328,7 @@ event_12 = Event.where(
   approved:true
 ).first_or_create
 
+print '.'
 event_13 = Event.where(
   user_id:user_advertiser2.id,
   name:"Film Festival",
@@ -302,6 +342,7 @@ event_13 = Event.where(
   approved:true
 ).first_or_create
 
+print '.'
 event_14 = Event.where(
   user_id:user_advertiser2.id,
   name:"Comedy Night",
@@ -315,6 +356,7 @@ event_14 = Event.where(
   approved:true
 ).first_or_create
 
+print '.'
 event_15 = Event.where(
   user_id:user_advertiser2.id,
   name:"Farmers Market",
@@ -328,6 +370,7 @@ event_15 = Event.where(
   approved:true
 ).first_or_create
 
+print '.'
 event_16 = Event.where(
   user_id:user_advertiser2.id,
   name:"Craft Fair",
@@ -341,6 +384,7 @@ event_16 = Event.where(
   approved:true
 ).first_or_create
 
+print '.'
 event_17 = Event.where(
   user_id:user_advertiser2.id,
   name:"Wine Tasting",
@@ -375,8 +419,11 @@ random_event_and_user_pairs = [
   [18,13]
 ]
 
-random_event_and_user_pairs.each do |pair|
+puts ''
+print 'Creating event reacts'
 
+random_event_and_user_pairs.each do |pair|
+  print '.'
     user_id = pair[0]
     event_id = pair[1]
 
@@ -387,39 +434,47 @@ random_event_and_user_pairs.each do |pair|
 
 end
 
-
+puts ''
+print 'Creating outings.'
 outing1 = Outing.where(
   name: 'Pizza Time',
   date: 1.week.from_now,
   creator_id: user_user1.id
 ).first_or_create
 
+print '.'
 outing2 = Outing.where(
   name: 'Hoover Convention',
   date: 2.weeks.from_now,
   creator_id: user_user1.id
 ).first_or_create
 
+print '.'
 outing3 = Outing.where(
   name: 'Bar Crawl',
   date: 1.week.ago,
   creator_id: user_user2.id
 ).first_or_create
 
+print '.'
 outing4 = Outing.where(
   name: 'Movie Night',
   date: 3.weeks.from_now,
   creator_id: user_user2.id
 ).first_or_create
 
+print '.'
 outing5 = Outing.where(
   name: 'Pub Quiz crawl',
   date: 2.weeks.from_now,
   creator_id: user_user3.id
 ).first_or_create
 
+puts ''
+print 'Creating participants.'
 # create participants for every creator of every outing
 [outing1, outing2, outing3, outing4, outing5].each do |outing|
+  print '.'
   Participant.where(
     user_id: outing.creator_id,
     outing_id: outing.id,
@@ -499,88 +554,104 @@ participant_zips.each do |user_id, outing|
 end
 
 puts ''
-print 'printing metrics'
+print 'printing metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_6 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 39.341952,
   longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_7 = Metric.where(
   time_enter: '2022-11-26 12:24:16', time_exit: '2022-11-26 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_8 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_9 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_10 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_11 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_12 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_13 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_14 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_15 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_16 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_17 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_18 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_19 = Metric.where(
   time_enter: '2022-11-27 12:24:17', time_exit: '2022-11-27 12:25:17', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_20 = Metric.where(
   time_enter: '2022-11-27 12:24:18', time_exit: '2022-11-27 12:25:18', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
 ).first_or_create
 
+print '.'
 metric_21 = Metric.where(
   time_enter: '2022-11-27 12:24:19', time_exit: '2022-11-27 12:25:19', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
