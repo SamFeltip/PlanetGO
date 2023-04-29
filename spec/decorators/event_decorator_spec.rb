@@ -11,7 +11,7 @@ RSpec.describe Event do
   describe '#likes' do
     context 'when there are no likes' do
       it 'returns 0 likes' do
-        expect(my_event.decorate.likes).to eq('0 likes')
+        expect(my_event.decorate.likes(other_user)).to eq('0 likes')
       end
     end
 
@@ -22,7 +22,7 @@ RSpec.describe Event do
 
       context 'when the user is the only user who has liked the event' do
         it 'returns me and 0 others' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 0 others')
+          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 0 others')
         end
       end
 
@@ -32,7 +32,7 @@ RSpec.describe Event do
         end
 
         it 'returns me and 1 other' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 1 other')
+          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 1 other')
         end
       end
 
@@ -43,7 +43,7 @@ RSpec.describe Event do
         end
 
         it 'returns me and 2 others' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 2 others')
+          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 2 others')
         end
       end
     end
@@ -58,7 +58,7 @@ RSpec.describe Event do
 
       context 'when no friends have liked' do
         it 'returns num of likes' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to eq('2 likes')
+          expect(my_event.decorate.likes(event_creator, current_user_liked: false)).to eq('2 likes')
         end
       end
 
@@ -75,7 +75,7 @@ RSpec.describe Event do
         end
 
         it 'returns a string including a friends name' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to include(other_user.full_name).or include(third_user.full_name)
+          expect(my_event.decorate.likes(event_creator)).to include(other_user.full_name).or include(third_user.full_name)
         end
       end
     end

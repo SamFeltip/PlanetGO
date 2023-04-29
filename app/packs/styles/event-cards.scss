@@ -1,0 +1,44 @@
+@import "variables";
+
+.event-card-image {
+  height: 100%;
+  max-height: $event-card-height;
+}
+
+
+.event-card-body {
+  padding: 10px;
+  max-height: $event-card-height;
+  overflow: hidden;
+}
+
+.event-card-header {
+  // keeps long event names from pushing the description under the bottom of the card
+  height: calc($h2-font-size + 0.5rem);
+  overflow: hidden;
+}
+
+.event-card-body .event-description {
+  // body-line-height * 2
+  max-height: 3rem;
+}
+
+.event-card-body .event-card-header {
+  font-weight: bold;
+}
+
+
+.event-card-body p {
+  margin-bottom: 0;
+}
+
+// ******************** small event cards **************************
+
+
+.event-card-small {
+  background-color: white;
+}
+
+.event-card-small .event-card-header {
+  height: 3.6em;
+}

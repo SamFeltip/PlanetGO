@@ -95,14 +95,14 @@ RSpec.describe 'Managing users', type: :request do
         expect(page).to have_content('Signed out successfully.')
       end
 
-      specify 'should take the user to the root path' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+      specify 'should take the user to the landing page' do
+        expect(page).to have_current_path('/welcome', ignore_query: true)
       end
     end
   end
 
   context 'when signed in as an administrator and there are users in the system' do
-    let!(:admin1) { create(:user, email: 'admin1@admin.com', role: 'admin') }
+    let!(:admin1) { create(:user, full_name: 'Greg H', email: 'admin1@admin.com', role: 'admin') }
 
     before do
       login_as admin1
@@ -147,10 +147,10 @@ RSpec.describe 'Managing users', type: :request do
     context 'when I am on the account management page' do
       before { visit '/users' }
 
-      let!(:el) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "admin1")]') }
+      let!(:el) { find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "Greg H")]') }
 
       specify 'I can see my account' do
-        expect(page).to have_content 'admin1@admin.com'
+        expect(page).to have_content 'Greg H'
       end
 
       specify 'There is no option to edit my account' do
@@ -175,7 +175,7 @@ RSpec.describe 'Managing users', type: :request do
 
       context 'when looking at a user' do
         before do
-          create(:user, email: 'user1@user.com')
+          create(:user, full_name: 'user1', email: 'user1@user.com')
           refresh
           @user_content = find(:xpath, '/html/body/main/div/div/table/tbody/tr[contains(., "user1")]')
         end
@@ -199,7 +199,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when the user is not suspended' do
-        let!(:user) { create(:user, email: 'user1@user.com') }
+        let!(:user) { create(:user, full_name: 'user1', email: 'user1@user.com') }
 
         before do
           refresh
@@ -215,7 +215,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when looking at a suspended account' do
-        let!(:user) { create(:user, email: 'user2@user.com', suspended: true) }
+        let!(:user) { create(:user, full_name: 'user2', email: 'user2@user.com', suspended: true) }
 
         before do
           refresh
@@ -231,7 +231,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when the user is not locked' do
-        let!(:user) { create(:user, email: 'user1@user.com') }
+        let!(:user) { create(:user, full_name: 'user1', email: 'user1@user.com') }
 
         before do
           refresh
@@ -246,7 +246,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when the user is locked' do
-        let!(:user) { create(:user, email: 'user2@user.com', suspended: true) }
+        let!(:user) { create(:user, full_name: 'user2', email: 'user2@user.com', suspended: true) }
 
         before do
           user.lock_access!({ send_instructions: false })
@@ -262,7 +262,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       context 'when looking at a non-commercial account' do
-        let!(:user) { create(:user, email: 'rep1@rep.com', role: 'reporter') }
+        let!(:user) { create(:user, full_name: 'rep1', email: 'rep1@rep.com', role: 'reporter') }
 
         before do
           refresh

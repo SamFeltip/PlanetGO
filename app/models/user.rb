@@ -67,7 +67,7 @@ class User < ApplicationRecord
   }
 
   def liked_events
-    Event.where(id: EventReact.select(:event_id).where(user_id: id))
+    Event.where(id: EventReact.select(:event_id).where(user_id: id)).where(approved: true)
   end
 
   def my_outings
@@ -106,13 +106,17 @@ class User < ApplicationRecord
     email.split('@')[0]
   end
 
+  def likes
+    EventReact.where(user_id: id, status: EventReact.statuses[:like])
+  end
+
   def liked(event)
-    EventReact.where(user_id: id, event_id: event.id, status: EventReact.statuses[:like]).count.positive?
+    !likes.where(event_id: event.id).empty?
   end
 
   def event_reaction(event)
     reactions = EventReact.where(user_id: id, event_id: event.id)
-    return unless reactions.length.positive?
+    return if reactions.empty?
 
     reactions.first.status
   end
@@ -151,7 +155,7 @@ class User < ApplicationRecord
     event_list = Event.where(id: EventReact.select(:event_id).where(user_id: id))
 
     # filter out all events in the outing, if it exists
-    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)) if outing
+    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)).limit(3) if outing
 
     event_list
   end

@@ -77,7 +77,7 @@ class Event < ApplicationRecord
 
   def image_path
     if category.image?
-      "event_images/#{Category.find(category_id).name.downcase}.png"
+      "event_images/#{category.name.downcase}.png"
     else
       'event_images/unknown.png'
     end
@@ -91,8 +91,8 @@ class Event < ApplicationRecord
     end
   end
 
-  def self.my_pending_events(user)
-    Event.where(user_id: user.id, approved: false).or(Event.where(user_id: user.id, approved: nil))
+  def self.my_events(user)
+    Event.where(user_id: user.id)
   end
 
   def self.other_users_pending_events(user)

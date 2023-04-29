@@ -1,0 +1,27 @@
+.card.outing-card[outing]
+  .card-body.d-flex.flex-row
+    .p-2
+      .initial-avatar.d-inline-flex= outing.user.initials
+    .outing-card-body.w-100
+      .outing-card-header.d-flex.flex-row.justify-content-between
+        %h2
+          %a.visit_outing.black{:href => outing_path(outing)}=outing.name
+        .action-buttons
+          - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
+            = link_to edit_outing_path(outing), class: 'btn btn-outline-primary btn-sm' do
+              %i.bi-pencil-square
+                .d-none.d-sm-inline
+                  Edit
+
+      %em.d-inline-flex.gray
+        %i.bi-calendar.pe-1
+        %p.pe-3
+          - if outing.date
+            = outing.date
+          - else
+            Date TBD
+        - if outing.events.count > 0
+          .d-none.d-sm-inline-flex
+            %i.bi-pin.pe-1
+            %p.pe-3
+              Location is...

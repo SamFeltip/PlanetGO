@@ -1,0 +1,60 @@
+.event-header .content {
+  position: absolute;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  color: white;
+  z-index: 9999;
+}
+
+.event-header {
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 170px;
+  top: -20px;
+  overflow: hidden;
+  position: relative;
+}
+
+#event-image {
+  width: 100%;
+
+  /* Add the blur effect
+   darken the image */
+  filter: blur(20px) brightness(50%);
+  -webkit-filter: blur(8px) brightness(50%);
+
+  transform: scale(150%) translateY(5%);
+}
+
+
+#event-info {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.search .search-fields{
+  display: grid;
+  gap: 0.7rem;
+  grid-template-columns: 2fr minmax(190px, 1fr) auto;
+
+  .description-content, .filter-content {
+    display: grid;
+    grid-template-columns: 25px auto;
+
+  }
+}
+
+// small screens (mobile)
+// TODO needs to include container-max-widths("sm")) from bootstrap
+@media (max-width: 540px) {
+  .search .search-fields{
+    grid-template-columns: 1fr;
+  }
+}

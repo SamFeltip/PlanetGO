@@ -63,22 +63,18 @@ RSpec.describe Event do
     end
   end
 
-  describe '#my_pending_events' do
+  describe '#my_events' do
     context 'with my events' do
       let!(:my_approved_event) { create(:event, approved: true, user_id: event_creator.id, category_id: category.id) }
 
-      it 'does not include my approved events' do
-        expect(described_class.my_pending_events(event_creator)).not_to include(my_approved_event)
-      end
-
-      it 'returns all my pending events' do
-        expect(described_class.my_pending_events(event_creator)).to include(my_event)
+      it 'returns all my events' do
+        expect(described_class.my_events(event_creator)).to include(my_event) and include(my_approved_event)
       end
     end
 
     context 'with other events' do
-      it 'does not include other pending events' do
-        expect(described_class.my_pending_events(event_creator)).not_to include(other_event)
+      it 'does not include other peoples events' do
+        expect(described_class.my_events(event_creator)).not_to include(other_event)
       end
     end
   end

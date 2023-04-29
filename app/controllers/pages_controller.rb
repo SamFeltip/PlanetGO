@@ -4,16 +4,21 @@ class PagesController < ApplicationController
   include CalendarHelper
   require './app/inputs/fake_select_input'
 
-  def home; end
-  before_action :authenticate_user!, only: %i[account]
-
   def landing; end
 
   def account
+    unless user_signed_in?
+      redirect_to '/welcome'
+      return
+    end
+
+    # if the user is not logged in, redirect to landing page
+    @categories = current_user.categories
+
     @friends = current_user.following
 
-    @future_outings = current_user.future_outings
-    @past_outings = current_user.past_outings
+    @future_outings = current_user.future_outings.limit(3)
+    @past_outings = current_user.past_outings.limit(3)
     @liked_events = current_user.liked_events
 
     @calendar_start_date = Time.zone.at(342_000).to_date

@@ -10,7 +10,7 @@
           = f.input :outing_type, wrapper_html: { class: 'mb-3' }, collection: Outing.outing_types.keys
 
         .card-footer.d-flex.justify-content-between
-          = link_to outing_path(@outing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' do
+          = link_to outing_path(@outing), method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger', id: 'destroy-outing' do
             %i.bi-trash
           %span
             %button.btn.btn-primary{ type: 'submit' }

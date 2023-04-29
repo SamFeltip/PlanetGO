@@ -1,3 +1,5 @@
+@import "variables";
+
 html {
   min-height: 100%;
 }
@@ -26,6 +28,11 @@ body {
   --bs-alert-border-radius: 0;
 }
 
+// reset reboot
+.card-header h2 {
+  margin: 0.5rem 0;
+}
+
 .light {
   opacity: 75%;
 }
@@ -34,20 +41,9 @@ body {
   margin-left: 5px;
 }
 
-h2 {
-  font-size: 20px;
-}
-
-h3 {
-  font-size: 17px;
-}
 
 // landing page
 // ***** who when where table styles
-
-.row p {
-  margin: 0;
-}
 
 .www-table td,
 .www-table {
@@ -78,11 +74,6 @@ img.full-screen-image {
 
 a {
   text-decoration: none;
-}
-
-// devise styling
-.margin-card {
-  margin: 0 30%;
 }
 
 // *************** Metrics page ***************
@@ -157,65 +148,16 @@ a {
   white-space: nowrap;
 }
 
-// register interest styling
-
-.card-hover:hover {
-  color: white;
-  background-color: #343a40;
-  cursor: pointer;
-
-  .btn-primary {
-    background-color: -moz-activehyperlinktext;
-  }
+.card {
+  margin-bottom: 2rem;
+  box-shadow: $card-box-shadow;
+  overflow: hidden;
 }
 
-.prices {
-  position: absolute;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
-  text-align: center;
-}
 
-.card-hover:active {
-  background-color: #212529;
-}
-
-.card-hover .card-body {
-  padding-bottom: 100px;
-}
 
 #navbar-content {
   justify-content: space-between;
-}
-
-.event-header .content {
-  position: absolute;
-  padding-top: 50px;
-  width: 100%;
-  color: white;
-  z-index: 9999;
-}
-
-.event-header {
-  text-align: center;
-  width: 100%;
-  height: 170px;
-  top: -20px;
-  overflow: hidden;
-  position: relative;
-}
-
-#event-image {
-  width: 100%;
-
-  /* Add the blur effect
-   darken the image */
-  filter: blur(20px) brightness(50%);
-
-  -webkit-filter: blur(8px) brightness(50%);
-  transform: scale(150%) translateY(-10%);
-  //transform: ;
 }
 
 .horizontal-scroll {
@@ -224,10 +166,6 @@ a {
   padding-bottom: 20px;
   flex-wrap: nowrap;
 
-}
-
-#more_events img {
-  width: 100%;
 }
 
 // horizontal scrolling cards
@@ -241,64 +179,12 @@ a {
   min-width: 180px;
   max-width: 180px;
   margin-right: 10px;
-  border: lightgrey 2px solid;
-  border-radius: 8px;
+
 }
 
-//$card-bottom: 10px;
-//$card-height: 175px;
-
-.event-card-image {
-  height: 100%;
-  max-height: 156px;
-}
-
-.event-card-body {
-  padding: 10px;
-  width: 100%;
-  max-height: 156px;
-  overflow: hidden;
-}
-
-.event-card-header h3 {
-  // height 1 line high
-  height: 1.2em;
-  overflow: hidden;
-}
-
-.event-card-small .event-card-header h3 {
-  height: 3.6em;
-}
-
-.event-description {
-  max-height: 50px;
-}
-
-.event-card-body .event-card-header {
-  font-weight: bold;
-}
-
-
-.event-card-body p {
-  margin-bottom: 0;
-}
-
-// fix the recommended-events div to only show 3 event cards
-// TODO: use CSS variables instead of fixed heights
 #recommended-events {
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-
-  //max-height: calc(($card-height + $card-bottom + $card-padding) * 3 + 5px);
-  max-height: calc((156px + 55px + 10px) * 3 + 5px);
-  //margin-bottom: $card-bottom;
-  margin-bottom: 10px;
-}
-
-
-.event-card {
-  margin-bottom: 10px;
 }
 
 .underline {
@@ -307,6 +193,11 @@ a {
 
 .overline {
   border-top: 1px solid darkgrey;
+}
+
+
+.click-card:hover {
+  cursor: pointer;
 }
 
 
@@ -418,7 +309,6 @@ a {
 @media(min-width: 767px) {
 
   .horizontal-scroll {
-    flex-wrap: wrap;
     justify-content: center;
   }
 
@@ -436,17 +326,10 @@ a {
   .horizontal-card {
     margin-bottom: 10px;
   }
-
-
 }
 
 // large screens
 @media (min-width: 992px) {
-
-  .horizontal-scroll {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
 
   // horizontal scrolling cards
   .horizontal-scroll > a {
@@ -456,7 +339,6 @@ a {
 
   .horizontal-scroll > :first-child {
     margin-left: 0;
-    //transition: 0.5s ease;
   }
 
   .horizontal-card {
@@ -501,22 +383,6 @@ a {
 
 .green:hover {
   color: darkgreen;
-}
-
-.initial-avatar {
-  /* Center the content */
-  align-items: center;
-  display: flex;
-  justify-content: center;
-
-  /* Colors */
-  background-color: #6b3b66;
-  color: #fff;
-
-  /* Rounded border */
-  border-radius: 50%;
-  height: 3rem;
-  width: 3rem;
 }
 
 .initial-avatar {

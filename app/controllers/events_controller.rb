@@ -2,12 +2,14 @@
 
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy]
-  before_action :authenticate_user!, only: %i[index show new create destroy edit like]
+  before_action :authenticate_user!
+  load_and_authorize_resource
+  before_action :set_liked, only: %i[show]
 
   # GET /events or /events.json
   def index
     @approved_events = Event.where(approved: true)
-    @my_pending_events = Event.my_pending_events(current_user)
+    @my_events = Event.my_events(current_user)
     @all_pending_events = Event.other_users_pending_events(current_user)
 
     # Filter by name & description
@@ -24,8 +26,7 @@ class EventsController < ApplicationController
     return unless current_user.commercial
 
     # Re-organise events page according to user interests
-    @interest_order = params['interest_order']
-    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse! if @interest_order == '1'
+    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse!
   end
 
   # GET /events/1 or /events/1.json
@@ -128,6 +129,9 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def set_liked
     @event_liked = current_user.liked(@event)
   end
 

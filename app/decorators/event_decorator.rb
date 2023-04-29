@@ -39,15 +39,14 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def likes(current_user: nil, compressed: false)
+  # returns a string describing who has liked this event and how many people there are,
+  # using the current user to include friends names if they have liked it
+  def likes(current_user, compressed: false, current_user_liked: false)
     # get all like objects for this event
     event_likes = object.likes
 
     # if no user is given, just return the number of likes
     return "#{event_likes.count} likes" if current_user.nil?
-
-    # boolean: has the given current_user liked this event?
-    current_user_liked = current_user.liked(object)
 
     # if we want a shorter string
     if compressed
@@ -66,9 +65,9 @@ class EventDecorator < ApplicationDecorator
     random_friend = current_user.get_random_friend(event: object)
 
     if random_friend
-      "liked by #{random_friend} and #{event_likes.count - 1} others"
+      "liked by #{random_friend} #{and_others_string}"
     else
-      "#{event_likes.count} likes"
+      "#{event_likes.count} like#{event_likes.count == 1 ? '' : 's'}"
     end
   end
 
@@ -76,16 +75,14 @@ class EventDecorator < ApplicationDecorator
     if object.approved.nil?
       'bi-question-circle'
     elsif object.approved
-      'bi-tick'
+      'bi-check-circle'
     else
       'bi-x'
     end
   end
 
-  def like_icon(user)
-    user_liked = user.liked(object)
-
-    if user_liked
+  def like_icon(current_user_liked)
+    if current_user_liked
       'bi-star-fill'
     else
       'bi-star'

@@ -1,0 +1,10 @@
+.outing-card-body h2 {
+  // keeps long outing names from pushing the description under the bottom of the card
+  // height: calc(var(--h2-font-size + 0.5rem))
+  height: calc(1.25rem + 0.5rem);
+  overflow: hidden;
+}
+
+.outing-card:hover {
+  cursor: pointer;
+}
