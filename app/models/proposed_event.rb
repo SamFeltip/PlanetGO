@@ -25,4 +25,13 @@
 class ProposedEvent < ApplicationRecord
   belongs_to :event
   belongs_to :outing
+
+  has_many :participant_reactions, dependent: :destroy
+
+  def reacted(participant, reaction)
+    ParticipantReaction.exists?(participant_id: participant.id,
+                                proposed_event_id: id,
+                                reaction:)
+  end
+
 end

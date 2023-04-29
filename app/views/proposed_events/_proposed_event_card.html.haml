@@ -1,0 +1,55 @@
+.card.event-card[proposed_event]
+  .d-flex.flex-row
+    .image
+      = image_pack_tag event.image_path, class: 'event-card-image'
+    .event-card-body.card-body
+      .event-card-header.d-flex.justify-content-between
+        %h2
+          = link_to event.name, event, class: 'black'
+        - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
+          .event-action.d-flex.flex-row
+            %button.btn.btn-outline-primary.me-2.d-flex.align-items-center
+              %i.bi-pencil-square
+
+            = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+              %i.bi-trash
+
+      %p
+        %em
+          =event.decorate.display_time
+      %p.overflow-hidden.event-description
+        =event.description
+
+      %a{href: event_path(event)}
+        %i{:class => event.decorate.like_icon(current_user.liked(event))}
+          .d-inline.d-md-none
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
+          .d-none.d-md-inline
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
+
+
+  - if defined?(@participant)
+    .card-footer.d-flex.justify-content-between.align-items-center
+
+      .vote-results
+        %span.vote-results-text
+          %i.bi-hand-thumbs-up.ms-1
+            = event.decorate.vote_likes
+
+        %span.vote-results-text
+          %i.bi-hand-thumbs-down.ms-1
+            = event.decorate.vote_dislikes
+
+      .vote-actions
+        -# simple form to create a participant_reaction
+        = simple_form_for @participant_reaction, html: { class: 'd-flex flex-row' }, remote: true do |f|
+          = f.hidden_field :participant_id, value: @participant.id
+          = f.hidden_field :proposed_event_id, value: proposed_event.id
+          -# = f.hidden_field :reaction, value: 'like'
+
+
+          %button.btn.me-1#vote-like{type: "submit", value: 'like', name: 'reaction', class: proposed_event.reacted(@participant, 'like') ? 'btn-primary' : 'btn-outline-primary'}
+            %i.bi-hand-thumbs-up
+
+          %button.btn#vote-dislike{type: "submit", value: 'dislike', name: 'reaction', class: proposed_event.reacted(@participant, 'dislike') ? 'btn-danger' : 'btn-outline-danger'}
+            %i.bi-hand-thumbs-down

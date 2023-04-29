@@ -26,6 +26,10 @@ class ProposedEventsController < ApplicationController
     @event = @proposed_event.event
     @outing = @proposed_event.outing
 
+    # for proposed event cards
+    @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
+    @participant_reaction = ParticipantReaction.new
+
     respond_to do |format|
       if @proposed_event.save
         format.js

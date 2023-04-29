@@ -14,7 +14,12 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1 or /outings/1.json
-  def show; end
+  def show
+    # for proposed event cards
+    @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
+    @participant_reaction = ParticipantReaction.new
+
+  end
 
   # GET /outings/new
   def new
@@ -36,6 +41,9 @@ class OutingsController < ApplicationController
     @proposed_event = ProposedEvent.new
 
     @positions = %w[who when where]
+
+    @participant = Participant.where(outing_id: @outing.id, user_id: current_user.id).first
+    @participant_reaction = ParticipantReaction.new
   end
 
   def send_invites
