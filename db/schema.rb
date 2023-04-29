@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_21_212332) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_25_111108) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -184,7 +184,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_21_212332) do
     t.integer "role", default: 0
     t.string "full_name", null: false
     t.boolean "suspended", default: false
+    t.string "postcode"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["latitude"], name: "index_users_on_latitude"
+    t.index ["longitude"], name: "index_users_on_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
