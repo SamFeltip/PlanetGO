@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'faker'
-
 default_password = 'SneakyPassword100'
 
 print 'creating users'
