@@ -17,7 +17,7 @@
       %i.bi-pin
       - if outing.events.count > 0
         %h2.outing-location
-          Location is...
+          = outing.events.first.address
       - else
         %h2.outing-location
           Starting Location TBD
@@ -32,16 +32,6 @@
     .action-buttons.d-flex.justify-content-end.py-2.overline
       = link_to edit_outing_path(outing), class: 'btn btn-outline-secondary' do
         %i.bi-gear
-    .row
-      .col-1
-        %i.bi-pin
-      .col
-        - if outing.events.count > 0
-          %h2
-            = outing.events.first.address
-        - else
-          %h2
-            Starting Location TBD
 
   - if defined?(nav) && nav
     #outing-nav.d-lg-none.text-center

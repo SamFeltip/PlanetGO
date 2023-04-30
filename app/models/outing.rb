@@ -32,6 +32,12 @@ class Outing < ApplicationRecord
   has_many :proposed_events, dependent: :destroy
   has_many :events, through: :proposed_events
 
+  scope :order_soonest, -> { order(date: :asc) }
+
+  validates :name, presence: true, length: { maximum: 100 }
+  validates :description, presence: true, length: { maximum: 2048 }
+  validates :outing_type, presence: true
+
   enum outing_type: {
     personal: 0,
     open: 1
@@ -39,10 +45,6 @@ class Outing < ApplicationRecord
 
   def to_s
     name
-  end
-
-  def time_status
-    (Time.zone.today - date).positive? ? 'past' : 'future'
   end
 
   def creator

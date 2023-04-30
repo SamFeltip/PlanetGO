@@ -72,9 +72,11 @@
       %h2
         Timetable
       = render 'outings/where_timetable'
-      %h2
-        What about after?
-
+      %h2.text-center
+        - if current_user.postcode?
+          Check out this popular events happening near you!
+        - else
+          Check out this popular events!
 
       .horizontal-scroll.justify-content-center
         - current_user.final_events.each do |event|

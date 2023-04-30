@@ -493,36 +493,46 @@ print 'creating outings'
 
 outing1 = Outing.where(
   name: 'Pizza Time',
+  description: 'Pizza Time is an outing centered around indulging in delicious, freshly made pizzas with a group of friends or family. It is an opportunity to explore different pizza places, try new toppings and flavors, and bond over the love of pizza.',
   date: 1.week.from_now,
-  creator_id: user_list[0].id
-).first_or_create
+  creator_id: user_list[0].id,
+  outing_type: :personal
+).first_or_create!
 
 print '.'
 outing2 = Outing.where(
-  name: 'Hoover Convention',
+  name: 'Sunset Hike',
+  description: 'Join us for a beautiful evening hike as we watch the sun go down over the mountains. This moderate-level hike will take approximately 2 hours and cover 4 miles.',
   date: 2.weeks.from_now,
-  creator_id: user_list[0].id
+  creator_id: user_list[0].id,
+  outing_type: :open
 ).first_or_create
 
 print '.'
 outing3 = Outing.where(
   name: 'Bar Crawl',
+  description: 'The crawl will visit a total of 5 bars and clubs throughout the night, each with its unique atmosphere and drink specials. ',
   date: 1.week.ago,
-  creator_id: user_list[1].id
+  creator_id: user_list[1].id,
+  outing_type: :open
 ).first_or_create
 
 print '.'
 outing4 = Outing.where(
   name: 'Movie Night',
+  description: 'The movie night takes place in a cozy indoor setting, with comfortable couches and chairs arranged around a large screen. The room is dimly lit, creating a relaxed and inviting atmosphere. Snacks and drinks are provided, including popcorn, candy, and soda. A selection of classic movies is available to choose from, ranging from romantic comedies to action-packed blockbusters. Before the movie begins, attendees can chat and mingle with one another, discussing their favorite films and making new friends. As the lights dim and the movie starts, everyone settles in for a fun and entertaining evening.',
   date: 3.weeks.from_now,
-  creator_id: user_list[1].id
+  creator_id: user_list[1].id,
+  outing_type: :personal
 ).first_or_create
 
 print '.'
 outing5 = Outing.where(
-  name: 'Pub Quiz crawl',
+  name: 'Pub Quiz',
+  description: 'The pub quiz involves participants competing in a battle of wits to see who can answer the most questions correctly. Tthe quiz consists of a series of rounds that cover a variety of topics ranging from pop culture to history and science. The quiz is open to teams of up to six people, and each round is composed of ten challenging questions. ',
   date: 2.weeks.from_now,
-  creator_id: user_list[2].id
+  creator_id: user_list[2].id,
+  outing_type: :personal
 ).first_or_create
 
 puts ''

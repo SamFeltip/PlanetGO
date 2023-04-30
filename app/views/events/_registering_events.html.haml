@@ -58,11 +58,11 @@
                 .row
 
                   .col
-                    = link_to approval_event_path(id: event, approved: "true"), class: 'approve_event btn' + (event.approved == true ? " btn-primary" : " btn-outline-primary"), title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "true"), class: 'approve_event btn' + (event.approved == true ? " btn-primary" : " btn-outline-primary"), method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-up
 
                   .col
-                    = link_to approval_event_path(id: event, approved: "false"), class: 'disapprove_event btn' + (event.approved.nil? ? " btn-outline-danger" : " btn-danger"), title: 'app', method: :patch, data: { remote: true } do
+                    = link_to approval_event_path(id: event, approved: "false"), class: 'disapprove_event btn' + (event.approved.nil? ? " btn-outline-danger" : " btn-danger"), method: :patch, data: { remote: true } do
                       %i.bi-hand-thumbs-down
 
 

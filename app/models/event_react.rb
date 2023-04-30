@@ -26,8 +26,7 @@ class EventReact < ApplicationRecord
   belongs_to :event
 
   enum status: {
-    like: 0,
-    dislike: 1
+    like: 0
   }
 
   def to_s

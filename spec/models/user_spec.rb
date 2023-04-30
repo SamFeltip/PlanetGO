@@ -83,10 +83,6 @@ RSpec.describe User do
     expect(creator_user.to_s).to eq 'John Smith'
   end
 
-  it 'Returns the prefix of an email' do
-    expect(creator_user.email_prefix).to eq 'testemail'
-  end
-
   describe '#add_categories' do
     let!(:category1) { Category.create(name: 'Bar') }
     let!(:user1) { create(:user, role: described_class.roles[:user]) }
@@ -210,6 +206,28 @@ RSpec.describe User do
     it 'doesnt return outings in the past' do
       expect(creator_user.future_outings).not_to include(past_outing1)
       expect(creator_user.future_outings).not_to include(past_outing2)
+    end
+  end
+
+  describe '#local_events' do
+    context 'when postcode present and there are events happening in 10 mile radius' do
+      let!(:user) { create(:user, postcode: 'S1 2LT') }
+      let!(:creator) { create(:user) }
+      let!(:event1) { create(:event, latitude: 53.382687, longitude: -1.471062, user_id: creator.id) }
+      let!(:event2) { create(:event, latitude: 53.364687, longitude: -1.484812, user_id: creator.id) }
+      let!(:event3) { create(:event, latitude: 53.395312, longitude: -1.431563, user_id: creator.id) }
+
+      it 'returns 3 local events' do
+        expect(user.local_events).to eq([event1, event2, event3])
+      end
+    end
+
+    context 'when postcode not present' do
+      let!(:user) { create(:user, postcode: '') }
+
+      it 'returns nil' do
+        expect(user.local_events).to be_nil
+      end
     end
   end
 end

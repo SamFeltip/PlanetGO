@@ -28,6 +28,7 @@ FactoryBot.define do
     date { Time.zone.now }
     description { 'This is a really cool adventure, with all my friends!' }
     creator_id { create(:user).id }
+    outing_type { :personal }
 
     after :create do |outing|
       create(:participant, user: outing.creator, outing:, status: Participant.statuses[:creator])
