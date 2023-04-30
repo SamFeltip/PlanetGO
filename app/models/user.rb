@@ -57,7 +57,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :secure_validatable,
-         :pwned_password, :lockable, :trackable
+         :lockable, :trackable
+  devise :pwned_password unless Rails.env.test?
 
   enum role: {
     user: 0,
