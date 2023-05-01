@@ -46,6 +46,12 @@ grid-area: date;
 grid-area: location;
 }
 
+.proposed-event-set-datetime {
+  display: grid;
+  grid-template-columns: 1fr 100px;
+  gap: 5px;
+}
+
 .outing-details p {
   grid-area: description;
 }

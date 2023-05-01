@@ -10,13 +10,13 @@
           %span{"aria-hidden" => "true"} ×
       .modal-body
 
-        = simple_form_for proposed_event, html: { class: 'd-flex flex-col proposed-event-set-datetime' }, remote: true do |f|
+        = simple_form_for proposed_event, html: { class: 'proposed-event-set-datetime' }, remote: true do |f|
           -# disable form if the user is not the creator of the outing or the event has a time
           - disabled = (proposed_event.outing.creator_id != current_user.id && !current_user.admin?) || proposed_event.event.time_of_event.present?
 
           = f.input :proposed_datetime, disabled: disabled, as: :datetime, input_html: { class: 'form-control' }, wrapper: false, label: false, required: false, html5: true
 
-          = f.button :submit, 'Update', disabled: disabled, class: 'btn btn-primary ms-2'
+          = f.button :submit, 'Update', disabled: disabled, class: 'btn btn-primary'
 
         - if proposed_event.event.time_of_event.present?
           %p.text-center
@@ -29,8 +29,8 @@
               = proposed_event.decorate.vote_likes
               %i.bi-hand-thumbs-up
 
-          -# - proposed_event.participant_reactions.each do |participant_reaction|
-          -#   = render 'users/user_card', user: participant_reaction.participant.user, participant_reaction: participant_reaction
+          = proposed_event.votes_for.voters.each do |voter|
+            = render 'users/user_card', user: voter
 
       .modal-footer
         %button.btn.btn-secondary{"data-bs-dismiss" => "modal", :type => "button"} Close
