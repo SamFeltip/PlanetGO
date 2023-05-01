@@ -614,101 +614,101 @@ print 'printing metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4
 ).first_or_create
 
 print '.'
 metric_6 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 39.341952,
-  longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1, pricing_selected: 1
+  longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1
 ).first_or_create
 
 print '.'
 metric_7 = Metric.where(
   time_enter: '2022-11-26 12:24:16', time_exit: '2022-11-26 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0, pricing_selected: 1
+  longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0
 ).first_or_create
 
 print '.'
 metric_8 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_9 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_10 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_11 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_12 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_13 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_14 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_15 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_16 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_17 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_18 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_19 = Metric.where(
   time_enter: '2022-11-27 12:24:17', time_exit: '2022-11-27 12:25:17', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_20 = Metric.where(
   time_enter: '2022-11-27 12:24:18', time_exit: '2022-11-27 12:25:18', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_21 = Metric.where(
   time_enter: '2022-11-27 12:24:19', time_exit: '2022-11-27 12:25:19', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create

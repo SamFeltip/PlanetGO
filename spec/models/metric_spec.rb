@@ -10,7 +10,6 @@
 #  latitude            :float
 #  longitude           :float
 #  number_interactions :integer
-#  pricing_selected    :integer
 #  route               :string
 #  time_enter          :datetime
 #  time_exit           :datetime
