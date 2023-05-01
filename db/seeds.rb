@@ -661,13 +661,11 @@ outing_list.each do |outing|
     print '.'
     outing.proposed_events.first.liked_by user
 
-    # for the first 80% of participants
     if index < participant_count * 0.8
       print '.'
       outing.proposed_events.second.liked_by user
     end
 
-    # repeat for 50%
     if index < participant_count * 0.4
       print '.'
       outing.proposed_events.third.liked_by user

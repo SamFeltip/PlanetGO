@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AddCachedVotesToProposedEvents < ActiveRecord::Migration[7.0]
   def change
     change_table :proposed_events do |t|

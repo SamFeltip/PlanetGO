@@ -18,9 +18,7 @@ class ProposedEventsController < ApplicationController
   end
 
   def vote
-    unless Participant.find_by(user_id: current_user.id, outing_id: @proposed_event.outing.id)
-      return
-    end
+    return unless Participant.find_by(user_id: current_user.id, outing_id: @proposed_event.outing.id)
 
     if current_user.voted_up_on? @proposed_event
       # unlike the proposed_event

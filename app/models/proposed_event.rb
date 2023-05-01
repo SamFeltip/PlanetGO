@@ -29,15 +29,7 @@ class ProposedEvent < ApplicationRecord
   belongs_to :outing
   acts_as_votable
 
-
   scope :failed_vote, -> { select(&:failed_vote) }
-
-  def reacted(participant, reaction)
-    false
-    # ParticipantReaction.exists?(participant_id: participant.id,
-    #                             proposed_event_id: id,
-    #                             reaction:)
-  end
 
   def failed_vote
     (get_likes.size) < (outing.participants.count / 2)
