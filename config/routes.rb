@@ -30,7 +30,7 @@ Rails.application.routes.draw do
   get '/users/new', to: redirect('/404.html')
   devise_for :users
 
-  resources :users, :metrics, :register_interests
+  resources :users, :metrics
 
   resources :users do
     member do
@@ -47,16 +47,11 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :pricings, only: [] do
-    resources :register_interests, only: %i[index new create destroy]
-  end
-
   root 'pages#account'
 
   get 'myaccount', to: 'pages#account'
   get 'home', to: 'pages#account'
   get 'welcome', to: 'pages#landing'
-  get 'pricings', to: 'pricings#index'
 
   get 'friends', to: 'friends#index'
   get 'friends/search', to: 'friends#search', as: 'friend_search'

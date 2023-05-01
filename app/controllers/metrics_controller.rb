@@ -11,7 +11,6 @@ class MetricsController < ApplicationController
   # GET /metrics or /metrics.json
   def index
     metrics = Metric.all
-    register_interests = RegisterInterest.all
     routes_interested_in = ['/', '/metrics',
                             '/users', '/users/#', '/users/new', '/users/#/edit',
                             '/users/sign_in', '/users/sign_up', '/users/unlock/new',
@@ -24,20 +23,6 @@ class MetricsController < ApplicationController
     end
 
     @number_landing_page_visits = metrics.where(route: '/').count.to_s
-    @number_pricing_page_bounce_outs = get_number_pricing_page_bounce_outs(metrics, register_interests, nil, nil).to_s
-
-    # Calculates the two Interests metrics
-    basic_plan_interest = get_pricing_interest(register_interests, 'basic', nil, nil)
-    premium_plan_interest = get_pricing_interest(register_interests, 'premium', nil, nil)
-    premium_plus_plan_interest = get_pricing_interest(register_interests, 'premium_plus', nil, nil)
-    total_interest = basic_plan_interest + premium_plan_interest + premium_plus_plan_interest
-
-    @interest_in_pricing_options = "#{basic_plan_interest}:#{premium_plan_interest}:#{premium_plus_plan_interest}"
-    @interest_in_pricing_options_percent = '0%:0%:0%'
-    if total_interest.positive?
-      # Use default percentages instead of dividing by zero
-      @interest_in_pricing_options_percent = "#{basic_plan_interest * 100 / total_interest}:#{premium_plan_interest * 100 / total_interest}:#{premium_plus_plan_interest * 100 / total_interest}"
-    end
 
     # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
     country_codes_metrics = metrics.where(route: '/').where.not(country_code: [nil, '']).order(:country_code)
@@ -73,8 +58,7 @@ class MetricsController < ApplicationController
       longitude: params['longitude'],
       country_code:,
       is_logged_in: params['is_logged_in'],
-      number_interactions: params['number_interactions'],
-      pricing_selected: params['pricing_selected']
+      number_interactions: params['number_interactions']
     )
 
     head :ok
@@ -103,6 +87,6 @@ class MetricsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def metric_params
     params.require(:metric).permit(:time_enter, :time_exit, :route, :lattitude, :longitude, :is_logged_in,
-                                   :number_interactions, :pricing_selected, :country_code)
+                                   :number_interactions, :country_code)
   end
 end

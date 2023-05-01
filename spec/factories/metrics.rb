@@ -10,7 +10,6 @@
 #  latitude            :float
 #  longitude           :float
 #  number_interactions :integer
-#  pricing_selected    :integer
 #  route               :string
 #  time_enter          :datetime
 #  time_exit           :datetime
@@ -27,6 +26,5 @@ FactoryBot.define do
     country_code { 'GB' }
     is_logged_in { false }
     number_interactions { 1 }
-    pricing_selected { 1 }
   end
 end
