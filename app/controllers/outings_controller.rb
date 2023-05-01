@@ -7,10 +7,10 @@ class OutingsController < ApplicationController
 
   # GET /outings or /outings.json
   def index
-    @outings = Outing.all.order(date: :desc)
+    @outings = Outing.all.order_soonest
     return if current_user.admin?
 
-    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order(date: :desc)
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
   end
 
   # GET /outings/1 or /outings/1.json

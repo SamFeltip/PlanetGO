@@ -48,6 +48,8 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
   has_many :event_reacts, dependent: :destroy
 
+  scope :ordered_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
+
   validates :name, presence: true, length: { maximum: 100 }
   validates :address_line1, presence: true, length: { maximum: 255 }
   validates :town, presence: true, length: { maximum: 35 }

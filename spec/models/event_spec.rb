@@ -40,7 +40,7 @@ RSpec.describe Event do
 
   let!(:category) { Category.create(name: 'Bar') }
   let!(:category2) { Category.create(name: 'SomethingUnusable') }
-  let!(:my_event) { create(:event, user_id: event_creator.id, category_id: category.id) }
+  let!(:my_event) { create(:event, name: 'Test Event', user_id: event_creator.id, category_id: category.id, time_of_event: Time.zone.parse('2023-05-01 14:00:00')) }
   let!(:other_event) { create(:event, user_id: other_event_creator.id, category_id: category2.id, address_line2: 'City Centre') }
 
   describe '#image_path' do
@@ -109,6 +109,42 @@ RSpec.describe Event do
       it 'finds the interest level of a specified user to this event' do
         expect(my_event.user_interest(other_event_creator)).to eq 1
       end
+    end
+  end
+
+  describe '#to_s' do
+    it 'returns the expected string representation' do
+      expect(my_event.to_s).to eq('Test Event @ 2023-05-01 14:00:00 +0100')
+    end
+  end
+
+  describe 'ordered_by_likes scope' do
+    let(:event_creator) { create(:user) }
+    let(:user1) { create(:user) }
+    let(:user2) { create(:user) }
+    let(:user3) { create(:user) }
+    let(:user4) { create(:user) }
+    let!(:event1) { create(:event, name: 'Event 1', user_id: event_creator.id) }
+    let!(:event2) { create(:event, name: 'Event 2', user_id: event_creator.id) }
+    let!(:event3) { create(:event, name: 'Event 3', user_id: event_creator.id) }
+
+    before do
+      # event1 has 2 likes
+      create(:event_react, event_id: event1.id, user: user1)
+      create(:event_react, event_id: event1.id, user: user2)
+      # event2 has 4 likes
+      create(:event_react, event_id: event2.id, user: user1)
+      create(:event_react, event_id: event2.id, user: user2)
+      create(:event_react, event_id: event2.id, user: user3)
+      create(:event_react, event_id: event2.id, user: user4)
+      # event3 has 3 likes
+      create(:event_react, event_id: event3.id, user: user1)
+      create(:event_react, event_id: event3.id, user: user2)
+      create(:event_react, event_id: event3.id, user: user3)
+    end
+
+    it 'orders events by likes count' do
+      expect(described_class.ordered_by_likes.limit(3)).to eq([event2, event3, event1])
     end
   end
 end
