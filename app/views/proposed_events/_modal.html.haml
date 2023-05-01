@@ -29,8 +29,8 @@
               = proposed_event.decorate.vote_likes
               %i.bi-hand-thumbs-up
 
-          - proposed_event.participant_reactions.each do |participant_reaction|
-            = render 'users/user_card', user: participant_reaction.participant.user, participant_reaction: participant_reaction
+          -# - proposed_event.participant_reactions.each do |participant_reaction|
+          -#   = render 'users/user_card', user: participant_reaction.participant.user, participant_reaction: participant_reaction
 
       .modal-footer
         %button.btn.btn-secondary{"data-bs-dismiss" => "modal", :type => "button"} Close

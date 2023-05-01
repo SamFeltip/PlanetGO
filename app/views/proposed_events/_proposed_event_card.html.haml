@@ -48,12 +48,6 @@
             = proposed_event.decorate.vote_likes
 
       .vote-actions
-        -# simple form to create a participant_reaction
-        - if @participant
-          = simple_form_for @participant_reaction, html: { class: 'd-flex flex-row' }, remote: true do |f|
-            = f.hidden_field :participant_id, value: @participant.id
-            = f.hidden_field :proposed_event_id, value: proposed_event.id
-
-            %button.btn.btn-outline-primary.me-1#vote-button{type: 'submit', value: proposed_event.reacted(@participant, 'like') ? 'dislike' : 'like', name: 'reaction'}
-              %i#vote-like{class: proposed_event.reacted(@participant, 'like') ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}
-
+        -# let the participant vote
+        = button_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, class: 'btn btn-outline-primary', id: 'vote-button' do
+          %i#vote-like{class: (current_user.voted_for? proposed_event) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}

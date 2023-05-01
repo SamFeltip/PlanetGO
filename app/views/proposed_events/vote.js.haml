@@ -3,9 +3,10 @@ var voteLike = proposed_event_card.find('#vote-like');
 var voteLikeCount = proposed_event_card.find('#vote-like-count');
 var voteButton = proposed_event_card.find('#vote-button');
 
+
 voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
 
-- if @participant_reaction.reaction == 'like'
+- if current_user.voted_for? @proposed_event
   voteLike.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');
   voteButton.attr('value', 'dislike');
 

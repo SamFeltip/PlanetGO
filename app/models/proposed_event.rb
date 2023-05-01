@@ -4,13 +4,15 @@
 #
 # Table name: proposed_events
 #
-#  id                :bigint           not null, primary key
-#  proposed_datetime :datetime
-#  status            :integer
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  event_id          :bigint           not null
-#  outing_id         :bigint           not null
+#  id                 :bigint           not null, primary key
+#  cached_likes       :integer          default(0)
+#  cached_likes_total :integer          default(0)
+#  proposed_datetime  :datetime
+#  status             :integer
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  event_id           :bigint           not null
+#  outing_id          :bigint           not null
 #
 # Indexes
 #
@@ -25,18 +27,19 @@
 class ProposedEvent < ApplicationRecord
   belongs_to :event
   belongs_to :outing
+  acts_as_votable
 
-  has_many :participant_reactions, dependent: :destroy
 
   scope :failed_vote, -> { select(&:failed_vote) }
 
   def reacted(participant, reaction)
-    ParticipantReaction.exists?(participant_id: participant.id,
-                                proposed_event_id: id,
-                                reaction:)
+    false
+    # ParticipantReaction.exists?(participant_id: participant.id,
+    #                             proposed_event_id: id,
+    #                             reaction:)
   end
 
   def failed_vote
-    participant_reactions.where(reaction: 0).count < (outing.participants.count / 2)
+    (get_likes.size) < (outing.participants.count / 2)
   end
 end

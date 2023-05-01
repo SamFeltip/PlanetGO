@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_29_165845) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_181700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -123,16 +123,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_165845) do
     t.index ["creator_id"], name: "index_outings_on_creator_id"
   end
 
-  create_table "participant_reactions", force: :cascade do |t|
-    t.bigint "participant_id", null: false
-    t.bigint "proposed_event_id", null: false
-    t.integer "reaction"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_participant_reactions_on_participant_id"
-    t.index ["proposed_event_id"], name: "index_participant_reactions_on_proposed_event_id"
-  end
-
   create_table "participants", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "outing_id", null: false
@@ -150,6 +140,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_165845) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cached_likes_total", default: 0
+    t.integer "cached_likes", default: 0
     t.index ["event_id"], name: "index_proposed_events_on_event_id"
     t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
   end
@@ -227,8 +219,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_29_165845) do
   add_foreign_key "events", "categories"
   add_foreign_key "events", "users"
   add_foreign_key "outings", "users", column: "creator_id"
-  add_foreign_key "participant_reactions", "participants"
-  add_foreign_key "participant_reactions", "proposed_events"
   add_foreign_key "participants", "outings"
   add_foreign_key "participants", "users"
   add_foreign_key "proposed_events", "events"

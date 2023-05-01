@@ -17,7 +17,6 @@ class OutingsController < ApplicationController
   def show
     # for proposed event cards
     @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
-    @participant_reaction = ParticipantReaction.new
   end
 
   # GET /outings/new
@@ -43,7 +42,6 @@ class OutingsController < ApplicationController
 
     # for proposed event cards
     @participant = Participant.where(outing_id: @outing.id, user_id: current_user.id).first
-    @participant_reaction = ParticipantReaction.new
   end
 
   def send_invites

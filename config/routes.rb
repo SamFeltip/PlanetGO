@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  resources :participant_reactions
   resources :categories
   resources :availabilities
   resources :proposed_events
@@ -14,8 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :proposed_events, except: %i[new show] do
-    patch :vote_like, on: :member
-    patch :vote_dislike, on: :member
+    post :vote, on: :member
   end
 
   resources :outings do

@@ -24,7 +24,6 @@
 class Participant < ApplicationRecord
   belongs_to :user
   belongs_to :outing
-  has_many :participant_reactions, dependent: :destroy
 
   enum status: {
     pending: 0,
