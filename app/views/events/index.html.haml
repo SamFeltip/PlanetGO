@@ -34,11 +34,14 @@
           Edit Event Category Interests
 %br
 #events
-  - if @approved_events.empty?
+  - if @events.empty?
     %h1 Hmm...
     %p There doesn't seem to be any events yet
     %p come back later and they'll be more for you!
 
-  - @approved_events.each do |event|
+  - @events.each do |event|
     .click-card[event]
       = render "event_card", event: event
+  
+  %div.digg_pagination
+    = will_paginate @events

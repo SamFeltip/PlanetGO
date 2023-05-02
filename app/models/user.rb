@@ -162,7 +162,7 @@ class User < ApplicationRecord
   end
 
   def most_liked_events
-    Event.ordered_by_likes.limit(3)
+    Event.order_by_likes.limit(3)
   end
 
   def local_events

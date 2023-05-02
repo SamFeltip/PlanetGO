@@ -45,11 +45,11 @@ RSpec.describe Event do
 
   describe '#image_path' do
     it 'returns a path to an image corresponding with the category name' do
-      expect(my_event.image_path).to eq 'event_images/bar.png'
+      expect(my_event.image_path).to eq 'event_images/bar.webp'
     end
 
     it 'returns a path to the unknown image when no category is available' do
-      expect(other_event.image_path).to eq 'event_images/unknown.png'
+      expect(other_event.image_path).to eq 'event_images/unknown.webp'
     end
   end
 
@@ -63,26 +63,26 @@ RSpec.describe Event do
     end
   end
 
-  describe '#my_events' do
+  describe 'user_events' do
     context 'with my events' do
       let!(:my_approved_event) { create(:event, approved: true, user_id: event_creator.id, category_id: category.id) }
 
       it 'returns all my events' do
-        expect(described_class.my_events(event_creator)).to include(my_event) and include(my_approved_event)
+        expect(described_class.user_events(event_creator)).to include(my_event) and include(my_approved_event)
       end
     end
 
     context 'with other events' do
       it 'does not include other peoples events' do
-        expect(described_class.my_events(event_creator)).not_to include(other_event)
+        expect(described_class.user_events(event_creator)).not_to include(other_event)
       end
     end
   end
 
-  describe '#other_users_pending_events' do
+  describe 'pending_for_user' do
     context 'with my events' do
       it 'does not include my pending events' do
-        expect(described_class.other_users_pending_events(event_creator)).not_to include(my_event)
+        expect(described_class.pending_for_user(event_creator)).not_to include(my_event)
       end
     end
 
@@ -90,24 +90,11 @@ RSpec.describe Event do
       let!(:other_approved_event) { create(:event, approved: true, user_id: other_event_creator.id, category_id: category.id) }
 
       it 'returns all other pending events' do
-        expect(described_class.other_users_pending_events(event_creator)).to include(other_event)
+        expect(described_class.pending_for_user(event_creator)).to include(other_event)
       end
 
       it 'does not include approved events' do
-        expect(described_class.other_users_pending_events(event_creator)).not_to include(other_approved_event)
-      end
-    end
-  end
-
-  describe '#user_interest' do
-    context 'when another user has an associated interest with an event' do
-      before do
-        interest = CategoryInterest.where(user_id: other_event_creator.id, category_id: my_event.category_id).first
-        interest.update(interest: 1) # user is interested
-      end
-
-      it 'finds the interest level of a specified user to this event' do
-        expect(my_event.user_interest(other_event_creator)).to eq 1
+        expect(described_class.pending_for_user(event_creator)).not_to include(other_approved_event)
       end
     end
   end
@@ -118,7 +105,7 @@ RSpec.describe Event do
     end
   end
 
-  describe 'ordered_by_likes scope' do
+  describe 'order_by_likes scope' do
     let(:event_creator) { create(:user) }
     let(:user1) { create(:user) }
     let(:user2) { create(:user) }
@@ -144,7 +131,7 @@ RSpec.describe Event do
     end
 
     it 'orders events by likes count' do
-      expect(described_class.ordered_by_likes.limit(3)).to eq([event2, event3, event1])
+      expect(described_class.order_by_likes.limit(3)).to eq([event2, event3, event1])
     end
   end
 end

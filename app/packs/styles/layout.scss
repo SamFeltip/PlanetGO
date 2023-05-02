@@ -41,7 +41,6 @@ body {
   margin-left: 5px;
 }
 
-
 // landing page
 // ***** who when where table styles
 
@@ -154,8 +153,6 @@ a {
   overflow: hidden;
 }
 
-
-
 #navbar-content {
   justify-content: space-between;
 }
@@ -165,7 +162,6 @@ a {
   overflow-x: auto;
   padding-bottom: 20px;
   flex-wrap: nowrap;
-
 }
 
 // horizontal scrolling cards
@@ -179,7 +175,6 @@ a {
   min-width: 180px;
   max-width: 180px;
   margin-right: 10px;
-
 }
 
 #recommended-events {
@@ -195,11 +190,9 @@ a {
   border-top: 1px solid darkgrey;
 }
 
-
 .click-card:hover {
   cursor: pointer;
 }
-
 
 // ******************** my account page **************************
 
@@ -207,7 +200,8 @@ a {
   position: relative;
   height: 49em;
   background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 0), linear-gradient(#444cf7 1px, transparent 0);
+  background-image: linear-gradient(#000000 2px, transparent 0),
+    linear-gradient(#444cf7 1px, transparent 0);
   background-position-y: 1em;
   background-size: 2em 2em, 0.5em 0.5em;
   opacity: 1;
@@ -263,7 +257,7 @@ a {
 .availability_end_hour,
 .availability_start_minute,
 .availability_start_hour,
-.form-inline div{
+.form-inline div {
   display: inline-block;
 }
 
@@ -306,8 +300,7 @@ a {
 }
 
 // medium screens
-@media(min-width: 767px) {
-
+@media (min-width: 767px) {
   .horizontal-scroll {
     justify-content: center;
   }
@@ -330,7 +323,6 @@ a {
 
 // large screens
 @media (min-width: 992px) {
-
   // horizontal scrolling cards
   .horizontal-scroll > a {
     transform: translateX(0%);
@@ -399,4 +391,66 @@ a {
   border-radius: 50%;
   height: 3rem;
   width: 3rem;
+}
+
+// ready made styles for pagination (source: http://mislav.github.io/will_paginate/)
+.digg_pagination {
+  background: white;
+  cursor: default;
+  /* self-clearing method: */
+}
+.digg_pagination a,
+.digg_pagination span,
+.digg_pagination em {
+  padding: 0.2em 0.5em;
+  display: block;
+  float: left;
+  margin-right: 1px;
+}
+.digg_pagination .disabled {
+  color: #999999;
+  border: 1px solid #dddddd;
+}
+.digg_pagination .current {
+  font-style: normal;
+  font-weight: bold;
+  background: #2e6ab1;
+  color: white;
+  border: 1px solid #2e6ab1;
+}
+.digg_pagination a {
+  text-decoration: none;
+  color: #105cb6;
+  border: 1px solid #9aafe5;
+}
+.digg_pagination a:hover,
+.digg_pagination a:focus {
+  color: #000033;
+  border-color: #000033;
+}
+.digg_pagination .page_info {
+  background: #2e6ab1;
+  color: white;
+  padding: 0.4em 0.6em;
+  width: 22em;
+  margin-bottom: 0.3em;
+  text-align: center;
+}
+.digg_pagination .page_info b {
+  color: #000033;
+  background: #6aa6ed;
+  padding: 0.1em 0.25em;
+}
+.digg_pagination:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+* html .digg_pagination {
+  height: 1%;
+}
+*:first-child + html .digg_pagination {
+  overflow: hidden;
 }
