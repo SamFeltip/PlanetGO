@@ -27,11 +27,9 @@ class ParticipantsController < ApplicationController
 
   # POST /participants or /participants.json
   def create
-
     outing = Outing.find_by(invite_token: params[:invite_token])
     Participant.where(outing_id: outing, user_id: current_user).first_or_create
     redirect_to outings_path
-
   end
 
   def invite

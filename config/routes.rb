@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     post :send_invites, on: :member
   end
 
-  
   resources :participants
 
   # No ability to create users without devise
