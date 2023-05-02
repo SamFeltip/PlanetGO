@@ -29,7 +29,7 @@
               = proposed_event.decorate.vote_likes
               %i.bi-hand-thumbs-up
 
-          = proposed_event.votes_for.voters.each do |voter|
+          - proposed_event.votes_for.voters.each do |voter|
             = render 'users/user_card', user: voter
 
       .modal-footer
