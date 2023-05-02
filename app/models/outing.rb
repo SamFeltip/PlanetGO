@@ -61,7 +61,7 @@ class Outing < ApplicationRecord
   def pending_participants(current_user)
     Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
   end
-  
+
   def to_param
     invite_token
   end

@@ -8,7 +8,7 @@ class OutingsController < ApplicationController
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
-    @participants = Participant.find_by_outing_id(params[:outing_id])
+    @participants = Participant.find_by(outing_id: params[:outing_id])
     return if current_user.admin?
 
     @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
@@ -17,7 +17,7 @@ class OutingsController < ApplicationController
   # GET /outings/1 or /outings/1.json
   def show
     @outings = Outing.find_by(invite_token: params[:invite_token])
-    @participants = @outing.participants
+    @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
   # GET /outings/new
@@ -30,6 +30,7 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
+    @outing = Outing.find_by(invite_token: params[:invite_token])
     @calendar_start_date = Time.zone.at(342_000).to_date
     participants = Participant.where(outing_id: @outing.id)
     @peoples_availabilities = []
@@ -44,7 +45,7 @@ class OutingsController < ApplicationController
 
   def send_invites
     @friend_ids = params[:user_ids]
-
+    @outing = Outing.find_by(invite_token: params[:invite_token])
     @participants = Participant.none
 
     @friend_ids = [] if @friend_ids.nil?
@@ -120,7 +121,6 @@ class OutingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
     @outing = Outing.find_by(invite_token: params[:invite_token])
-    # @participants = @outing.participants
   end
 
   # Only allow a list of trusted parameters through.

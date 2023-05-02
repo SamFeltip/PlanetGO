@@ -189,11 +189,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
     t.integer "invitations_count", default: 0
     t.string "invite_token"
     t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["latitude"], name: "index_users_on_latitude"
-    t.index ["longitude"], name: "index_users_on_longitude"
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
     t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
+    t.index ["latitude"], name: "index_users_on_latitude"
+    t.index ["longitude"], name: "index_users_on_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 

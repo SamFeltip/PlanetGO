@@ -12,22 +12,21 @@ Rails.application.routes.draw do
     patch :like, on: :member
   end
 
-  resources :outings do
-    member do
-      get 'set_details'
-      post 'send_invites'
-    end
-    post :send_invites, on: :member
-  end
-
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
   resources :events
 
   resources :outings, param: :invite_token do
-    resources :participants, only: %i[new create]
-    resource :invite_link, only: :show
+    member do
+      get 'set_details'
+      post 'send_invites'
+      resources :participants, only: %i[new create]
+      resource :invite_link, only: :show
+    end
+    post :send_invites, on: :member
   end
+
+  
   resources :participants
 
   # No ability to create users without devise
