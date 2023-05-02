@@ -57,7 +57,8 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :secure_validatable,
-         :pwned_password, :lockable, :trackable
+         :lockable, :trackable
+  devise :pwned_password unless Rails.env.test?
 
   enum role: {
     user: 0,
@@ -100,10 +101,6 @@ class User < ApplicationRecord
 
   def initials
     full_name.split.map(&:first).join.upcase
-  end
-
-  def email_prefix
-    email.split('@')[0]
   end
 
   def likes
@@ -160,9 +157,16 @@ class User < ApplicationRecord
     event_list
   end
 
-  # TODO: make these a restaurant and a hotel nearby
   def final_events
-    Event.limit(2)
+    local_events || most_liked_events
+  end
+
+  def most_liked_events
+    Event.ordered_by_likes.limit(3)
+  end
+
+  def local_events
+    postcode.present? ? Event.near("#{postcode}, UK", 10).limit(3) : nil
   end
 
   private

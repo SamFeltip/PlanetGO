@@ -5,31 +5,20 @@ class Ability
 
   def initialize(user)
     # Guard check to make sure user exists
-    if user.blank?
-      guest_permissions
-      return
-    end
+    return if user.blank?
 
     if user.admin?
       admin_permissions(user)
       reporter_permissions
       advertiser_permissions(user)
       user_permissions(user)
-      guest_permissions
     elsif user.reporter?
       reporter_permissions
-      guest_permissions
     elsif user.advertiser?
       advertiser_permissions(user)
-      guest_permissions
     elsif user.user?
       user_permissions(user)
-      guest_permissions
     end
-  end
-
-  def guest_permissions
-    can :create, RegisterInterest
   end
 
   def user_permissions(user)
@@ -67,7 +56,6 @@ class Ability
     can %i[update destroy lock unlock suspend reinstate], User
     cannot %i[update destroy lock unlock suspend reinstate], User, id: user.id
 
-    can :manage, RegisterInterest
     can :manage, Category
     can :manage, CategoryInterest
     can :manage, Event

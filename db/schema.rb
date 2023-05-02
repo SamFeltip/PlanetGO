@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_181700) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -105,7 +105,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_181700) do
     t.float "longitude"
     t.boolean "is_logged_in"
     t.integer "number_interactions"
-    t.integer "pricing_selected"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "country_code"
@@ -144,14 +143,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_181700) do
     t.integer "cached_likes", default: 0
     t.index ["event_id"], name: "index_proposed_events_on_event_id"
     t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
-  end
-
-  create_table "register_interests", force: :cascade do |t|
-    t.string "email"
-    t.string "pricing_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "pricing_plan_id"
   end
 
   create_table "sessions", force: :cascade do |t|

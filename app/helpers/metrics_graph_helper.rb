@@ -26,7 +26,6 @@ module MetricsGraphHelper
                        1.day
                      end
 
-    register_interests = RegisterInterest.all
     metrics = page_param ? Metric.where(route: page_param) : Metric.where(route: '/')
 
     data_keys = []
@@ -62,57 +61,6 @@ module MetricsGraphHelper
       end
 
       data_values = JSON.generate([{ label: 'x̄ time on page (s)', data: }])
-    when 'Pricing page bounce outs'
-      data = []
-      while start_date_time_stamp < end_date_time_stamp
-        data_keys.append(start_date_time_stamp.strftime('%F'))
-        data.append(get_number_pricing_page_bounce_outs(metrics, register_interests, start_date_time_stamp,
-                                                        start_date_time_stamp + date_increment))
-        start_date_time_stamp += date_increment
-      end
-
-      data_values = JSON.generate([{ label: 'Pricing page bounce outs', data: }])
-    when 'Interest in pricing options Basic:Premium:Premium+ Total'
-      pricing_interest = RegisterInterest.all
-      basic = []
-      premium = []
-      premium_plus = []
-      while start_date_time_stamp < end_date_time_stamp
-        data_keys.append(start_date_time_stamp.strftime('%F'))
-        basic.append(get_pricing_interest(pricing_interest, 'basic', start_date_time_stamp,
-                                          start_date_time_stamp + date_increment))
-        premium.append(get_pricing_interest(pricing_interest, 'premium', start_date_time_stamp,
-                                            start_date_time_stamp + date_increment))
-        premium_plus.append(get_pricing_interest(pricing_interest, 'premium_plus', start_date_time_stamp,
-                                                 start_date_time_stamp + date_increment))
-        start_date_time_stamp += date_increment
-      end
-      data_values = JSON.generate([{ label: 'Basic', data: basic }, { label: 'Premium', data: premium },
-                                   { label: 'Premium+', data: premium_plus }])
-    when 'Interest in pricing options Basic:Premium:Premium+ Percent'
-      pricing_interest = RegisterInterest.all
-      basic = []
-      premium = []
-      premium_plus = []
-      while start_date_time_stamp < end_date_time_stamp
-        data_keys.append(start_date_time_stamp.strftime('%F'))
-        basic_value = get_pricing_interest(pricing_interest, 'basic', start_date_time_stamp,
-                                           start_date_time_stamp + date_increment)
-        premium_value = get_pricing_interest(pricing_interest, 'premium', start_date_time_stamp,
-                                             start_date_time_stamp + date_increment)
-        premium_plus_value = get_pricing_interest(pricing_interest, 'premium_plus', start_date_time_stamp,
-                                                  start_date_time_stamp + date_increment)
-        total = basic_value + premium_value + premium_plus_value
-        total = 1 if total.zero?
-
-        basic.append((basic_value * 100) / total)
-        premium.append((premium_value * 100) / total)
-        premium_plus.append((premium_plus_value * 100) / total)
-
-        start_date_time_stamp += date_increment
-      end
-      data_values = JSON.generate([{ label: 'Basic', data: basic }, { label: 'Premium', data: premium },
-                                   { label: 'Premium+', data: premium_plus }])
     else
       # No metric selected by the user, display a slash accross the graph with a label "No Data"
       empty_graph

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
-
 default_password = 'SneakyPassword100'
-
 
 print 'creating users'
 print '.'
@@ -37,7 +35,6 @@ user_advertiser2 = User.where(email: 'advertiser2@company.com')
                          full_name: 'Mango Cavern'
                        )
 
-
 print '.'
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
@@ -55,55 +52,22 @@ user_rep2 = User.where(email: 'rep2@planetgo.com')
                 )
 
 print '.'
-user_user1 = User.where(email: 'user1@gmail.com')
-                 .first_or_create(
-                   role: User.roles[:user],
-                   password: default_password,
-                   full_name: 'Anna Hudson',
-                   postcode: 'S3 7RS'
-                 )
 
-print '.'
-user_user2 = User.where(email: 'user2@gmail.com')
-                 .first_or_create(
-                   role: User.roles[:user],
-                   password: default_password,
-                   full_name: 'Jamie Lindsey',
-                   postcode: 'S3 8RA'
-                 )
-
-print '.'
-user_user3 = User.where(email: 'user3@gmail.com')
-                 .first_or_create(
-                   role: User.roles[:user],
-                   password: default_password,
-                   full_name: 'Mason Mccoy',
-                   postcode: 'S3 7PN'
-                 )
-
-print '.'
-user_user4 = User.where(email: 'user4@gmail.com')
-                 .first_or_create(
-                   role: User.roles[:user],
-                   password: default_password,
-                   full_name: 'Angelina Bevon',
-                   postcode: 'WC2B 4PA'
-                 )
-
-print '.'
-user_emails = ['user5@gmail.com','user6@gmail.com','user7@gmail.com','user8@gmail.com','user9@gmail.com','user10@gmail.com','user11@gmail.com','user12@gmail.com']
+full_names = ['John Doe', 'Jane Doe', 'Bob Smith', 'Alice Johnson', 'Michael Brown', 'Emily Davis', 'David Lee', 'Megan Wilson', 'Samuel Jones', 'Olivia Martin', 'Matthew Clark',
+              'Ella Wright']
+postcodes = ['SW1A 0AA', 'EC1A 1BB', 'W1D 3QU', 'SE10 0BB', 'B1 2HF', 'WC2N 5DU', 'EH1 1QB', 'LS1 4BR', 'L1 8JQ', 'M60 7RA', 'BN1 1AA', 'OX1 2PL']
 user_list = []
-user_emails.each do |email|
 
-  print '.'
+full_names.each_with_index do |_full_name, index|
   user_list << (
-    User.where(email: email)
-      .first_or_create(
+      User.where(email: "user#{index + 1}@gmail.com").first_or_create(
         role: User.roles[:user],
         password: default_password,
-        full_name: Faker::Name.name
+        full_name: full_names[index],
+        postcode: postcodes[index]
       )
-  )
+    )
+  print '.'
 end
 
 def make_friend(user_sending, user_receiving)
@@ -117,21 +81,21 @@ end
 
 puts ''
 print 'creating friends'
-make_friend(user_user1, user_user2)
-make_friend(user_user1, user_user3)
-make_friend(user_user1, user_user4)
-make_friend(user_user2, user_user3)
-make_friend(user_user2, user_user4)
-make_friend(user_user3, user_user4)
-make_friend(user_user1, user_rep1)
-make_friend(user_user1, user_rep2)
-make_friend(user_user1, user_advertiser1)
-make_friend(user_user1, user_advertiser2)
-make_friend(user_user2, user_rep1)
-make_friend(user_user2, user_rep2)
+make_friend(user_list[0], user_list[1])
+make_friend(user_list[0], user_list[2])
+make_friend(user_list[0], user_list[3])
+make_friend(user_list[1], user_list[2])
+make_friend(user_list[1], user_list[3])
+make_friend(user_list[2], user_list[3])
+make_friend(user_list[0], user_rep1)
+make_friend(user_list[0], user_rep2)
+make_friend(user_list[0], user_advertiser1)
+make_friend(user_list[0], user_advertiser2)
+make_friend(user_list[1], user_rep1)
+make_friend(user_list[1], user_rep2)
 
 puts ''
-print 'creating categories.'
+print 'creating categories'
 
 category_bar = Category.first_or_create(
   name: 'Bar'
@@ -156,11 +120,10 @@ category_sports = Category.where(
   name: 'Sports'
 ).first_or_create
 
-
-
 event_list = []
 puts ''
-print 'creating events.'
+print 'creating events'
+
 event_1 = Event.where(
   user_id: user_advertiser1.id,
   name: "Billy's Pizza cooking class",
@@ -232,7 +195,6 @@ event_5 = Event.where(
   approved: true
 ).first_or_create
 
-
 print '.'
 event_6 = Event.where(
   user_id: user_advertiser2.id,
@@ -278,13 +240,13 @@ event_8 = Event.where(
 print '.'
 event_9 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Music Festival",
-  address_line1: "123 Main Street",
-  town: "Springfield",
-  postcode: "SW1A 1AA",
+  name: 'Music Festival',
+  address_line1: '123 Main Street',
+  town: 'Springfield',
+  postcode: 'SW1A 1AA',
   latitude: 40.712776,
   longitude: -74.005974,
-  description: "A day-long festival featuring live music from local bands.",
+  description: 'A day-long festival featuring live music from local bands.',
   category_id: category_music.id,
   approved: true
 ).first_or_create
@@ -292,13 +254,13 @@ event_9 = Event.where(
 print '.'
 event_10 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Art Show",
-  address_line1: "456 Elm Street",
-  town: "Shelbyville",
-  postcode: "B1 1BB",
+  name: 'Art Show',
+  address_line1: '456 Elm Street',
+  town: 'Shelbyville',
+  postcode: 'B1 1BB',
   latitude: 41.878113,
   longitude: -87.629799,
-  description: "An exhibition of paintings and sculptures by local artists.",
+  description: 'An exhibition of paintings and sculptures by local artists.',
   category_id: category_music.id,
   approved: true
 ).first_or_create
@@ -306,13 +268,13 @@ event_10 = Event.where(
 print '.'
 event_11 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Food Festival",
-  address_line1: "789 Oak Street",
-  town: "Capital City",
-  postcode: "M1 1AE",
+  name: 'Food Festival',
+  address_line1: '789 Oak Street',
+  town: 'Capital City',
+  postcode: 'M1 1AE',
   latitude: 34.052235,
   longitude: -118.243683,
-  description: "A celebration of local cuisine with food stalls and cooking demonstrations.",
+  description: 'A celebration of local cuisine with food stalls and cooking demonstrations.',
   category_id: category_restaurant.id,
   approved: true
 ).first_or_create
@@ -320,91 +282,91 @@ event_11 = Event.where(
 print '.'
 event_12 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Book Fair",
-  address_line1: "321 Maple Street",
-  town: "Ogdenville",
-  postcode: "CF10 1BH",
+  name: 'Book Fair',
+  address_line1: '321 Maple Street',
+  town: 'Ogdenville',
+  postcode: 'CF10 1BH',
   latitude: 42.360081,
   longitude: -71.058884,
-  description: "A gathering of booksellers and publishers with book signings and readings.",
+  description: 'A gathering of booksellers and publishers with book signings and readings.',
   category_id: category_theatre.id,
-  approved:true
+  approved: true
 ).first_or_create
 
 print '.'
 event_13 = Event.where(
-  user_id:user_advertiser2.id,
-  name:"Film Festival",
-  address_line1:"159 Hollywood Boulevard",
-  town:"Los Angeles",
-  postcode:"BT1 5GS",
-  latitude:"34.0928092",
-  longitude:"-118.3286614",
-  description:"A week-long festival showcasing independent films from around the world.",
-  category_id:category_music.id,
-  approved:true
+  user_id: user_advertiser2.id,
+  name: 'Film Festival',
+  address_line1: '159 Hollywood Boulevard',
+  town: 'Los Angeles',
+  postcode: 'BT1 5GS',
+  latitude: 34.0928092,
+  longitude: -118.3286614,
+  description: 'A week-long festival showcasing independent films from around the world.',
+  category_id: category_music.id,
+  approved: true
 ).first_or_create
 
 print '.'
 event_14 = Event.where(
-  user_id:user_advertiser2.id,
-  name:"Comedy Night",
-  address_line1:"753 Broadway Street",
-  town:"New York City",
-  postcode:"LS1 1UR",
-  latitude:"40.7322535",
-  longitude:"-73.9874105",
-  description:"A night of stand-up comedy featuring local comedians.",
-  category_id:category_bar.id,
-  approved:true
+  user_id: user_advertiser2.id,
+  name: 'Comedy Night',
+  address_line1: '753 Broadway Street',
+  town: 'New York City',
+  postcode: 'LS1 1UR',
+  latitude: 40.7322535,
+  longitude: -73.9874105,
+  description: 'A night of stand-up comedy featuring local comedians.',
+  category_id: category_bar.id,
+  approved: true
 ).first_or_create
 
 print '.'
 event_15 = Event.where(
-  user_id:user_advertiser2.id,
-  name:"Farmers Market",
-  address_line1:"246 Rural Road",
-  town:"Smallville",
-  postcode:"G1 1XU",
-  latitude:"38.2544472",
-  longitude:"-85.7591230",
-  description:"A weekly market featuring fresh produce and handmade goods from local farmers and artisans.",
-  category_id:category_restaurant.id,
-  approved:true
+  user_id: user_advertiser2.id,
+  name: 'Farmers Market',
+  address_line1: '246 Rural Road',
+  town: 'Smallville',
+  postcode: 'G1 1XU',
+  latitude: 38.2544472,
+  longitude: -85.7591230,
+  description: 'A weekly market featuring fresh produce and handmade goods from local farmers and artisans.',
+  category_id: category_restaurant.id,
+  approved: true
 ).first_or_create
 
 print '.'
 event_16 = Event.where(
-  user_id:user_advertiser2.id,
-  name:"Craft Fair",
-  address_line1:"369 Main Street",
-  town:"Riverdale",
-  postcode:"NE1 6EE",
-  latitude:"41.1536674",
-  longitude:"-73.2829269",
-  description:"A fair showcasing handmade crafts and goods from local artisans.",
-  category_id:category_sports.id,
-  approved:true
+  user_id: user_advertiser2.id,
+  name: 'Craft Fair',
+  address_line1: '369 Main Street',
+  town: 'Riverdale',
+  postcode: 'NE1 6EE',
+  latitude: 41.1536674,
+  longitude: -73.2829269,
+  description: 'A fair showcasing handmade crafts and goods from local artisans.',
+  category_id: category_sports.id,
+  approved: true
 ).first_or_create
 
 print '.'
 event_17 = Event.where(
-  user_id:user_advertiser2.id,
-  name:"Wine Tasting",
-  address_line1:"654 Vineyard Lane",
-  town:"Napa",
-  postcode:"L1 8JQ",
-  latitude:"38.5024689",
-  longitude:"-122.2653887",
-  description:"An evening of wine tasting featuring local wineries.",
-  category_id:category_bar.id,
-  approved:true
+  user_id: user_advertiser2.id,
+  name: 'Wine Tasting',
+  address_line1: '654 Vineyard Lane',
+  town: 'Napa',
+  postcode: 'L1 8JQ',
+  latitude: 38.5024689,
+  longitude: -122.2653887,
+  description: 'An evening of wine tasting featuring local wineries.',
+  category_id: category_bar.id,
+  approved: true
 ).first_or_create
 
 print '.'
 event_18 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Taste of India pop-up restaurant",
+  name: 'Taste of India pop-up restaurant',
   address_line1: '71 High Street',
   town: 'Birmingham',
   postcode: 'B17 9NS',
@@ -419,7 +381,7 @@ event_18 = Event.where(
 print '.'
 event_19 = Event.where(
   user_id: user_advertiser1.id,
-  name: "The Phantom of the Opera",
+  name: 'The Phantom of the Opera',
   address_line1: 'Shaftesbury Avenue',
   town: 'London',
   postcode: 'W1D 7EZ',
@@ -434,7 +396,7 @@ event_19 = Event.where(
 print '.'
 event_20 = Event.where(
   user_id: user_advertiser2.id,
-  name: "Summer Music Festival",
+  name: 'Summer Music Festival',
   address_line1: 'Victoria Park',
   town: 'Leicester',
   postcode: 'LE1 7RY',
@@ -449,7 +411,7 @@ event_20 = Event.where(
 print '.'
 event_21 = Event.where(
   user_id: user_advertiser1.id,
-  name: "Six Nations Rugby: Scotland vs Wales",
+  name: 'Six Nations Rugby: Scotland vs Wales',
   address_line1: 'Murrayfield Stadium',
   town: 'Edinburgh',
   postcode: 'EH12 5PJ',
@@ -464,7 +426,7 @@ event_21 = Event.where(
 print '.'
 event_22 = Event.where(
   user_id: user_advertiser1.id,
-  name: "Comedy Night at The Stand",
+  name: 'Comedy Night at The Stand',
   address_line1: '31 High Bridge',
   town: 'Newcastle upon Tyne',
   postcode: 'NE1 1EW',
@@ -476,22 +438,20 @@ event_22 = Event.where(
   approved: true
 ).first_or_create
 
-
 print '.'
 event_23 = Event.where(
   user_id: user_advertiser1.id,
-  name: "The Golden Lion Pub Quiz",
+  name: 'The Golden Lion Pub Quiz',
   address_line1: '36 York Street',
   town: 'Norwich',
   postcode: 'NR2 2DU',
   latitude: 52.6266995,
   longitude: 1.2927062,
-  description: "Come along to The Golden Lion pub and join in our weekly quiz. Test your knowledge with our fun and challenging questions, while enjoying a pint of our locally brewed beer. Our quiz is free to enter, and the winning team receives a £50 bar tab. Plus, we have plenty of other prizes up for grabs throughout the night. So gather your friends and come along for a great evening of fun and games!",
+  description: 'Come along to The Golden Lion pub and join in our weekly quiz. Test your knowledge with our fun and challenging questions, while enjoying a pint of our locally brewed beer. Our quiz is free to enter, and the winning team receives a £50 bar tab. Plus, we have plenty of other prizes up for grabs throughout the night. So gather your friends and come along for a great evening of fun and games!',
   category_id: category_bar.id,
   time_of_event: 10.days.from_now,
   approved: true
 ).first_or_create
-
 
 random_event_and_user_pairs = [
   [1, 1],
@@ -511,71 +471,82 @@ random_event_and_user_pairs = [
   [12, 8],
   [9, 17],
   [10, 11],
-  [18,13]
+  [18, 13]
 ]
 
 puts ''
-print 'Creating event reacts'
+print 'creating event reacts'
 
 random_event_and_user_pairs.each do |pair|
   print '.'
-    user_id = pair[0]
-    event_id = pair[1]
+  user_id = pair[0]
+  event_id = pair[1]
 
-    EventReact.where(
-      user_id: user_id,
-      event_id: event_id
-    ).first_or_create
-
+  EventReact.where(
+    user_id:,
+    event_id:
+  ).first_or_create
 end
 
 puts ''
-print 'Creating outings.'
+print 'creating outings'
+
 outing1 = Outing.where(
   name: 'Pizza Time',
+  description: 'Pizza Time is an outing centered around indulging in delicious, freshly made pizzas with a group of friends or family. It is an opportunity to explore different pizza places, try new toppings and flavors, and bond over the love of pizza.',
   date: 1.week.from_now,
-  creator_id: user_user1.id
-).first_or_create
+  creator_id: user_list[0].id,
+  outing_type: :personal
+).first_or_create!
 
 print '.'
 outing2 = Outing.where(
-  name: 'Hoover Convention',
+  name: 'Sunset Hike',
+  description: 'Join us for a beautiful evening hike as we watch the sun go down over the mountains. This moderate-level hike will take approximately 2 hours and cover 4 miles.',
   date: 2.weeks.from_now,
-  creator_id: user_user1.id
+  creator_id: user_list[0].id,
+  outing_type: :open
 ).first_or_create
 
 print '.'
 outing3 = Outing.where(
   name: 'Bar Crawl',
+  description: 'The crawl will visit a total of 5 bars and clubs throughout the night, each with its unique atmosphere and drink specials. ',
   date: 1.week.ago,
-  creator_id: user_user2.id
+  creator_id: user_list[1].id,
+  outing_type: :open
 ).first_or_create
 
 print '.'
 outing4 = Outing.where(
   name: 'Movie Night',
+  description: 'The movie night takes place in a cozy indoor setting, with comfortable couches and chairs arranged around a large screen. The room is dimly lit, creating a relaxed and inviting atmosphere. Snacks and drinks are provided, including popcorn, candy, and soda. A selection of classic movies is available to choose from, ranging from romantic comedies to action-packed blockbusters. Before the movie begins, attendees can chat and mingle with one another, discussing their favorite films and making new friends. As the lights dim and the movie starts, everyone settles in for a fun and entertaining evening.',
   date: 3.weeks.from_now,
-  creator_id: user_user2.id
+  creator_id: user_list[1].id,
+  outing_type: :personal
 ).first_or_create
 
 print '.'
 outing5 = Outing.where(
-  name: 'Pub Quiz crawl',
+  name: 'Pub Quiz',
+  description: 'The pub quiz involves participants competing in a battle of wits to see who can answer the most questions correctly. Tthe quiz consists of a series of rounds that cover a variety of topics ranging from pop culture to history and science. The quiz is open to teams of up to six people, and each round is composed of ten challenging questions. ',
   date: 2.weeks.from_now,
-  creator_id: user_user3.id
+  creator_id: user_list[2].id,
+  outing_type: :personal
 ).first_or_create
 
 outing_list = [outing1, outing2, outing3, outing4, outing5]
 
 puts ''
-print 'Creating participants.'
+print 'creating participants'
+
 # create participants for every creator of every outing
 outing_list.each do |outing|
   print '.'
   Participant.where(
     user_id: outing.creator_id,
     outing_id: outing.id,
-    status: "creator"
+    status: 'creator'
   ).first_or_create
 end
 
@@ -595,15 +566,15 @@ time_periods = [
   6.weeks.from_now + 7.days + 14.hours,
   7.weeks.from_now + 8.days + 16.hours,
   2.months.from_now + 3.weeks.from_now + 17.hours,
- (3.months + 1.day).from_now+18.hours,
- (4.months + 2.weeks).from_now+19.hours,
+  (3.months + 1.day).from_now + 18.hours,
+  (4.months + 2.weeks).from_now + 19.hours
 ]
 
-outing_list = [outing3,  outing1,  outing4,  outing2,  outing5,  outing2,  outing1,  outing3,  outing5,  outing4,  outing2,  outing1,  outing4,  outing3,  outing5,  outing1,  outing2]
+outing_list = [outing3, outing1, outing4, outing2, outing5, outing2, outing1, outing3, outing5, outing4, outing2, outing1, outing4, outing3, outing5, outing1, outing2]
 event_list = [event_1, event_2, event_3, event_4, event_5, event_6, event_7, event_8, event_9, event_10, event_11, event_12, event_13, event_14, event_15, event_16, event_17]
 
-puts ""
-print 'making proposed events'
+puts ''
+print 'creating proposed events'
 
 # zip the three lists together
 outing_list.zip(event_list, time_periods).each do |outing, event, time_period|
@@ -613,9 +584,7 @@ outing_list.zip(event_list, time_periods).each do |outing, event, time_period|
     event_id: event.id,
     proposed_datetime: time_period
   ).first_or_create
-
 end
-
 
 # create participants for every user of every outing
 
@@ -630,23 +599,18 @@ participant_zips.each do |user_id, outing|
   print '.'
   user = User.find(user_id)
 
-  status = "confirmed"
+  status = 'confirmed'
 
   # random but reproducible pending requests
-  if user_id + outing.id % 2 == 0
-    status = "pending"
-  end
+  status = 'pending' if (user_id + (outing.id % 2)).zero?
 
-  if outing.creator_id == user_id
-    status = "creator"
-  end
+  status = 'creator' if outing.creator_id == user_id
 
   Participant.where(
     user_id: user,
     outing_id: outing.id,
-    status: status
+    status:
   ).first_or_create
-
 end
 
 
@@ -681,101 +645,101 @@ print 'printing metrics.'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 4
 ).first_or_create
 
 print '.'
 metric_6 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 39.341952,
-  longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1, pricing_selected: 1
+  longitude: -93.907174, country_code: 'US', is_logged_in: false, number_interactions: 1
 ).first_or_create
 
 print '.'
 metric_7 = Metric.where(
   time_enter: '2022-11-26 12:24:16', time_exit: '2022-11-26 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0, pricing_selected: 1
+  longitude: -1.488364, country_code: 'CN', is_logged_in: false, number_interactions: 0
 ).first_or_create
 
 print '.'
 metric_8 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'RU', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_9 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_10 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AF', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_11 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AD', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_12 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'AW', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_13 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'GB', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_14 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'EG', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_15 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IE', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_16 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'ML', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_17 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'YT', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_18 = Metric.where(
   time_enter: '2022-11-27 12:24:16', time_exit: '2022-11-27 12:25:16', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_19 = Metric.where(
   time_enter: '2022-11-27 12:24:17', time_exit: '2022-11-27 12:25:17', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_20 = Metric.where(
   time_enter: '2022-11-27 12:24:18', time_exit: '2022-11-27 12:25:18', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
 
 print '.'
 metric_21 = Metric.where(
   time_enter: '2022-11-27 12:24:19', time_exit: '2022-11-27 12:25:19', route: '/', latitude: 53.376347,
-  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5, pricing_selected: 1
+  longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create

@@ -46,31 +46,6 @@ module DBQueries
     end
   end
 
-  def get_pricing_interest(register_interests, selected_pricing, start_date_time, end_date_time)
-    register_interests = register_interests.where(pricing_id: selected_pricing)
-    if start_date_time && end_date_time
-      register_interests = register_interests.where('created_at >= :start_date_time and created_at <= :end_date_time',
-                                                    { start_date_time:, end_date_time: })
-    end
-
-    register_interests.count
-  end
-
-  def get_number_pricing_page_bounce_outs(metrics, register_interests, start_date_time, end_date_time)
-    # puts metrics
-    # puts register_interests
-    if start_date_time && end_date_time
-      register_interests = register_interests.where('created_at >= :start_date_time and created_at <= :end_date_time',
-                                                    { start_date_time:, end_date_time: })
-      metrics = metrics.where("time_enter >= :start_date_time and time_enter <= :end_date_time and route = '/pricings'",
-                              { start_date_time:, end_date_time: })
-    else
-      metrics = metrics.where("route = '/pricings'")
-    end
-
-    metrics.count - register_interests.count
-  end
-
   def get_common_metrics(metrics)
     number_of_visits = get_number_of_visits(metrics, nil, nil)
     number_of_interactions_per_visit = get_number_of_interactions_per_visit(metrics, nil, nil)

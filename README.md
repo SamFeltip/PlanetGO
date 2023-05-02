@@ -89,12 +89,6 @@ The metrics page contains a summary of general metrics collected on each page, a
 
 The metrics page also contains a map of countries around the world from which the landing page was visited. Each country can be hovered over with the mouse to display the exact number of visits from that country. Keep in mind the start and end date used for the graph does not filter the visits as they appear on the map.
 
-### Register interest and Pricing
-
-A user can “register interest” by visiting the /pricings page and selecting any of the pricing options. This takes the user to a sign up page, where they can register their email for contact when the application has reached MVP. After registering interest, the user is prompted to create an account.
-
-Admins can visit /register_interests to see all emails which have been registered, and which plan was selected
-
 ## Coding Standards
 
 Ruby: https://github.com/rubocop/rubocop

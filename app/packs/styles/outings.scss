@@ -30,20 +30,20 @@
   grid-column-gap: 10px;
 }
 
-.outing-details .bi-calendar{
+.outing-details .bi-calendar {
   grid-area: bi-cal;
 }
 
-.outing-details .bi-pin{
+.outing-details .bi-pin {
   grid-area: bi-pin;
 }
 
 .outing-details .outing-date {
-grid-area: date;
+  grid-area: date;
 }
 
 .outing-details .outing-location {
-grid-area: location;
+  grid-area: location;
 }
 
 .proposed-event-set-datetime {
@@ -70,22 +70,25 @@ grid-area: location;
 }
 
 // used to include the bootstrap variable
-#content-who, #content-when, #where-sidebar, #where-body {
-  padding: 0 var(--bs-gutter-x)
+#content-who,
+#content-when,
+#where-sidebar,
+#where-body {
+  padding: 0 var(--bs-gutter-x);
 }
 
 // large screens
 @media (min-width: 992px) {
-
-  #content-who, #where-sidebar {
+  #content-who,
+  #where-sidebar {
     width: 30%;
     min-width: 400px;
     max-width: 450px;
-    box-shadow: 5px 0 5px -5px rgba(0, 0, 0, 0.75);
+    border-right: 1px solid darkgray;
   }
 
-  #content-when, #where-body {
+  #content-when,
+  #where-body {
     width: 70%;
   }
-
 }
