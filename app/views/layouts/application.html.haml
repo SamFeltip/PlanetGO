@@ -7,12 +7,6 @@
     %meta{ :'http-equiv' => 'X-UA-Compatible', content: 'IE=edge' }
     %meta{ name: "viewport", content: "width=device-width, initial-scale=1.0, shrink-to-fit=no" }
 
-
-    -#%meta{ name: "apple-mobile-web-app-capable", content: "yes" }
-    -#%meta{ name: "mobile-web-app-capable", content: "yes" }
-    -#%link{ rel: "manifest", href: asset_path('manifest.json') }
-    -#= render 'shared/pwa_icons'
-
     %script{:src=>"https://code.jquery.com/jquery-3.6.1.min.js"}
 
     - if content_for(:description)
@@ -31,7 +25,7 @@
     %header.navbar.navbar-expand-md.bg-light.mb-3
       .container-fluid
         = link_to '/', class: 'navbar-brand' do
-          = image_pack_tag 'planetgo_logo.png', height: 40
+          = image_pack_tag 'planetgo_logo.png', height: 40, alt: 'calendar icon in the center of a planet with a ring'
         %button.navbar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#navbar-content' }, aria: { controls: 'navbar-content', expanded: 'false', label: 'Toggle navigation' } }
           %span.navbar-toggler-icon
 
@@ -58,7 +52,7 @@
                     Friends
 
 
-              - if current_user.admin?
+              - if can? :update, User
 
                 %li.nav-item.active
                   = link_to users_path, class: 'nav-link' do
@@ -66,8 +60,10 @@
                     %span.nav-title
                       Accounts
 
+              - if can? :manage, Metric
+
                 %li.nav-item.active
-                  = link_to '/metrics', class: 'nav-link' do
+                  = link_to metrics_path, class: 'nav-link' do
                     %i.bi-list-ol
                     %span.nav-title
                       Site Metrics

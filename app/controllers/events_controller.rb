@@ -1,49 +1,40 @@
 # frozen_string_literal: true
 
 class EventsController < ApplicationController
-  before_action :set_event, only: %i[show edit update destroy]
+  before_action :set_event, only: %i[show edit update destroy approval like]
   before_action :authenticate_user!
-  load_and_authorize_resource
   before_action :set_liked, only: %i[show]
+  load_and_authorize_resource
 
   # GET /events or /events.json
   def index
-    @approved_events = Event.where(approved: true)
-    @my_events = Event.my_events(current_user)
-    @all_pending_events = Event.other_users_pending_events(current_user)
+    @events = Event.approved
+    @user_events = Event.user_events(current_user)
+    @pending_events = Event.pending_for_user(current_user)
 
-    # Filter by name & description
-    @description = params['description']
-    if @description.present?
-      @approved_events = @approved_events.where('lower(description) LIKE ? OR lower(name) LIKE ?',
-                                                "%#{@description.downcase}%", "%#{@description.downcase}%")
+    filter_events_by_name_or_description
+    filter_events_by_category
+
+    # order by category interest if no search was performed
+    if params[:description].blank? && params[:category_id].blank?
+      @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
     end
 
-    # Filter by category
-    @category_id = params['category_id']
-    @approved_events = @approved_events.where(category_id: @category_id) if @category_id.present?
-
-    return unless current_user.commercial
-
-    # Re-organise events page according to user interests
-    @approved_events = @approved_events.all.sort_by { |event| event.user_interest(current_user) }.reverse!
+    @events = @events.page(params[:page])
   end
 
   # GET /events/1 or /events/1.json
   def show
-    @users_events = Event.where(user_id: @event.user_id, approved: true).where.not(id: @event.id).limit(3)
-
     @event = Event.find(params[:id]).decorate
+    @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3)
   end
 
   def approval
-    @event = Event.find(params[:id])
-    @event.approved = params[:approved]
-    @event.save
+    @event.update(approved: params[:approved])
 
-    @approved_events = Event.where(approved: true)
+    @approved_events = Event.approved
 
-    # redirect_to posts_path
+    # redirect_to events_path
     respond_to do |format|
       format.html { redirect_to events_path }
       format.js
@@ -51,24 +42,20 @@ class EventsController < ApplicationController
   end
 
   def like
-    @event = Event.find(params[:id])
-
     if current_user.liked(@event)
       event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
       EventReact.destroy(event_react_id)
 
     else
-      @event_react = @event.event_reacts.build(
+      @event.event_reacts.create(
         user_id: current_user.id,
         status: EventReact.statuses[:like]
       )
-
-      @event.save
     end
 
     @event_liked = current_user.liked(@event)
 
-    # redirect_to posts_path
+    # redirect_to events_path
     respond_to do |format|
       format.html { redirect_to events_path }
       format.js
@@ -125,6 +112,20 @@ class EventsController < ApplicationController
   end
 
   private
+
+  def filter_events_by_name_or_description
+    @description = params[:description].to_s.downcase.strip
+    return if @description.blank?
+
+    @events = @events.where('lower(description) LIKE :query OR lower(name) LIKE :query', query: "%#{@description}%")
+  end
+
+  def filter_events_by_category
+    @category_id = params[:category_id].to_i
+    return if @category_id.zero?
+
+    @events = @events.where(category_id: @category_id)
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_event

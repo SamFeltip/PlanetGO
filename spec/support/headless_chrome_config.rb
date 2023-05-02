@@ -20,6 +20,9 @@ Capybara.register_driver :headless_chrome do |app|
                                            default_directory: '/tmp')
   chrome_options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
+  # turn off warnings
+  Selenium::WebDriver.logger.ignore(%i[logger_info capabilities])
+
   if ENV['SELENIUM_HOST']
     Capybara::Selenium::Driver.new(
       app,

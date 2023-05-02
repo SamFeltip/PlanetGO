@@ -106,4 +106,8 @@ class EventDecorator < ApplicationDecorator
       'red'
     end
   end
+
+  def map_image
+    "https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s+ff0000(#{longitude},#{latitude})/#{longitude},#{latitude},10,0/300x200@2x?access_token=pk.eyJ1IjoicmFuZGludDI4IiwiYSI6ImNsaDQwN244MDBnYnEzY3Fnazc4NW14d2UifQ.jdlAkOv03e_XS165HrP2Vg"
+  end
 end
