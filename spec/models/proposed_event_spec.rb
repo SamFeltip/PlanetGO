@@ -45,27 +45,24 @@ RSpec.describe ProposedEvent do
   let!(:participant1) { create(:participant, user_id: participant_user1.id, outing_id: outing.id) }
   let!(:participant2) { create(:participant, user_id: participant_user2.id, outing_id: outing.id) }
 
-
   describe '#failed_vote' do
     before do
-      proposed_event.liked_by(participant_user1)
+      proposed_event.liked_by(participant1.user)
     end
 
     context 'when the proposed event has less than half of the outing participants votes' do
-
       it 'returns true' do
-        expect(proposed_event.failed_vote).to eq(true)
+        expect(proposed_event.failed_vote).to be(true)
       end
     end
 
     context 'when the proposed event has more than half of the outing participants votes' do
-
       before do
-        proposed_event.liked_by(participant_user2)
+        proposed_event.liked_by(participant2.user)
       end
 
       it 'returns false' do
-        expect(proposed_event.failed_vote).to eq(false)
+        expect(proposed_event.failed_vote).to be(false)
       end
     end
   end

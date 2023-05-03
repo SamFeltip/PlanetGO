@@ -10,7 +10,7 @@ RSpec.describe 'Outings' do
   let(:other_outing_creator) { create(:user, full_name: 'David Richards') }
 
   let!(:outing_creator) { create(:user, full_name: 'John Smith') }
-  let!(:participant_user) { create(:user, full_name: 'Jane Doe')}
+  let!(:participant_user) { create(:user, full_name: 'Jane Doe') }
   let!(:participant) { create(:participant, user_id: participant_user.id, outing_id: past_outing.id, status: Participant.statuses[:confirmed]) }
 
   let!(:past_outing) { create(:outing, name: past_outing_name, creator_id: outing_creator.id, date: 1.week.ago, description: past_outing_desc) }
@@ -65,8 +65,8 @@ RSpec.describe 'Outings' do
       outing_desc = 'a fun outing!'
       outing_type = 'open'
 
-      let!(:friend1) {create(:user)}
-      let!(:friend2) {create(:user)}
+      let!(:friend1) { create(:user) }
+      let!(:friend2) { create(:user) }
 
       before do
         outing_creator.send_follow_request_to(friend1)
@@ -86,8 +86,6 @@ RSpec.describe 'Outings' do
 
         # the user clicks the "save" button
         click_button 'Continue'
-
-
       end
 
       it 'saves an outing' do
@@ -306,7 +304,7 @@ RSpec.describe 'Outings' do
 
       it 'does not show events that are already in the timetable in recommended events' do
         within '#recommended-events' do
-          expect(page).to have_no_content(event1.name)
+          expect(page).to have_no_content(event1_react.event.name)
         end
       end
 
@@ -335,7 +333,6 @@ RSpec.describe 'Outings' do
             expect(page).to have_no_content(event2.name)
           end
         end
-
       end
 
       context 'when the creator removes a proposed event from the outing' do
@@ -365,7 +362,6 @@ RSpec.describe 'Outings' do
             expect(page).to have_no_content(event1.name)
           end
         end
-
       end
 
       context 'when the user selects a new time of a proposed event' do
@@ -401,14 +397,13 @@ RSpec.describe 'Outings' do
       end
 
       context 'when the event attached to the proposed event has a set time' do
-        let!(:proposed_event2) {create(:proposed_event, event_id: event2.id, outing_id: past_outing.id)}
+        let!(:proposed_event2) { create(:proposed_event, event_id: event2.id, outing_id: past_outing.id) }
 
         before do
           visit outing_path(past_outing)
         end
 
         it 'does not let the user change the time of the proposed event' do
-
           within "#modal_proposed_event_#{proposed_event2.id}" do
             # set the time of the proposed event
             # expect proposed_event_proposed_datetime to be disabled
@@ -450,7 +445,6 @@ RSpec.describe 'Outings' do
         end
 
         it 'updates the count of likes in the modal', js: true do
-
           find_by_id("modal_button_proposed_event_#{proposed_event.id}").click
 
           within "#modal_proposed_event_#{proposed_event.id}" do
@@ -477,7 +471,6 @@ RSpec.describe 'Outings' do
 
         expect(page).to have_content('0 likes')
       end
-
     end
 
     context 'when the creator stops the voting count' do
@@ -503,7 +496,6 @@ RSpec.describe 'Outings' do
       end
 
       context 'when the creator stops the voting count' do
-
         before do
           find_by_id('send-invite-button').click
         end
@@ -518,20 +510,17 @@ RSpec.describe 'Outings' do
 
         it 'notifies the user the events have been removed' do
           expect(page).to have_content('failed proposed events were deleted.')
-
         end
       end
     end
   end
 
   context 'when a user is logged in as a participant' do
-
     let(:event_creator) { create(:user) }
     let(:category1) { create(:category, name: 'Cafe') }
     let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
 
     let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
-
 
     before do
       login_as participant_user
@@ -547,7 +536,6 @@ RSpec.describe 'Outings' do
       within '#where-timetable' do
         expect(page).to have_content(proposed_event.event.name)
       end
-
     end
 
     context 'when the user tries to visit set_details' do
@@ -570,7 +558,6 @@ RSpec.describe 'Outings' do
         expect(page).to have_no_content('Stop the count!')
       end
     end
-
   end
 
   context 'when a user is logged in as an uninvited user' do
