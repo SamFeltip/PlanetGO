@@ -10,7 +10,7 @@
     - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
       .event-action.d-flex.flex-row
 
-        %button.btn.btn-outline-primary.me-2.d-flex.align-items-center{"data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
+        %button.btn.btn-outline-primary.me-2.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
           %i.bi-three-dots
 
         =render 'proposed_events/modal', proposed_event: proposed_event, event: event

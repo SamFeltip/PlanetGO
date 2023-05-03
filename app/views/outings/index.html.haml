@@ -6,5 +6,5 @@
       %i.bi-plus-circle
 
 - @outings.each do |outing|
-  .click-card[outing]
+  .click-card{url: outing_path(outing)}[outing]
     = render 'outing_card', outing: outing

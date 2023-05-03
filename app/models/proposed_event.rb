@@ -32,6 +32,6 @@ class ProposedEvent < ApplicationRecord
   scope :failed_vote, -> { select(&:failed_vote) }
 
   def failed_vote
-    (get_likes.size) < (outing.participants.count / 2)
+    (get_likes.size) < (outing.participants.count / 2.0)
   end
 end

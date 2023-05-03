@@ -21,7 +21,7 @@ RSpec.describe 'Outings' do
     end
   end
 
-  context 'when a user is logged in' do
+  context 'when a user is logged in as the outing creator' do
     before do
       login_as outing_creator
     end
@@ -51,18 +51,24 @@ RSpec.describe 'Outings' do
       end
     end
 
-    describe 'lets the user create an outing' do
+    describe 'when the user creates an outing' do
       outing_name = 'New outing'
 
       outing_desc = 'a fun outing!'
       outing_type = 'open'
 
+      let!(:friend1) {create(:user)}
+      let!(:friend2) {create(:user)}
+
       before do
+        outing_creator.send_follow_request_to(friend1)
+        outing_creator.send_follow_request_to(friend2)
+
+        friend2.accept_follow_request_of(outing_creator)
+        friend1.accept_follow_request_of(outing_creator)
+
         visit '/outings'
         click_link 'New Outing'
-
-        # the user clicks on the button "New Outing"
-        # the user fills in a name, a date, a description, and selects "open" as the outing type
 
         fill_in 'Name', with: outing_name
 
@@ -72,6 +78,8 @@ RSpec.describe 'Outings' do
 
         # the user clicks the "save" button
         click_button 'Continue'
+
+
       end
 
       it 'saves an outing' do
@@ -102,9 +110,10 @@ RSpec.describe 'Outings' do
         expect(page).to have_current_path(set_details_outing_path(Outing.last))
       end
 
-      it 'lets the user see a list of their friends' do
-        pending 'depends on friends list'
-        expect(page).to have_content('Select friends to invite')
+      it 'lets the user see a list of their friends to invite' do
+        within '#not_invited_friends' do
+          expect(page).to have_content(friend1.full_name)
+        end
       end
 
       it 'lets the user share an outing link' do
@@ -268,26 +277,34 @@ RSpec.describe 'Outings' do
       end
     end
 
-    context 'when the user manages which events are in the outing' do
+    context 'when the creator visits the set_details page' do
       let(:event_creator) { create(:user) }
       let(:category1) { create(:category, name: 'Cafe') }
-      let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true) }
-      let(:event2) { create(:event, category: category1, name: "andy's coffee", user_id: event_creator.id, approved: true) }
+      let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
+      let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
+
       let!(:event1_react) { create(:event_react, user_id: outing_creator.id, event_id: event1.id) }
       let!(:event2_react) { create(:event_react, user_id: outing_creator.id, event_id: event2.id) }
+
+      let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
 
       before do
         visit set_details_outing_path(past_outing, position: 'where')
       end
 
-      it 'shows events the user has liked in the recommended events section' do
+      it 'shows events the user has liked in the recommended events section that are not proposed' do
         within '#recommended-events' do
-          expect(page).to have_content(event1_react.event.name)
           expect(page).to have_content(event2_react.event.name)
         end
       end
 
-      context 'when the user wants to manage events in an outing' do
+      it 'does not show events that are already in the timetable' do
+        within '#recommended-events' do
+          expect(page).to have_no_content(event1.name)
+        end
+      end
+
+      context 'when the user adds a proposed event to an outing' do
         def click_add_event(event)
           within '#recommended-events' do
             within "#event_#{event.id}" do
@@ -297,9 +314,28 @@ RSpec.describe 'Outings' do
           end
         end
 
-        def click_remove_event(event)
+        before do
+          click_add_event(event2)
+        end
+
+        it 'adds the event to the timetable', js: true do
           within '#where-timetable' do
-            within "#event_#{event.id}" do
+            expect(page).to have_content(event2.name)
+          end
+        end
+
+        it 'removes the event from recommended events', js: true do
+          within '#recommended-events' do
+            expect(page).to have_no_content(event2.name)
+          end
+        end
+
+      end
+
+      context 'when the creator removes a proposed event from the outing' do
+        def click_remove_event(proposed_event)
+          within '#where-timetable' do
+            within "#proposed_event_#{proposed_event.id}" do
               accept_confirm do
                 click_link 'Remove Event'
               end
@@ -309,38 +345,165 @@ RSpec.describe 'Outings' do
         end
 
         before do
-          visit set_details_outing_path(past_outing, position: 'where')
-          click_add_event(event1)
-          click_add_event(event2)
-          click_remove_event(event2)
+          click_remove_event(proposed_event)
         end
 
-        it 'lets the user add an event', js: true do
-          within '#where-timetable' do
+        it 'shows the removed event in recommended events', js: true do
+          within '#recommended-events' do
             expect(page).to have_content(event1.name)
           end
+        end
 
-          within '#recommended-events' do
+        it 'removes the event from the timetable', js: true do
+          within '#where-timetable' do
             expect(page).to have_no_content(event1.name)
           end
         end
 
-        it 'lets the user remove an event', js: true do
-          within '#recommended-events' do
-            expect(page).to have_content(event2.name)
-          end
+      end
+
+      context 'when the user selects a new time of a proposed event' do
+        before do
+          visit outing_path(past_outing)
 
           within '#where-timetable' do
-            expect(page).to have_no_content(event2.name)
+            # click on the modal button of a proposed_event
+            within "#proposed_event_#{proposed_event.id}" do
+              find_by_id("modal_button_proposed_event_#{proposed_event.id}").click
+            end
+          end
+
+          within "#modal_proposed_event_#{proposed_event.id}" do
+            # set the time of the proposed event
+            find_by_id('proposed_event_proposed_datetime').set('12:00')
+            click_button 'Update'
           end
         end
 
-        it 'lets the user edit an event time', js: true do
-          pending 'event editing not implemented yet'
-          expect(page).to have_content('Edit an event')
+        it 'changes the proposed_datetime of the proposed_event' do
+          expect(proposed_event.reload.proposed_datetime.strftime('%H:%M')).to eq('12:00')
+        end
+
+        it 'updates the event time in the view', js: true do
+          within '#where-timetable' do
+            # click on the modal button of a proposed_event
+            within "#proposed_event_#{proposed_event.id}" do
+              expect(page).to have_content('12:00')
+            end
+          end
+        end
+      end
+
+      context 'when the event attached to the proposed event has a set time' do
+        let!(:proposed_event2) {create(:proposed_event, event_id: event2.id, outing_id: past_outing.id)}
+
+        before do
+          visit outing_path(past_outing)
+        end
+
+        it 'does not let the user change the time of the proposed event' do
+
+          within "#modal_proposed_event_#{proposed_event2.id}" do
+            # set the time of the proposed event
+            # expect proposed_event_proposed_datetime to be disabled
+            expect(page).to have_css('#proposed_event_proposed_datetime[disabled]')
+          end
+        end
+
+        it 'alerts the user the time cannot be changed' do
+          within "#modal_proposed_event_#{proposed_event2.id}" do
+            expect(page).to have_content('This event has a set date and time.')
+          end
         end
       end
     end
+
+    context 'when voting on proposed events' do
+      let(:event_creator) { create(:user) }
+      let(:category1) { create(:category, name: 'Cafe') }
+      let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
+      let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
+
+      let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
+
+      before do
+        visit outing_path(past_outing)
+      end
+
+      it 'lets the user like a proposed events' do
+        # expect clicking vote-button to increase the count of likes
+
+        within "#proposed_event_#{proposed_event.id}" do
+          find_by_id('vote-button').click
+        end
+
+        expect(page).to have_content('1 like')
+      end
+
+      it 'lets the user unlike a proposed events' do
+        # expect clicking vote-button to increase the count of likes
+
+        within "#proposed_event_#{proposed_event.id}" do
+          find_by_id('vote-button').click
+          find_by_id('vote-button').click
+        end
+
+        expect(page).to have_content('0 likes')
+      end
+
+    end
+
+    context 'when the creator stops the voting count' do
+      let(:event_creator) { create(:user) }
+      let(:category1) { create(:category, name: 'Cafe') }
+      let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
+      let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
+
+      let!(:user2) { create(:user, full_name: 'Adam West') }
+      let!(:user3) { create(:user, full_name: 'James Thompson') }
+      let!(:user4) { create(:user, full_name: 'John Doe') }
+
+      let!(:participant2) { create(:participant, user_id: user2.id, outing_id: past_outing.id) }
+      let!(:participant3) { create(:participant, user_id: user3.id, outing_id: past_outing.id) }
+      let!(:participant4) { create(:participant, user_id: user4.id, outing_id: past_outing.id) }
+
+      let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
+      let!(:proposed_event2) { create(:proposed_event, event_id: event2.id, outing_id: past_outing.id) }
+
+      before do
+        proposed_event.liked_by(outing_creator)
+        proposed_event.liked_by(user3)
+        proposed_event.liked_by(user4)
+
+        proposed_event2.liked_by(outing_creator)
+
+        visit outing_path(past_outing)
+      end
+
+      context 'when the creator stops the voting count' do
+
+        before do
+          find_by_id('send-invite-button').click
+        end
+
+        it 'removes events with less than 50% of the votes' do
+          expect(page).to have_no_content(event2.name)
+        end
+
+        it 'keeps events with more than 50% of the votes' do
+          expect(page).to have_content(event1.name)
+        end
+      end
+    end
+
+  end
+
+  context 'when a user is logged in as a participant' do
+    pending 'when the user is logged in as a participant'
+  end
+
+  context 'when a user is logged in as an uninvited user' do
+    pending ''
   end
 
   context 'when the user is not logged in' do
