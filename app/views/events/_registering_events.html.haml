@@ -20,7 +20,7 @@
           - @user_events.each do |event|
             %tr[event]
               %td.event_name
-                %a.black{href: event_path(event)}
+                %a{href: event_path(event)}
                   = event.name
               %td.event_status.text-center
 

@@ -5,6 +5,10 @@ html {
 }
 
 body {
+  font-family: "Poppins", sans-serif;
+  background-color: #251C36;
+  color: $text-color;
+
   min-height: 100vh;
   display: flex;
   flex-direction: column;
@@ -148,8 +152,11 @@ a {
 }
 
 .card {
+  background-color: #2F2E45;
+  //color: #635B75;
+
   margin-bottom: 2rem;
-  box-shadow: $card-box-shadow;
+  //box-shadow: $card-box-shadow;
   overflow: hidden;
 }
 

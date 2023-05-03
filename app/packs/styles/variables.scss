@@ -1,7 +1,6 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-
-$body-bg: #f8f9fa;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 $event-card-height: 156px;
 $event-card-bottom: 55px;
@@ -14,12 +13,16 @@ $card-border-color: #dedede;
 $card-border-width: 0;
 $card-box-shadow: 0 3px 20px 0 rgba(0,0,0,.16);
 
-// changing primary colour
-//$theme-colors: map-remove($theme-colors, "primary");
-//$theme-colors: map-merge(
-//  (
-//    "primary": #6b3b66
-//  ),
-//  $theme-colors);
 
-//$link-color: #8C304D;
+
+$text-color: #C1BAD2;
+$body-bg: #f8f9fa;
+// changing primary colour
+$theme-colors: map-remove($theme-colors, "primary");
+$theme-colors: map-merge(
+  (
+    "primary": $text-color
+  ),
+  $theme-colors);
+
+$link-color: $text-color;
