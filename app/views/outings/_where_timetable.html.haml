@@ -1,7 +1,6 @@
-#where-timetable.py-1
-  - if @outing.proposed_events.empty?
-    %p
-      You haven't added any events to your outing yet.
-  - else
-    - @outing.proposed_events.each do |proposed_event|
-      = render 'proposed_events/proposed_event_card', proposed_event: proposed_event, event: proposed_event.event
+- if @outing.proposed_events.empty?
+  %p
+    You haven't added any events to your outing yet.
+- else
+  - @outing.proposed_events.each do |proposed_event|
+    = render 'proposed_events/proposed_event_card', proposed_event: proposed_event, event: proposed_event.event

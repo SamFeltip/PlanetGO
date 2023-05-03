@@ -10,9 +10,17 @@ RSpec.describe 'Outings' do
   let(:other_outing_creator) { create(:user, full_name: 'David Richards') }
 
   let!(:outing_creator) { create(:user, full_name: 'John Smith') }
+  let!(:participant_user) { create(:user, full_name: 'Jane Doe')}
+  let!(:participant) { create(:participant, user_id: participant_user.id, outing_id: past_outing.id, status: Participant.statuses[:confirmed]) }
+
   let!(:past_outing) { create(:outing, name: past_outing_name, creator_id: outing_creator.id, date: 1.week.ago, description: past_outing_desc) }
   let!(:future_outing) { create(:outing, creator_id: outing_creator.id, name: 'future outing', date: 1.week.from_now) }
   let!(:another_outing) { create(:outing, creator_id: other_outing_creator.id, name: 'a better outing!', date: 1.week.from_now) }
+
+  before do
+    outing_creator.send_follow_request_to(participant_user)
+    participant_user.accept_follow_request_of(outing_creator)
+  end
 
   context 'when setting up user' do
     it 'records the creators name in the user object' do
@@ -172,9 +180,7 @@ RSpec.describe 'Outings' do
     end
 
     context 'when the user wants to manage who is coming to the outing' do
-      let!(:user1) { create(:user, full_name: 'John Appleseed') }
       let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
-      let!(:participant1) { create(:participant, user_id: user1.id, outing_id: past_outing.id) }
 
       before do
         outing_creator.send_follow_request_to(user3)
@@ -189,7 +195,7 @@ RSpec.describe 'Outings' do
       it 'shows a list of participants' do
         # within #participant-cards, expect to see the names of the participants
         within '#participant-cards' do
-          expect(page).to have_content(user1.full_name)
+          expect(page).to have_content(participant.user.full_name)
         end
       end
 
@@ -201,7 +207,7 @@ RSpec.describe 'Outings' do
       end
 
       def click_destroy_participant
-        within "#participant_#{participant1.id}" do
+        within "#participant_#{participant.id}" do
           accept_confirm do
             find('.destroy-participant').click
           end
@@ -220,7 +226,7 @@ RSpec.describe 'Outings' do
 
           # pending 'waiting on javascript fix'
           within '#participant-cards' do
-            expect(page).to have_no_content(user1.full_name)
+            expect(page).to have_no_content(participant_user.full_name)
           end
         end
 
@@ -230,7 +236,7 @@ RSpec.describe 'Outings' do
           click_destroy_participant
 
           within '#not_invited_friends' do
-            expect(page).to have_content(user1.full_name)
+            expect(page).to have_content(participant_user.full_name)
           end
         end
       end
@@ -277,7 +283,7 @@ RSpec.describe 'Outings' do
       end
     end
 
-    context 'when the creator visits the set_details page' do
+    context 'when the creator manages the proposed events of the outing' do
       let(:event_creator) { create(:user) }
       let(:category1) { create(:category, name: 'Cafe') }
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
@@ -298,7 +304,7 @@ RSpec.describe 'Outings' do
         end
       end
 
-      it 'does not show events that are already in the timetable' do
+      it 'does not show events that are already in the timetable in recommended events' do
         within '#recommended-events' do
           expect(page).to have_no_content(event1.name)
         end
@@ -459,21 +465,16 @@ RSpec.describe 'Outings' do
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
       let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
 
-      let!(:user2) { create(:user, full_name: 'Adam West') }
       let!(:user3) { create(:user, full_name: 'James Thompson') }
-      let!(:user4) { create(:user, full_name: 'John Doe') }
-
-      let!(:participant2) { create(:participant, user_id: user2.id, outing_id: past_outing.id) }
       let!(:participant3) { create(:participant, user_id: user3.id, outing_id: past_outing.id) }
-      let!(:participant4) { create(:participant, user_id: user4.id, outing_id: past_outing.id) }
 
       let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
       let!(:proposed_event2) { create(:proposed_event, event_id: event2.id, outing_id: past_outing.id) }
 
       before do
         proposed_event.liked_by(outing_creator)
-        proposed_event.liked_by(user3)
-        proposed_event.liked_by(user4)
+        proposed_event.liked_by(participant_user)
+        proposed_event.liked_by(participant3.user)
 
         proposed_event2.liked_by(outing_creator)
 
@@ -493,17 +494,72 @@ RSpec.describe 'Outings' do
         it 'keeps events with more than 50% of the votes' do
           expect(page).to have_content(event1.name)
         end
+
+        it 'notifies the user the events have been removed' do
+          expect(page).to have_content('failed proposed events were deleted.')
+
+        end
       end
     end
 
   end
 
   context 'when a user is logged in as a participant' do
-    pending 'when the user is logged in as a participant'
+
+    let(:event_creator) { create(:user) }
+    let(:category1) { create(:category, name: 'Cafe') }
+    let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
+
+    let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
+
+
+    before do
+      login_as participant_user
+    end
+
+    specify 'the user can see the outing' do
+      visit outing_path(past_outing)
+      expect(page).to have_content(past_outing.name)
+    end
+
+    specify 'the user can see the outing proposed events' do
+      visit outing_path(past_outing)
+      within '#where-timetable' do
+        expect(page).to have_content(proposed_event.event.name)
+      end
+
+    end
+
+    context 'when the user tries to visit set_details' do
+      before do
+        visit set_details_outing_path(past_outing)
+      end
+
+      it 'redirects to the root page' do
+        expect(page).to have_current_path('/')
+      end
+
+      it 'alerts the user they are not authorized to access this page' do
+        expect(page).to have_content('You are not authorized to access this page.')
+      end
+    end
+
+    specify 'the user cannot stop the vote count' do
+      visit outing_path(past_outing)
+      within '#where-timetable' do
+        expect(page).to have_no_content('Stop the count!')
+      end
+    end
+
   end
 
   context 'when a user is logged in as an uninvited user' do
-    pending ''
+    context 'when they visit a public outing they are not invited to' do
+      it 'creates a participant for them' do
+        pending('waiting for the feature to be implemented')
+
+      end
+    end
   end
 
   context 'when the user is not logged in' do

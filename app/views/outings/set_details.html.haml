@@ -71,7 +71,9 @@
     #where-body
       %h2
         Timetable
-      = render 'outings/where_timetable'
+      #where-timetable.py-1
+        = render 'outings/where_timetable'
+
       %h2.text-center
         - if current_user.postcode?
           Check out this popular events happening near you!
