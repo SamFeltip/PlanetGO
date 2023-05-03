@@ -7,7 +7,18 @@ class BugReportsController < ApplicationController
 
   # GET /bug_reports or /bug_reports.json
   def index
-    @bug_reports = current_user.admin? ? BugReport.all : BugReport.where(user: current_user)
+    @bug_reports = if current_user.admin?
+                     BugReport.all
+                   else
+                     BugReport.where(user: current_user)
+                   end
+
+    return if params[:search].blank?
+
+    @query = params[:search][:query]
+    @category = params[:search][:category]
+    @bug_reports = @bug_reports.search(@query) if @query.present?
+    @bug_reports = @bug_reports.by_category(@category) if @category.present? && @category != 'all categories'
   end
 
   # GET /bug_reports/1 or /bug_reports/1.json

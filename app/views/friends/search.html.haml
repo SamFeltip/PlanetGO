@@ -2,10 +2,10 @@
 
 %h2 Find friends
 = simple_form_for :search, url: friend_search_path, method: :get do |f|
-  = f.input :name, input_html: { value: @name || '' } , label: 'Search for a user by their name'
+  = f.input :name, input_html: { value: @name || '' } , label: 'Search for a user by their name', wrapper_html: { class: 'mb-3' }
 
-  = f.submit 'Search', class: 'btn btn-outline-primary mt-3'
-  = link_to 'Clear', friend_search_path, class: 'btn btn-outline-secondary mt-3'
+  = f.submit 'Search', class: 'btn btn-outline-primary'
+  = link_to 'Clear', friend_search_path, class: 'btn btn-outline-secondary'
 
 - if @users
   %table.table.mt-3
