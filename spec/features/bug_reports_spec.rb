@@ -8,9 +8,12 @@ RSpec.describe 'BugReports' do
 
   describe 'index page' do
     context 'when logged in as admin' do
+      let!(:bug_report1) { create(:bug_report, user:, title: 'Bug 1', category: 'usability') }
+      let!(:bug_report2) { create(:bug_report, user:, title: 'Bug 2', category: 'functionality') }
+      let!(:bug_report3) { create(:bug_report, user:, title: 'Bug 3', category: 'visual') }
+
       before do
         login_as(admin)
-        create_list(:bug_report, 3)
         visit bug_reports_path
       end
 
@@ -34,6 +37,34 @@ RSpec.describe 'BugReports' do
         click_button 'Submit'
         expect(page).to have_content('Bug report was successfully updated.')
         expect(page).to have_content('New title')
+      end
+
+      it 'can search by title or description' do
+        fill_in 'search_query', with: 'Bug 1'
+        click_on 'Search'
+
+        expect(page).to have_content(bug_report1.title)
+        expect(page).not_to have_content(bug_report2.title)
+        expect(page).not_to have_content(bug_report3.title)
+      end
+
+      it 'can filter by category' do
+        select 'usability', from: 'search[category]'
+        click_on 'Search'
+
+        expect(page).to have_content(bug_report1.title)
+        expect(page).not_to have_content(bug_report2.title)
+        expect(page).not_to have_content(bug_report3.title)
+      end
+
+      it 'can search by title or description and filter by category' do
+        fill_in 'search_query', with: 'Bug'
+        select 'usability', from: 'search[category]'
+        click_on 'Search'
+
+        expect(page).to have_content(bug_report1.title)
+        expect(page).not_to have_content(bug_report2.title)
+        expect(page).not_to have_content(bug_report3.title)
       end
     end
 

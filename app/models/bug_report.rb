@@ -24,6 +24,9 @@
 class BugReport < ApplicationRecord
   belongs_to :user
 
+  scope :search, ->(query) { where('title LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%") }
+  scope :by_category, ->(category) { where(category:) }
+
   enum category: {
     usability: 0,
     functionality: 1,
