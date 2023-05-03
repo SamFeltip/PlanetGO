@@ -42,6 +42,9 @@ class Ability
 
     can %i[destroy update read edit], ProposedEvent, outing: { creator_id: user.id }
 
+    can :create, BugReport
+    can %i[edit read update destroy], BugReport, user_id: user.id
+
     return unless user.suspended
 
     cannot %i[create update destroy], Event
@@ -60,5 +63,6 @@ class Ability
     can :manage, CategoryInterest
     can :manage, Event
     can :manage, Outing
+    can :manage, BugReport
   end
 end

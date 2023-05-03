@@ -48,7 +48,17 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
   has_many :event_reacts, dependent: :destroy
 
-  scope :ordered_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
+  default_scope { includes(:category) }
+  scope :approved, -> { where(approved: true) }
+  scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
+  scope :order_by_user_interest, -> {}
+  scope :user_events, ->(user) { where(user_id: user.id) }
+  scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
+  scope :order_by_category_interest, lambda { |user|
+    joins(:category)
+      .joins("INNER JOIN category_interests ci ON ci.category_id = categories.id AND ci.user_id = #{user.id}")
+      .order('ci.interest DESC')
+  }
 
   validates :name, presence: true, length: { maximum: 100 }
   validates :address_line1, presence: true, length: { maximum: 255 }
@@ -60,6 +70,8 @@ class Event < ApplicationRecord
 
   geocoded_by :address
   after_validation :geocode, if: ->(obj) { %i[address_line1 address_line2 town postcode].any? { |attr| obj.public_send("#{attr}_changed?") } }
+
+  self.per_page = 10
 
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
@@ -73,15 +85,11 @@ class Event < ApplicationRecord
     user
   end
 
-  def user_interest(user)
-    CategoryInterest.where(user_id: user.id, category_id:).first.interest
-  end
-
   def image_path
     if category.image?
-      "event_images/#{category.name.downcase}.png"
+      "event_images/#{category.name.downcase}.webp"
     else
-      'event_images/unknown.png'
+      'event_images/unknown.webp'
     end
   end
 
@@ -91,13 +99,5 @@ class Event < ApplicationRecord
     else
       [address_line1, town, postcode].compact.join(', ')
     end
-  end
-
-  def self.my_events(user)
-    Event.where(user_id: user.id)
-  end
-
-  def self.other_users_pending_events(user)
-    Event.where(approved: nil).where.not(user_id: user.id).or(Event.where(approved: false).where.not(user_id: user.id))
   end
 end

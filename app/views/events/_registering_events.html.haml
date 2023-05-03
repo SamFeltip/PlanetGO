@@ -5,7 +5,7 @@
     = link_to new_event_path, class: 'btn btn-outline-primary ms-auto' do
       New Event
       %i.bi-plus-circle
-  -if @my_events.empty?
+  -if @user_events.empty?
     .card-body
       %p Post some events and they'll show up here
   - else
@@ -17,7 +17,7 @@
             %th.text-center Approval Status
             %th
         %tbody
-          - @my_events.each do |event|
+          - @user_events.each do |event|
             %tr[event]
               %td.event_name
                 %a.black{href: event_path(event)}
@@ -35,7 +35,7 @@
                     %a{href: event_path(event), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' }, class: 'red ms-auto' }
                       %i.bi-trash
 
-- if current_user.admin? && @all_pending_events.count > 0
+- if current_user.admin? && @pending_events.count > 0
   #pending_events.card
     .card-header.d-flex.align-items-center
       %h2 Pending Events
@@ -48,7 +48,7 @@
             %th Creator
             %th.text-center Actions
         %tbody
-          - @all_pending_events.each do |event|
+          - @pending_events.each do |event|
             %tr{class: "pending_event"}[event]
               %td
                 =link_to event.name, edit_event_path(event)

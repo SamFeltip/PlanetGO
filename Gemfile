@@ -89,6 +89,7 @@ gem 'sanitize_email'
 gem 'acts_as_votable'
 gem 'sentry-rails'
 gem 'sentry-ruby'
+gem 'will_paginate'
 
 group :development do
   gem 'annotate'

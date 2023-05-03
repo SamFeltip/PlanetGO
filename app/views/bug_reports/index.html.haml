@@ -1,0 +1,40 @@
+%h1 Bug reports
+- if can? :manage, BugReport
+  = simple_form_for :search, url: bug_reports_path, method: :get do |f|
+    = f.input :query, input_html: { value: @query || '' } , label: 'Search by title or description', wrapper_html: { class: 'mb-3' }
+    = f.input :category, selected: @category || 'all categories', collection: BugReport.categories.keys + ['all categories'], label: 'Filter by category', wrapper_html: { class: 'mb-3' }
+
+    = f.submit 'Search', class: 'btn btn-outline-primary'
+    = link_to 'Clear', bug_reports_path, class: 'btn btn-outline-secondary'
+
+.card.mt-3
+  .card-header.d-flex.align-items-center
+    %span Listing Bug Reports
+
+    = link_to 'New Bug report', new_bug_report_path, class: 'btn btn-outline-secondary ms-auto'
+
+  - if @bug_reports.present?
+    %table.table
+      %thead
+        %tr
+          %th Title
+          %th Description
+          %th Category
+          %th Resolved
+          %th Reported by
+          %th
+      %tbody
+        - @bug_reports.each do |bug_report|
+          %tr.bug-report
+            %td= bug_report.title
+            %td= bug_report.description
+            %td= bug_report.category
+            %td= bug_report.resolved
+            %td= bug_report.user
+            %td
+              .btn-toolbar.float-end
+                = link_to 'Show', bug_report, class: 'btn btn-outline-secondary btn-sm'
+                = link_to 'Edit', edit_bug_report_path(bug_report), class: 'btn btn-outline-secondary ms-1 btn-sm'
+                = link_to 'Delete', bug_report, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+  - else
+    %p.p-3 You haven't submitted any bug reports yet

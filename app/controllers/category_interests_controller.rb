@@ -12,12 +12,13 @@ class CategoryInterestsController < ApplicationController
 
   def set_interest
     @category_interest = CategoryInterest.find(params[:id])
-    interest_setting = params[:interest]
-    return unless @category_interest.interest != interest_setting # Don't update if nothing changing
-    return unless interest_setting.to_i <= 1 && interest_setting.to_i >= -1 # Only allow within a range
+    interest_to_set = params.require(:interest).to_i
+
+    return unless @category_interest.interest != interest_to_set # Don't update if nothing changing
+    return unless interest_to_set.between?(-1, 1) # Only allow within a range
 
     respond_to do |format|
-      if @category_interest.update(interest: interest_setting)
+      if @category_interest.update(interest: interest_to_set)
         format.html { redirect_to category_interests_url, notice: 'Category interest was successfully updated.' }
         format.json { render :show, status: :ok, location: @category_interest }
       else

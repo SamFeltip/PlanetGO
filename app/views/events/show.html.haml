@@ -75,8 +75,10 @@
         %h2
           Location
       .card-body
-        %p
+        %img{ src: @event.decorate.map_image }
+        %p.mt-3.text-center
           =@event.address
+      
 
   %hr
 
@@ -86,7 +88,7 @@
 
 
   .horizontal-scroll
-    - @users_events.each do |event|
+    - @more_events.each do |event|
       = render 'event_card_small', event: event, render_params: {}
 
     %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column.event-card-small.card{href: events_path}

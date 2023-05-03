@@ -1,0 +1,14 @@
+-# frozen_string_literal: true
+= simple_form_for(@bug_report) do |f|
+  .card-body
+    = f.input :title, wrapper_html: { class: 'mb-3' }
+    = f.input :description, wrapper_html: { class: 'mb-3' }
+    = f.input :category, collection: BugReport.categories.keys, wrapper_html: { class: 'mb-3' }
+
+    - if can? :manage, BugReport
+      = f.input :resolved, wrapper_html: { class: 'mb-3' }
+
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Submit
+    = link_to 'View my bug reports', bug_reports_path, class: 'btn btn-link ms-auto'
