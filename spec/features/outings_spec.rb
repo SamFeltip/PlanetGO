@@ -22,7 +22,7 @@ RSpec.describe 'Outings' do
     participant_user.accept_follow_request_of(outing_creator)
   end
 
-  context 'when setting up user' do
+  context 'when setting an outing' do
     it 'records the creators name in the user object' do
       expect(outing_creator.full_name).to eq 'John Smith'
       expect(past_outing.creator).to eq outing_creator
@@ -34,7 +34,7 @@ RSpec.describe 'Outings' do
       login_as outing_creator
     end
 
-    describe 'when a user visit their account' do
+    describe 'when a user visits their account' do
       before do
         visit '/myaccount'
       end
@@ -436,14 +436,35 @@ RSpec.describe 'Outings' do
         visit outing_path(past_outing)
       end
 
-      it 'lets the user like a proposed events' do
-        # expect clicking vote-button to increase the count of likes
-
-        within "#proposed_event_#{proposed_event.id}" do
-          find_by_id('vote-button').click
+      context 'when liking a proposed events' do
+        before do
+          within "#proposed_event_#{proposed_event.id}" do
+            find_by_id('vote-button').click
+          end
         end
 
-        expect(page).to have_content('1 like')
+        it 'updates the count of likes', js: true do
+          within "#proposed_event_#{proposed_event.id}" do
+            expect(page).to have_content('1 like')
+          end
+        end
+
+        it 'updates the count of likes in the modal', js: true do
+
+          find_by_id("modal_button_proposed_event_#{proposed_event.id}").click
+
+          within "#modal_proposed_event_#{proposed_event.id}" do
+            within '.proposed-event-votes' do
+              expect(page).to have_content(outing_creator.full_name)
+            end
+          end
+        end
+
+        it 'changes the like icon to a filled thumbs up', js: true do
+          within "#proposed_event_#{proposed_event.id}" do
+            expect(page).to have_css('.bi-hand-thumbs-up-fill')
+          end
+        end
       end
 
       it 'lets the user unlike a proposed events' do
@@ -501,7 +522,6 @@ RSpec.describe 'Outings' do
         end
       end
     end
-
   end
 
   context 'when a user is logged in as a participant' do
@@ -554,10 +574,16 @@ RSpec.describe 'Outings' do
   end
 
   context 'when a user is logged in as an uninvited user' do
+    let(:uninvited_user) { create(:user) }
+
+    before do
+      login_as uninvited_user
+    end
+
     context 'when they visit a public outing they are not invited to' do
       it 'creates a participant for them' do
-        pending('waiting for the feature to be implemented')
-
+        pending('waiting for links to be implemented')
+        expect(Participant.where(outing: past_outing, user: uninvited_user).count).to eq(1)
       end
     end
   end

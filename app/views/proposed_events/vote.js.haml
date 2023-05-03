@@ -1,10 +1,9 @@
 var proposed_event_card = $('#proposed_event_#{@proposed_event.id}');
+var proposedEventBody = proposed_event_card.find('.proposed-event-votes');
+
 var voteLike = proposed_event_card.find('#vote-like');
 var voteLikeCount = proposed_event_card.find('#vote-like-count');
 var voteButton = proposed_event_card.find('#vote-button');
-
-
-voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
 
 - if current_user.voted_for? @proposed_event
   voteLike.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');
@@ -13,3 +12,6 @@ voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
 - else
   voteButton.attr('value', 'like');
   voteLike.removeClass('bi-hand-thumbs-up-fill').addClass('bi-hand-thumbs-up');
+
+voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
+proposedEventBody.html("#{escape_javascript(render 'proposed_events/vote_body', proposed_event: @proposed_event)}");

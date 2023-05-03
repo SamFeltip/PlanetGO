@@ -7,15 +7,16 @@
 
 
 
-    - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
-      .event-action.d-flex.flex-row
 
-        %button.btn.btn-outline-primary.me-2.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
-          %i.bi-three-dots
+    .event-action.d-flex.flex-row
 
-        =render 'proposed_events/modal', proposed_event: proposed_event, event: event
+      %button.btn.btn-outline-primary.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
+        %i.bi-three-dots
 
-        = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+      =render 'proposed_events/modal', proposed_event: proposed_event, event: event
+
+      - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
+        = link_to proposed_event_path(proposed_event), class: 'ms-2 btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
           %i.bi-trash
   .d-flex.flex-row
     .image

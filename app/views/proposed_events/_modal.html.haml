@@ -9,28 +9,21 @@
         %button.btn.close{"aria-label" => "Close", "data-bs-dismiss" => "modal", :type => "button"}
           %span{"aria-hidden" => "true"} ×
       .modal-body
+        - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
+          = simple_form_for proposed_event, html: { class: 'proposed-event-set-datetime' }, remote: true do |f|
+            -# disable form if the user is not the creator of the outing or the event has a time
+            - disabled = (proposed_event.outing.creator_id != current_user.id && !current_user.admin?) || proposed_event.event.time_of_event.present?
 
-        = simple_form_for proposed_event, html: { class: 'proposed-event-set-datetime' }, remote: true do |f|
-          -# disable form if the user is not the creator of the outing or the event has a time
-          - disabled = (proposed_event.outing.creator_id != current_user.id && !current_user.admin?) || proposed_event.event.time_of_event.present?
+            = f.input :proposed_datetime, disabled: disabled, as: :datetime, input_html: { class: 'form-control' }, wrapper: false, label: false, required: false, html5: true
 
-          = f.input :proposed_datetime, disabled: disabled, as: :datetime, input_html: { class: 'form-control' }, wrapper: false, label: false, required: false, html5: true
+            = f.button :submit, 'Update', disabled: disabled, class: 'btn btn-primary'
 
-          = f.button :submit, 'Update', disabled: disabled, class: 'btn btn-primary'
-
-        - if proposed_event.event.time_of_event.present?
-          %p.text-center
-            %i
-              This event has a set date and time.
+          - if proposed_event.event.time_of_event.present?
+            %p.text-center
+              %i
+                This event has a set date and time.
         .proposed-event-votes
-          %h2 Event Votes
-          .proposed_event_vote_count.mb-2
-            %button.btn{disabled: :disabled}
-              = proposed_event.decorate.vote_likes
-              %i.bi-hand-thumbs-up
-
-          - proposed_event.votes_for.by_type(User).voters.each do |voter|
-            = render 'users/user_card', user: voter
+          = render 'proposed_events/vote_body', proposed_event: proposed_event
 
       .modal-footer
         %button.btn.btn-secondary{"data-bs-dismiss" => "modal", :type => "button"} Close
