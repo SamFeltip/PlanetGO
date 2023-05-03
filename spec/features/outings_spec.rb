@@ -341,6 +341,20 @@ RSpec.describe 'Outings' do
         end
       end
     end
+
+    describe 'the user navigates to an invite link' do
+      before do
+        visit new_participant_path(another_outing)
+      end
+
+      it 'adds the user as a participant' do
+        expect(Participant.last).to have_attributes(
+          user_id: outing_creator.id,
+          outing_id: another_outing.id,
+          status: 'pending'
+        )
+      end
+    end
   end
 
   context 'when the user is not logged in' do
