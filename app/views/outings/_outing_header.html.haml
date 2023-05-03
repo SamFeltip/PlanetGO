@@ -4,6 +4,20 @@
       .d-flex.justify-content-between
         %h1
           = outing.name
+        .dropdown.me-1
+          %a.btn.btn-outline-secondary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
+            %i.bi-share
+            %b.caret
+          %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
+            %li
+              %button.btn.btn-outline-primary{:id=>'copy_clipboard', :href=> '#', :value=>new_participant_url(outing)}
+                %i.bi-link
+            %li
+              %a.bi-twitter{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{new_participant_url(outing)}"}
+              %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+            %li
+              %a.bi-envelope{:href=>"mailto:?subject=Check out my outing at planetGo! &body=Click this link to join! #{new_participant_url(outing)}"}
+            %li
     .outing-details
 
       %i.bi-calendar
