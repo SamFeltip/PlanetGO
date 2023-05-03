@@ -52,7 +52,6 @@ RSpec.describe 'Events' do
         click_button 'Save'
       end
 
-      # rubocop:disable RSpec/ExampleLength
       specify 'saves an event' do
         expect(Event.last).to have_attributes(
           name: event_name,
@@ -65,7 +64,6 @@ RSpec.describe 'Events' do
           user_id: event_creator.id
         )
       end
-      # rubocop:enable RSpec/ExampleLength
 
       specify 'the event address gets geocoded' do
         expect(Event.last).to have_attributes(

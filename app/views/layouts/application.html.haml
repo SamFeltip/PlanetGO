@@ -46,11 +46,16 @@
                     Outings
 
               %li.nav-item.active
-                = link_to '/friends', class: 'nav-link' do
+                = link_to friends_path, class: 'nav-link' do
                   %i.bi-people
                   %span.nav-title
                     Friends
 
+              %li.nav-item.active
+                = link_to new_bug_report_path, class: 'nav-link' do
+                  %i.bi-bug
+                  %span.nav-title
+                    Report a bug
 
               - if can? :update, User
 
@@ -66,7 +71,15 @@
                   = link_to metrics_path, class: 'nav-link' do
                     %i.bi-list-ol
                     %span.nav-title
-                      Site Metrics
+                      Site metrics
+              
+              - if can? :manage, BugReport
+
+                %li.nav-item.active
+                  = link_to bug_reports_path, class: 'nav-link' do
+                    %i.bi-list-ol
+                    %span.nav-title
+                      Bug reports
 
           %ul.navbar-nav.mr-auto
             - if user_signed_in?
