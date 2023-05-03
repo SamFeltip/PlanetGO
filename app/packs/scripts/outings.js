@@ -45,7 +45,7 @@ function inviteCopy() {
   navigator.clipboard.writeText(copyText.value);
 
   // Alert the copied text
-  alert("Copied the ivite link: " + copyText.value + ", send it to your friends to have them join your outing!");
+  alert("Copied the invite link: " + copyText.value + "  to your clipboard, send it to your friends to have them join your outing!");
 }
 
 $( "#copy_clipboard" ).on( "click", inviteCopy);
