@@ -34,6 +34,21 @@ RSpec.describe BugReport do
     it { is_expected.to validate_presence_of(:description) }
     it { is_expected.to validate_length_of(:description).is_at_most(1000) }
     it { is_expected.to validate_presence_of(:category) }
+
+    context 'when evidence is attached' do
+      let(:bug_report) { create(:bug_report) }
+
+      it 'validates that evidence is an image' do
+        bug_report.evidence.attach(io: Rails.root.join('spec/fixtures/image.png').open, filename: 'image.png', content_type: 'image/png')
+        expect(bug_report).to be_valid
+      end
+
+      it 'validates that evidence is not another file type' do
+        bug_report.evidence.attach(io: Rails.root.join('spec/fixtures/document.pdf').open, filename: 'document.pdf', content_type: 'application/pdf')
+        expect(bug_report).to be_invalid
+        expect(bug_report.errors.full_messages).to include('Evidence must be an image')
+      end
+    end
   end
 
   describe 'enums' do

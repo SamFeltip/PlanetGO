@@ -4,6 +4,7 @@
     = f.input :title, wrapper_html: { class: 'mb-3' }
     = f.input :description, wrapper_html: { class: 'mb-3' }
     = f.input :category, collection: BugReport.categories.keys, wrapper_html: { class: 'mb-3' }
+    = f.input :evidence, as: :file, wrapper_html: { class: 'mb-3' }
 
     - if can? :manage, BugReport
       = f.input :resolved, wrapper_html: { class: 'mb-3' }
