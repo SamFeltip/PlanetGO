@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_02_220638) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -21,6 +21,17 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
     t.datetime "updated_at", null: false
     t.bigint "user_id"
     t.index ["user_id"], name: "index_availabilities_on_user_id"
+  end
+
+  create_table "bug_reports", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "category"
+    t.boolean "resolved", default: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bug_reports_on_user_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -201,6 +212,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_01_135705) do
   end
 
   add_foreign_key "availabilities", "users"
+  add_foreign_key "bug_reports", "users"
   add_foreign_key "category_interests", "categories"
   add_foreign_key "category_interests", "users"
   add_foreign_key "event_reacts", "events"

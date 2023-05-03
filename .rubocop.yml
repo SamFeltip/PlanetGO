@@ -8,6 +8,9 @@ require:
 RSpec/MultipleMemoizedHelpers:
   Enabled: false
 
+RSpec/ExampleLength:
+  Max: 14
+
 Rails/BulkChangeTable:
   Enabled: false
 
