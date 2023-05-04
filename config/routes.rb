@@ -10,13 +10,7 @@ Rails.application.routes.draw do
     post 'create'
   end
 
-  resources :proposed_events, except: %i[new show] do
-    post :vote, on: :member
-  end
-
-  resources :bug_reports do
-    resources :comments, only: [:create]
-  end
+  get 'events/search', to: 'events#search', as: 'event_search'
 
   resources :events, except: %i[new show] do
     patch :like, on: :member
