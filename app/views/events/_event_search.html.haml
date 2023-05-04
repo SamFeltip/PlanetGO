@@ -1,9 +1,10 @@
-- if events.nil?
-- elsif events.any?
+- if events.nil? # Nothing inputted to form, show nothing
+
+- elsif events.any? # Render event cards
   %h3 Search Results
   - events.each do |event|
     = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: outing
 
-- else
+- else # System couldn't find any events with params specified
   %p
     No events found

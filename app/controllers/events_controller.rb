@@ -103,19 +103,15 @@ class EventsController < ApplicationController
 
   def search
     @events = Event.approved
-    @outing = Outing.where(id: params[:search][:outing]).first
+    @outing = Outing.where(id: params[:search][:outing]).first # Get the outing being searched from
+
     filter_events_by_name_or_description
     filter_events_by_category
 
-    if params[:description].to_s.strip == ''
-      @events = nil
-    end
+    @events = nil if params[:description].to_s.strip == '' # Events nil if no search
 
     respond_to do |format|
-      format.html do
-        redirect_to '/'
-      end
-      format.js
+      format.js # Call search.js.haml
     end
   end
 
