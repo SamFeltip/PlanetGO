@@ -7,6 +7,6 @@ class AddCachedVotesToProposedEvents < ActiveRecord::Migration[7.0]
       t.integer :cached_likes, default: 0
     end
 
-    Post.find_each(&:update_cached_votes)
+    ProposedEvents.find_each(&:update_cached_votes)
   end
 end
