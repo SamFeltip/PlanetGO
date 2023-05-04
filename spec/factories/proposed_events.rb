@@ -4,15 +4,13 @@
 #
 # Table name: proposed_events
 #
-#  id                 :bigint           not null, primary key
-#  cached_likes       :integer          default(0)
-#  cached_likes_total :integer          default(0)
-#  proposed_datetime  :datetime
-#  status             :integer
-#  created_at         :datetime         not null
-#  updated_at         :datetime         not null
-#  event_id           :bigint           not null
-#  outing_id          :bigint           not null
+#  id                :bigint           not null, primary key
+#  proposed_datetime :datetime
+#  status            :integer
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
+#  event_id          :bigint           not null
+#  outing_id         :bigint           not null
 #
 # Indexes
 #
@@ -28,7 +26,7 @@ FactoryBot.define do
   factory :proposed_event do
     event { nil }
     outing { nil }
-    proposed_datetime { '2023-02-24' }
+    date { '2023-02-24' }
     status { 1 }
   end
 end

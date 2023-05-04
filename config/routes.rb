@@ -17,15 +17,10 @@ Rails.application.routes.draw do
     patch :like, on: :member
   end
 
-  resources :proposed_events, except: %i[new show] do
-    post :vote, on: :member
-  end
-
   resources :outings do
     member do
       get 'set_details'
       post 'send_invites'
-      post 'stop_count'
     end
     post :send_invites, on: :member
   end

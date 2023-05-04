@@ -29,7 +29,7 @@ body {
 }
 
 // reset reboot
-.card-header h2, h3 {
+.card-header h2 {
   margin: 0.5rem 0;
 }
 
@@ -151,12 +151,6 @@ a {
   margin-bottom: 2rem;
   box-shadow: $card-box-shadow;
   overflow: hidden;
-  border : none;
-}
-
-.card .card {
-  box-shadow: none;
-  border: $card-border-color $card-border-width solid;
 }
 
 #navbar-content {
