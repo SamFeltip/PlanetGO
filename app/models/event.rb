@@ -8,6 +8,7 @@
 #  address_line1 :string
 #  address_line2 :string
 #  approved      :boolean
+#  colour        :integer
 #  description   :text
 #  latitude      :float
 #  longitude     :float
@@ -49,6 +50,7 @@ class Event < ApplicationRecord
   has_many :event_reacts, dependent: :destroy
 
   default_scope { includes(:category) }
+
   scope :approved, -> { where(approved: true) }
   scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
   scope :order_by_user_interest, -> {}
@@ -73,6 +75,9 @@ class Event < ApplicationRecord
 
   self.per_page = 10
 
+  enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
+
+
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end
@@ -87,7 +92,7 @@ class Event < ApplicationRecord
 
   def image_path
     if category.image?
-      "event_images/#{category.name.downcase}.webp"
+      "event_images/#{category.name.downcase} .webp"
     else
       'event_images/unknown.webp'
     end

@@ -1,4 +1,6 @@
 @import "variables";
+@import "event-colours";
+
 
 .event-card-image {
   height: 100%;
@@ -64,13 +66,13 @@ p {
   background: #F6F5F5;
   border-radius: 12px;
 
-  .event-card-image {
+  .event-image {
 
     display: flex;
     justify-content: center;
     align-items: center;
 
-    background: #E713EF;
+    //background: #E713EF;
     border-radius: 10px;
     overflow: hidden;
 

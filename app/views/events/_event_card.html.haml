@@ -1,7 +1,7 @@
 .card.event-card[event]
   .d-flex.flex-row
-    .image
-      = image_pack_tag event.image_path, class: 'event-card-image'
+    .image.event-card-image
+      -# = image_pack_tag event.image_path, class: 'event-card-image'
     .event-card-body.card-body
       .event-card-header.d-flex.justify-content-between
         %h2

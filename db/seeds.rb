@@ -140,7 +140,8 @@ event_1 = Event.where(
   longitude: -1.40230945,
   description: 'Edible Pizza at suspiciously low prices',
   category_id: category_restaurant.id,
-  time_of_event: 7.days.from_now
+  time_of_event: 7.days.from_now,
+  colour: 1
 ).first_or_create
 
 print '.'
@@ -154,7 +155,8 @@ event_2 = Event.where(
   latitude: 51.5760019,
   longitude: 0.1768541,
   category_id: category_restaurant.id,
-  time_of_event: 7.days.from_now
+  time_of_event: 7.days.from_now,
+  colour: 2
 ).first_or_create
 
 print '.'
@@ -169,7 +171,8 @@ event_3 = Event.where(
   description: "Our pub quiz is so hard you'll probably want a drink after getting all the questions wrong. 'Beer' £8 per half pint",
   category_id: category_bar.id,
   time_of_event: 7.days.from_now,
-  approved: true
+  approved: true,
+  colour: 3
 ).first_or_create
 
 print '.'
@@ -183,7 +186,8 @@ event_4 = Event.where(
   longitude: -2.0184091,
   description: 'Head down to Mango Cavern for half price on cocktails this wednesday!',
   category_id: category_bar.id,
-  approved: true
+  approved: true,
+  colour: 4
 ).first_or_create
 
 print '.'
@@ -198,7 +202,8 @@ event_5 = Event.where(
   description: "We have a super hard quiz, you'll never win the prize!",
   category_id: category_sports.id,
   time_of_event: 3.days.from_now,
-  approved: true
+  approved: true,
+  colour: 5
 ).first_or_create
 
 print '.'
@@ -212,7 +217,8 @@ event_6 = Event.where(
   longitude: -3.0568491,
   description: "Come to this bar, it's great!",
   category_id: category_music.id,
-  approved: true
+  approved: true,
+  colour: 6
 ).first_or_create
 
 print '.'
@@ -226,7 +232,8 @@ event_7 = Event.where(
   longitude: -3.0568491,
   description: 'Bob is a funny guy, come and see him!',
   category_id: category_theatre.id,
-  approved: true
+  approved: true,
+  colour: 7
 ).first_or_create
 
 print '.'
@@ -240,7 +247,8 @@ event_8 = Event.where(
   longitude: -3.1768491,
   description: 'Come and try our new Tzatziki Tuesdays!',
   category_id: category_restaurant.id,
-  approved: true
+  approved: true,
+  colour: 8
 ).first_or_create
 
 print '.'
@@ -254,7 +262,8 @@ event_9 = Event.where(
   longitude: -74.005974,
   description: 'A day-long festival featuring live music from local bands.',
   category_id: category_music.id,
-  approved: true
+  approved: true,
+  colour: 9
 ).first_or_create
 
 print '.'
@@ -268,7 +277,8 @@ event_10 = Event.where(
   longitude: -87.629799,
   description: 'An exhibition of paintings and sculptures by local artists.',
   category_id: category_music.id,
-  approved: true
+  approved: true,
+  colour: 10
 ).first_or_create
 
 print '.'
@@ -282,7 +292,8 @@ event_11 = Event.where(
   longitude: -118.243683,
   description: 'A celebration of local cuisine with food stalls and cooking demonstrations.',
   category_id: category_restaurant.id,
-  approved: true
+  approved: true,
+  colour: 11
 ).first_or_create
 
 print '.'
@@ -296,7 +307,8 @@ event_12 = Event.where(
   longitude: -71.058884,
   description: 'A gathering of booksellers and publishers with book signings and readings.',
   category_id: category_theatre.id,
-  approved: true
+  approved: true,
+  colour: 1
 ).first_or_create
 
 print '.'
@@ -310,7 +322,8 @@ event_13 = Event.where(
   longitude: -118.3286614,
   description: 'A week-long festival showcasing independent films from around the world.',
   category_id: category_music.id,
-  approved: true
+  approved: true,
+  colour: 2
 ).first_or_create
 
 print '.'
@@ -324,7 +337,8 @@ event_14 = Event.where(
   longitude: -73.9874105,
   description: 'A night of stand-up comedy featuring local comedians.',
   category_id: category_bar.id,
-  approved: true
+  approved: true,
+  colour: 3
 ).first_or_create
 
 print '.'
@@ -338,7 +352,8 @@ event_15 = Event.where(
   longitude: -85.7591230,
   description: 'A weekly market featuring fresh produce and handmade goods from local farmers and artisans.',
   category_id: category_restaurant.id,
-  approved: true
+  approved: true,
+  colour: 4
 ).first_or_create
 
 print '.'
@@ -352,7 +367,8 @@ event_16 = Event.where(
   longitude: -73.2829269,
   description: 'A fair showcasing handmade crafts and goods from local artisans.',
   category_id: category_sports.id,
-  approved: true
+  approved: true,
+  colour: 5
 ).first_or_create
 
 print '.'
@@ -366,7 +382,8 @@ event_17 = Event.where(
   longitude: -122.2653887,
   description: 'An evening of wine tasting featuring local wineries.',
   category_id: category_bar.id,
-  approved: true
+  approved: true,
+  colour: 6
 ).first_or_create
 
 print '.'
@@ -381,7 +398,8 @@ event_18 = Event.where(
   description: "Come and experience the flavours of India at our pop-up restaurant. Our talented chefs have created a delicious menu featuring a range of traditional dishes and modern twists. Start with our spicy samosas or tangy chaat, before moving on to our rich curries and biryanis. And don't forget to leave room for our decadent desserts! Our pop-up is only open for a limited time, so book your table now to avoid disappointment.",
   category_id: category_restaurant.id,
   time_of_event: 14.days.from_now,
-  approved: true
+  approved: true,
+  colour: 7
 ).first_or_create
 
 print '.'
@@ -396,7 +414,8 @@ event_19 = Event.where(
   description: "Experience the magic of The Phantom of the Opera at Her Majesty's Theatre. This timeless musical tells the story of a mysterious figure who haunts the Paris Opera House, and the young soprano who becomes his obsession. Featuring unforgettable songs such as 'Music of the Night' and 'All I Ask of You', this production has been wowing audiences for over 30 years. Don't miss your chance to see it live!",
   category_id: category_theatre.id,
   time_of_event: 21.days.from_now,
-  approved: true
+  approved: true,
+  colour: 8
 ).first_or_create
 
 print '.'
@@ -411,7 +430,8 @@ event_20 = Event.where(
   description: "Get ready for a day of fantastic live music at the Summer Music Festival! Featuring some of the UK's best up-and-coming artists, as well as established favourites, this festival promises to be a day to remember. Enjoy the sunshine (fingers crossed!) with a cold drink in hand, and let the music transport you to another world. With food stalls, crafts and activities for all ages, this is a perfect family day out.",
   category_id: category_music.id,
   time_of_event: 35.days.from_now,
-  approved: true
+  approved: true,
+  colour: 9
 ).first_or_create
 
 print '.'
@@ -426,7 +446,8 @@ event_21 = Event.where(
   description: "Get ready for an electrifying match as Scotland take on Wales in the Six Nations rugby tournament. Watch as two of the sport's top teams battle it out on the field, with tackles, tries and all the excitement you could want. With a buzzing atmosphere in the stands, and food and drink available to keep you fuelled, this is a must-see event for all rugby fans.",
   category_id: category_sports.id,
   time_of_event: 42.days.from_now,
-  approved: true
+  approved: true,
+  colour: 10
 ).first_or_create
 
 print '.'
@@ -441,7 +462,8 @@ event_22 = Event.where(
   description: "Get ready to laugh until your sides ache at The Stand comedy club. Featuring some of the funniest comedians on the UK circuit, this is the perfect way to let off steam and have a good time. With a fully stocked bar and delicious snacks available, settle in for an evening of hilarity that you won't forget anytime soon.",
   category_id: category_bar.id,
   time_of_event: 28.days.from_now,
-  approved: true
+  approved: true,
+  colour: 11
 ).first_or_create
 
 print '.'
@@ -456,7 +478,8 @@ event_23 = Event.where(
   description: 'Come along to The Golden Lion pub and join in our weekly quiz. Test your knowledge with our fun and challenging questions, while enjoying a pint of our locally brewed beer. Our quiz is free to enter, and the winning team receives a £50 bar tab. Plus, we have plenty of other prizes up for grabs throughout the night. So gather your friends and come along for a great evening of fun and games!',
   category_id: category_bar.id,
   time_of_event: 10.days.from_now,
-  approved: true
+  approved: true,
+  colour: 0
 ).first_or_create
 
 random_event_and_user_pairs = [

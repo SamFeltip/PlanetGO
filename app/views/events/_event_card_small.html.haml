@@ -1,6 +1,6 @@
 %a.card.event-card-small.horizontal-card{href: event_path(event)}
   -# = image_pack_tag event.image_path, width: "50px", id: 'event-card-image'
-  .event-card-image
+  .event-image{class: event.colour}
     = event.category.symbol
   .event-card-header
     %h3= event.name

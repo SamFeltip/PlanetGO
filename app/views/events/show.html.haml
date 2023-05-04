@@ -1,12 +1,11 @@
 - additional_stylesheet 'events'
 
-.event-header{:class => Category.find(@event.category_id).name.downcase }
+.event-header.event-image{:class => Category.find(@event.category_id).name.downcase && @event.colour }
   .content
     %h1
       =@event.name
     %h2
       =@event.time_of_event
-  = image_pack_tag @event.image_path, id: "event-image", width: "100px"
 
 .event-body
   .d-flex.justify-content-between

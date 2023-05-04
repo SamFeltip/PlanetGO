@@ -48,7 +48,7 @@
 
     - if user_signed_in?
 
-      - if defined?(@nearby_events) && !@nearby_events.empty?
+      - if !(@nearby_events.nil?) && !@nearby_events.empty?
         .mb-3
           %h2
             Near you
@@ -64,7 +64,7 @@
           %h2
             Because you like...
           %h3
-            = @favourite_category
+            = @favourite_category.decorate
 
           .horizontal-scroll
             - @recommended_events.each do |event|

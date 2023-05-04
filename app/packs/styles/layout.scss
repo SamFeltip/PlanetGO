@@ -9,8 +9,9 @@ html {
 }
 
 body {
-  font-family: "Graphik", sans-serif;
+  //font-family: "Graphik", sans-serif;
   //color: $text-color;
+  font-family: "Poppins", sans-serif;
 
   min-height: 100vh;
   display: flex;
@@ -428,9 +429,6 @@ a:hover {
 
 // medium screens
 @media (min-width: 767px) {
-  .horizontal-scroll {
-    justify-content: center;
-  }
 
   // horizontal scrolling cards
   .horizontal-scroll > a {
