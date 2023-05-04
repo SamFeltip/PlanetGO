@@ -10,9 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "active_storage_attachments", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "record_type", null: false
+    t.bigint "record_id", null: false
+    t.bigint "blob_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
+    t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
+  end
+
+  create_table "active_storage_blobs", force: :cascade do |t|
+    t.string "key", null: false
+    t.string "filename", null: false
+    t.string "content_type"
+    t.text "metadata"
+    t.string "service_name", null: false
+    t.bigint "byte_size", null: false
+    t.string "checksum"
+    t.datetime "created_at", null: false
+    t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "active_storage_variant_records", force: :cascade do |t|
+    t.bigint "blob_id", null: false
+    t.string "variation_digest", null: false
+    t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
+  end
 
   create_table "availabilities", force: :cascade do |t|
     t.datetime "start_time"
@@ -38,7 +66,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "symbol"
   end
 
   create_table "category_interests", force: :cascade do |t|
@@ -49,6 +76,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
     t.integer "interest", default: 0, null: false
     t.index ["category_id"], name: "index_category_interests_on_category_id"
     t.index ["user_id"], name: "index_category_interests_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.bigint "bug_report_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bug_report_id"], name: "index_comments_on_bug_report_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -91,7 +128,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
     t.string "postcode"
     t.float "latitude"
     t.float "longitude"
-    t.integer "colour"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["latitude"], name: "index_events_on_latitude"
     t.index ["longitude"], name: "index_events_on_longitude"
@@ -152,6 +188,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cached_likes_total", default: 0
+    t.integer "cached_likes", default: 0
     t.index ["event_id"], name: "index_proposed_events_on_event_id"
     t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
   end
@@ -213,10 +251,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
     t.index ["voter_type", "voter_id"], name: "index_votes_on_voter"
   end
 
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "availabilities", "users"
   add_foreign_key "bug_reports", "users"
   add_foreign_key "category_interests", "categories"
   add_foreign_key "category_interests", "users"
+  add_foreign_key "comments", "bug_reports"
+  add_foreign_key "comments", "users"
   add_foreign_key "event_reacts", "events"
   add_foreign_key "event_reacts", "users"
   add_foreign_key "events", "categories"

@@ -8,7 +8,6 @@
 #  address_line1 :string
 #  address_line2 :string
 #  approved      :boolean
-#  colour        :integer
 #  description   :text
 #  latitude      :float
 #  longitude     :float
