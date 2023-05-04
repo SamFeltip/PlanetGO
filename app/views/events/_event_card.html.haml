@@ -24,7 +24,7 @@
   - if defined?(render_params) && render_params[:add_event_to_outing]
 
     .card-footer
-      - if @proposed_event.nil?
+      - if @proposed_event.nil? # Needed this for search functionality
         - @proposed_event = ProposedEvent.new
 
       = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'}, remote: true do |f|
