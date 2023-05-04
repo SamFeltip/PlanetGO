@@ -1,8 +1,18 @@
 %a.card.event-card-small.horizontal-card{href: event_path(event)}
-  = image_pack_tag event.image_path, width: "100%"
-  .event-card-header.d-flex.align-items-center.justify-content-center
-    %h3.text-center.mx-3.mb-0= event.name
-  - if render_params[:add_event_to_outing]
+  = image_pack_tag event.image_path, width: "50px", id: 'event-card-image'
+
+  %h3= event.name
+  %h4= event.decorate.display_time
+  %p
+    %em= event.address
+  %p= event.decorate.display_description
+
+  .d-flex.justify-content-end
+    = button_to like_event_path(event), method: :post, remote: true, class: 'btn btn-primary' do
+      %i.bi-star
+      like
+
+  - if defined?(render_params) && render_params[:add_event_to_outing]
     .card-footer.overline
       = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'}, remote: true do |f|
         = f.hidden_field :event_id, value: event.id

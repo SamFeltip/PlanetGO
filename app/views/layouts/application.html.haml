@@ -20,7 +20,7 @@
     = stylesheet_pack_tag *['styles', *content_for(:additional_stylesheet).to_s.split(' ')].compact, media: 'all'
     = javascript_pack_tag *['application', *content_for(:additional_javascript).to_s.split(' ')].compact
     = favicon_link_tag
-  %body
+  %body{:class => (controller.action_name == 'show' || controller.action_name == 'new' ? '' : 'index')}
 
     %header.navbar.navbar-expand-md.bg-light.mb-3
       .container-fluid
@@ -106,7 +106,7 @@
         - flash.each do |message_type, message|
           - next unless message_type == 'alert' || message_type == 'notice'
           .alert{ class: "alert-#{ message_type == 'notice' ? 'success' : 'danger' }" }= message
-
+    / if the page url doesn't contain or /show, /new, give the class .index
     %main
       .container
         = yield

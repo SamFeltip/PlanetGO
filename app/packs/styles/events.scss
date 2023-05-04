@@ -40,9 +40,6 @@
 }
 
 .search .search-fields{
-  display: grid;
-  gap: 0.7rem;
-  grid-template-columns: 2fr minmax(190px, 1fr) auto;
 
   .description-content, .filter-content {
     display: grid;

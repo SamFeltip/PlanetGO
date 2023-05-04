@@ -1,28 +1,31 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Graphik:wght@600&500&400&display=swap');
 
 $event-card-height: 156px;
 $event-card-bottom: 55px;
 $event-card-padding: 10px;
 
-$h2-font-size: 20px;
-$h3-font-size: 17px;
+$h1-font-size: 30px;
+$h1-font-weight: 600;
+
+$h2-font-size: 25px;
+$h2-font-weight: 500;
+$h3-font-size: 15px;
 
 $card-border-color: #dedede;
 $card-border-width: 0;
 $card-box-shadow: 0 3px 20px 0 rgba(0,0,0,.16);
 
-
-
-$text-color: #C1BAD2;
-$body-bg: #f8f9fa;
-// changing primary colour
+//
+//$text-color: #C1BAD2;
+//$body-bg: #f8f9fa;
+//// changing primary colour
 $theme-colors: map-remove($theme-colors, "primary");
 $theme-colors: map-merge(
   (
-    "primary": $text-color
+    "primary": #7253DE,
   ),
   $theme-colors);
-
-$link-color: $text-color;
+//
+//$link-color: $text-color;

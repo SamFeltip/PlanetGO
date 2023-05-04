@@ -34,9 +34,57 @@
 
 // ******************** small event cards **************************
 
+h3 {
+
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+  /* identical to box height */
+
+  letter-spacing: -0.03em;
+
+  color: #000000;
+  margin-bottom: 0;
+}
+
+h4 {
+
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: -0.03em;
+
+  color: #747474;
+  margin-bottom: 0;
+
+}
+
+p {
+
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 14px;
+
+  color: #9A9A9A;
+  max-height: 3em;
+  overflow: hidden;
+
+}
 
 .event-card-small {
-  background-color: white;
+  width: 153px;
+  height: 250px;
+  padding: 10px;
+
+  background: #F6F5F5;
+  border-radius: 12px;
+
+  .event-card-image {
+
+    background: #E713EF;
+    border-radius: 10px;
+    overflow: hidden;
+  }
 }
 
 .event-card-small .event-card-header {

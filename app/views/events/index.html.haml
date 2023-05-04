@@ -2,46 +2,73 @@
 
 - if current_user.admin? || current_user.advertiser?
   = render "registering_events"
+.index
+  .d-flex.justify-content-between
+    %h1 Events
 
-.card
-  .card-body
-    = simple_form_for :search, url: events_path, method: :get do |f|
-
-      .search-fields
-        .description-content
-          %label{for: 'search_description', class: 'd-flex align-items-center'}
-            %i.bi-search
-
-          = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
-
-        .filter-content
-          %label{for: 'search_category_id', class: 'd-flex align-items-center'}
-            %i.bi-filter
-
-          = f.input :category_id, prompt: "filter by category...", input_html: { name: 'category_id'}, collection: Category.all, label: false, required: false, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+    = link_to new_outing_path, class: 'btn btn-outline-secondary ms-auto' do
+      create outing
+      %i.bi-plus
 
 
-        %button.btn.btn-outline-primary{ type: 'submit' }
+
+  = simple_form_for :search, url: events_path, method: :get do |f|
+
+    .search-fields
+      .description-content
+        %label{for: 'search_description', class: 'd-flex align-items-center'}
           %i.bi-search
-          Search
 
+        = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
   - if current_user.commercial
-    .card-footer.d-flex.justify-content-end
-      = link_to category_interests_path, class: 'nav-link btn btn-outline-secondary p-2' do
-        .btn-sm
-          %i.bi-pencil-square
-          Edit Event Category Interests
-%br
-#events
-  - if @events.empty?
-    %h1 Hmm...
-    %p There doesn't seem to be any events yet
-    %p come back later and they'll be more for you!
 
-  - @events.each do |event|
-    .click-card[event]
-      = render "event_card", event: event
-  
-  %div.digg_pagination
-    = will_paginate @events
+    .card.card-primary
+      .card-body
+        %h1
+          Tell us about
+          %br
+          yourself
+        .icon-display
+          .icon
+            🎬
+          .icon
+            ⚽
+          .icon
+            🍸
+          .filter-icons
+
+      .card-footer
+        = link_to category_interests_path, class: 'd-flex justify-content-end align-items-center' do
+          pick your favourite event categories here
+          %i.bi-arrow-right-short
+  %br
+  #events
+    - if @events.empty?
+      %h1 Hmm...
+      %p There doesn't seem to be any events yet
+      %p come back later and they'll be more for you!
+
+    - if user_signed_in?
+
+      - if defined?(@nearby_events) && !@nearby_events.empty?
+        %h2
+          Near you
+
+        .horizontal-scroll
+          - @nearby_events.each do |event|
+            .click-card[event]
+              = render "event_card_small", event: event
+
+
+      - if defined?(@favourite_category)
+        %h2
+          Because you like...
+        %h3
+          = @favourite_category
+
+        .horizontal-scroll
+          - @recommended_events.each do |event|
+            .click-card[event]
+              = render "event_card_small", event: event
+

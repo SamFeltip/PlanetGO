@@ -4,10 +4,13 @@ html {
   min-height: 100%;
 }
 
+.index {
+  background-color: #E3DFF8;
+}
+
 body {
-  font-family: "Poppins", sans-serif;
-  background-color: #251C36;
-  color: $text-color;
+  font-family: "Graphik", sans-serif;
+  //color: $text-color;
 
   min-height: 100vh;
   display: flex;
@@ -16,6 +19,14 @@ body {
   footer {
     margin-top: auto;
   }
+}
+
+h1{
+  font-weight: $h1-font-weight;
+}
+
+h2 {
+  font-weight: $h2-font-weight;
 }
 
 .container-fluid {
@@ -77,6 +88,11 @@ img.full-screen-image {
 
 a {
   text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  color: inherit;
 }
 
 // *************** Metrics page ***************
@@ -152,13 +168,106 @@ a {
 }
 
 .card {
-  background-color: #2F2E45;
+  //background-color: #2F2E45;
   //color: #635B75;
 
   margin-bottom: 2rem;
   //box-shadow: $card-box-shadow;
   overflow: hidden;
 }
+
+.card.card-primary {
+  color: white !important;
+
+  background: #7253DE;
+  border-radius: 12px;
+
+
+  .card-body {
+
+    margin: auto;
+    height: 120px;
+    display: grid;
+    grid-template-columns: auto minmax(0px,300px);
+  }
+
+  .card-footer {
+    background: inherit;
+  }
+
+  a {
+    font-weight: 600;
+    font-size: 15px;
+  }
+
+  i {
+    font-size: 20px;
+  }
+
+  .icon-display {
+    position: relative;
+  }
+
+  .filter-icons {
+    width: 100%;
+    height: 100%;
+
+    position: absolute;
+    right: 0;
+    top: 0;
+    background: linear-gradient(180.44deg, rgba(114, 83, 222, 0) 39.36%, rgba(114, 83, 222, 0.8) 99.62%);
+  }
+
+  .icon {
+    font-size: 35px;
+    position: absolute;
+
+  }
+
+  .icon:nth-child(1){
+    width: 62px;
+    //height: 62px;
+    right: 23px;
+    top: -10px;
+    transform: rotate(-10deg);
+  }
+
+  .icon:nth-child(2){
+    width: 62px;
+    height: 62px;
+    right: 45px;
+    top: 40px;
+  }
+
+  .icon:nth-child(3){
+    width: 62px;
+    height: 62px;
+    right: -10.21px;
+    top: 35px;
+    transform: rotate(20deg);
+  }
+}
+
+.btn.btn-outline-secondary {
+  border: 2px solid #000000;
+  border-radius: 20px;
+  color: #000000;
+
+  font-weight: 500;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  padding: 0 5px;
+
+  i {
+    font-size: 30px;
+  }
+}
+
+.btn.btn-outline-secondary:active {
+  background-color: inherit;
+}
+
 
 #navbar-content {
   justify-content: space-between;

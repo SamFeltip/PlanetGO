@@ -68,6 +68,7 @@ full_names.each_with_index do |_full_name, index|
       )
     )
   print '.'
+
 end
 
 def make_friend(user_sending, user_receiving)

@@ -21,6 +21,12 @@ class EventsController < ApplicationController
     end
 
     @events = @events.page(params[:page])
+
+    if user_signed_in?
+      @nearby_events = current_user.local_events
+      @favourite_category = current_user.category_interests.first.category if current_user.category_interests.any?
+      @recommended_events = current_user.recommended_events
+    end
   end
 
   # GET /events/1 or /events/1.json
