@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :set_outing, only: %i[show edit update destroy set_details send_invites]
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -16,7 +16,6 @@ class OutingsController < ApplicationController
 
   # GET /outings/1 or /outings/1.json
   def show
-    @outings = Outing.find_by(invite_token: params[:invite_token])
     @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
@@ -30,7 +29,6 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
-    @outing = Outing.find_by(invite_token: params[:invite_token])
     @calendar_start_date = Time.zone.at(342_000).to_date
     participants = Participant.where(outing_id: @outing.id)
     @peoples_availabilities = []
@@ -45,7 +43,6 @@ class OutingsController < ApplicationController
 
   def send_invites
     @friend_ids = params[:user_ids]
-    @outing = Outing.find_by(invite_token: params[:invite_token])
     @participants = Participant.none
 
     @friend_ids = [] if @friend_ids.nil?
