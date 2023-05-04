@@ -59,12 +59,16 @@
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
-      = form_tag events_path, id: 'event-search-form', class: 'mb-2', method: :get do
+      = simple_form_for :search, url: event_search_path, id: 'event-search-form', class: 'mb-2', remote: true, method: :get do |f|
         = text_field_tag :description
+        = f.hidden_field :outing, value: @outing.id
 
         %button.btn.btn-outline-secondary{:type => "submit"}
           %i.bi-search
 
+      #searched-events
+
+      %h3 Recommended Events
       #recommended-events
         = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing)
 

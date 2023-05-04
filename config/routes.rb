@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     post 'create'
   end
 
+  get 'events/search', to: 'events#search', as: 'event_search'
+
   resources :events, except: %i[new show] do
     patch :like, on: :member
   end

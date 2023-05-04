@@ -30,6 +30,9 @@
   - if defined?(render_params) && render_params[:add_event_to_outing]
 
     .card-footer
+      - if @proposed_event.nil?
+        - @proposed_event = ProposedEvent.new
+
       = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-between'}, remote: true do |f|
         = f.hidden_field :event_id, value: event.id
         = f.hidden_field :outing_id, value: outing.id

@@ -101,6 +101,24 @@ class EventsController < ApplicationController
     end
   end
 
+  def search
+    @events = Event.approved
+    @outing = Outing.where(id: params[:search][:outing]).first
+    filter_events_by_name_or_description
+    filter_events_by_category
+
+    if params[:description].to_s.strip == ''
+      @events = nil
+    end
+
+    respond_to do |format|
+      format.html do
+        redirect_to '/'
+      end
+      format.js
+    end
+  end
+
   # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
