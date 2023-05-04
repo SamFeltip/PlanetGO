@@ -215,22 +215,18 @@ RSpec.describe 'Outings' do
 
       context 'when you remove participants', js: true do
         it 'removes a participant object' do
-          # pending 'waiting on javascript fix'
           expect { click_destroy_participant }.to change(Participant, :count).by(-1)
         end
 
         it 'removes the participant from participant cards' do
           click_destroy_participant
 
-          # pending 'waiting on javascript fix'
           within '#participant-cards' do
             expect(page).to have_no_content(participant_user.full_name)
           end
         end
 
         it 'adds participant to #not_invited_friends' do
-          # pending 'waiting on javascript fix'
-
           click_destroy_participant
 
           within '#not_invited_friends' do
@@ -258,15 +254,12 @@ RSpec.describe 'Outings' do
         it 'adds the participant to participant cards' do
           press_invite_button
 
-          # pending 'waiting on javascript fix'
           within '#participant-cards' do
             expect(page).to have_content(user3.full_name)
           end
         end
 
         it 'removes participant from #not_invited_friends' do
-          # pending 'waiting on javascript fix'
-
           press_invite_button
 
           within '#not_invited_friends' do

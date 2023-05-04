@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details stop_count]
   before_action :authenticate_user!
   load_and_authorize_resource
+
+  before_action :set_outing, only: %i[show edit update destroy set_details stop_count]
+  before_action :set_participant, only: %i[show set_details]
 
   # GET /outings or /outings.json
   def index
@@ -14,10 +16,7 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1 or /outings/1.json
-  def show
-    # for proposed event cards
-    @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
-  end
+  def show; end
 
   # GET /outings/new
   def new
@@ -39,9 +38,6 @@ class OutingsController < ApplicationController
     @proposed_event = ProposedEvent.new
 
     @positions = %w[who when where]
-
-    # for proposed event cards
-    @participant = Participant.where(outing_id: @outing.id, user_id: current_user.id).first
   end
 
   def send_invites
@@ -86,8 +82,7 @@ class OutingsController < ApplicationController
   def create
     @outing = Outing.new(outing_params)
 
-    token_prefix = @outing.id.to_s
-    token = token_prefix + rand(100_000).to_s
+    token = @outing.id.to_s + rand(100_000).to_s
     @outing.invitation_token = token.to_i
 
     @participant = @outing.participants.build(
@@ -138,6 +133,11 @@ class OutingsController < ApplicationController
   def set_outing
     @outing = Outing.find(params[:id])
     @participants = @outing.participants
+  end
+
+  def set_participant
+    # for proposed event cards
+    @participant = Participant.find_by(outing_id: @outing.id, user_id: current_user.id)
   end
 
   # Only allow a list of trusted parameters through.
