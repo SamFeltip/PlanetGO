@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details]
   before_action :authenticate_user!
   load_and_authorize_resource
+
+  before_action :set_outing, only: %i[show edit update destroy set_details stop_count]
+  before_action :set_participant, only: %i[show set_details]
 
   # GET /outings or /outings.json
   def index
@@ -65,12 +67,22 @@ class OutingsController < ApplicationController
     end
   end
 
+  def stop_count
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
+    @failed_proposed_events.each(&:destroy)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
 
-    token_prefix = @outing.id.to_s
-    token = token_prefix + rand(100_000).to_s
+    token = @outing.id.to_s + rand(100_000).to_s
     @outing.invitation_token = token.to_i
 
     @participant = @outing.participants.build(
@@ -121,6 +133,11 @@ class OutingsController < ApplicationController
   def set_outing
     @outing = Outing.find(params[:id])
     @participants = @outing.participants
+  end
+
+  def set_participant
+    # for proposed event cards
+    @participant = Participant.find_by(outing_id: @outing.id, user_id: current_user.id)
   end
 
   # Only allow a list of trusted parameters through.

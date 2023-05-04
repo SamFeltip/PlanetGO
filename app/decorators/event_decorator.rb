@@ -3,6 +3,14 @@
 class EventDecorator < ApplicationDecorator
   delegate_all
 
+  def time_of_event
+    if object.time_of_event
+      object.time_of_event.strftime('%d/%m/%Y %H:%M')
+    else
+      ''
+    end
+  end
+
   def display_description(length = 100)
     if object.description.length <= length
       object.description

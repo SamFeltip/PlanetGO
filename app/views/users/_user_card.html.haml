@@ -1,0 +1,13 @@
+.card.outing-card[user]
+  .card-body.d-flex.flex-row
+    .p-2
+      .initial-avatar.d-inline-flex= user.initials
+    .outing-card-body.d-flex.flex-row.justify-content-between.align-items-center.w-100
+      %h2
+        %a.visit_outing.black{:href => user_path(user)}=user.full_name
+
+      - if defined?(participant_reaction)
+        - if participant_reaction.reaction == 'dislike'
+          %i#vote-dislike.bi-hand-thumbs-down-fill.lg-icon
+        - if participant_reaction.reaction == 'like'
+          %i#vote-like.bi-hand-thumbs-up-fill.lg-icon

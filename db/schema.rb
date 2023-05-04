@@ -188,6 +188,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cached_likes_total", default: 0
+    t.integer "cached_likes", default: 0
     t.index ["event_id"], name: "index_proposed_events_on_event_id"
     t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
   end
