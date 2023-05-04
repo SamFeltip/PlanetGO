@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     post 'create'
   end
 
+  resources :bug_reports do
+    resources :comments, only: [:create]
+  end
+
   resources :events, except: %i[new show] do
     patch :like, on: :member
   end

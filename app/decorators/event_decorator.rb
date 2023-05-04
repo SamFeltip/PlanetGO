@@ -19,13 +19,14 @@ class EventDecorator < ApplicationDecorator
       output = ''
       word_count = 0
 
-      # as long as the output is less than length, add another word
-      while object.description.split[..word_count].join(' ').length < length
+      object.description.split.each do |word|
+        break if (output + word).length > length
+
+        output += "#{word} "
         word_count += 1
-        output = object.description.split[..word_count].join(' ')
       end
 
-      "#{output}..."
+      "#{output.strip}..."
     end
   end
 
@@ -98,11 +99,7 @@ class EventDecorator < ApplicationDecorator
   end
 
   def colour
-    if object.category_id
-      object.category.colour
-    else
-      'bg-gray-200'
-    end
+    object.category.colour
   end
 
   def approved_colour

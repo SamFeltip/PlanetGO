@@ -23,6 +23,8 @@
 #
 class BugReport < ApplicationRecord
   belongs_to :user
+  has_one_attached :evidence
+  has_many :comments, dependent: :destroy
 
   scope :search, ->(query) { where('title LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%") }
   scope :by_category, ->(category) { where(category:) }
@@ -37,4 +39,13 @@ class BugReport < ApplicationRecord
   validates :title, presence: true, length: { maximum: 100 }
   validates :description, presence: true, length: { maximum: 1000 }
   validates :category, presence: true
+  validate :evidence_image
+
+  private
+
+  def evidence_image
+    return unless evidence.attached? && !evidence.image?
+
+    errors.add(:evidence, 'must be an image')
+  end
 end

@@ -251,6 +251,7 @@ RSpec.describe 'BugReports' do
         fill_in 'Title', with: 'Test bug report'
         fill_in 'Description', with: 'This is a test bug report'
         select 'performance', from: 'Category'
+        attach_file 'Upload evidence', Rails.root.join('spec/fixtures/image.png')
         click_on 'Submit'
 
         expect(page).to have_content('Bug report was successfully created.')
@@ -258,6 +259,7 @@ RSpec.describe 'BugReports' do
         expect(page).to have_content('This is a test bug report')
         expect(page).to have_content('performance')
         expect(page).to have_content('false')
+        expect(BugReport.last.evidence).to be_attached
       end
     end
 
