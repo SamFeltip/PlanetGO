@@ -39,15 +39,6 @@
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }
 
-.search .search-fields{
-
-  .description-content, .filter-content {
-    display: grid;
-    grid-template-columns: 25px auto;
-
-  }
-}
-
 // small screens (mobile)
 // TODO needs to include container-max-widths("sm")) from bootstrap
 @media (max-width: 540px) {

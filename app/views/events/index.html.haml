@@ -3,7 +3,7 @@
 - if current_user.admin? || current_user.advertiser?
   = render "registering_events"
 .index
-  .d-flex.justify-content-between
+  .d-flex.justify-content-between.align-items-center.mb-3
     %h1 Events
 
     = link_to new_outing_path, class: 'btn btn-outline-secondary ms-auto' do
@@ -14,16 +14,14 @@
 
   = simple_form_for :search, url: events_path, method: :get do |f|
 
-    .search-fields
+    .search-fields.mb-3
       .description-content
-        %label{for: 'search_description', class: 'd-flex align-items-center'}
-          %i.bi-search
 
         = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
   - if current_user.commercial
 
-    .card.card-primary
+    .card.card-primary.mb-3
       .card-body
         %h1
           Tell us about
@@ -42,7 +40,6 @@
         = link_to category_interests_path, class: 'd-flex justify-content-end align-items-center' do
           pick your favourite event categories here
           %i.bi-arrow-right-short
-  %br
   #events
     - if @events.empty?
       %h1 Hmm...
@@ -52,23 +49,25 @@
     - if user_signed_in?
 
       - if defined?(@nearby_events) && !@nearby_events.empty?
-        %h2
-          Near you
+        .mb-3
+          %h2
+            Near you
 
-        .horizontal-scroll
-          - @nearby_events.each do |event|
-            .click-card[event]
-              = render "event_card_small", event: event
+          .horizontal-scroll
+            - @nearby_events.each do |event|
+              .click-card[event]
+                = render "event_card_small", event: event
 
 
       - if defined?(@favourite_category)
-        %h2
-          Because you like...
-        %h3
-          = @favourite_category
+        .mb-3
+          %h2
+            Because you like...
+          %h3
+            = @favourite_category
 
-        .horizontal-scroll
-          - @recommended_events.each do |event|
-            .click-card[event]
-              = render "event_card_small", event: event
+          .horizontal-scroll
+            - @recommended_events.each do |event|
+              .click-card[event]
+                = render "event_card_small", event: event
 

@@ -99,26 +99,31 @@ puts ''
 print 'creating categories'
 
 category_bar = Category.first_or_create(
-  name: 'Bar'
+  name: 'Bar',
+  symbol: '🍺'
 )
 print '.'
 category_restaurant = Category.where(
-  name: 'Restaurant'
+  name: 'Restaurant',
+  symbol: '🍽️'
 ).first_or_create
 print '.'
 
 category_theatre = Category.where(
-  name: 'Theatre'
+  name: 'Theatre',
+  symbol: '🎭'
 ).first_or_create
 print '.'
 
 category_music = Category.where(
-  name: 'Music'
+  name: 'Music',
+  symbol: '🎵'
 ).first_or_create
 print '.'
 
 category_sports = Category.where(
-  name: 'Sports'
+  name: 'Sports',
+  symbol: '⚽'
 ).first_or_create
 
 event_list = []

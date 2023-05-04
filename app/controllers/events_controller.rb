@@ -25,7 +25,7 @@ class EventsController < ApplicationController
     if user_signed_in?
       @nearby_events = current_user.local_events
       @favourite_category = current_user.category_interests.first.category if current_user.category_interests.any?
-      @recommended_events = current_user.recommended_events
+      @recommended_events = Event.where(category: @favourite_category) if @favourite_category
     end
   end
 

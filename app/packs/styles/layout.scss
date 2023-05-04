@@ -23,10 +23,24 @@ body {
 
 h1{
   font-weight: $h1-font-weight;
+  font-size: $h1-font-size;
 }
 
 h2 {
   font-weight: $h2-font-weight;
+  font-size: $h2-font-size;
+}
+
+h3 {
+
+  font-weight: 500;
+  font-size: 15px;
+  line-height: 18px;
+
+  letter-spacing: -0.03em;
+
+  color: #000000;
+  margin-bottom: 0.3rem;
 }
 
 .container-fluid {
@@ -168,10 +182,6 @@ a:hover {
 }
 
 .card {
-  //background-color: #2F2E45;
-  //color: #635B75;
-
-  margin-bottom: 2rem;
   //box-shadow: $card-box-shadow;
   overflow: hidden;
 }
@@ -189,15 +199,19 @@ a:hover {
     height: 120px;
     display: grid;
     grid-template-columns: auto minmax(0px,300px);
+    padding-bottom: 0;
   }
 
   .card-footer {
     background: inherit;
+    padding-top: 0;
   }
 
   a {
     font-weight: 600;
     font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
   }
 
   i {
@@ -226,7 +240,6 @@ a:hover {
 
   .icon:nth-child(1){
     width: 62px;
-    //height: 62px;
     right: 23px;
     top: -10px;
     transform: rotate(-10deg);
@@ -234,14 +247,12 @@ a:hover {
 
   .icon:nth-child(2){
     width: 62px;
-    height: 62px;
     right: 45px;
     top: 40px;
   }
 
   .icon:nth-child(3){
     width: 62px;
-    height: 62px;
     right: -10.21px;
     top: 35px;
     transform: rotate(20deg);
@@ -287,9 +298,9 @@ a:hover {
 
 // card
 .horizontal-card {
-  width: 180px;
-  min-width: 180px;
-  max-width: 180px;
+  width: 152px;
+  min-width: 152px;
+  max-width: 152px;
   margin-right: 10px;
 }
 

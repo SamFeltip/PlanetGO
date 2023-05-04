@@ -91,6 +91,8 @@ gem 'sentry-rails'
 gem 'sentry-ruby'
 gem 'will_paginate'
 
+gem 'rails_emoji_picker'
+
 group :development do
   gem 'annotate'
   gem 'brakeman'

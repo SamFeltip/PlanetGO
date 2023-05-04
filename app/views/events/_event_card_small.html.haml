@@ -1,25 +1,27 @@
 %a.card.event-card-small.horizontal-card{href: event_path(event)}
-  = image_pack_tag event.image_path, width: "50px", id: 'event-card-image'
+  -# = image_pack_tag event.image_path, width: "50px", id: 'event-card-image'
+  .event-card-image
+    = event.category.symbol
+  .event-card-header
+    %h3= event.name
+    %h4= event.decorate.display_time
+  .event-card-body
+    %p= event.decorate.display_description
 
-  %h3= event.name
-  %h4= event.decorate.display_time
-  %p
-    %em= event.address
-  %p= event.decorate.display_description
-
-  .d-flex.justify-content-end
-    = button_to like_event_path(event), method: :post, remote: true, class: 'btn btn-primary' do
-      %i.bi-star
-      like
-
-  - if defined?(render_params) && render_params[:add_event_to_outing]
-    .card-footer.overline
-      = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'}, remote: true do |f|
-        = f.hidden_field :event_id, value: event.id
-        = f.hidden_field :outing_id, value: outing.id
-        = f.hidden_field :proposed_datetime, value: event.time_of_event
-        = f.hidden_field :status, value: 'pending'
-        %button.btn.btn-outline-none.mx-auto.send-proposed-event-button{type: "submit"}
-          %i.bi-calendar-plus.mx-1
-          Add
+  .event-card-footer
+    - if defined?(render_params) && render_params[:add_event_to_outing]
+      .overline
+        = simple_form_for @proposed_event, html: {class: 'w-100 d-flex justify-content-end align-items-bottom'}, remote: true do |f|
+          = f.hidden_field :event_id, value: event.id
+          = f.hidden_field :outing_id, value: outing.id
+          = f.hidden_field :proposed_datetime, value: event.time_of_event
+          = f.hidden_field :status, value: 'pending'
+          %button.btn.btn-outline-none.mx-auto.send-proposed-event-button{type: "submit"}
+            %i.bi-calendar-plus.mx-1
+            Add
+    - else
+      .d-flex.justify-content-end
+        = button_to like_event_path(event), method: :post, remote: true, class: 'btn btn-primary' do
+          Like
+          %i.bi-star
 
