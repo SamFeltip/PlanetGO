@@ -24,6 +24,7 @@
 class BugReport < ApplicationRecord
   belongs_to :user
   has_one_attached :evidence
+  has_many :comments, dependent: :destroy
 
   scope :search, ->(query) { where('title LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%") }
   scope :by_category, ->(category) { where(category:) }

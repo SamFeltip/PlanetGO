@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_03_213247) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -76,6 +76,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_213247) do
     t.integer "interest", default: 0, null: false
     t.index ["category_id"], name: "index_category_interests_on_category_id"
     t.index ["user_id"], name: "index_category_interests_on_user_id"
+  end
+
+  create_table "comments", force: :cascade do |t|
+    t.text "content"
+    t.bigint "bug_report_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bug_report_id"], name: "index_comments_on_bug_report_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -245,6 +255,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_213247) do
   add_foreign_key "bug_reports", "users"
   add_foreign_key "category_interests", "categories"
   add_foreign_key "category_interests", "users"
+  add_foreign_key "comments", "bug_reports"
+  add_foreign_key "comments", "users"
   add_foreign_key "event_reacts", "events"
   add_foreign_key "event_reacts", "users"
   add_foreign_key "events", "categories"
