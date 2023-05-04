@@ -71,9 +71,7 @@
     #where-body
       %h2
         Timetable
-      #where-timetable.py-1
-        = render 'outings/where_timetable'
-
+      = render 'outings/where_timetable'
       %h2.text-center
         - if current_user.postcode?
           Check out this popular events happening near you!
@@ -98,7 +96,7 @@
 
     %a#outing-footer-prev{:href => set_details_outing_path(@outing, position: @positions[current_position_index - 1])}
       %i#prev-chevron.bi-chevron-left
-      Previous
+      Prev
 
     = link_to 'Done', outing_path(@outing), id: 'outing-footer-done'
 

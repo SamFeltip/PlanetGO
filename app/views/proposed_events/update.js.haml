@@ -1,9 +1,0 @@
-$('.proposed_event_modal').modal('hide');
-
-var proposed_event_card = $('#proposed_event_#{@proposed_event.id}');
-// change the datetime displayed in the proposed event card header to the proposed event card
-var proposed_event_card_datetime_lg = proposed_event_card.find('.proposed_event_datetime_lg');
-var proposed_event_card_datetime_sm = proposed_event_card.find('.proposed_event_datetime_sm');
-
-proposed_event_card_datetime_sm.text('#{@proposed_event.decorate.proposed_datetime(compact: true)}');
-proposed_event_card_datetime_lg.text('#{@proposed_event.decorate.proposed_datetime(compact: false)}');

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ProposedEventsController < ApplicationController
-  before_action :set_proposed_event, only: %i[show edit update destroy vote]
+  before_action :set_proposed_event, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /proposed_events or /proposed_events.json
@@ -17,22 +17,6 @@ class ProposedEventsController < ApplicationController
     @proposed_event = ProposedEvent.new
   end
 
-  def vote
-    if current_user.voted_up_on? @proposed_event
-      # unlike the proposed_event
-      @proposed_event.unliked_by current_user
-    else
-      @proposed_event.liked_by current_user
-    end
-
-    respond_to do |format|
-      format.js
-      format.html do
-        redirect_to outing_path(@proposed_event.outing), notice: 'Vote was successfully cast.'
-      end
-    end
-  end
-
   # GET /proposed_events/1/edit
   def edit; end
 
@@ -41,11 +25,6 @@ class ProposedEventsController < ApplicationController
     @proposed_event = ProposedEvent.new(proposed_event_params)
     @event = @proposed_event.event
     @outing = @proposed_event.outing
-
-    @proposed_event.proposed_datetime = @event.time_of_event
-
-    # for proposed event cards
-    @participant = Participant.find_by(user_id: current_user.id, outing_id: @outing.id)
 
     respond_to do |format|
       if @proposed_event.save
@@ -66,7 +45,6 @@ class ProposedEventsController < ApplicationController
   def update
     respond_to do |format|
       if @proposed_event.update(proposed_event_params)
-        format.js
         format.html do
           redirect_to proposed_event_url(@proposed_event)
         end
