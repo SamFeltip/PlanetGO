@@ -15,6 +15,9 @@
           %dd.col-md-9= @bug_report.resolved
           %dt.col-md-3 Reported by:
           %dd.col-md-9= @bug_report.user
+          - if @bug_report.evidence.attached?
+            %dt.col-md-3 Evidence:
+            %dd.col-md-9= link_to 'View evidence', rails_blob_url(@bug_report.evidence), target: :_blank
       .card-footer.d-flex
         = link_to 'Edit', edit_bug_report_path(@bug_report), class: 'btn btn-link'
         = link_to 'Back', bug_reports_path, class: 'btn btn-link ms-auto'

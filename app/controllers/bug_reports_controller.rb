@@ -80,6 +80,6 @@ class BugReportsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def bug_report_params
-    params.require(:bug_report).permit(:title, :description, :category, :resolved, :user_id)
+    params.require(:bug_report).permit(:title, :description, :category, :resolved, :user_id, :evidence)
   end
 end
