@@ -21,3 +21,8 @@
       .card-footer.d-flex
         = link_to 'Edit', edit_bug_report_path(@bug_report), class: 'btn btn-link'
         = link_to 'Back', bug_reports_path, class: 'btn btn-link ms-auto'
+  
+    - @bug_report.comments.each do |comment|
+      = render 'comments/comment', comment: comment
+
+    = render 'comments/form', bug_report: @bug_report

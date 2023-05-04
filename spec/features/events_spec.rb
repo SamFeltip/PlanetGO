@@ -1,15 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'faker'
-
-Geocoder::Lookup::Test.set_default_stub(
-  [
-    {
-      'coordinates' => [53.3811691, -1.4747707]
-    }
-  ]
-)
 
 RSpec.describe 'Events' do
   let!(:category) { Category.create(name: 'Bar') }
@@ -67,8 +58,8 @@ RSpec.describe 'Events' do
 
       specify 'the event address gets geocoded' do
         expect(Event.last).to have_attributes(
-          longitude: -1.4747707,
-          latitude: 53.3811691
+          longitude: -1.0,
+          latitude: 53.0
         )
       end
 

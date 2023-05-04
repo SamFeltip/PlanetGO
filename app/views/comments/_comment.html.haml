@@ -1,0 +1,6 @@
+.comment-card.card.mt-3
+  .card-body
+    %h5.card-title= comment.user.full_name
+    %p.card-text= comment.content
+  .card-footer.text-muted
+    %small.d-inline-block= time_ago_in_words(comment.created_at) + ' ago'

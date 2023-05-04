@@ -1,0 +1,8 @@
+= simple_form_for [@bug_report, Comment.new] do |f|
+  .card-body
+    = f.input :content, wrapper_html: { class: 'mb-3' }, label: false
+    = f.hidden_field :user_id, value: current_user.id
+    = f.hidden_field :bug_report_id, value: @bug_report.id
+  .card-footer.d-flex
+    %button.btn.btn-primary{ type: 'submit' }
+      Comment
