@@ -10,7 +10,6 @@ class OutingsController < ApplicationController
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
-    @participants = Participant.find_by(outing_id: params[:outing_id])
     return if current_user.admin?
 
     @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
@@ -18,7 +17,8 @@ class OutingsController < ApplicationController
 
   # GET /outings/1 or /outings/1.json
   def show
-    @participants = Participant.find_by(outing_id: params[:outing_id])
+    @participants = @outing.participants
+    # @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
   # GET /outings/new
@@ -84,8 +84,7 @@ class OutingsController < ApplicationController
   def create
     @outing = Outing.new(outing_params)
 
-    token = @outing.id.to_s + rand(100_000).to_s
-    @outing.invitation_token = token.to_i
+    @outing.invite_token = @outing.id.to_s + rand(100_000).to_s
 
     @participant = @outing.participants.build(
       user_id: current_user.id,
@@ -138,7 +137,7 @@ class OutingsController < ApplicationController
 
   def set_participant
     # for proposed event cards
-    @participant = Participant.find_by(outing_id: @outing.id, user_id: current_user.id)
+    @participant = @outing.participants.find_by(user: current_user)
   end
 
   # Only allow a list of trusted parameters through.
