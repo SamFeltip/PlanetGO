@@ -12,7 +12,7 @@
 #  outing_type  :integer
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  creator_id   :bigint
+#  creator_id   :bigint           not null
 #
 # Indexes
 #
@@ -22,7 +22,6 @@
 # Foreign Keys
 #
 #  fk_rails_...  (creator_id => users.id)
-#
 #
 
 class Outing < ApplicationRecord

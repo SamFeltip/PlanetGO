@@ -166,7 +166,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "outing_type"
-    t.bigint "creator_id"
+    t.bigint "creator_id", null: false
     t.string "invite_token"
     t.index ["creator_id"], name: "index_outings_on_creator_id"
     t.index ["invite_token"], name: "index_outings_on_invite_token", unique: true
@@ -229,9 +229,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.float "latitude"
     t.float "longitude"
     t.string "invitation_token"
-    t.datetime "invitation_created_at"
-    t.datetime "invitation_sent_at"
-    t.datetime "invitation_accepted_at"
+    t.datetime "invitation_created_at", precision: nil
+    t.datetime "invitation_sent_at", precision: nil
+    t.datetime "invitation_accepted_at", precision: nil
     t.integer "invitation_limit"
     t.string "invited_by_type"
     t.bigint "invited_by_id"
