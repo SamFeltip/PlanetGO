@@ -4,9 +4,14 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
+  resources :events
   resources :proposed_events
   resources :proposed_events do
     post 'create'
+  end
+
+  resources :proposed_events, except: %i[new show] do
+    post :vote, on: :member
   end
 
   resources :bug_reports do
@@ -19,12 +24,11 @@ Rails.application.routes.draw do
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
-  resources :events
-
   resources :outings, param: :invite_token do
     member do
       get 'set_details'
       post 'send_invites'
+      post 'stop_count'
       resources :participants, only: %i[new create]
       resource :invite_link, only: :show
     end

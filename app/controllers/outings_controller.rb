@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details send_invites]
   before_action :authenticate_user!
   load_and_authorize_resource
+
+  before_action :set_outing, only: %i[show edit update destroy set_details send_invites stop_count]
+  before_action :set_participant, only: %i[show set_details]
 
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
-    @participants = Participant.find_by(outing_id: params[:outing_id])
     return if current_user.admin?
 
     @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
@@ -16,7 +17,8 @@ class OutingsController < ApplicationController
 
   # GET /outings/1 or /outings/1.json
   def show
-    @participants = Participant.find_by(outing_id: params[:outing_id])
+    @participants = @outing.participants
+    # @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
   # GET /outings/new
@@ -67,9 +69,22 @@ class OutingsController < ApplicationController
     end
   end
 
+  def stop_count
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
+    @failed_proposed_events.each(&:destroy)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
+
+    @outing.invite_token = @outing.id.to_s + rand(100_000).to_s
 
     @participant = @outing.participants.build(
       user_id: current_user.id,
@@ -118,6 +133,11 @@ class OutingsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
     @outing = Outing.find_by(invite_token: params[:invite_token])
+  end
+
+  def set_participant
+    # for proposed event cards
+    @participant = @outing.participants.find_by(user: current_user)
   end
 
   # Only allow a list of trusted parameters through.
