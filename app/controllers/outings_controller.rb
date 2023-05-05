@@ -39,14 +39,19 @@ class OutingsController < ApplicationController
     @positions = %w[who when where]
 
 
+    if current_user.postcode?
+      random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
+    else
+      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
+    end
+
     final_event_ids = []
 
-    random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+
     final_event_ids << random_hotel.id unless random_hotel.nil?
-
-    random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
     final_event_ids << random_restaurant.id unless random_restaurant.nil?
-
     @final_events = Event.find(final_event_ids)
 
   end
