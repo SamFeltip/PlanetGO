@@ -531,7 +531,6 @@ RSpec.describe 'Outings' do
     end
 
     context 'when the user tries to visit set_details' do
-
       before do
         visit set_details_outing_path(past_outing)
       end
