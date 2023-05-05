@@ -598,8 +598,6 @@ print 'creating participants'
 
 participant_zips.each do |user_id, outing|
   print '.'
-  user = User.find(user_id)
-
   status = 'confirmed'
 
   # random but reproducible pending requests
@@ -608,10 +606,10 @@ participant_zips.each do |user_id, outing|
   status = 'creator' if outing.creator_id == user_id
 
   Participant.where(
-    user_id: user,
+    user_id: user_id,
     outing_id: outing.id,
-    status:
-  ).create!
+    status: status
+  ).first_or_create
 end
 
 puts ''
