@@ -66,7 +66,7 @@ class ParticipantsController < ApplicationController
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
 
-    @good_start_datetime = @outing.good_start_datetime
+    @good_start_datetime = @outing.good_start_datetimes
 
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing) }

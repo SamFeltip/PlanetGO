@@ -60,50 +60,45 @@ class Outing < ApplicationRecord
     Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
   end
 
-  def good_start_datetime
+  # function that returns at least the top 3 best start times. A good analogy would be traversing a mountain range where all
+  # the peaks are the start_times of people's availabilities and the troughs would be the end_times of people's availabilities
+  # and the highest peak is a time from which the biggest number of people are available
+  def good_start_datetimes
     start_times = availabilities.order(:start_time).select(:start_time)
     end_times = availabilities.order(:end_time).select(:end_time)
+    availabilities_array = []
+    people_available_counter = start_counter = end_counter = 0
 
-    array_of_availabilities = []
-    people_available_counter = 0
-    start_counter = 0
-    end_counter = 0
-
-    while (start_counter != start_times.size) && (end_counter != end_times.size)
+    # While start array and end array are not empty
+    while start_counter != start_times.size
       next_start = start_times[start_counter].start_time
       next_end = end_times[end_counter].end_time
+
       if next_start == next_end
         start_counter += 1
         end_counter += 1
-        Rails.logger.debug 'incrementing end_counter'
-        Rails.logger.debug end_counter
       elsif next_start < next_end
         people_available_counter += 1
-        array_of_availabilities.append({ datetime: next_start, people_available: people_available_counter })
+        availabilities_array.append({ datetime: next_start, people_available: people_available_counter })
         start_counter += 1
-      else
+      else # next_end < next_start
         people_available_counter -= 1
-        array_of_availabilities.append({ datetime: next_end, people_available: people_available_counter }) if people_available_counter != 0
-        end_counter += 1
-        Rails.logger.debug 'incrementing end_counter'
-        Rails.logger.debug end_counter
-      end
-
-      next unless start_counter == start_times.size
-
-      stop_place = end_times.size - 1
-      (end_counter..stop_place).each do |_index|
-        people_available_counter -= 1
-        array_of_availabilities.append({ datetime: end_times[end_counter].end_time, people_available: people_available_counter }) if people_available_counter != 0
+        availabilities_array.append({ datetime: next_end, people_available: people_available_counter }) if people_available_counter != 0
         end_counter += 1
       end
     end
 
-    array_of_availabilities = array_of_availabilities.sort_by { |hash| hash[:people_available].to_i }.reverse!
+    # add all the remaining end_times in one go
+    (end_counter..(end_times.size - 1)).each do |_index|
+      people_available_counter -= 1
+      availabilities_array.append({ datetime: end_times[end_counter].end_time, people_available: people_available_counter }) if people_available_counter != 0
+      end_counter += 1
+    end
 
-    # return first three rows or all if less than 3
-    return array_of_availabilities[0..2] if array_of_availabilities.size > 3
+    # sort in reverse order on the number of people available
+    availabilities_array = availabilities_array.sort_by { |hash| hash[:people_available].to_i }.reverse!
 
-    array_of_availabilities
+    # return first three rows
+    availabilities_array[0..2]
   end
 end
