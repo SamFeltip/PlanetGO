@@ -24,7 +24,6 @@ Rails.application.routes.draw do
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
-
   resources :outings, param: :invite_token do
     member do
       get 'set_details'
