@@ -10,7 +10,7 @@ RSpec.describe 'Clicking on a click card' do
   end
 
   context 'when visiting the events index page' do
-    let!(:event){ create(:event, approved: true) }
+    let!(:event) { create(:event, approved: true) }
 
     before do
       visit events_path
