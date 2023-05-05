@@ -166,7 +166,7 @@ RSpec.describe 'Managing users', type: :request do
       end
 
       specify 'There is no option to Lock my account' do
-        expect(el).not_to have_button 'Lock' or have_button 'Unlock'
+        expect(el).not_to have_button 'Block' or have_button 'Unblock'
       end
 
       specify 'There is no option to Suspend my account' do
@@ -239,7 +239,7 @@ RSpec.describe 'Managing users', type: :request do
         end
 
         specify 'I can lock an account' do
-          within(@user_content) { click_on 'Lock' }
+          within(@user_content) { click_on 'Block' }
           user.reload
           expect(user.access_locked?).to be(true)
         end
@@ -255,7 +255,7 @@ RSpec.describe 'Managing users', type: :request do
         end
 
         specify 'I can unlock and account' do
-          within(@user_content) { click_on 'Unlock' }
+          within(@user_content) { click_on 'Unblock' }
           user.reload
           expect(user.access_locked?).to be(false)
         end
