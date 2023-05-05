@@ -535,11 +535,13 @@ outing5 = Outing.where(
   outing_type: :personal
 ).first_or_create
 
+outing_list = [outing1, outing2, outing3, outing4, outing5]
+
 puts ''
 print 'creating participants'
 
 # create participants for every creator of every outing
-[outing1, outing2, outing3, outing4, outing5].each do |outing|
+outing_list.each do |outing|
   print '.'
   Participant.where(
     user_id: outing.creator_id,
@@ -591,6 +593,8 @@ user_ids = [6, 14, 5, 12, 3, 17, 8, 1, 11, 16, 2, 7, 13, 18, 9, 4, 15]
 # zip user_ids, outings together
 participant_zips = user_ids.zip(outing_list)
 
+puts ''
+print 'making participants'
 participant_zips.each do |user_id, outing|
   print '.'
   user = User.find(user_id)
@@ -609,8 +613,35 @@ participant_zips.each do |user_id, outing|
   ).first_or_create
 end
 
+
+puts ''
+print 'creating proposed event votes.'
+
+outing_list.each do |outing|
+  participant_count = outing.participants.count
+
+  outing.participants.each_with_index do |participant, index|
+    user = participant.user
+    print '.'
+    outing.proposed_events.first.liked_by user
+
+    if index < participant_count * 0.8
+      print '.'
+      outing.proposed_events.second.liked_by user
+    end
+
+    if index < participant_count * 0.4
+      print '.'
+      outing.proposed_events.third.liked_by user
+    end
+  end
+end
+
+
 puts ''
 print 'printing metrics.'
+
+
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,

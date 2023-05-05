@@ -1,0 +1,8 @@
+%h2 Event Votes
+.proposed_event_vote_count.mb-2
+  %button.btn{disabled: :disabled}
+    = proposed_event.decorate.vote_likes
+    %i.bi-hand-thumbs-up
+
+- proposed_event.votes_for.by_type(User).voters.each do |voter|
+  = render 'users/user_card', user: voter

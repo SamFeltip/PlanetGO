@@ -13,7 +13,7 @@ class PagesController < ApplicationController
     end
 
     # if the user is not logged in, redirect to landing page
-    @categories = current_user.categories
+    @categories = current_user.categories.where('interest > 0')
 
     @friends = current_user.following
 
