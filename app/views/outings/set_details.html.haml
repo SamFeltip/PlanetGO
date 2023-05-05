@@ -10,12 +10,6 @@
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
       %p.grey #{@outing.participants.count} people interested
 
-      = form_tag users_path, id: 'friend-search-form', class: 'mb-2', method: :get do
-        = text_field_tag :search
-
-        %button.btn.btn-outline-secondary{:type => "submit"}
-          %i.bi-search
-
       #outing-share.d-flex.justify-content-end.align-items-center.mb-2
         Share to...
         .dropdown.ms-2
