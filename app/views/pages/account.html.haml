@@ -48,7 +48,7 @@
 
         #future_outings
           - @future_outings.each do |outing|
-            .click-card[outing]
+            .click-card{data: { url: outing_path(outing) }}[outing]
               = render 'outings/outing_card', outing: outing
 
         #past_outings.py-3
@@ -57,7 +57,7 @@
           - else
             %h2 Previous
           - @past_outings.each do |outing|
-            .click-card[outing]
+            .click-card{data: { url: outing_path(outing) }}[outing]
               = render 'outings/outing_card', outing: outing
 
       .card-footer
@@ -73,7 +73,7 @@
       .card-body
         #liked_events
           - @liked_events[0..2].each do |event|
-            .click-card[event]
+            .click-card{data: { url: event_path(event) }}[event]
               = render 'events/event_card', event: event
 
 

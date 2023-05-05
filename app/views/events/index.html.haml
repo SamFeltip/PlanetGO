@@ -40,7 +40,7 @@
     %p come back later and they'll be more for you!
 
   - @events.each do |event|
-    .click-card[event]
+    .click-card{data: { url: event_path(event) }}[event]
       = render "event_card", event: event
   
   %div.digg_pagination
