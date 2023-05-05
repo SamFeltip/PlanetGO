@@ -33,6 +33,8 @@ class OutingsController < ApplicationController
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
 
+    @good_start_datetime = @outing.good_start_datetime
+
     @proposed_event = ProposedEvent.new
 
     @positions = %w[who when where]
@@ -58,6 +60,8 @@ class OutingsController < ApplicationController
     participants.each do |participant|
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
+
+    @good_start_datetime = @outing.good_start_datetime
 
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing) }
@@ -94,8 +98,11 @@ class OutingsController < ApplicationController
 
   # PATCH/PUT /outings/1 or /outings/1.json
   def update
+    Rails.logger.debug params
     respond_to do |format|
-      if @outing.update(outing_params)
+      if @outing.update(outing_params) && outing_params.key?('date')
+        format.json { render json: { status: :updated, start_date: outing_params['date'] } }
+      elsif @outing.update(outing_params)
         format.html { redirect_to outing_url(@outing) }
         format.json { render :show, status: :ok, location: @outing }
       else
