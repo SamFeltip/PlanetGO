@@ -270,7 +270,7 @@ RSpec.describe 'Events' do
       end
 
       it 'removes the event from the system' do
-        expect(Event.find_by_id(event.id)).to be_nil
+        expect(Event.find_by(id: event.id)).to be_nil
       end
 
       it 'alerts the user the event was deleted' do
@@ -280,7 +280,6 @@ RSpec.describe 'Events' do
       it 'removes the event from the page' do
         expect(page).not_to have_css("#event_#{event.id}")
       end
-
     end
   end
 
