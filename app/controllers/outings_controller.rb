@@ -30,64 +30,6 @@ class OutingsController < ApplicationController
   # GET /outings/1/edit
   def edit; end
 
-  # GET /outings/1/set_details
-  def set_details
-    # Creates a new calendar object using the new participants list
-    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
-
-    @proposed_event = ProposedEvent.new
-    @positions = %w[who when where]
-
-
-    if current_user.postcode?
-      random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
-    else
-      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
-    end
-
-    final_event_ids = []
-
-
-    final_event_ids << random_hotel.id unless random_hotel.nil?
-    final_event_ids << random_restaurant.id unless random_restaurant.nil?
-    @final_events = Event.find(final_event_ids)
-
-  end
-
-  def send_invites
-    @friend_ids = params[:user_ids]
-    @participants = Participant.none
-
-    @friend_ids = [] if @friend_ids.nil?
-
-    @friend_ids.each do |friend_id|
-      # create a participant and add it to the @participants list
-      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
-      @participants = @participants.or(Participant.where(id: new_participant.id))
-    end
-
-    # Creates a new calendar object using the new participants list
-    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
-
-    respond_to do |format|
-      format.html { redirect_to set_details_outing_path(@outing) }
-      format.js
-    end
-  end
-
-  def stop_count
-    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
-    @failed_proposed_events.each(&:destroy)
-
-    respond_to do |format|
-      format.js
-      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
-      format.json { head :no_content }
-    end
-  end
-
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
@@ -135,6 +77,61 @@ class OutingsController < ApplicationController
 
     respond_to do |format|
       format.html { redirect_to outings_url, notice: 'Outing was successfully destroyed.' }
+      format.json { head :no_content }
+    end
+  end
+
+  # GET /outings/1/set_details
+  def set_details
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
+
+    @proposed_event = ProposedEvent.new
+    @positions = %w[who when where]
+
+    if current_user.postcode?
+      random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
+    else
+      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
+    end
+
+    final_event_ids = []
+
+    final_event_ids << random_hotel.id unless random_hotel.nil?
+    final_event_ids << random_restaurant.id unless random_restaurant.nil?
+    @final_events = Event.find(final_event_ids)
+  end
+
+  def send_invites
+    @friend_ids = params[:user_ids]
+    @participants = Participant.none
+
+    @friend_ids = [] if @friend_ids.nil?
+
+    @friend_ids.each do |friend_id|
+      # create a participant and add it to the @participants list
+      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
+      @participants = @participants.or(Participant.where(id: new_participant.id))
+    end
+
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
+
+    respond_to do |format|
+      format.html { redirect_to set_details_outing_path(@outing) }
+      format.js
+    end
+  end
+
+  def stop_count
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
+    @failed_proposed_events.each(&:destroy)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
       format.json { head :no_content }
     end
   end
