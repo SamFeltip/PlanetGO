@@ -37,6 +37,18 @@ class OutingsController < ApplicationController
 
     @proposed_event = ProposedEvent.new
     @positions = %w[who when where]
+
+
+    final_event_ids = []
+
+    random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+    final_event_ids << random_hotel.id unless random_hotel.nil?
+
+    random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
+    final_event_ids << random_restaurant.id unless random_restaurant.nil?
+
+    @final_events = Event.find(final_event_ids)
+
   end
 
   def send_invites

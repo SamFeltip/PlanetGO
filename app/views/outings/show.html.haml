@@ -10,8 +10,8 @@
     .card-body
       #going.horizontal-scroll
 
-        - @outing.users.each do |user|
-          = render 'users/user_icon', user: user
+        - @outing.participants.each do |participant|
+          = render 'users/user_icon', user: participant.user, status: participant.status
 
       - if current_user == @outing.creator || current_user.admin?
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
@@ -33,11 +33,3 @@
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
           %i.bi-plus-circle
             Add More
-
-
-        %h3 All participants
-        - if !@participants
-          %p no participants
-        - else
-          - @participants.each do |p|
-            %p= p
