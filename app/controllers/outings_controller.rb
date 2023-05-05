@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
-  before_action :set_outing, only: %i[show edit update destroy set_details]
+  before_action :set_outing, only: %i[show edit update destroy set_details send_invites]
   before_action :authenticate_user!
   load_and_authorize_resource
 
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
+    @participants = Participant.find_by(outing_id: params[:outing_id])
     return if current_user.admin?
 
     @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
   end
 
   # GET /outings/1 or /outings/1.json
-  def show; end
+  def show
+    @participants = Participant.find_by(outing_id: params[:outing_id])
+  end
 
   # GET /outings/new
   def new
@@ -40,7 +43,6 @@ class OutingsController < ApplicationController
 
   def send_invites
     @friend_ids = params[:user_ids]
-
     @participants = Participant.none
 
     @friend_ids = [] if @friend_ids.nil?
@@ -68,10 +70,6 @@ class OutingsController < ApplicationController
   # POST /outings or /outings.json
   def create
     @outing = Outing.new(outing_params)
-
-    token_prefix = @outing.id.to_s
-    token = token_prefix + rand(100_000).to_s
-    @outing.invitation_token = token.to_i
 
     @participant = @outing.participants.build(
       user_id: current_user.id,
@@ -119,12 +117,11 @@ class OutingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
-    @outing = Outing.find(params[:id])
-    @participants = @outing.participants
+    @outing = Outing.find_by(invite_token: params[:invite_token])
   end
 
   # Only allow a list of trusted parameters through.
   def outing_params
-    params.require(:outing).permit(:name, :date, :description, :outing_type, :invitation_token)
+    params.require(:outing).permit(:name, :date, :description, :outing_type, :invite_token)
   end
 end
