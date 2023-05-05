@@ -169,16 +169,12 @@ class User < ApplicationRecord
     event_list
   end
 
-  def final_events
-    local_events || most_liked_events
-  end
-
   def most_liked_events
     Event.order_by_likes.limit(3)
   end
 
   def local_events
-    postcode.present? ? Event.near("#{postcode}, UK", 10).limit(3) : nil
+    postcode.present? ? Event.near("#{postcode}, UK", 50).limit(3) : nil
   end
 
   private

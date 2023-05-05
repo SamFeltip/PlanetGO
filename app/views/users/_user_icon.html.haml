@@ -1,3 +1,13 @@
 .user_icon.participant.d-inline-flex.flex-column.align-items-center.me-2
   .initial-avatar.d-inline-flex= user.initials
   .avatar-text.d-inline.mx-2.mt-2.text-center= user.full_name
+  - if defined?(status)
+    - if status == 'creator'
+
+      .status.d-inline-flex.flex-column.align-items-center
+        .status-text.d-inline-flex
+          %em creator
+    - else
+      .status.d-inline-flex.flex-column.align-items-center
+        .status-text.d-inline-flex
+          %em invited
