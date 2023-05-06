@@ -221,6 +221,18 @@ RSpec.describe User do
     end
   end
 
+  describe '#past_outings' do
+    it 'doesnt return outings in the future' do
+      expect(creator_user.past_outings).not_to include(future_outing1)
+      expect(creator_user.past_outings).not_to include(future_outing2)
+    end
+
+    it 'returns all outings in the past' do
+      expect(creator_user.past_outings).to include(past_outing1)
+      expect(creator_user.past_outings).to include(past_outing2)
+    end
+  end
+
   describe '#local_events' do
     context 'when postcode present and there are events happening in 10 mile radius' do
       let!(:user) { create(:user, postcode: 'S1 2LT') }
