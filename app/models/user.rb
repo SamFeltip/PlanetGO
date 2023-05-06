@@ -158,21 +158,23 @@ class User < ApplicationRecord
   end
 
   def local_events
-    postcode.present? ? Event.near("#{postcode}, UK", 50).limit(3) : nil
+    postcode.present? ? Event.where(approved: true).near("#{postcode}, UK", 10).limit(3) : Event.none
   end
 
   def final_events
-    if postcode?
-      random_hotel = local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+    if postcode.present?
+      # get local events with the right categories
+      random_accommodation = local_events.joins(:category).where(category: { name: 'accommodation' }).sample
       random_restaurant = local_events.joins(:category).where(category: { name: 'restaurant' }).sample
     else
-      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
+      # get any events with the right categories
+      random_accommodation = Event.joins(:category).where(category: { name: 'accommodation' }).sample
       random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
     end
 
     final_event_ids = []
 
-    final_event_ids << random_hotel.id unless random_hotel.nil?
+    final_event_ids << random_accommodation.id unless random_accommodation.nil?
     final_event_ids << random_restaurant.id unless random_restaurant.nil?
     @final_events = Event.find(final_event_ids)
   end
