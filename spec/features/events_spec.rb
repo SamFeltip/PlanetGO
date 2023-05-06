@@ -225,7 +225,7 @@ RSpec.describe 'Events' do
       end
     end
 
-    context 'when I remove my event' do
+    context 'when I remove my event from the edit event page' do
       let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id, category_id: category.id) }
       let!(:other_person_event) { create(:event, name: 'an event created by someone else', user_id: other_event_creator.id, category_id: category.id) }
 
@@ -254,6 +254,31 @@ RSpec.describe 'Events' do
         specify 'should not let the user delete this event' do
           expect(page).not_to have_css('#destroy_event')
         end
+      end
+    end
+
+    context 'when I remove an event from the events show page' do
+      let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id, category_id: category.id) }
+
+      before do
+        visit events_path
+        within '#my_pending_events' do
+          within "#event_#{event.id}" do
+            page.find('.delete-event').click
+          end
+        end
+      end
+
+      it 'removes the event from the system' do
+        expect(Event.find_by(id: event.id)).to be_nil
+      end
+
+      it 'alerts the user the event was deleted' do
+        expect(page).to have_content('Event was successfully destroyed.')
+      end
+
+      it 'removes the event from the page' do
+        expect(page).not_to have_css("#event_#{event.id}")
       end
     end
   end

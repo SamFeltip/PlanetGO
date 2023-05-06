@@ -546,7 +546,7 @@ outing1 = Outing.where(
   date: 1.week.from_now,
   creator_id: user_list[0].id,
   outing_type: :personal
-).first_or_create!
+).first_or_create
 
 print '.'
 outing2 = Outing.where(
@@ -587,7 +587,7 @@ outing5 = Outing.where(
 outing_list = [outing1, outing2, outing3, outing4, outing5]
 
 puts ''
-print 'creating participants'
+print 'creating participants (creators)'
 
 # create participants for every creator of every outing
 outing_list.each do |outing|
@@ -643,11 +643,10 @@ user_ids = [6, 14, 5, 12, 3, 17, 8, 1, 11, 16, 2, 7, 13, 18, 9, 4, 15]
 participant_zips = user_ids.zip(outing_list)
 
 puts ''
-print 'making participants'
+print 'creating participants'
+
 participant_zips.each do |user_id, outing|
   print '.'
-  user = User.find(user_id)
-
   status = 'confirmed'
 
   # random but reproducible pending requests
@@ -656,15 +655,14 @@ participant_zips.each do |user_id, outing|
   status = 'creator' if outing.creator_id == user_id
 
   Participant.where(
-    user_id: user,
+    user_id: user_id,
     outing_id: outing.id,
-    status:
+    status: status
   ).first_or_create
 end
 
-
 puts ''
-print 'creating proposed event votes.'
+print 'creating proposed event votes'
 
 outing_list.each do |outing|
   participant_count = outing.participants.count
@@ -686,11 +684,8 @@ outing_list.each do |outing|
   end
 end
 
-
 puts ''
-print 'printing metrics.'
-
-
+print 'creating metrics'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,
