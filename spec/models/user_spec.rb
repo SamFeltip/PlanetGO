@@ -237,10 +237,22 @@ RSpec.describe User do
     context 'when postcode present and there are events happening in 10 mile radius' do
       let!(:user) { create(:user, postcode: 'S1 2LT') }
       let!(:creator) { create(:user) }
-      let!(:event1) { create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493, user_id: creator.id, approved: true) }
-      let!(:event2) { create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493, user_id: creator.id, approved: true) }
-      let!(:event3) { create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493, user_id: creator.id, approved: true) }
-      let!(:unapproved_event) { create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493, user_id: creator.id, approved: false)}
+      let!(:event1) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493,
+                       user_id: creator.id, approved: true)
+      end
+      let!(:event2) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493,
+                       user_id: creator.id, approved: true)
+      end
+      let!(:event3) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493,
+                       user_id: creator.id, approved: true)
+      end
+      let!(:unapproved_event) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24', latitude: 53.38131, longitude: 1.47493,
+                       user_id: creator.id, approved: false)
+      end
 
       it 'returns 3 local events' do
         expect(user.local_events).to eq([event1, event2, event3])
@@ -268,7 +280,6 @@ RSpec.describe User do
       let(:restaurant_category) { create(:category, name: 'restaurant') }
 
       let(:user_with_postcode) { create(:user, postcode: 'S1 4EP') }
-
 
       let!(:far_away_accommodation) do
         create(
@@ -309,7 +320,6 @@ RSpec.describe User do
       end
 
       context 'when there is accommodation and restaurant nearby' do
-
         let!(:accommodation) do
           create(
             :event,
@@ -364,11 +374,9 @@ RSpec.describe User do
           expect(final_events).not_to include(far_away_accommodation)
           expect(final_events).not_to include(far_away_restaurant)
         end
-
       end
 
       context 'when there is accommodation nearby but no restaurant nearby' do
-
         let!(:accommodation) do
           create(
             :event,
@@ -403,11 +411,9 @@ RSpec.describe User do
           final_events_category_ids = user_with_postcode.final_events.pluck(:category_id)
           expect(final_events_category_ids).not_to include(restaurant_category.id)
         end
-
       end
 
       context 'when there is a restaurant nearby but no hotel' do
-
         let!(:restaurant) do
           create(
             :event, name: 'restaurant',
@@ -441,15 +447,12 @@ RSpec.describe User do
           final_event_category_ids = user_with_postcode.final_events.pluck(:category_id)
           expect(final_event_category_ids).not_to include(accommodation_category.id)
         end
-
       end
 
       context 'when there is neither accommodation nor a restaurant nearby' do
-
         it 'returns an empty list' do
           expect(user_with_postcode.final_events).to eq(Event.none)
         end
-
       end
     end
 
@@ -460,14 +463,12 @@ RSpec.describe User do
       let(:restaurant_category) { create(:category, name: 'restaurant') }
 
       context 'when there is no accommodation or restaurants in the system' do
-
         it 'returns an empty list' do
           expect(user_without_postcode.final_events).to eq(Event.none)
         end
       end
 
       context 'when there is no accommodation but there are restaurants in the system' do
-
         let!(:far_away_restaurant) do
           create(
             :event,
@@ -485,11 +486,9 @@ RSpec.describe User do
           final_events = user_without_postcode.final_events
           expect(final_events.first).to eq(far_away_restaurant)
         end
-
       end
 
       context 'when there are no restaurants but there is accommodation in the system' do
-
         let!(:far_away_accommodation) do
           create(
             :event,
@@ -510,7 +509,6 @@ RSpec.describe User do
       end
 
       context 'when there is both accommodation and restaurants in the system' do
-
         let!(:far_away_accommodation) do
           create(
             :event,
@@ -542,12 +540,12 @@ RSpec.describe User do
           expect(final_events.second).to eq(far_away_restaurant)
           expect(final_events.first).to eq(far_away_accommodation)
         end
-
       end
     end
 
     context 'when accommodation and restaurant categories arent in the system' do
       let(:user) { create(:user, postcode: 'S1 2LT') }
+
       it 'returns nil' do
         expect(user.final_events).to eq(Event.none)
       end
