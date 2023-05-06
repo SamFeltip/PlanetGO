@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'faker'
 
 def denial_message(account)
   if account.nil?

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
-require 'faker'
-require 'launchy'
 
 RSpec.describe 'Friends' do
   let!(:user) { create(:user) }

@@ -1,0 +1,54 @@
+.card.event-card[proposed_event]
+  .card-header.d-flex.justify-content-between
+    %h3.proposed_event_datetime_sm.d-inline.d-sm-none
+      =proposed_event.decorate.proposed_datetime(compact: true)
+    %h3.proposed_event_datetime_lg.d-none.d-sm-inline
+      =proposed_event.decorate.proposed_datetime(compact: false)
+
+
+
+
+    .event-action.d-flex.flex-row
+
+      %button.btn.btn-outline-primary.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
+        %i.bi-three-dots
+
+      =render 'proposed_events/modal', proposed_event: proposed_event, event: event
+
+      - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
+        = link_to proposed_event_path(proposed_event), class: 'ms-2 btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+          %i.bi-trash
+  .d-flex.flex-row
+    .image
+      = image_pack_tag event.image_path, class: 'event-card-image'
+    .event-card-body.card-body
+      .event-card-header
+        %h3
+          = link_to event.name, event, class: 'black'
+
+      %p
+        %em
+          =event.decorate.display_time
+      %p.overflow-hidden.event-description
+        =event.description
+
+      %a{href: event_path(event)}
+        %i{:class => event.decorate.like_icon(current_user.liked(event))}
+          .d-inline.d-md-none
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
+          .d-none.d-md-inline
+            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
+
+
+  - if defined?(@participant)
+    .card-footer.d-flex.justify-content-between.align-items-center
+
+      .vote-results
+        %span.vote-results-text
+          %i#vote-like-count.bi-hand-thumbs-up.ms-1
+            = proposed_event.decorate.vote_likes
+
+      .vote-actions
+        -# let the participant vote
+        = button_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, class: 'btn btn-outline-primary', id: 'vote-button' do
+          %i#vote-like{class: (current_user.voted_for? proposed_event) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}

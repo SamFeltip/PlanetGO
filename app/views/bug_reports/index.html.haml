@@ -22,6 +22,8 @@
           %th Category
           %th Resolved
           %th Reported by
+          %th Evidence
+          %th Comments
           %th
       %tbody
         - @bug_reports.each do |bug_report|
@@ -31,6 +33,8 @@
             %td= bug_report.category
             %td= bug_report.resolved
             %td= bug_report.user
+            %td= bug_report.evidence.attached?
+            %td= bug_report.comments.count
             %td
               .btn-toolbar.float-end
                 = link_to 'Show', bug_report, class: 'btn btn-outline-secondary btn-sm'
