@@ -88,22 +88,14 @@ class User < ApplicationRecord
   end
 
   def future_outings(creator = nil)
-    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
-    outings = Outing.where(id: outing_ids)
-    outings_future = outings.where('date > ?', Time.zone.today)
-
+    outings_future = Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ?', Time.zone.today)
     outings_future = outings_future.where(creator_id: creator.id) if creator
-
     outings_future
   end
 
   def past_outings(creator = nil)
-    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
-    outings = Outing.where(id: outing_ids)
-    outings_past = outings.where('date <= ?', Time.zone.today)
-
+    outings_past = Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today)
     outings_past = outings_past.where(creator_id: creator.id) if creator
-
     outings_past
   end
 
@@ -123,13 +115,6 @@ class User < ApplicationRecord
     !likes.where(event_id: event.id).empty?
   end
 
-  def event_reaction(event)
-    reactions = EventReact.where(user_id: id, event_id: event.id)
-    return if reactions.empty?
-
-    reactions.first.status
-  end
-
   def commercial
     %w[user advertiser].include? role
   end
@@ -142,7 +127,6 @@ class User < ApplicationRecord
   # if an event is given, pick from a user who has liked this event
   def get_random_friend(event: nil)
     # if an event is given
-    # rubocop made me do it like this :(
     friends = if event
                 # get a list of all following users who have liked this event
                 following.where(id: event.likes.pluck(:user_id))
@@ -175,6 +159,22 @@ class User < ApplicationRecord
 
   def local_events
     postcode.present? ? Event.near("#{postcode}, UK", 50).limit(3) : nil
+  end
+
+  def final_events
+    if postcode?
+      random_hotel = local_events.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = local_events.joins(:category).where(category: { name: 'restaurant' }).sample
+    else
+      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
+      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
+    end
+
+    final_event_ids = []
+
+    final_event_ids << random_hotel.id unless random_hotel.nil?
+    final_event_ids << random_restaurant.id unless random_restaurant.nil?
+    @final_events = Event.find(final_event_ids)
   end
 
   private

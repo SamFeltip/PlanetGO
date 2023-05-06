@@ -6,7 +6,7 @@ class OutingsController < ApplicationController
 
   before_action :set_outing, only: %i[show edit update destroy set_details send_invites stop_count]
   before_action :set_participant, only: %i[show set_details]
-
+  before_action :set_availabilities, only: %i[send_invites set_details]
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
@@ -80,29 +80,12 @@ class OutingsController < ApplicationController
   # GET /outings/1/set_details
   def set_details
     @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-
-    @peoples_availabilities = []
-
-    participants.each { |participant| @peoples_availabilities.append(Availability.where(user_id: participant.user_id)) }
 
     @proposed_event = ProposedEvent.new
 
     @positions = %w[who when where]
 
-    if current_user.postcode?
-      random_hotel = current_user.local_events.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = current_user.local_events.joins(:category).where(category: { name: 'restaurant' }).sample
-    else
-      random_hotel = Event.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
-    end
-
-    final_event_ids = []
-
-    final_event_ids << random_hotel.id unless random_hotel.nil?
-    final_event_ids << random_restaurant.id unless random_restaurant.nil?
-    @final_events = Event.find(final_event_ids)
+    @final_events = current_user.final_events
   end
 
   def send_invites
@@ -119,11 +102,6 @@ class OutingsController < ApplicationController
 
     # Creates a new calendar object using the new participants list
     @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-    @peoples_availabilities = []
-    participants.each do |participant|
-      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
-    end
 
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing) }
@@ -132,8 +110,7 @@ class OutingsController < ApplicationController
   end
 
   def stop_count
-    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
-    @failed_proposed_events.each(&:destroy)
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote.each(&:destroy)
 
     respond_to do |format|
       format.js
@@ -152,6 +129,13 @@ class OutingsController < ApplicationController
   def set_participant
     # for proposed event cards
     @participant = @outing.participants.find_by(user: current_user)
+  end
+
+  def set_availabilities
+    @peoples_availabilities = []
+    @outing.participants.each do |participant|
+      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
+    end
   end
 
   # Only allow a list of trusted parameters through.
