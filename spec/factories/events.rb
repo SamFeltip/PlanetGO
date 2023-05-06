@@ -35,6 +35,9 @@
 FactoryBot.define do
   factory :event do
     name { 'Disco' }
+    address_line1 { '104 West Street' }
+    town { 'Sheffield' }
+    postcode { 'S1 4EP' }
     description { 'Come to the disco for fun vibes' }
     category_id { Category.where(name: 'Sport').first_or_create.id }
     user { create(:user) }
