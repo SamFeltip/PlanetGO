@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
+  include OutingsHelper
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -31,17 +32,10 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
-    @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-    @peoples_availabilities = []
-    participants.each do |participant|
-      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
-    end
-
-    @good_start_datetime = @outing.good_start_datetimes
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     @proposed_event = ProposedEvent.new
-
     @positions = %w[who when where]
   end
 
@@ -58,14 +52,7 @@ class OutingsController < ApplicationController
     end
 
     # Creates a new calendar object using the new participants list
-    @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-    @peoples_availabilities = []
-    participants.each do |participant|
-      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
-    end
-
-    @good_start_datetime = @outing.good_start_datetimes
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing) }
