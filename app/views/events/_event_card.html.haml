@@ -1,26 +1,24 @@
-.card.event-card[event]
-
+.card.event-card.click-card{data: { url: event_path(event) }}[event]
   .event-image{class: event.colour}
     = event.category.symbol
 
-  .event-card-body.card-body
-    .event-card-header.d-flex.justify-content-between
-      %h2
-        = link_to event.name, event, class: 'black'
+  %h3.event-title
+    = link_to event.name, event
+  .event-subheading
+    %h4.event-datetime= event.decorate.display_time
+    %p.event-location
+      %em location!
+  %p.event-description= event.decorate.display_description(400)
 
+  .event-card-footer
+    .d-flex.justify-content-end.justify-content-md-between.align-items-center
+      .d-inline.d-md-none
+        = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
+      .d-none.d-md-inline
+        = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
 
-    %p
-      %em
-        =event.decorate.display_time
-    %p.overflow-hidden.event-description
-      =event.description
-
-    %a{href: event_path(event)}
-      %i{:class => event.decorate.like_icon(current_user.liked(event))}
-        .d-inline.d-md-none
-          = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
-        .d-none.d-md-inline
-          = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
+      = button_to like_event_path(event), method: :post, remote: true, class: 'ms-2 btn btn-primary' do
+        %i.bi-star
 
   - if defined?(render_params) && render_params[:add_event_to_outing]
 

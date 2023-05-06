@@ -3,34 +3,22 @@
 
 
 // card
-.horizontal-card {
+.event-card-small {
   min-width: 152px;
   max-width: 400px;
   margin-right: 10px;
 }
 
-.event-card-image {
-  height: 100%;
-  max-height: $event-card-height;
-}
+.event-card {
+  //width: 50%;
+  min-width: 152px;
 
-
-.event-card-body {
-  //padding: 10px;
-  max-height: $event-card-height;
-  overflow: hidden;
-  padding-bottom: 1rem;
 }
 
 .event-card-header {
   // keeps long event names from pushing the description under the bottom of the card
   height: calc($h2-font-size + 0.5rem);
   overflow: hidden;
-}
-
-.event-card-body .event-description {
-  // body-line-height * 2
-  max-height: 3rem;
 }
 
 .event-card-body .event-card-header {
@@ -52,7 +40,13 @@ h4 {
   letter-spacing: -0.03em;
 
   color: #747474;
+  margin-bottom: 0;
 
+}
+
+em {
+  font-style: normal;
+  color: #747474;
 }
 
 p {
@@ -62,8 +56,36 @@ p {
   line-height: 14px;
 
   color: #9A9A9A;
-  height: 4.7em;
   overflow: hidden;
+}
+
+
+.event-image {
+  grid-area: image;
+}
+
+.event-title {
+  grid-area: title;
+}
+
+.event-subheading {
+  grid-area: subhe;
+}
+
+.event-description {
+  grid-area: description;
+  height: 42px;
+}
+
+.event-card .event-description {
+  padding-right: 15px;
+
+}
+
+.event-card-footer {
+  grid-area: like;
+  //position: absolute;
+  //bottom: 0;
 }
 
 .event-card, .event-card-small {
@@ -90,15 +112,10 @@ p {
     margin-bottom: 0.5rem;
 
   }
-
-  h3 {
-    margin-bottom: 0;
-  }
-
 }
 
-.event-card-small .event-card-header {
-  height: 3.5em;
+.event-card-small .event-title {
+  height: 2em;
 }
 
 //medium screens
@@ -109,34 +126,10 @@ p {
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
     "image title title"
-    "image date description"
-    "image location description"
+    "image subhe description"
     "like like like";
     column-gap: 5px;
   }
 
-  .event-image {
-    grid-area: image;
-  }
-
-  .event-title {
-    grid-area: title;
-  }
-
-  .event-datetime {
-    grid-area: date;
-  }
-
-  .event-location {
-    grid-area: location;
-  }
-
-  .event-description {
-    grid-area: description;
-  }
-
-  .event-card-footer {
-    grid-area: like;
-  }
 
 }

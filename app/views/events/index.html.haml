@@ -50,9 +50,8 @@
         .mb-3
           %h2
             Near you
-
-          - @nearby_events.each do |event|
-            .click-card{data: { url: event_path(event) }}[event]
+          #nearby_events
+            - @nearby_events.each do |event|
               = render "event_card", event: event
 
 

@@ -78,16 +78,12 @@
   %hr
 
   %h2.text-center
-    More Events Like This
-    %i.bi-chevron-right.bold
+    %a{href: events_path}
+      More Events Like This
+      %i.bi-chevron-right.bold
 
 
   .horizontal-scroll
     - @more_events.each do |event|
       = render 'event_card_small', event: event, render_params: {}
 
-    %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column.event-card-small.card{href: events_path}
-
-      %i.bi-calendar-event.xl-icon
-      %p
-        Find more events here

@@ -41,7 +41,6 @@ h3 {
   letter-spacing: -0.03em;
 
   color: #000000;
-  margin-bottom: 0.3rem;
 }
 
 .container-fluid {
@@ -56,11 +55,6 @@ h3 {
 
 .alert {
   --bs-alert-border-radius: 0;
-}
-
-// reset reboot
-.card-header h2, h3 {
-  margin: 0.5rem 0;
 }
 
 .light {
@@ -93,6 +87,13 @@ h3 {
 }
 
 //******
+
+//event index
+#nearby_events {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
 
 //landing page images
 
@@ -292,15 +293,10 @@ a:hover {
 }
 
 .horizontal-scroll {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
   overflow-x: auto;
   padding-bottom: 20px;
-  flex-wrap: nowrap;
-}
-
-// horizontal scrolling cards
-.horizontal-scroll > a {
-  transition: 0.5s ease;
 }
 
 
@@ -439,10 +435,6 @@ a:hover {
     margin-left: 0;
     //transition: 0.5s ease;
   }
-
-  .horizontal-card {
-    margin-bottom: 10px;
-  }
 }
 
 // large screens
@@ -455,10 +447,6 @@ a:hover {
 
   .horizontal-scroll > :first-child {
     margin-left: 0;
-  }
-
-  .horizontal-card {
-    margin-bottom: 10px;
   }
 }
 
