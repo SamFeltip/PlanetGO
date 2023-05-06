@@ -24,9 +24,7 @@
     .card.card-primary.mb-3
       .card-body
         %h1
-          Tell us about
-          %br
-          yourself
+          Tell us about yourself
         .icon-display
           .icon
             🎬
@@ -53,10 +51,9 @@
           %h2
             Near you
 
-          .horizontal-scroll
-            - @nearby_events.each do |event|
-              .click-card[event]
-                = render "event_card_small", event: event
+          - @nearby_events.each do |event|
+            .click-card[event]
+              = render "event_card", event: event
 
 
       - if defined?(@favourite_category)

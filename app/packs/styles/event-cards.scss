@@ -2,6 +2,13 @@
 @import "event-colours";
 
 
+// card
+.horizontal-card {
+  min-width: 152px;
+  max-width: 400px;
+  margin-right: 10px;
+}
+
 .event-card-image {
   height: 100%;
   max-height: $event-card-height;
@@ -59,8 +66,8 @@ p {
   overflow: hidden;
 }
 
-.event-card-small {
-  width: 153px;
+.event-card, .event-card-small {
+  //width: 153px;
   padding: 10px;
 
   background: #F6F5F5;
@@ -92,4 +99,44 @@ p {
 
 .event-card-small .event-card-header {
   height: 3.5em;
+}
+
+//medium screens
+@media (min-width: 768px) {
+  .event-card {
+    display: grid;
+    grid-template-columns: 62px 2fr 3fr;
+    grid-template-rows: repeat(4, auto);
+    grid-template-areas:
+    "image title title"
+    "image date description"
+    "image location description"
+    "like like like";
+    column-gap: 5px;
+  }
+
+  .event-image {
+    grid-area: image;
+  }
+
+  .event-title {
+    grid-area: title;
+  }
+
+  .event-datetime {
+    grid-area: date;
+  }
+
+  .event-location {
+    grid-area: location;
+  }
+
+  .event-description {
+    grid-area: description;
+  }
+
+  .event-card-footer {
+    grid-area: like;
+  }
+
 }

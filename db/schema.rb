@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_04_204444) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -66,6 +66,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "symbol"
   end
 
   create_table "category_interests", force: :cascade do |t|
@@ -128,6 +129,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.string "postcode"
     t.float "latitude"
     t.float "longitude"
+    t.integer "colour"
     t.index ["category_id"], name: "index_events_on_category_id"
     t.index ["latitude"], name: "index_events_on_latitude"
     t.index ["longitude"], name: "index_events_on_longitude"
@@ -165,10 +167,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "invitation_token"
     t.integer "outing_type"
     t.bigint "creator_id", null: false
+    t.string "invite_token"
     t.index ["creator_id"], name: "index_outings_on_creator_id"
+    t.index ["invite_token"], name: "index_outings_on_invite_token", unique: true
   end
 
   create_table "participants", force: :cascade do |t|
@@ -229,7 +232,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_03_224751) do
     t.string "postcode"
     t.float "latitude"
     t.float "longitude"
+    t.string "invitation_token"
+    t.datetime "invitation_created_at", precision: nil
+    t.datetime "invitation_sent_at", precision: nil
+    t.datetime "invitation_accepted_at", precision: nil
+    t.integer "invitation_limit"
+    t.string "invited_by_type"
+    t.bigint "invited_by_id"
+    t.integer "invitations_count", default: 0
+    t.string "invite_token"
     t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
+    t.index ["invited_by_id"], name: "index_users_on_invited_by_id"
+    t.index ["invited_by_type", "invited_by_id"], name: "index_users_on_invited_by"
     t.index ["latitude"], name: "index_users_on_latitude"
     t.index ["longitude"], name: "index_users_on_longitude"
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
