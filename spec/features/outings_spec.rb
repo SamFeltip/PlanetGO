@@ -266,11 +266,6 @@ RSpec.describe 'Outings' do
           end
         end
       end
-
-      it 'lets the user search for a friend' do
-        pending 'friend search not implemented yet'
-        expect(page).to have_content('Search for friends')
-      end
     end
 
     context 'when the creator manages the proposed events of the outing' do
@@ -278,7 +273,6 @@ RSpec.describe 'Outings' do
       let(:category1) { create(:category, name: 'Cafe') }
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
       let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
-
       let!(:event1_react) { create(:event_react, user_id: outing_creator.id, event_id: event1.id) }
       let!(:event2_react) { create(:event_react, user_id: outing_creator.id, event_id: event2.id) }
 
@@ -286,6 +280,43 @@ RSpec.describe 'Outings' do
 
       before do
         visit set_details_outing_path(past_outing, position: 'where')
+      end
+
+      specify 'I can search for an event by name or description', js: true do
+        within '#event-search-form' do
+          fill_in 'description', with: event1.name
+          click_on 'search'
+        end
+
+        within '#searched-events' do
+          expect(page).to have_content(event1.description)
+        end
+      end
+
+      context 'when searching for an event', js: true do
+        before do
+          within '#event-search-form' do
+            fill_in 'description', with: event1.name
+            click_on 'search'
+          end
+
+          within '#searched-events' do
+            within "#event_#{event1.id}" do
+              find('.send-proposed-event-button').click
+              sleep 0.5
+            end
+          end
+        end
+
+        specify 'I can add a searched event to the pending events list', js: true do
+          within '#where-timetable' do
+            expect(page).to have_content(event1.name) # should be added to events timetable
+          end
+
+          within '#searched-events' do
+            expect(page).not_to have_content(event1.name) # should be removed from the search results
+          end
+        end
       end
 
       it 'shows events the user has liked in the recommended events section that are not proposed' do
@@ -300,7 +331,7 @@ RSpec.describe 'Outings' do
         end
       end
 
-      context 'when the user adds a proposed event to an outing' do
+      context 'when the user adds a proposed event to an outing', js: true do
         def click_add_event(event)
           within '#recommended-events' do
             within "#event_#{event.id}" do

@@ -103,7 +103,7 @@ class EventsController < ApplicationController
 
   def search
     @events = Event.approved
-    @outing = Outing.where(id: params[:search][:outing]).first # Get the outing being searched from
+    @outing = Outing.where(id: params[:outing_id]).first # Get the outing being searched from
 
     filter_events_by_name_or_description
     filter_events_by_category
