@@ -141,10 +141,10 @@ RSpec.describe EventDecorator, type: :decorator do
 
   describe '#map_image' do
     it 'returns the correct URL with the event longitude and latitude' do
-      event = create(:event, longitude: -122.4194, latitude: 37.7749)
+      event = create(:event)
       decorated_event = described_class.new(event)
       # url is for -1.0, 53.0 because of the default stub
-      expected_url = 'https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s+ff0000(-1.0,53.0)/-1.0,53.0,10,0/300x200@2x?access_token=pk.eyJ1IjoicmFuZGludDI4IiwiYSI6ImNsaDQwN244MDBnYnEzY3Fnazc4NW14d2UifQ.jdlAkOv03e_XS165HrP2Vg'
+      expected_url = 'https://api.mapbox.com/styles/v1/mapbox/light-v10/static/pin-s+ff0000(-1.4746,53.38131)/-1.4746,53.38131,10,0/300x200@2x?access_token=pk.eyJ1IjoicmFuZGludDI4IiwiYSI6ImNsaDQwN244MDBnYnEzY3Fnazc4NW14d2UifQ.jdlAkOv03e_XS165HrP2Vg'
       expect(decorated_event.map_image).to eq(expected_url)
     end
   end
