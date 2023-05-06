@@ -52,7 +52,7 @@
             Near you
 
           - @nearby_events.each do |event|
-            .click-card[event]
+            .click-card{data: { url: event_path(event) }}[event]
               = render "event_card", event: event
 
 
@@ -67,4 +67,3 @@
             - @recommended_events.each do |event|
               .click-card[event]
                 = render "event_card_small", event: event
-

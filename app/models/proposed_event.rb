@@ -27,4 +27,11 @@
 class ProposedEvent < ApplicationRecord
   belongs_to :event
   belongs_to :outing
+  acts_as_votable
+
+  scope :failed_vote, -> { select(&:failed_vote) }
+
+  def failed_vote
+    (get_likes.size) < (outing.participants.count / 2.0)
+  end
 end

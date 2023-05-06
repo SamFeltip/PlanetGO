@@ -59,7 +59,7 @@ h3 {
 }
 
 // reset reboot
-.card-header h2 {
+.card-header h2, h3 {
   margin: 0.5rem 0;
 }
 
@@ -185,6 +185,12 @@ a:hover {
 .card {
   //box-shadow: $card-box-shadow;
   overflow: hidden;
+  border : none;
+}
+
+.card .card {
+  box-shadow: none;
+  border: $card-border-color $card-border-width solid;
 }
 
 .card.card-primary {

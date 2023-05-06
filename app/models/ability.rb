@@ -34,8 +34,8 @@ class Ability
     can %i[create show like], Event
     can %i[edit read update destroy], Event, user_id: user.id
     can :create, Outing
-    can %i[index show edit read update destroy set_details send_invites], Outing, creator_id: user.id
-    can %i[index show read], Outing, participants: { user_id: user.id }
+    can %i[index show edit read update destroy set_details send_invites stop_count], Outing, creator_id: user.id
+    can %i[index show read vote], Outing, participants: { user_id: user.id }
 
     can %i[index search requests follow unfollow accept decline cancel], :friend
     can %i[index set_interest], CategoryInterest, user_id: user.id
@@ -43,7 +43,8 @@ class Ability
     can %i[destroy update read edit], ProposedEvent, outing: { creator_id: user.id }
 
     can :create, BugReport
-    can %i[edit read update destroy], BugReport, user_id: user.id
+    can %i[edit read update], BugReport, user_id: user.id
+    can :destroy, BugReport, user_id: user.id, resolved: false
 
     return unless user.suspended
 
@@ -64,5 +65,6 @@ class Ability
     can :manage, Event
     can :manage, Outing
     can :manage, BugReport
+    can :manage, Comment
   end
 end

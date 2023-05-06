@@ -53,7 +53,6 @@ class Event < ApplicationRecord
 
   scope :approved, -> { where(approved: true) }
   scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
-  scope :order_by_user_interest, -> {}
   scope :user_events, ->(user) { where(user_id: user.id) }
   scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
   scope :order_by_category_interest, lambda { |user|

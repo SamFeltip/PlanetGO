@@ -29,11 +29,12 @@
               %td.text-center
                 .row
                   .col
-                    %a{href: edit_event_path(event)}
+                    %a.btn.btn-outline-primary{href: edit_event_path(event)}
                       %i.bi-pencil-square
                   .col
-                    %a{href: event_path(event), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' }, class: 'red ms-auto' }
+                    = button_to event_path(event), method: :delete, data: { confirm: 'Are you sure you want to delete this event?' }, class: 'delete-event red ms-auto btn btn-outline-danger' do
                       %i.bi-trash
+
 
 - if current_user.admin? && @pending_events.count > 0
   #pending_events.card
