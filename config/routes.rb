@@ -4,32 +4,42 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
+  resources :events
   resources :proposed_events
   resources :proposed_events do
     post 'create'
+  end
+
+  resources :proposed_events, except: %i[new show] do
+    post :vote, on: :member
+  end
+
+  resources :bug_reports do
+    resources :comments, only: [:create]
   end
 
   resources :events, except: %i[new show] do
     patch :like, on: :member
   end
 
-  resources :outings do
+  patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
+
+  resources :outings, param: :invite_token do
     member do
       get 'set_details'
       post 'send_invites'
+      post 'stop_count'
+      resources :participants, only: %i[new create]
+      resource :invite_link, only: :show
     end
     post :send_invites, on: :member
   end
 
-  patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
-
-  resources :events
   resources :participants
-  resources :outings
 
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')
-  devise_for :users
+  devise_for :users, controllers: { registrations: 'registrations', sessions: 'sessions' }
 
   resources :users, :metrics
 

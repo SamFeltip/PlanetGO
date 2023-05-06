@@ -26,7 +26,7 @@ FactoryBot.define do
   factory :proposed_event do
     event { nil }
     outing { nil }
-    date { '2023-02-24' }
+    proposed_datetime { '2023-02-24' }
     status { 1 }
   end
 end

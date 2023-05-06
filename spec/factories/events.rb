@@ -41,5 +41,6 @@ FactoryBot.define do
     time_of_event { '2023-02-24' }
     description { 'Come to the disco for fun vibes' }
     category_id { Category.where(name: 'Sport').first_or_create.id }
+    user { create(:user) }
   end
 end

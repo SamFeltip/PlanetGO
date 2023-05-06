@@ -497,7 +497,7 @@ outing1 = Outing.where(
   date: 1.week.from_now,
   creator_id: user_list[0].id,
   outing_type: :personal
-).first_or_create!
+).first_or_create
 
 print '.'
 outing2 = Outing.where(
@@ -535,11 +535,13 @@ outing5 = Outing.where(
   outing_type: :personal
 ).first_or_create
 
+outing_list = [outing1, outing2, outing3, outing4, outing5]
+
 puts ''
-print 'creating participants'
+print 'creating participants (creators)'
 
 # create participants for every creator of every outing
-[outing1, outing2, outing3, outing4, outing5].each do |outing|
+outing_list.each do |outing|
   print '.'
   Participant.where(
     user_id: outing.creator_id,
@@ -591,10 +593,11 @@ user_ids = [6, 14, 5, 12, 3, 17, 8, 1, 11, 16, 2, 7, 13, 18, 9, 4, 15]
 # zip user_ids, outings together
 participant_zips = user_ids.zip(outing_list)
 
+puts ''
+print 'creating participants'
+
 participant_zips.each do |user_id, outing|
   print '.'
-  user = User.find(user_id)
-
   status = 'confirmed'
 
   # random but reproducible pending requests
@@ -603,14 +606,14 @@ participant_zips.each do |user_id, outing|
   status = 'creator' if outing.creator_id == user_id
 
   Participant.where(
-    user_id: user,
+    user_id: user_id,
     outing_id: outing.id,
-    status:
+    status: status
   ).first_or_create
 end
 
 puts ''
-print 'printing availabilities'
+print 'creating availabilities'
 
 start_times = [DateTime.new(1970, 1, 5, 0, 0, 0), DateTime.new(1970, 1, 5, 6, 0, 0), 
               DateTime.new(1970, 1, 7, 0, 0, 0), DateTime.new(1970, 1, 7, 9, 0, 0),
@@ -642,7 +645,30 @@ start_times.each_with_index do |_full_name, index|
 end
 
 puts ''
-print 'printing metrics.'
+print 'creating proposed event votes'
+
+outing_list.each do |outing|
+  participant_count = outing.participants.count
+  
+  outing.participants.each_with_index do |participant, index|
+    user = participant.user
+    print '.'
+    outing.proposed_events.first.liked_by user
+
+    if index < participant_count * 0.8
+      print '.'
+      outing.proposed_events.second.liked_by user
+    end
+    
+    if index < participant_count * 0.4
+      print '.'
+      outing.proposed_events.third.liked_by user
+    end
+  end
+end
+
+puts ''
+print 'creating metrics'
 
 metric_1 = Metric.where(
   time_enter: '2022-11-25 12:24:16', time_exit: '2022-11-25 12:25:16', route: '/', latitude: 53.376347,

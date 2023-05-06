@@ -37,6 +37,19 @@ $('#outing-nav-where').click(function () {
     $('#outing-nav-where').addClass('underline');
 });
 
+function inviteCopy() {
+    // Get the text field
+    var copyText = document.getElementById("copy_clipboard");
+
+    // Copy the text inside the text field
+    navigator.clipboard.writeText(copyText.value).then(function (x) {
+        alert("Copied the invite link: " + copyText.value + "  to your clipboard, send it to your friends to have them join your outing!");
+    });
+
+}
+
+$("#copy_clipboard").on("click", inviteCopy);
+
 // when date of outing is updated, change date of outing on page
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.edit_outing').forEach((element) => {

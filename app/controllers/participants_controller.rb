@@ -13,7 +13,11 @@ class ParticipantsController < ApplicationController
 
   # GET /participants/new
   def new
-    @participant = Participant.new
+    if current_user
+      create
+    else
+      redirect_to new_user_registration_path(invite_token: params[:invite_token])
+    end
   end
 
   # GET /participants/1/edit
@@ -21,17 +25,13 @@ class ParticipantsController < ApplicationController
 
   # POST /participants or /participants.json
   def create
-    @participant = Participant.new(participant_params)
+    outing = Outing.find_by(invite_token: params[:invite_token])
+    Participant.where(outing_id: outing, user_id: current_user).first_or_create
+    redirect_to outings_path
+  end
 
-    respond_to do |format|
-      if @participant.save
-        format.html { redirect_to participant_url(@participant) }
-        format.json { render :show, status: :created, location: @participant }
-      else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
-    end
+  def invite
+    @participant = Participant.new(participant_params)
   end
 
   # PATCH/PUT /participants/1 or /participants/1.json
@@ -60,7 +60,7 @@ class ParticipantsController < ApplicationController
 
     # Creates a new calendar object using the new participants list
     @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
+    participants = Participant.where(outing_id: params[:outing_id])
     @peoples_availabilities = []
     participants.each do |participant|
       @peoples_availabilities.append(Availability.where(user_id: participant.user_id))

@@ -58,4 +58,10 @@ RSpec.describe Category do
       expect(category1.indifferent_percent).to eq 100
     end
   end
+
+  describe '#colour' do
+    it 'returns a string representing a hex color code' do
+      expect(category1.colour).to match(/^#[0-9a-fA-F]{6}$/)
+    end
+  end
 end
