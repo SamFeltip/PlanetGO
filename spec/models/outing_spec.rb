@@ -23,6 +23,7 @@
 #  fk_rails_...  (creator_id => users.id)
 #
 require 'rails_helper'
+import DateTime
 
 RSpec.describe Outing do
   describe 'associations' do
