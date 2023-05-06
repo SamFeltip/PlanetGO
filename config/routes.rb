@@ -4,13 +4,22 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
+
+  get 'events/search', to: 'events#search', as: 'event_search'
+
   resources :events
   resources :proposed_events
   resources :proposed_events do
     post 'create'
   end
 
-  get 'events/search', to: 'events#search', as: 'event_search'
+  resources :proposed_events, except: %i[new show] do
+    post :vote, on: :member
+  end
+
+  resources :bug_reports do
+    resources :comments, only: [:create]
+  end
 
   resources :events, except: %i[new show] do
     patch :like, on: :member

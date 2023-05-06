@@ -1,6 +1,6 @@
 - if recommended_events.any?
   - recommended_events.each do |event|
-    = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: outing
+    = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
 - else
   %p

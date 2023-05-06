@@ -1,10 +1,7 @@
-- if events.nil? # Nothing inputted to form, show nothing
+- if recommended_events.any?
+  - recommended_events.each do |event|
+    = render 'events/event_search_result_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
-- elsif events.any? # Render event cards
-  %h3 Search Results
-  - events.each do |event|
-    = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: outing
-
-- else # System couldn't find any events with params specified
+- else
   %p
-    No events found
+    No recommended events

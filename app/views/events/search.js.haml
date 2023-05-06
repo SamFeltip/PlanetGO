@@ -1,4 +1,4 @@
 -# Render events search partial
-var results = "#{ j render 'events/recommended_events', recommended_events: @events, outing: @outing }";
+var results = "#{ j render 'events/event_search', recommended_events: @events, outing: @outing}";
 
 document.getElementById('searched-events').innerHTML = results;
