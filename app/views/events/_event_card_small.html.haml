@@ -3,10 +3,16 @@
 
   .event-image{class: event.colour}
     = event.category.symbol
-  %h3.event-title= event.name
-  %h4.event-datetime= event.decorate.display_time
+  .event-subheading
+    %h3.event-title= event.name
+    %h4.event-datetime
+      %i.bi-calendar
+      = event.decorate.display_time
 
-  %p.event-location location!
+    %p.event-location
+      %em
+        %i.bi-pin-map-fill
+        location!
   %p.event-description= event.decorate.display_description
 
   .event-card-footer

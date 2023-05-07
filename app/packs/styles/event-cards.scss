@@ -4,9 +4,10 @@
 
 // card
 .event-card-small {
-  min-width: 152px;
+  min-width: 180px;
   max-width: 400px;
   margin-right: 10px;
+
 }
 
 .event-card {
@@ -26,9 +27,6 @@
 }
 
 
-.event-card-body p {
-  margin-bottom: 0;
-}
 
 // ******************** small event cards **************************
 
@@ -57,6 +55,7 @@ p {
 
   color: #9A9A9A;
   overflow: hidden;
+  margin-bottom: 0;
 }
 
 
@@ -70,11 +69,13 @@ p {
 
 .event-subheading {
   grid-area: subhe;
+  min-height: 80px;
 }
 
 .event-description {
   grid-area: description;
   height: 42px;
+  margin-bottom: 5px;
 }
 
 .event-card .event-description {
@@ -115,14 +116,14 @@ p {
 }
 
 .event-card-small .event-title {
-  height: 2em;
+  //height: 2em;
 }
 
 //medium screens
 @media (min-width: 768px) {
   .event-card {
     display: grid;
-    grid-template-columns: 62px 2fr 3fr;
+    grid-template-columns: 62px 1fr 2fr;
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
     "image title title"

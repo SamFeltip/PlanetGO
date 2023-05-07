@@ -3,6 +3,7 @@
 .event-header.event-image{:class => Category.find(@event.category_id).name.downcase && @event.colour }
   .content
     %h1
+      =@event.category.symbol
       =@event.name
     %h2
       =@event.decorate.time_of_event

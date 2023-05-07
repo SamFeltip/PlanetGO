@@ -98,10 +98,6 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def colour
-    object.category.colour
-  end
-
   def approved_colour
     if object.approved.nil?
       'purple'

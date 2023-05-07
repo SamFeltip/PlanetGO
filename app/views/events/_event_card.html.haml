@@ -5,9 +5,13 @@
   %h3.event-title
     = link_to event.name, event
   .event-subheading
-    %h4.event-datetime= event.decorate.display_time
+    %h4.event-datetime
+      %i.bi-calendar
+      = event.decorate.display_time
     %p.event-location
-      %em location!
+      %em
+        %i.bi-pin-map-fill
+        location!
   %p.event-description= event.decorate.display_description(400)
 
   .event-card-footer
