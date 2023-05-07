@@ -41,10 +41,17 @@ class MetricsController < ApplicationController
     @click_data = JSON.generate(country_codes_data)
 
     @data_keys, @data_values = empty_graph
+
+    # List of all categories for the categories graph
+    @category_select_values = Category.distinct.pluck(:name)
     return unless params['start'] && params['end']
 
-    @data_keys, @data_values = handle_graph(params['start'], params['end'], params['resolution'], params['page'],
-                                            params['metric'])
+    if params['category']
+      @data_keys, @data_values = handle_graph_category(params['start'], params['end'], params['resolution'], params['category'])
+    else
+      @data_keys, @data_values = handle_graph_metric(params['start'], params['end'], params['resolution'], params['page'],
+                                                     params['metric'])
+    end
   end
 
   # GET /metrics/new

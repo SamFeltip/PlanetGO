@@ -29,7 +29,8 @@ body {
 }
 
 // reset reboot
-.card-header h2, h3 {
+.card-header h2,
+h3 {
   margin: 0.5rem 0;
 }
 
@@ -76,6 +77,11 @@ a {
 }
 
 // *************** Metrics page ***************
+
+.graph_body {
+  display: flex;
+  justify-content: space-between;
+}
 
 #myChart {
   width: 100%;
@@ -151,7 +157,7 @@ a {
   margin-bottom: 2rem;
   box-shadow: $card-box-shadow;
   overflow: hidden;
-  border : none;
+  border: none;
 }
 
 .card .card {
@@ -207,7 +213,7 @@ a {
   height: 49em;
   background-color: #ffffff;
   background-image: linear-gradient(#000000 2px, transparent 0),
-    linear-gradient(#444cf7 1px, transparent 0);
+    linear-gradient(#c9c9c9 1px, transparent 0);
   background-position-y: 1em;
   background-size: 2em 2em, 0.5em 0.5em;
   opacity: 1;
