@@ -293,7 +293,29 @@ RSpec.describe 'Outings' do
         end
       end
 
-      context 'when searching for an event', js: true do
+      specify 'I find nothing when I search for something non-existent', js: true do
+        within '#event-search-form' do
+          fill_in 'description', with: 'Foo bar'
+          click_on 'search'
+        end
+
+        within '#searched-events' do
+          expect(page).to have_content 'No events found'
+        end
+      end
+
+      specify 'The search form resets if I search for nothing', js: true do
+        within '#event-search-form' do
+          fill_in 'description', with: ''
+          click_on 'search'
+          sleep 0.5
+        end
+
+        # Div not in visible css as contains nothing
+        expect(page).not_to have_css('#searched-events')
+      end
+
+      context 'when finished searching for an event', js: true do
         before do
           within '#event-search-form' do
             fill_in 'description', with: event1.name
