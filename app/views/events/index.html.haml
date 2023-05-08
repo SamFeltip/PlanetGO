@@ -50,7 +50,7 @@
         .mb-3
           %h2
             Near you
-          #nearby_events
+          #events-display
             - @nearby_events.each do |event|
               = render "event_card", event: event
 

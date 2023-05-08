@@ -1,21 +1,16 @@
 @import "variables";
 
-html {
-  min-height: 100%;
-}
-
-.index {
-  background: radial-gradient(
-                  175.16% 203.78% at 0% 0%,
-                  #F5F3FF 0%,
-                  rgba(227, 223, 248, 0.2) 100%
-  );
-}
 
 body {
   //font-family: "Graphik", sans-serif;
   //color: $text-color;
   font-family: "Poppins", sans-serif;
+
+  background: radial-gradient(
+                  175.16% 203.78% at 0% 0%,
+                  #F5F3FF 0%,
+                  rgba(227, 223, 248, 0.2) 100%
+  );
 
   min-height: 100vh;
   display: flex;
@@ -38,13 +33,21 @@ h2 {
 
 h3 {
 
-  font-weight: 500;
+  font-weight: 400;
   font-size: 15px;
   line-height: 18px;
-
   letter-spacing: -0.03em;
+  margin: 0;
 
+  color: #747474;
   //color: #000000;
+}
+
+
+em {
+  font-style: normal;
+  font-weight: 600;
+  color: #747474;
 }
 
 .container-fluid {
@@ -93,7 +96,7 @@ h3 {
 //******
 
 //event index
-#nearby_events {
+#events-display {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;

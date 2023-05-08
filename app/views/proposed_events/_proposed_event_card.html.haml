@@ -1,4 +1,4 @@
-.card.proposed-event-card[proposed_event]
+.card.proposed-event-card.mb-3[proposed_event]
   .card-header.d-flex.justify-content-between.align-items-center{class: "background-colour #{proposed_event.event.colour}"}
     %h3.proposed_event_datetime_sm.d-inline.d-sm-none
       =proposed_event.decorate.proposed_datetime(compact: true)
@@ -18,6 +18,7 @@
       - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
         = link_to proposed_event_path(proposed_event), class: 'ms-2 btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
           %i.bi-trash
+
   .proposed-event-card-body
     = render 'events/event_card', event: proposed_event.event
 

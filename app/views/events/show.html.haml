@@ -1,12 +1,22 @@
 - additional_stylesheet 'events'
 
-.event-header.event-image{:class => Category.find(@event.category_id).name.downcase && @event.colour }
+.event-header.background-colour{:class => @event.colour }
   .content
-    %h1
+    .event-image{:style => "background-image: url('#{@event_image}')"}
       =@event.category.symbol
+
+    %h1.event-title
       =@event.name
-    %h2
-      =@event.decorate.time_of_event
+
+
+    .event-subheading
+      %h3
+        %em
+          %i.bi-calendar-range
+          =@event.decorate.display_time
+      %h3
+        %i.bi-pin-map-fill
+        =@event.address_line1
 
 .event-body
   .d-flex.justify-content-between
@@ -50,26 +60,21 @@
         -#  %i.bi-trash
 
   %hr
+  .creator-card.mb-2
+    .initial-avatar.d-inline-flex= @event.user.initials
+    .avatar-text.d-inline.m-2
+      %b
+        #{@event.user.full_name}
+
+      says...
+
   #event-info
     .card
-      .card-header
-        %h2
-          Description
       .card-body
         %p
           =@event.description
-        %p
-          %em
-            =@event.category.name
-        %h2
-          Creator
-        %p
-          %a{href: user_path(@event.user)}
-            =@event.user
+
     .card
-      .card-header
-        %h2
-          Location
       .card-body
         %img.w-100{ src: @event.decorate.map_image }
         %p.mt-3.text-center

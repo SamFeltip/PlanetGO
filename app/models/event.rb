@@ -82,7 +82,7 @@ class Event < ApplicationRecord
   end
 
   def to_s
-    "#{name} @ #{time_of_event}"
+    "#{name} @ #{decorate.display_time}"
   end
 
   def creator

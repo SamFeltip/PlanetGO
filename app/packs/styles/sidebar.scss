@@ -8,6 +8,7 @@ main {
 
 
 .sidebar {
+  z-index: 2;
   background: radial-gradient(194.94% 112.13% at 0% 0%, rgba(26, 19, 50, 0.8) 0%, #1A1332 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
   backdrop-filter: blur(5px);
 
@@ -22,7 +23,7 @@ main {
 #sidebar-content {
   // unordered list with no bullets
   list-style-type: none;
-  padding: 22px 0;
+  padding: 10px 0;
 
   font-size: 15px;
 
@@ -40,7 +41,7 @@ main {
     grid-template-columns: 90% 10%;
     align-items: center;
 
-    margin-bottom: 13px;
+    margin-bottom: 5px;
     //padding-top: 7px;
     //padding-left: 17px;
     //padding-bottom: 7px;

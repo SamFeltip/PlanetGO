@@ -1,16 +1,13 @@
 @import "variables";
 @import "event-colours";
 
-
 // card
 .horizontal-scroll .event-card {
-  min-width: 180px;
   max-width: 400px;
   margin-right: 10px;
 }
 
 .event-card {
-  //width: 50%;
   min-width: 152px;
 
   .large-date {
@@ -21,124 +18,87 @@
     display: none;
   }
 
-}
-.card-header {
+  padding: 10px;
+  border-radius: 12px;
 
-  h3 {
-    margin: 0;
+  p {
+
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 14px;
+
+    color: #9A9A9A;
+    overflow: hidden;
+    margin-bottom: 0;
+  }
+
+  .event-title {
+    padding-right: 15px;
+    height: 2rem;
+  }
+
+  .event-subheading {
+    padding-bottom: 10px;
+  }
+
+  .event-description {
+    height: 42px;
+    margin-bottom: 5px;
+    padding-right: 15px;
   }
 }
-.event-card-header {
-  // keeps long event names from pushing the description under the bottom of the card
-  height: calc($h2-font-size + 0.5rem);
-  overflow: hidden;
 
-}
-
-.event-card-body .event-card-header {
-  font-weight: bold;
-}
-
-
-
-// ******************** small event cards **************************
-
-h4 {
-
-  font-weight: 500;
-  font-size: 13px;
-  line-height: 15px;
-  letter-spacing: -0.03em;
-
-  color: #747474;
-  margin-bottom: 0;
-
-}
-
-em {
-  font-style: normal;
-  color: #747474;
-}
-
-p {
-
-  font-weight: 400;
-  font-size: 12px;
-  line-height: 14px;
-
-  color: #9A9A9A;
-  overflow: hidden;
-  margin-bottom: 0;
-}
-
-
-.event-image {
-  grid-area: image;
-}
-
-.event-title {
-  grid-area: title;
-}
-
-.event-subheading {
-  grid-area: subhe;
-}
-
-.event-description {
-  grid-area: description;
-  height: 42px;
-  margin-bottom: 5px;
-}
-
-.event-card .event-description {
-  padding-right: 15px;
-
-}
 
 .event-card-footer {
   grid-area: like;
-  //position: absolute;
-  //bottom: 0;
 }
 
 .event-card {
-  //width: 153px;
-  padding: 10px;
 
-  border-radius: 12px;
+  h1 {
 
-  .event-image {
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 18px;
+    letter-spacing: -0.03em;
+    margin-bottom: 10px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  }
 
-    //background: #E713EF;
-    border-radius: 10px;
-    overflow: hidden;
+  h2 {
 
-    width: 62px;
-    height: 62px;
+    font-size: 13px;
+    line-height: 15px;
+    letter-spacing: -0.03em;
 
-    font-size: 35px;
-    margin-bottom: 0.5rem;
+    color: #9A9A9A;
+    margin-bottom: 0;
 
+  }
+
+  em {
+    font-weight: 500;
   }
 }
 
+
+
+
 //medium screens
 @media (min-width: 768px) {
+  // create a wider view for cards that have the space
   .event-card:not(.horizontal-scroll .event-card) {
     display: grid;
     grid-template-columns: 62px 1fr 2fr;
     grid-template-rows: repeat(4, auto);
+    // these are already set in the layouts css file
     grid-template-areas:
     "image title title"
-    "image subhe description"
+    "image subhe desc"
     "like like like";
     column-gap: 5px;
 
-
+    // show the larger date string
     .large-date {
       display: none;
     }
@@ -147,6 +107,9 @@ p {
       display: inline;
     }
 
+    .event-title {
+      height: auto;
+    }
   }
 
 }

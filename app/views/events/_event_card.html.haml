@@ -2,16 +2,17 @@
 
   .event-image{class: "background-colour #{event.colour}"}
     = event.category.symbol
-  %h3.event-title
+  %h1.event-title
     = link_to event.name, event
   .event-subheading
-    %h4.event-datetime
-      %i.bi-calendar
-      = event.decorate.display_time
-    %p.event-location
+    %h2.event-datetime
       %em
-        %i.bi-pin-map-fill
-        location!
+
+        %i.bi-calendar
+        = event.decorate.display_time
+    %p.event-location
+      %i.bi-pin-map-fill
+      = event.address_line1
   %p.event-description= event.decorate.display_description(400)
 
   .event-card-footer
