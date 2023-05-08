@@ -94,9 +94,20 @@ em {
 }
 
 //******
+// included to allow a gap between the columns
+.search-form {
+  display: grid;
+  grid-template-columns: auto 40px;
+  grid-column-gap: 10px;
+
+  button {
+    display: flex;
+    justify-content: center;
+  }
+}
 
 //event index
-#events-display {
+#events-display, #searched-events {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 10px;

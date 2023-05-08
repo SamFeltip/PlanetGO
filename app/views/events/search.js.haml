@@ -1,0 +1,2 @@
+var searched_events = document.querySelector('#searched-events');
+searched_events.innerHTML = "#{escape_javascript(render 'events/searched_events', events: @searched_events)}";

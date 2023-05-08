@@ -12,12 +12,15 @@
 
 
 
-  = simple_form_for :search, url: events_path, method: :get do |f|
+  = simple_form_for :search, url: events_search_path, method: :get, remote: true do |f|
+    .search-form
+      = f.input :query, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'query', value: @query || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
-    .search-fields.mb-3
-      .description-content
+      %button.btn.btn-outline-secondary{:type => "submit"}
+        %i.bi-search
 
-        = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+  #searched-events
+    = render "searched_events", events: @searched_events
 
   - if current_user.commercial
 

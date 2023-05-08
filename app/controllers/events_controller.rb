@@ -12,9 +12,6 @@ class EventsController < ApplicationController
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)
 
-    filter_events_by_name_or_description
-    filter_events_by_category
-
     # order by category interest if no search was performed
     if params[:description].blank? && params[:category_id].blank?
       @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
@@ -33,39 +30,6 @@ class EventsController < ApplicationController
   def show
     @event = Event.find(params[:id]).decorate
     @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3)
-  end
-
-  def approval
-    @event.update(approved: params[:approved])
-
-    @approved_events = Event.approved
-
-    # redirect_to events_path
-    respond_to do |format|
-      format.html { redirect_to events_path }
-      format.js
-    end
-  end
-
-  def like
-    if current_user.liked(@event)
-      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
-      EventReact.destroy(event_react_id)
-
-    else
-      @event.event_reacts.create(
-        user_id: current_user.id,
-        status: EventReact.statuses[:like]
-      )
-    end
-
-    @event_liked = current_user.liked(@event)
-
-    # redirect_to events_path
-    respond_to do |format|
-      format.html { redirect_to events_path }
-      format.js
-    end
   end
 
   # GET /events/new
@@ -117,20 +81,65 @@ class EventsController < ApplicationController
     end
   end
 
+
+  def approval
+    @event.update(approved: params[:approved])
+
+    @approved_events = Event.approved
+
+    # redirect_to events_path
+    respond_to do |format|
+      format.html { redirect_to events_path }
+      format.js
+    end
+  end
+
+  def like
+    if current_user.liked(@event)
+      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
+      EventReact.destroy(event_react_id)
+
+    else
+      @event.event_reacts.create(
+        user_id: current_user.id,
+        status: EventReact.statuses[:like]
+      )
+    end
+
+    @event_liked = current_user.liked(@event)
+
+    # redirect_to events_path
+    respond_to do |format|
+      format.html { redirect_to events_path }
+      format.js
+    end
+  end
+
+  def search
+
+    filter_events_by_content
+    filter_events_by_category
+
+    respond_to do |format|
+      format.html { redirect_to events_path }
+      format.js
+    end
+  end
+
   private
 
-  def filter_events_by_name_or_description
-    @description = params[:description].to_s.downcase.strip
-    return if @description.blank?
+  def filter_events_by_content
+    @query = params[:query].to_s.downcase.strip
+    return if @query.blank?
 
-    @events = @events.where('lower(description) LIKE :query OR lower(name) LIKE :query', query: "%#{@description}%")
+    @searched_events = Event.approved.where('lower(description) LIKE :query OR lower(name) LIKE :query', query: "%#{@query}%")
   end
 
   def filter_events_by_category
-    @category_id = params[:category_id].to_i
-    return if @category_id.zero?
+    category_id = params[:category_id].to_i
+    return if category_id.zero?
 
-    @events = @events.where(category_id: @category_id)
+    @searched_events = @searched_events.where(category_id: @category_id)
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -144,7 +153,7 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
+    params.require(:event).permit(:query, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
                                   event_reacts_attributes: %i[id event_id user_id status])
   end
 end

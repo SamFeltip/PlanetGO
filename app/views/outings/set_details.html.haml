@@ -59,7 +59,7 @@
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
-      = form_tag events_path, id: 'event-search-form', class: 'mb-2', method: :get do
+      = form_tag events_path, id: 'event-search-form', placeholder: 'search for events here...', class: 'mb-2 search-form', method: :get do
         = text_field_tag :description
 
         %button.btn.btn-outline-secondary{:type => "submit"}

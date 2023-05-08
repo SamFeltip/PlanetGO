@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
-  resources :events
+
   resources :proposed_events
   resources :proposed_events do
     post 'create'
@@ -18,9 +18,12 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
+  get 'events/search', to: 'events#search'
+
   resources :events, except: %i[new show] do
     patch :like, on: :member
   end
+  resources :events
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
