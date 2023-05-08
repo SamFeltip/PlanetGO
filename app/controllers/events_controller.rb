@@ -101,6 +101,7 @@ class EventsController < ApplicationController
     end
   end
 
+  # GET /events/search
   def search
     @events = Event.approved
     @outing = Outing.where(id: params[:outing_id]).first # Get the outing being searched from
@@ -110,6 +111,7 @@ class EventsController < ApplicationController
 
     @events = nil if params[:description].to_s.strip == '' # Events nil if no search
 
+    # Only responds to remote call and yields a js file
     respond_to do |format|
       format.js # Call search.js.haml
     end
