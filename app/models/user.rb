@@ -92,16 +92,12 @@ class User < ApplicationRecord
     Outing.where(creator_id: id)
   end
 
-  def future_outings(creator = nil)
-    outings_future = Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ?', Time.zone.today)
-    outings_future = outings_future.where(creator_id: creator.id) if creator
-    outings_future
+  def future_outings
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ?', Time.zone.today)
   end
 
-  def past_outings(creator = nil)
-    outings_past = Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today)
-    outings_past = outings_past.where(creator_id: creator.id) if creator
-    outings_past
+  def past_outings
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today)
   end
 
   def to_s
@@ -163,18 +159,18 @@ class User < ApplicationRecord
   end
 
   def local_events
-    postcode.present? ? Event.where(approved: true).near("#{postcode}, UK", 10).limit(3) : Event.none
+    postcode.present? ? Event.approved.near.limit(3) : nil
   end
 
   def final_events
     if postcode.present?
       # get local events with the right categories
-      random_accommodation = local_events.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = local_events.joins(:category).where(category: { name: 'restaurant' }).sample
+      random_accommodation = Event.accommodations.near.sample
+      random_restaurant = Event.restaurants.near.sample
     else
       # get any events with the right categories
-      random_accommodation = Event.joins(:category).where(category: { name: 'accommodation' }).sample
-      random_restaurant = Event.joins(:category).where(category: { name: 'restaurant' }).sample
+      random_accommodation = Event.accommodations.sample
+      random_restaurant = Event.restaurants.sample
     end
 
     final_event_ids = []

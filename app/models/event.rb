@@ -50,6 +50,11 @@ class Event < ApplicationRecord
 
   default_scope { includes(:category) }
   scope :approved, -> { where(approved: true) }
+  scope :near, -> { near("#{postcode}, UK", 5)}
+
+  scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
+  scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
+
   scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
   scope :user_events, ->(user) { where(user_id: user.id) }
   scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }

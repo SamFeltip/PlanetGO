@@ -256,8 +256,8 @@ print '.'
 event_9 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Music Festival',
-  address_line1: '9273 London Road',
-  town: 'Romford',
+  address_line1: 'Houses of Parliament',
+  town: 'London',
   postcode: 'SW1A 1AA',
   latitude: 40.712776,
   longitude: -74.005974,
@@ -480,7 +480,7 @@ accom_1 = Event.where(
   postcode: 'SW1A 0AA',
   latitude: 51.4998,
   longitude: -0.1247,
-  description: "Looking for a place to stay in Edinburgh? Look no further than the Youth Hostel. With comfortable rooms, a friendly atmosphere and a great location, this is the perfect base for exploring the city. We offer a range of accommodation options, from dorms to private rooms, so there's something for everyone. Plus, we have a bar and restaurant on site, so you can enjoy a drink or a meal after a long day of sightseeing. Book your stay today!",
+  description: "Looking for a place to stay in Romford? Look no further than the Youth Hostel. With comfortable rooms, a friendly atmosphere and a great location, this is the perfect base for exploring the city. We offer a range of accommodation options, from dorms to private rooms, so there's something for everyone. Plus, we have a bar and restaurant on site, so you can enjoy a drink or a meal after a long day of sightseeing. Book your stay today!",
   category_id: category_accommodation.id,
   time_of_event: nil,
   approved: true
