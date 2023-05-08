@@ -74,7 +74,7 @@
         #liked_events
           - @liked_events[0..2].each do |event|
             .click-card{data: { url: event_path(event) }}[event]
-              = render 'events/event_card_base', event: event
+              = render 'events/event_card', event: event
 
 
       .card-footer
