@@ -67,17 +67,17 @@
               %i.bi-people
               %span.sidebar-label
                 Friends
+          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+            = link_to :events, class: 'nav-link' do
+              %i.bi-calendar-event
+              %span.sidebar-label
+                Events
 
           %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
             = link_to :outings, class: 'nav-link' do
               %i.bi-map
               %span.sidebar-label
                 Outings
-          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
-            = link_to :events, class: 'nav-link' do
-              %i.bi-calendar-event
-              %span.sidebar-label
-                Events
 
 
           -# if the current user has admin permissions

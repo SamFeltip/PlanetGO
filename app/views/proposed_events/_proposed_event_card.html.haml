@@ -36,4 +36,4 @@
           %span.vote-results-text
           .vote-like-count.me-1
             = proposed_event.decorate.vote_likes
-          %i.vote-like{class: (current_user.voted_for? proposed_event) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}
+          %i{class: (current_user.voted_for? proposed_event) ? 'vote-like bi-hand-thumbs-up-fill' : 'vote-like bi-hand-thumbs-up'}
