@@ -2,7 +2,7 @@
 
 .event-header {
 
-  box-shadow: inset 0px -30px 40px rgba(0, 0, 0, 0.15);
+  box-shadow: inset 0px -120px 40px rgba(0, 0, 0, 0.15);
 
   position: absolute;
   top: 0;
@@ -18,42 +18,7 @@
 
 .event-body {
   padding-top: $event-header-height - 100px + 20px;
-}
 
-
-.event-image {
-  grid-area: image;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  border-radius: 10px;
-  overflow: hidden;
-
-  width: 62px;
-  height: 62px;
-
-  font-size: 35px;
-  margin-bottom: 0.5rem;
-}
-
-.event-title {
-  grid-area: title;
-}
-
-.event-share {
-  grid-area: share;
-}
-
-.event-subheading {
-    grid-area: subhe;
-
-}
-
-.event-description {
-  grid-area: desc;
-  color: white;
 }
 
 .event-header .content {
@@ -72,13 +37,8 @@
 
 
   h3, em {
-    color: white;
+    color: inherit;
   }
-}
-
-.event-header .event-image {
-  box-shadow: 0 0 50px rgba(0, 0, 0, 0.25);
-  border-radius: 2px;
 }
 
 
