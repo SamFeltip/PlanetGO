@@ -9,8 +9,7 @@
 #
 FactoryBot.define do
   factory :event_react do
-    event_id { Event.find_by_sql('SELECT * FROM events ORDER BY random() LIMIT 1').first.id }
-    user_id { User.find_by_sql('SELECT * FROM users ORDER BY random() LIMIT 1').first.id }
-    status { EventReact.statuses[:like] }
+    event
+    user
   end
 end

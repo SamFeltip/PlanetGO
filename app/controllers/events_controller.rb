@@ -43,13 +43,12 @@ class EventsController < ApplicationController
 
   def like
     if current_user.liked(@event)
-      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
+      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id).pluck(:id)
       EventReact.destroy(event_react_id)
 
     else
       @event.event_reacts.create(
-        user_id: current_user.id,
-        status: EventReact.statuses[:like]
+        user_id: current_user.id
       )
     end
 

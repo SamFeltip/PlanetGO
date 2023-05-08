@@ -73,7 +73,7 @@ class Event < ApplicationRecord
   self.per_page = 10
 
   def likes
-    EventReact.where(event_id: id, status: EventReact.statuses[:like])
+    EventReact.where(event_id: id)
   end
 
   def to_s
