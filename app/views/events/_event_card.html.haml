@@ -1,5 +1,5 @@
 .card.event-card{data: { url: event_path(event) }, class: !defined?(render_params) || !render_params[:no_click] ? 'click-card' : ''}[event]
-  .body
+  .body.clickable
     .event-image{class: "background-colour #{event.colour}"}
       = event.category.symbol
     %h2.event-title

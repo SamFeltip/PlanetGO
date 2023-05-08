@@ -48,8 +48,8 @@
 
         #future_outings
           - @future_outings.each do |outing|
-            .click-card{data: { url: outing_path(outing) }}[outing]
-              = render 'outings/outing_card', outing: outing
+
+            = render 'outings/outing_card', outing: outing
 
         #past_outings.py-3
           - if @past_outings.empty?
@@ -57,8 +57,7 @@
           - else
             %h2 Previous
           - @past_outings.each do |outing|
-            .click-card{data: { url: outing_path(outing) }}[outing]
-              = render 'outings/outing_card', outing: outing
+            = render 'outings/outing_card', outing: outing
 
       .card-footer
         = link_to outings_path, class: 'd-flex justify-content-end' do

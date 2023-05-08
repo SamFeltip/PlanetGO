@@ -1,5 +1,5 @@
-.card.outing-card[outing]
-  .card-body.d-flex.flex-row
+.card.outing-card.click-card{data: { url: outing_path(outing) }}[outing]
+  .clickable.card-body.d-flex.flex-row
     .p-2
       .initial-avatar.d-inline-flex= outing.user.initials
     .outing-card-body.w-100
