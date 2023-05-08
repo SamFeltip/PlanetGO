@@ -82,7 +82,7 @@
 
       .horizontal-scroll.justify-content-center
         - current_user.final_events.each do |event|
-          = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+          = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
 
       .d-none.d-lg-flex.justify-content-end
         = link_to set_details_outing_path(@outing, position: 'who'), class: 'btn btn-secondary me-2' do

@@ -20,7 +20,7 @@ class EventsController < ApplicationController
       @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
     end
 
-    @events = @events.page(params[:page])
+    # @events = @events.page(params[:page])
 
     if user_signed_in?
       @nearby_events = current_user.local_events

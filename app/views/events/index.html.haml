@@ -64,5 +64,5 @@
 
           .horizontal-scroll
             - @recommended_events.each do |event|
-              .click-card[event]
-                = render "event_card_small", event: event
+
+              = render "event_card", event: event

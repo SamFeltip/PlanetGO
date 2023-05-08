@@ -3,23 +3,36 @@
 
 
 // card
-.event-card-small {
+.horizontal-scroll .event-card {
   min-width: 180px;
   max-width: 400px;
   margin-right: 10px;
-
 }
 
 .event-card {
   //width: 50%;
   min-width: 152px;
 
-}
+  .large-date {
+    display: inline;
+  }
 
+  .small-date {
+    display: none;
+  }
+
+}
+.card-header {
+
+  h3 {
+    margin: 0;
+  }
+}
 .event-card-header {
   // keeps long event names from pushing the description under the bottom of the card
   height: calc($h2-font-size + 0.5rem);
   overflow: hidden;
+
 }
 
 .event-card-body .event-card-header {
@@ -69,7 +82,6 @@ p {
 
 .event-subheading {
   grid-area: subhe;
-  min-height: 80px;
 }
 
 .event-description {
@@ -89,11 +101,10 @@ p {
   //bottom: 0;
 }
 
-.event-card, .event-card-small {
+.event-card {
   //width: 153px;
   padding: 10px;
 
-  background: #F6F5F5;
   border-radius: 12px;
 
   .event-image {
@@ -115,13 +126,9 @@ p {
   }
 }
 
-.event-card-small .event-title {
-  //height: 2em;
-}
-
 //medium screens
 @media (min-width: 768px) {
-  .event-card {
+  .event-card:not(.horizontal-scroll .event-card) {
     display: grid;
     grid-template-columns: 62px 1fr 2fr;
     grid-template-rows: repeat(4, auto);
@@ -130,7 +137,16 @@ p {
     "image subhe description"
     "like like like";
     column-gap: 5px;
-  }
 
+
+    .large-date {
+      display: none;
+    }
+
+    .small-date {
+      display: inline;
+    }
+
+  }
 
 }

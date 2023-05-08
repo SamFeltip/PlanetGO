@@ -5,7 +5,11 @@ html {
 }
 
 .index {
-  background-color: #E3DFF8;
+  background: radial-gradient(
+                  175.16% 203.78% at 0% 0%,
+                  #F5F3FF 0%,
+                  rgba(227, 223, 248, 0.2) 100%
+  );
 }
 
 body {
@@ -40,7 +44,7 @@ h3 {
 
   letter-spacing: -0.03em;
 
-  color: #000000;
+  //color: #000000;
 }
 
 .container-fluid {
@@ -121,11 +125,8 @@ a:hover {
   height: 600px;
 }
 
-.flex_container {
-  display: flex;
-  flex-wrap: wrap;
-  text-align: center;
-  flex-grow: 1;
+.container {
+  margin-top: 100px;
 }
 
 .clickable {
@@ -283,10 +284,25 @@ a:hover {
   }
 }
 
+
+
+
+
+
 .btn.btn-outline-secondary:active {
   background-color: inherit;
 }
 
+//.navbar {
+//
+//  background: radial-gradient(
+//                  194.94% 112.13% at 0% 0%,
+//                  rgba(26, 19, 50, 0.8) 0%,
+//                  #1A1332 100%
+//  );
+//
+//  color: white !important;
+//}
 
 #navbar-content {
   justify-content: space-between;
@@ -295,6 +311,7 @@ a:hover {
 .horizontal-scroll {
   display: grid;
   grid-auto-flow: column;
+  //overflow: scroll;
   overflow-x: auto;
   padding-bottom: 20px;
 }
@@ -422,6 +439,15 @@ a:hover {
   background-color: rgb(255, 255, 255);
 }
 
+
+
+
+
+
+
+
+
+
 // medium screens
 @media (min-width: 767px) {
 
@@ -457,36 +483,6 @@ a:hover {
 
 .xl-icon {
   font-size: 400%;
-}
-
-// colours
-
-.black {
-  color: black;
-}
-
-.red {
-  color: red;
-}
-
-.red:hover {
-  color: darkred;
-}
-
-.purple {
-  color: mediumpurple;
-}
-
-.purple:hover {
-  color: rebeccapurple;
-}
-
-.green {
-  color: green;
-}
-
-.green:hover {
-  color: darkgreen;
 }
 
 .initial-avatar {
