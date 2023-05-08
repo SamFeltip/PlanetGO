@@ -190,8 +190,24 @@ a:hover {
 .card {
   //box-shadow: $card-box-shadow;
   overflow: hidden;
-  border : none;
+  border: none;
+  margin: 5px 0;
+
+  .card-header, .card-footer {
+    border: none;
+    background: inherit;
+  }
 }
+
+//.card.primary {
+//  .card-header, .card-footer {
+//    color: white;
+//    //background: #7253DE;
+//    background: radial-gradient(194.94% 112.13% at 0% 0%, rgba(26, 19, 50, 0.8) 0%, #1A1332 100%);
+//
+//  }
+//
+//}
 
 .card .card {
   box-shadow: none;
@@ -200,17 +216,15 @@ a:hover {
 
 .card.card-primary {
   color: white !important;
-
   background: #7253DE;
   border-radius: 12px;
 
+  h3, em {
+    color: inherit;
+  }
 
-  .card-body {
 
-    margin: auto;
-    height: 120px;
-    display: grid;
-    grid-template-columns: auto minmax(0px,300px);
+  .card-header {
     padding-bottom: 0;
   }
 
@@ -219,11 +233,21 @@ a:hover {
     padding-top: 0;
   }
 
-  a {
-    font-weight: 600;
-    font-size: 15px;
-    line-height: 18px;
-    letter-spacing: -0.03em;
+  .card-body {
+    color: black;
+    background-color: white;
+  }
+
+}
+
+// banner in the events index page
+#category_promo{
+
+  .card-header {
+    margin: auto;
+    height: 120px;
+    display: grid;
+    grid-template-columns: auto minmax(0px, 300px);
   }
 
   i {
@@ -271,20 +295,29 @@ a:hover {
   }
 }
 
+
+// banner buttons
+h1 .btn.btn-outline-secondary{
+  border-radius: 15px;
+  margin-bottom: 0;
+  padding: 5px 15px;
+  font-size: 25px;
+  font-weight: 500;
+
+}
+
 .btn.btn-outline-secondary {
   border: 2px solid #000000;
-  border-radius: 20px;
   color: #000000;
 
-  font-weight: 500;
-  font-size: 15px;
   display: flex;
   align-items: center;
-  padding: 0 5px;
+  padding: 5px;
 
-  i {
-    font-size: 30px;
-  }
+
+  //i {
+  //  font-size: 30px;
+  //}
 }
 
 
@@ -488,6 +521,14 @@ a:hover {
   font-size: 400%;
 }
 
+.user-icon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 2em;
+  text-align: center;
+}
+
 .initial-avatar {
   /* Center the content */
   align-items: center;
@@ -501,7 +542,13 @@ a:hover {
   /* Rounded border */
   border-radius: 50%;
   height: 3rem;
+
   width: 3rem;
+}
+
+.avatar-text {
+  display: flex;
+  justify-content: center;
 }
 
 // ready made styles for pagination (source: http://mislav.github.io/will_paginate/)

@@ -1,21 +1,20 @@
-.card.event-card.click-card{data: { url: event_path(event) }}[event]
+.card.event-card{data: { url: event_path(event) }, class: !defined?(render_params) || !render_params[:no_click] ? 'click-card' : ''}[event]
+  .body
+    .event-image{class: "background-colour #{event.colour}"}
+      = event.category.symbol
+    %h2.event-title
+      = link_to event.name, event
+    .event-subheading
+      %h3.event-datetime
+        %em
+          %i.bi-calendar
+          = event.decorate.display_time
+      %p.event-location
+        %i.bi-pin-map-fill
+        = event.address_line1
+    %p.event-description= event.decorate.display_description(400)
 
-  .event-image{class: "background-colour #{event.colour}"}
-    = event.category.symbol
-  %h1.event-title
-    = link_to event.name, event
-  .event-subheading
-    %h2.event-datetime
-      %em
-
-        %i.bi-calendar
-        = event.decorate.display_time
-    %p.event-location
-      %i.bi-pin-map-fill
-      = event.address_line1
-  %p.event-description= event.decorate.display_description(400)
-
-  .event-card-footer
+  .footer
     -#.d-flex.justify-content-end.justify-content-md-between.align-items-center
     -#  .d-inline.d-md-none
     -#    = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
@@ -42,7 +41,8 @@
           %span.action-button-text.d-none.d-sm-inline
             Add to Outing
           %i.bi-calendar-plus.ms-1
-    - else
+
+    - unless defined?(render_params) && render_params[:hide_likes]
       .d-flex.justify-content-between.align-items-center
 
         .large-date

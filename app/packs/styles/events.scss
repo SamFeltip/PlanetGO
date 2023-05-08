@@ -51,10 +51,20 @@
   //align-items: center;
 }
 
+@media(max-width: map-get($grid-breakpoints, md)) {
+
+  .event-header {
+    padding-left: $sidebar-width-sm;
+  }
+}
+
 // small screens (mobile)
-// TODO needs to include container-max-widths("sm")) from bootstrap
 @media (max-width: map-get($grid-breakpoints, sm)) {
   .search .search-fields{
     grid-template-columns: 1fr;
+  }
+
+  .event-header {
+    padding-left: 0;
   }
 }

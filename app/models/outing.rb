@@ -64,4 +64,8 @@ class Outing < ApplicationRecord
   def to_param
     invite_token
   end
+
+  def first_proposed_event
+    events.order(:time_of_event).first
+  end
 end

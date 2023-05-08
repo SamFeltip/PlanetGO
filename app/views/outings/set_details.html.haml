@@ -94,7 +94,7 @@
 
 %footer#outing-footer.d-lg-none.p-3
   - current_position_index = params[:position].nil? ? 0 : @positions.index(params[:position])
-  .flex_container.justify-content-around
+  .d-flex.justify-content-around
 
     %a#outing-footer-prev{:href => set_details_outing_path(@outing, position: @positions[current_position_index - 1])}
       %i#prev-chevron.bi-chevron-left

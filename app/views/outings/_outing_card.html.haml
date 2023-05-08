@@ -13,15 +13,13 @@
                 .d-none.d-sm-inline
                   Edit
 
-      %em.d-inline-flex.gray
-        %i.bi-calendar.pe-1
-        %p.pe-3
-          - if outing.date
-            = outing.date
-          - else
-            Date TBD
-        - if outing.events.count > 0
-          .d-none.d-sm-inline-flex
-            %i.bi-pin.pe-1
-            %p.pe-3
-              = outing.events.first.address
+      %h3.d-inline-flex
+        %em.d-inline-flex
+          %i.bi-calendar.pe-1
+          %p.pe-3
+            = outing.decorate.display_date
+      - if outing.events.count > 0
+        %h3.d-none.d-sm-inline-flex
+          %i.bi-pin.pe-1
+          %p.pe-3
+            = outing.first_proposed_event.address

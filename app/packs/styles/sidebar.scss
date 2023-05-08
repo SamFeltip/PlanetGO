@@ -18,6 +18,8 @@ main {
   position: fixed;
   top: 0;
   left: 0;
+
+  overflow: hidden;
 }
 
 #sidebar-content {
@@ -104,5 +106,67 @@ main {
   margin-bottom: 40px;
   li {
     margin-bottom: 10px;
+  }
+}
+
+// mobile screens
+@media(max-width: map-get($grid-breakpoints, md)){
+
+  .sidebar {
+    width: $sidebar-width-sm;
+  }
+
+  main {
+    padding-left: $sidebar-width-sm;
+  }
+
+  .sidebar-label {
+    display: none;
+  }
+
+  #sidebar-content li.sidebar-item {
+    padding: 7px 5px;
+  }
+}
+
+@media (max-width: map-get($grid-breakpoints, sm)){
+  .sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 60px;
+    width: 100%;
+  }
+
+  #sidebar-content {
+    padding: 0;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    height: 60px;
+    //align-items: center;
+  }
+
+  #sidebar-content li.sidebar-item {
+    margin-bottom: 0;
+  }
+
+  a.navbar-brand {
+    display: inline
+  }
+  .active {
+
+    a::after {
+      display: none;
+    }
+  }
+
+  #sidebar-content li:first-child.sidebar-item {
+    display: none;
+  }
+
+  main {
+    padding-left: 0;
   }
 }

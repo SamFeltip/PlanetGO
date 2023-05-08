@@ -4,7 +4,7 @@
       .initial-avatar.d-inline-flex= user.initials
     .outing-card-body.d-flex.flex-row.justify-content-between.align-items-center.w-100
       %h2
-        %a.visit_outing.black{:href => user_path(user)}=user.full_name
+        %a.visit_outing{:href => user_path(user)}=user.full_name
 
       - if defined?(participant_reaction)
         - if participant_reaction.reaction == 'dislike'

@@ -90,30 +90,23 @@
   border-radius: 2px;
 }
 
-
-
-
-
-
-
-
 .event-card-footer {
   grid-area: like;
 }
 
-.event-card {
+.event-card, .proposed-event-card {
 
-  h1 {
+  h2 {
 
     font-weight: 600;
     font-size: 15px;
     line-height: 18px;
     letter-spacing: -0.03em;
-    margin-bottom: 10px;
+    margin: 5px 0;
 
   }
 
-  h2 {
+  h3 {
 
     font-size: 13px;
     line-height: 15px;
@@ -132,31 +125,58 @@
 
 
 
+
+.proposed-event-card {
+
+  .btn.btn-outline-secondary {
+    color: inherit;
+    border-style: solid;
+    border-color: inherit;
+
+  }
+
+  .event-card {
+    border-radius: 0;
+    border: none;
+  }
+
+  //h3 {
+  //  color: inherit;
+  //}
+}
+
+
+
+
 //medium screens
 @media (min-width: 768px) {
   // create a wider view for cards that have the space
   .event-card:not(.horizontal-scroll .event-card) {
-    display: grid;
-    grid-template-columns: 62px 1fr 2fr;
-    grid-template-rows: repeat(4, auto);
-    // these are already set in the layouts css file
-    grid-template-areas:
-    "image title title"
-    "image subhe desc"
-    "like like like";
-    column-gap: 5px;
+    .body {
 
-    // show the larger date string
-    .large-date {
-      display: none;
-    }
+      display: grid;
+      grid-template-columns: 62px minmax(80px, 150px) minmax(110px, 2fr);
+      grid-template-rows: repeat(4, auto);
 
-    .small-date {
-      display: inline;
-    }
+      // these variables are declared in the layouts css file
+      grid-template-areas:
+      "image title title"
+      "image subhe desc"
+      "like like like";
+      column-gap: 5px;
 
-    .event-title {
-      height: auto;
+      // show the larger date string
+      .large-date {
+        display: none;
+      }
+
+      .small-date {
+        display: inline;
+      }
+
+      .event-title {
+        height: auto;
+      }
     }
   }
 

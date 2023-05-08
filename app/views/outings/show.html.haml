@@ -4,21 +4,10 @@
 = render 'outing_header', outing: @outing, action_buttons: true
 
 #outing-body.pt-3.overline
-  .card
-    .card-header
-      %h2 #{@outing.participants.count} Going
-    .card-body
-      #going.horizontal-scroll
-
-        - @outing.users.each do |user|
-          = render 'users/user_icon', user: user
-
-      - if current_user == @outing.creator || current_user.admin?
-        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
-          %i.bi-plus-circle
-            Invite More
-  .card#where-timetable
-    .card-header.d-flex.justify-content-between
+  -#.card
+  -#  .card-header
+  #where-timetable.pt-3
+    .d-flex.justify-content-between.pb-3
       %h2
         Timetable
 
@@ -26,18 +15,10 @@
         = form_tag stop_count_outing_path(@outing), method: :post do
           = submit_tag 'Stop the count!', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
 
-    .card-body
+    .timetable-body
       = render 'outings/where_timetable'
 
       - if current_user == @outing.creator || current_user.admin?
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
           %i.bi-plus-circle
             Add More
-
-
-        %h3 All participants
-        - if !@participants
-          %p no participants
-        - else
-          - @participants.each do |p|
-            %p= p

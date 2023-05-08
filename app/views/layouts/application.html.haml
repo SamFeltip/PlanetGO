@@ -30,16 +30,18 @@
           %li.sidebar-item
             = link_to '/', class: 'navbar-brand' do
               = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
-              PlanetGO
+              .sidebar-label
+                PlanetGO
           - if user_signed_in?
             %li.sidebar-item{:class => controller.controller_name == 'pages' ? 'active' : ''}
               = link_to "/myaccount", class: 'nav-link' do
                 %span.initial-avatar.d-inline-flex= current_user.initials
-                = current_user.full_name
+                %span.sidebar-label
+                  = current_user.full_name
 
-
-              %button.sidebar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#user_dropdown_content' }, aria: { controls: 'sidebar-content', expanded: 'false', label: 'Toggle navigation' } }
-                %span.bi-chevron-down
+              %span.sidebar-label
+                %button.sidebar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#user_dropdown_content' }, aria: { controls: 'sidebar-content', expanded: 'false', label: 'Toggle navigation' } }
+                  %span.bi-chevron-down
 
             %ul#user_dropdown_content.sidebar-collapse.collapse
               %li
@@ -49,26 +51,34 @@
               %li
                 = link_to destroy_user_session_path, method: :delete do
                   %i.bi-box-arrow-right
-                  Sign out
+                  %span.sidebar-label
+                    Sign out
 
           - else
             %li.sidebar-item.nav-item.active
               = link_to :new_user_session, class: 'nav-link' do
                 %i.bi-person
-                Login
-          %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
-            = link_to :outings, class: 'nav-link' do
-              %i.bi-map
-              Outings
-          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
-            = link_to :events, class: 'nav-link' do
-              %i.bi-calendar-event
-              Events
+                %span.sidebar-label
+                  Login
+
           %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
             = link_to "/friends", class: 'nav-link' do
 
               %i.bi-people
-              Friends
+              %span.sidebar-label
+                Friends
+
+          %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
+            = link_to :outings, class: 'nav-link' do
+              %i.bi-map
+              %span.sidebar-label
+                Outings
+          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+            = link_to :events, class: 'nav-link' do
+              %i.bi-calendar-event
+              %span.sidebar-label
+                Events
+
 
           -# if the current user has admin permissions
           - if can? :manage, :all
@@ -79,7 +89,7 @@
             %li.sidebar-item{:class => controller.controller_name == 'users' ? 'active' : ''}
               = link_to users_path, class: 'nav-link' do
                 %i.bi-person
-                %span.nav-title
+                %span.sidebar-label
                   Accounts
 
           - if can? :manage, Metric
@@ -87,7 +97,7 @@
             %li.sidebar-item{:class => controller.controller_name == 'metrics' ? 'active' : ''}
               = link_to metrics_path, class: 'nav-link' do
                 %i.bi-list-ol
-                %span.nav-title
+                %span.sidebar-label
                   Site metrics
 
           - if can? :manage, BugReport
@@ -95,7 +105,7 @@
             %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
               = link_to bug_reports_path, class: 'nav-link' do
                 %i.bi-list-ol
-                %span.nav-title
+                %span.sidebar-label
                   Bug reports
 
 
