@@ -41,7 +41,7 @@
 
   - @events.each do |event|
     .click-card{data: { url: event_path(event) }}[event]
-      = render "event_card", event: event
+      = render "event_card_base", event: event
   
   %div.digg_pagination
     = will_paginate @events
