@@ -8,7 +8,13 @@ class UsersController < ApplicationController
   def index
     raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
 
-    @users = User.accessible_by(current_ability).order(:id)
+    @users = User.accessible_by(current_ability)
+
+    @query = params[:description]
+
+    @users = @users.where('lower(full_name) LIKE :query OR lower(email) LIKE :query', query: "%#{@query.to_s.strip.downcase}%")
+
+    @users = @users.page(params[:page]).per_page(25)
   end
 
   def show
@@ -92,6 +98,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:full_name, :email, :postcode, :role)
+    params.require(:user).permit(:full_name, :email, :postcode, :role, :description)
   end
 end
