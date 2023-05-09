@@ -452,16 +452,18 @@ RSpec.describe 'Events' do
       end
 
       specify 'I click on the button to take my to my category interests' do
-        click_on 'Edit Event Category Interests'
+        click_on 'pick your favourite event categories here'
         expect(page).to have_current_path category_interests_path, ignore_query: true
       end
 
-      specify 'I can search for an event' do
-        fill_in 'description', with: 'my great event'
+      specify 'I can search for an event', js: true do
+        fill_in 'query', with: 'my great event'
         click_on 'Search'
-        expect(page).to have_content 'my great event'
-        expect(page).not_to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).to have_content 'my great event'
+          expect(page).not_to have_content 'a different great event'
+          expect(page).not_to have_content 'a rubbish event'
+        end
       end
 
       specify 'I can search by event category' do
@@ -473,7 +475,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'I can search by event and category' do
-        fill_in 'description', with: 'my great event'
+        fill_in 'query', with: 'my great event'
         select 'Music', from: 'category_id'
         click_on 'Search'
         expect(page).not_to have_content 'my great event'

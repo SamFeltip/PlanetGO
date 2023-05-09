@@ -12,10 +12,8 @@ function run_click_cards(){
                     window.location.href = `${click_card_url}`;
                 });
             }
-
         }
     }
-
 }
 
-run_click_cards;
+run_click_cards();
