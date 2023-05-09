@@ -48,7 +48,6 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
   has_many :event_reacts, dependent: :destroy
 
-  default_scope { includes(:category) }
   scope :approved, -> { where(approved: true) }
   scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
 
