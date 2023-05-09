@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   resources :categories
   resources :availabilities
 
-
-
   resources :proposed_events
   resources :proposed_events do
     post 'create'
@@ -62,7 +60,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'events#index'
+  root 'pages#landing'
 
   get 'myaccount', to: 'pages#account'
   get 'home', to: 'pages#account'

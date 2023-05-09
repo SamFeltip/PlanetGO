@@ -34,6 +34,7 @@
 
       = form_with url: events_search_path, id: 'event-search-form', placeholder: 'search for events here...', class: 'mb-2 search-form', local: false, method: :get do |f|
         = text_field_tag :description
+        = f.hidden_field :add_to_outing, value: true
         = f.hidden_field :outing_id, value: @outing.id
 
         %button.btn.btn-outline-secondary{:type => "submit", :name => "search"}
@@ -43,7 +44,7 @@
 
       %h3 Recommended Events
       #recommended-events
-        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id
+        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id, add_event_to_outing: true
 
     #where-body
       %h2

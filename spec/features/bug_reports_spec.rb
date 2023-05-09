@@ -146,7 +146,7 @@ RSpec.describe 'BugReports' do
       end
 
       it 'redirects to root' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+        expect(page).to have_current_path('/events', ignore_query: true)
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end
@@ -232,7 +232,7 @@ RSpec.describe 'BugReports' do
       end
 
       it 'redirects to root' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+        expect(page).to have_current_path('/events', ignore_query: true)
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end

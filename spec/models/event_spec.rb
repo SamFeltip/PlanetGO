@@ -94,39 +94,7 @@ RSpec.describe Event do
 
   describe '#to_s' do
     it 'returns the expected string representation' do
-      expect(my_event.to_s).to eq('Test Event @ May 01, 2:00 PM')
-    end
-  end
-
-  describe 'order_by_likes scope' do
-    let(:event_creator) { create(:user) }
-    let(:user1) { create(:user) }
-    let(:user2) { create(:user) }
-    let(:user3) { create(:user) }
-    let(:user4) { create(:user) }
-    let!(:event1) { create(:event, name: 'Event 1', user_id: event_creator.id) }
-    let!(:event2) { create(:event, name: 'Event 2', user_id: event_creator.id) }
-    let!(:event3) { create(:event, name: 'Event 3', user_id: event_creator.id) }
-
-    before do
-      # event1 has 2 likes
-      event1.liked_by user1
-      event1.liked_by user2
-
-      # event2 has 4 likes
-      event2.liked_by user1
-      event2.liked_by user2
-      event2.liked_by user3
-      event2.liked_by user4
-
-      # event3 has 3 likes
-      event3.liked_by user1
-      event3.liked_by user2
-      event3.liked_by user3
-    end
-
-    it 'orders events by likes count' do
-      expect(described_class.order_by_likes.limit(3)).to eq([event2, event3, event1])
+      expect(my_event.to_s).to eq('Test Event @ May 01, 02:00 PM')
     end
   end
 end

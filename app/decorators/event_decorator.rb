@@ -42,7 +42,9 @@ class EventDecorator < ApplicationDecorator
 
   # returns a string describing who has liked this event and how many people there are,
   # using the current user to include friends names if they have liked it
-  def likes(current_user, compressed: false, current_user_liked: false)
+  def likes(current_user: nil, compressed: false)
+    current_user_liked = current_user.voted_up_on? self
+
     # get all like objects for this event
     event_likes_count = object.votes_for.size
 
@@ -82,7 +84,8 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
-  def like_icon(current_user_liked)
+  def like_icon(current_user)
+    current_user_liked = current_user.voted_up_on?(event)
     if current_user_liked
       'bi-star-fill'
     else

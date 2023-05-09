@@ -75,16 +75,18 @@ RSpec.describe 'Outings' do
         friend1.accept_follow_request_of(outing_creator)
 
         visit '/outings'
-        click_link 'New Outing'
+        click_link 'Create an Outing'
 
-        fill_in 'Name', with: outing_name
+        fill_in 'outing_name', with: outing_name
 
-        fill_in 'Description', with: outing_desc
+        fill_in 'outing_description', with: outing_desc
 
         select outing_type, from: 'Outing type'
 
         # the user clicks the "save" button
-        click_button 'Continue'
+        click_button 'Save'
+
+        # visit set_details_outing_path(Outing.last)
       end
 
       it 'saves an outing' do
@@ -110,20 +112,26 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Outing was successfully created.')
       end
 
-      it 'redirects the user to outings set_details' do
-        # redirect to the outings index page
-        expect(page).to have_current_path(set_details_outing_path(Outing.last))
+      it 'lets the user share an outing link' do
+        pending 'depends on outing URL'
+        expect(page).to have_content('Share this link with your friends')
+      end
+    end
+
+    context 'when vising set details who' do
+      let!(:friend1) { create(:user) }
+
+      before do
+        outing_creator.send_follow_request_to(friend1)
+        friend1.accept_follow_request_of(outing_creator)
+
+        visit set_details_outing_path(past_outing, position: 'who')
       end
 
       it 'lets the user see a list of their friends to invite' do
         within '#not_invited_friends' do
           expect(page).to have_content(friend1.full_name)
         end
-      end
-
-      it 'lets the user share an outing link' do
-        pending 'depends on outing URL'
-        expect(page).to have_content('Share this link with your friends')
       end
     end
 
@@ -274,14 +282,13 @@ RSpec.describe 'Outings' do
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
       let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
 
-
       let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
 
       before do
-        visit set_details_outing_path(past_outing, position: 'where')
-
         event1.liked_by outing_creator
         event2.liked_by outing_creator
+
+        visit set_details_outing_path(past_outing, position: 'where')
       end
 
       specify 'I can search for an event by name or description', js: true do

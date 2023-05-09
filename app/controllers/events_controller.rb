@@ -2,18 +2,16 @@
 
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy approval like]
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: %i[new create edit update destroy approval like]
   before_action :set_liked, only: %i[show]
-  load_and_authorize_resource
+  load_and_authorize_resource except: [:index]
 
   # GET /events or /events.json
   def index
-    unless user_signed_in?
-      redirect_to '/welcome'
-      return
-    end
-
     @events = Event.approved.paginate(page: params[:page], per_page: 6)
+
+    return unless user_signed_in?
+
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)
 
@@ -22,13 +20,12 @@ class EventsController < ApplicationController
       @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
     end
 
-    # @events = @events.page(params[:page])
-
-    return unless user_signed_in?
-
     @nearby_events = current_user.local_events.approved
-    @favourite_category = current_user.category_interests.first.category if current_user.category_interests.any?
-    @recommended_events = Event.approved.where(category: @favourite_category) if @favourite_category
+    @favourite_category = current_user.category_interests.order(interest: :desc).first.category if current_user.category_interests.any?
+
+    @recommended_events = Event.approved.where(category: @favourite_category).limit(5) if @favourite_category
+
+    @liked_events = current_user.liked_events.paginate(page: params[:page], per_page: 2)
   end
 
   # GET /events/1 or /events/1.json
@@ -76,7 +73,6 @@ class EventsController < ApplicationController
     end
   end
 
-
   # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
@@ -106,10 +102,8 @@ class EventsController < ApplicationController
       @event.liked_by current_user
     end
 
-    @event_liked_string_sm = @event.decorate.likes(current_user, compressed: true)
-    @event_liked_string_lg = @event.decorate.likes(current_user, compressed: false)
-
-    @event_liked = current_user.voted_up_on? @event
+    @event_liked_string_sm = @event.decorate.likes(current_user:, compressed: true)
+    @event_liked_string_lg = @event.decorate.likes(current_user:, compressed: false)
 
     # redirect_to events_path
     respond_to do |format|
@@ -120,22 +114,30 @@ class EventsController < ApplicationController
 
   # GET /events/search
   def search
-    @outing_id = params[:outing_id].to_i
+    @searched_events = filter_events_by_content(params)
+    @searched_events = filter_events_by_category(@searched_events, params)
 
-    filter_events_by_content(params)
     @empty_search = params[:description].to_s.strip == ''
     @searched_events = Event.none if @empty_search # Events nil if no search
+
+    add_to_outing = params[:add_to_outing] == 'true'
+
+    @add_to_outing_params = { outing_id: params[:outing_id].to_i, add_event_to_outing: add_to_outing, hide_likes: !add_to_outing }
 
     # Only responds to remote call and yields a js file
     respond_to do |format|
       format.js # Call search.js.haml
+      if add_to_outing
+        format.html { redirect_to set_details_outing_path(params[:outing_id], description: params[:description], position: 'where') }
+      else
+        format.html { redirect_to events_path(description: params[:description]) }
+      end
     end
   end
 
   private
 
   def filter_events_by_content(search_params)
-
     word_event_ids = []
     query_list = search_params[:description].to_s.downcase.strip.split
 
@@ -148,17 +150,20 @@ class EventsController < ApplicationController
     # return events which were present for every word
     search_event_ids = word_event_ids.reduce(:&)
 
-    @searched_events = Event.where(id: search_event_ids)
+    Event.where(id: search_event_ids)
   end
 
-  def filter_events_by_category
-    query_list = params[:query].to_s.downcase.strip.split
-    query_list.each do |word|
-      category_event_ids = Event.joins(:category).approved.where('lower(categories.name) LIKE :query', query: "%#{word}%").pluck(:id)
-      category_events = Event.where(id: category_event_ids)
+  def filter_events_by_category(events, params)
+    query_list = params[:description].to_s.downcase.strip.split
 
-      @searched_events = @searched_events.or(category_events)
+    query_list.each do |word|
+      category_ids = Category.where('lower(name) LIKE :query', query: "%#{word}%").pluck(:id)
+      category_events = Event.where(category_id: category_ids)
+
+      events = events.or(category_events)
     end
+
+    events
   end
 
   # Use callbacks to share common setup or constraints between actions.
@@ -167,12 +172,12 @@ class EventsController < ApplicationController
   end
 
   def set_liked
-    @event_liked = current_user.liked(@event)
+    @event_liked = user_signed_in? ? current_user.liked(@event) : false
   end
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:query, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
+    params.require(:event).permit(:add_to_outing, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
                                   event_reacts_attributes: %i[id event_id user_id status])
   end
 end

@@ -62,6 +62,17 @@
                   %span.sidebar-label
                     Sign out
 
+            %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
+              = link_to "/friends", class: 'nav-link' do
+                %i.bi-people
+                %span.sidebar-label
+                  Friends
+
+            %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
+              = link_to :outings, class: 'nav-link' do
+                %i.bi-map
+                %span.sidebar-label
+                  Outings
           - else
             %li.sidebar-item.nav-item.active
               = link_to :new_user_session, class: 'nav-link' do
@@ -69,23 +80,13 @@
                 %span.sidebar-label
                   Login
 
-          %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
-            = link_to "/friends", class: 'nav-link' do
 
-              %i.bi-people
-              %span.sidebar-label
-                Friends
           %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
             = link_to :events, class: 'nav-link' do
               %i.bi-calendar-event
               %span.sidebar-label
                 Events
 
-          %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
-            = link_to :outings, class: 'nav-link' do
-              %i.bi-map
-              %span.sidebar-label
-                Outings
 
 
           -# if the current user has admin permissions

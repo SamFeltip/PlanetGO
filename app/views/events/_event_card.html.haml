@@ -16,11 +16,11 @@
 
   .footer
 
-    - if defined?(render_params) && render_params[:add_event_to_outing]
+    - if defined?(add_to_outing_params) && add_to_outing_params[:add_event_to_outing]
 
-      = simple_form_for @proposed_event, html: {class: 'd-flex justify-content-between'}, remote: true do |f|
+      = simple_form_for ProposedEvent.new, html: {class: 'd-flex justify-content-between'}, remote: true do |f|
         = f.hidden_field :event_id, value: event.id
-        = f.hidden_field :outing_id, value: outing.id
+        = f.hidden_field :outing_id, value: add_to_outing_params[:outing_id]
         = f.hidden_field :proposed_datetime, value: event.time_of_event
         = f.hidden_field :status, value: 'pending'
 
@@ -34,17 +34,26 @@
             Add to Outing
           %i.bi-calendar-plus.ms-1
 
-    - unless defined?(render_params) && render_params[:hide_likes]
+    - unless defined?(add_to_outing_params) && add_to_outing_params[:hide_likes]
       .likes.d-flex.justify-content-between.align-items-center
 
-        .large-likes
-          = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
-        .small-likes
-          = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
+        - if user_signed_in?
+          .large-likes
+            = event.decorate.likes(current_user: current_user, compressed: false)
+          .small-likes
+            = event.decorate.likes(current_user: current_user, compressed: true)
 
 
-        = link_to like_event_path(event), title: 'Like this Event', method: :patch, data: { remote: true } do
-          %i.like_icon{:class => event.decorate.like_icon(current_user.liked(event))}
+          = link_to like_event_path(event), title: 'Like this Event', method: :patch, data: { remote: true } do
+            %i.like_icon{:class => event.decorate.like_icon(current_user)}
+        - else
+
+          .large-likes
+            = event.decorate.likes
+          .small-likes
+            = event.decorate.likes(compressed: true)
+
+
 
 
   -# - if defined?(render_params)

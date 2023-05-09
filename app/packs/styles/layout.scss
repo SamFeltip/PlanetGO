@@ -127,7 +127,7 @@ grid-template-columns: minmax(100px, auto) minmax(50px, 200px) 40px;
 }
 
 //event index
-#events-display, #searched-events {
+#events-display, #searched-events, #liked-events-display {
 display: grid;
 grid-template-columns: repeat(2, 1fr);
 gap: 10px;

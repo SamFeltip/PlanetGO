@@ -49,7 +49,6 @@ class Event < ApplicationRecord
   belongs_to :category
   has_many :proposed_events, dependent: :destroy
   has_many :outings, through: :proposed_events
-  has_many :event_reacts, dependent: :destroy
   acts_as_votable
 
   default_scope { includes(:category) }
@@ -60,7 +59,6 @@ class Event < ApplicationRecord
   scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
   scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
 
-  scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
   scope :user_events, ->(user) { where(user_id: user.id) }
   scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
   scope :order_by_category_interest, lambda { |user|
@@ -83,7 +81,6 @@ class Event < ApplicationRecord
   self.per_page = 10
 
   enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
-
 
   def to_s
     "#{name} @ #{decorate.display_time}"

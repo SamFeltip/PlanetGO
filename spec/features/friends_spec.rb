@@ -51,7 +51,7 @@ RSpec.describe 'Friends' do
       before { visit friends_path }
 
       it 'prompt to log in' do
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+        expect(page).to have_content('You are not authorized to access this page.')
       end
     end
   end
@@ -123,7 +123,7 @@ RSpec.describe 'Friends' do
       before { visit friend_search_path }
 
       it 'shows authorization error' do
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+        expect(page).to have_content('You are not authorized to access this page.')
       end
     end
   end
@@ -186,7 +186,7 @@ RSpec.describe 'Friends' do
       before { visit friend_requests_path }
 
       it 'shows authorization error' do
-        expect(page).to have_content('You need to sign in or sign up before continuing.')
+        expect(page).to have_content('You are not authorized to access this page.')
       end
     end
   end

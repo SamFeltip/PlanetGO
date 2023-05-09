@@ -1,12 +1,14 @@
 - additional_stylesheet 'events'
 
-- if current_user.admin? || current_user.advertiser?
+
+- if user_signed_in? && (current_user.admin? || current_user.advertiser?)
   = render "registering_events"
+
 .index
   .d-flex.justify-content-between.align-items-center
     %h1 Events
 
-    - if current_user.advertiser?
+    - if user_signed_in? && current_user.advertiser?
       .action-buttons
         %h2
           = link_to new_event_path, class: 'btn btn-outline-secondary' do
@@ -22,30 +24,29 @@
       %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search'}
         %i.bi-search
 
+  / empty div until it is filled with items by search
   #searched-events
 
-  - if current_user.commercial
+  .card.card-primary.mb-3#category_promo
+    .card-header
+      %h1
+        Tell us about yourself
+      .icon-display
+        .icon
+          🎬
+        .icon
+          ⚽
+        .icon
+          🍸
+        .filter-icons
 
-    .card.card-primary.mb-3#category_promo
-      .card-header
-        %h1
-          Tell us about yourself
-        .icon-display
-          .icon
-            🎬
-          .icon
-            ⚽
-          .icon
-            🍸
-          .filter-icons
+    .card-footer
+      = link_to category_interests_path, class: 'd-flex justify-content-end align-items-center' do
+        pick your favourite event categories here
+        %i.bi-arrow-right-short
 
-      .card-footer
-        = link_to category_interests_path, class: 'd-flex justify-content-end align-items-center' do
-          pick your favourite event categories here
-          %i.bi-arrow-right-short
-  #events
-
-    - if user_signed_in?
+  - if user_signed_in?
+    #category-events
 
       - if !(@nearby_events.nil?) && !@nearby_events.empty?
         .mb-3
@@ -67,8 +68,20 @@
             - @recommended_events.each do |event|
 
               = render "event_card", event: event
+    #liked-events
+      .mb-3
+        %h2
+          Your liked events
 
+        #liked-events-display
+        - @liked_events.each do |event|
 
+          = render "event_card", event: event, add_to_outing_params: { hide_likes: true }
+
+        .d-flex.justify-content-center.digg_pagination
+          = will_paginate @liked_events
+
+  #events
     - if @events.empty?
       %h1 Hmm...
       %p There doesn't seem to be any events yet

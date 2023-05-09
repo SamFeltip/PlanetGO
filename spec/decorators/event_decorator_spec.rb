@@ -101,12 +101,19 @@ RSpec.describe EventDecorator, type: :decorator do
   end
 
   describe '#like_icon' do
+    let(:user_likes) { create(:user) }
+    let(:user_dislikes) { create(:user) }
+
+    before do
+      user_likes.likes event
+    end
+
     it 'returns "bi-star-fill" if current user liked the event' do
-      expect(decorated_event.like_icon(true)).to eq('bi-star-fill')
+      expect(decorated_event.like_icon(user_likes)).to eq('bi-star-fill')
     end
 
     it 'returns "bi-star" if current user did not like the event' do
-      expect(decorated_event.like_icon(false)).to eq('bi-star')
+      expect(decorated_event.like_icon(user_dislikes)).to eq('bi-star')
     end
   end
 
@@ -148,7 +155,7 @@ RSpec.describe EventDecorator, type: :decorator do
 
     context 'when there are no likes' do
       it 'returns 0 likes' do
-        expect(my_event.decorate.likes(other_user)).to eq('0 likes')
+        expect(my_event.decorate.likes(current_user: other_user)).to eq('0 likes')
       end
     end
 
@@ -159,7 +166,7 @@ RSpec.describe EventDecorator, type: :decorator do
 
       context 'when the user is the only user who has liked the event' do
         it 'returns me and 0 others' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 0 others')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 0 others')
         end
       end
 
@@ -169,7 +176,7 @@ RSpec.describe EventDecorator, type: :decorator do
         end
 
         it 'returns me and 1 other' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 1 other')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 1 other')
         end
       end
 
@@ -180,7 +187,7 @@ RSpec.describe EventDecorator, type: :decorator do
         end
 
         it 'returns me and 2 others' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 2 others')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 2 others')
         end
       end
     end
@@ -191,11 +198,12 @@ RSpec.describe EventDecorator, type: :decorator do
       before do
         my_event.liked_by other_user
         my_event.liked_by third_user
+        my_event.unliked_by event_creator
       end
 
       context 'when no friends have liked' do
         it 'returns num of likes' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: false)).to eq('2 likes')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('2 likes')
         end
       end
 
@@ -212,7 +220,7 @@ RSpec.describe EventDecorator, type: :decorator do
         end
 
         it 'returns a string including a friends name' do
-          expect(my_event.decorate.likes(event_creator)).to include(other_user.full_name).or include(third_user.full_name)
+          expect(my_event.decorate.likes(current_user: event_creator)).to include(other_user.full_name).or include(third_user.full_name)
         end
       end
     end
