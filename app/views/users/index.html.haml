@@ -1,4 +1,19 @@
 .card
+  .card-body
+    .card-title
+      %h5 User Search
+    = simple_form_for :search, url: users_path, method: :get do |f|
+
+      .search-fields
+        .description-content
+          = f.input :description, placeholder: 'Search by name or email...', label: false, required: false, input_html: {name: 'description', value: @query || '' }, wrapper_html: { class: 'mb-3' }
+
+        %button.btn.btn-outline-primary{ type: 'submit' }
+          %i.bi-search
+          Search
+
+        = link_to 'Clear', users_path, class: 'btn btn-outline-secondary'
+.card
   .card-header.d-flex.align-items-center
     %span Listing Users
 
@@ -33,3 +48,6 @@
               - if user != current_user
                 = link_to 'Edit', edit_user_path(user), class: 'btn btn-outline-secondary ms-1 btn-sm'
                 = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+
+%div.digg_pagination
+  = will_paginate @users
