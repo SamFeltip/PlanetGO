@@ -19,7 +19,7 @@ shared_context 'when logged in as non-admin account', type: :request do |account
   end
 
   specify 'I cannot visit the categories management page' do
-    visit '/categories'
+    visit categories_path
     expect(page).to have_content denial_message(account_type)
   end
 

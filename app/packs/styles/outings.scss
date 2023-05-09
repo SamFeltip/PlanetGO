@@ -39,7 +39,7 @@
 }
 
 // large screens
-@media (min-width: 992px) {
+@media (min-width: map-get($grid-breakpoints, lg)) {
   #content-who,
   #where-sidebar {
     width: 30%;

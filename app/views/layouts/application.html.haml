@@ -87,8 +87,9 @@
 
 
           -# if the current user has admin permissions
-          - if current_user.admin?
-            %hr
+          - if user_signed_in?
+            - if current_user.admin?
+              %hr
 
           - if can? :update, User
 

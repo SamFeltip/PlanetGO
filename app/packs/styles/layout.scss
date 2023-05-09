@@ -215,16 +215,6 @@ a:hover {
   }
 }
 
-//.card.primary {
-//  .card-header, .card-footer {
-//    color: white;
-//    //background: #7253DE;
-//    background: radial-gradient(194.94% 112.13% at 0% 0%, rgba(26, 19, 50, 0.8) 0%, #1A1332 100%);
-//
-//  }
-//
-//}
-
 .card .card {
   box-shadow: none;
   border: $card-border-color $card-border-width solid;
@@ -264,6 +254,7 @@ a:hover {
 .card-primary#category_promo{
 
   .card-header {
+    padding-top: 30px;
     margin: auto;
     height: 120px;
     display: grid;
@@ -369,7 +360,7 @@ h1 .btn.btn-outline-secondary{
   grid-auto-flow: column;
   //overflow: scroll;
   overflow-x: auto;
-  padding-bottom: 20px;
+  padding: 20px 0;
 }
 
 
@@ -505,7 +496,7 @@ h1 .btn.btn-outline-secondary{
 
 
 // medium screens
-@media (min-width: 767px) {
+@media (min-width: map-get($grid-breakpoints, md)) {
 
   // horizontal scrolling cards
   .horizontal-scroll > a {
@@ -520,7 +511,7 @@ h1 .btn.btn-outline-secondary{
 }
 
 // large screens
-@media (min-width: 992px) {
+@media (min-width: map-get($grid-breakpoints, lg)) {
   // horizontal scrolling cards
   .horizontal-scroll > a {
     transform: translateX(0%);

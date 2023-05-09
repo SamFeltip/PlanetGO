@@ -32,5 +32,10 @@ $theme-colors: map-merge(
     "primary": #735CDD,
   ),
   $theme-colors);
-//
-//$link-color: $text-color;
+
+//$grid-breakpoints: map-remove($grid-breakpoints, "md");
+//$grid-breakpoints: map-merge(
+//                (
+//                        "md": 1130px,
+//                ),
+//                $grid-breakpoints);

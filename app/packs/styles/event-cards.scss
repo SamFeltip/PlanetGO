@@ -152,7 +152,7 @@
 
 
 //medium screens
-@media (min-width: 768px) {
+@media (min-width: map-get($grid-breakpoints, md)) {
   // create a wider view for cards that have the space
   .event-card:not(.horizontal-scroll .event-card) {
     .body {
