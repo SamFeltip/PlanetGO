@@ -72,64 +72,48 @@ RSpec.describe 'Friends' do
         end
       end
 
-      context "when user doesn't provide search query" do
+      context 'when there are no results for a given search' do
         before do
           visit friend_search_path
+          fill_in 'search[name]', with: 'Megan'
+          click_button 'Search'
         end
 
-        it 'displays all users except current user' do
-          within '#friends_list' do
-            expect(page).to have_text(friend.full_name)
-            expect(page).to have_text(other_user.full_name)
-            expect(page).not_to have_text(user.full_name)
-          end
+        it 'displays the no search results message' do
+          expect(page).to have_text("Sorry, we couldn't find any users matching the name 'Megan'. Please try a different search term.")
         end
       end
 
       context 'when user clicks the Add friend button' do
-        before { visit friend_search_path }
+        before do
+          visit friend_search_path
+          fill_in 'search[name]', with: 'Taylor'
+          click_button 'Search'
+          click_button 'Add friend'
+        end
 
-        # rubocop:disable RSpec/ExampleLength
         it 'sends the friend request' do
-          # Find the table rows corresponding to each friend record
-          friend_row = find("#friend-#{friend.id}")
-          other_user_row = find("#friend-#{other_user.id}")
-
-          # Verify that the "Add friend" button is present for each user
-          within(friend_row) do
-            expect(page).to have_button('Add friend')
-          end
-          within(other_user_row) do
-            expect(page).to have_button('Add friend')
-          end
-
-          # Send a friend request to the first user
-          within(friend_row) do
-            click_button 'Add friend'
-            expect(page).to have_button('Cancel friend request')
-          end
-
-          # Verify that the "Add friend" button is still present for the second user
-          within(other_user_row) do
-            expect(page).to have_button('Add friend')
-          end
-
-          # Check that the follow request was created for the first friend only
           expect(user.sent_follow_request_to?(friend)).to be true
           expect(user.sent_follow_request_to?(other_user)).to be false
         end
-        # rubocop:enable RSpec/ExampleLength
+
+        it "changes the button to 'Cancel friend request'" do
+          fill_in 'search[name]', with: 'Taylor'
+          click_button 'Search'
+          expect(page).to have_button('Cancel friend request')
+        end
       end
 
       context 'when user clicks the Cancel friend request button' do
         before do
           user.send_follow_request_to(friend)
           visit friend_search_path
+          fill_in 'search[name]', with: 'Taylor'
+          click_button 'Search'
           click_button 'Cancel friend request'
         end
 
         it 'cancels the friend request' do
-          expect(page).to have_button('Add friend', count: 2)
           expect(user.sent_follow_request_to?(friend)).to be false
         end
       end

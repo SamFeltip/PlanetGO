@@ -20,11 +20,16 @@
 #  fk_rails_...  (event_id => events.id)
 #  fk_rails_...  (user_id => users.id)
 #
-class EventReact < ApplicationRecord
-  belongs_to :user
-  belongs_to :event, dependent: :destroy
+require 'rails_helper'
 
-  def to_s
-    "#{user.full_name} liked #{event.name}"
+RSpec.describe EventReact do
+  describe '#to_s' do
+    let(:user) { create(:user, full_name: 'John Doe') }
+    let(:event) { create(:event, name: 'Test Event') }
+    let(:event_react) { create(:event_react, user:, event:) }
+
+    it 'returns a string with the user full name and event name' do
+      expect(event_react.to_s).to eq('John Doe liked Test Event')
+    end
   end
 end

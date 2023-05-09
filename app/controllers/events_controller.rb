@@ -76,6 +76,7 @@ class EventsController < ApplicationController
     end
   end
 
+
   # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
@@ -88,7 +89,6 @@ class EventsController < ApplicationController
 
   def approval
     @event.update(approved: params[:approved])
-
     @approved_events = Event.approved
 
     # redirect_to events_path
@@ -100,13 +100,12 @@ class EventsController < ApplicationController
 
   def like
     if current_user.liked(@event)
-      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id, status: EventReact.statuses[:like]).pluck(:id)
+      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id).pluck(:id)
       EventReact.destroy(event_react_id)
 
     else
       @event.event_reacts.create(
-        user_id: current_user.id,
-        status: EventReact.statuses[:like]
+        user_id: current_user.id
       )
     end
 
@@ -122,24 +121,28 @@ class EventsController < ApplicationController
     end
   end
 
+  # GET /events/search
   def search
-    filter_events_by_content
-    filter_events_by_category
+    @events = Event.approved
+    @outing_id = params[:outing_id].to_i
 
+    filter_events_by_content(params)
+
+    @events = Event.none if params[:description].to_s.strip == '' # Events nil if no search
+
+    # Only responds to remote call and yields a js file
     respond_to do |format|
-      format.html { redirect_to events_path }
-      format.js
+      format.js # Call search.js.haml
     end
   end
 
   private
 
-  def filter_events_by_content
-    @query = params[:query].to_s.downcase.strip
-    return if @query.blank?
+  def filter_events_by_content(input_query)
 
     word_event_ids = []
-    query_list = params[:query].to_s.downcase.strip.split
+    query_list = input_query[:query].to_s.downcase.strip.split
+    return if query_list
 
     # go through every word in the query and get the ids of events which match the word
     query_list.each do |word|

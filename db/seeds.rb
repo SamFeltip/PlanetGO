@@ -36,6 +36,15 @@ user_advertiser2 = User.where(email: 'advertiser2@company.com')
                        )
 
 print '.'
+
+user_advertiser3 = User.where(email: 'advertiser3@hotels.com')
+                       .first_or_create(
+                          role: User.roles[:advertiser],
+                          password: default_password,
+                          full_name: 'Hotel California'
+                        )
+
+print '.'
 user_rep1 = User.where(email: 'rep1@planetgo.com')
                 .first_or_create(
                   role: User.roles[:reporter],
@@ -99,30 +108,36 @@ puts ''
 print 'creating categories'
 
 category_bar = Category.first_or_create(
-  name: 'Bar',
+  name: 'bar',
   symbol: '🍺'
 )
 print '.'
+
 category_restaurant = Category.where(
-  name: 'Restaurant',
+  name: 'restaurant'
+).first_or_create
+
+category_accommodation = Category.where(
+  name: 'accommodation',
   symbol: '🍽️'
 ).first_or_create
+
 print '.'
 
 category_theatre = Category.where(
-  name: 'Theatre',
+  name: 'theatre',
   symbol: '🎭'
 ).first_or_create
 print '.'
 
 category_music = Category.where(
-  name: 'Music',
+  name: 'music',
   symbol: '🎵'
 ).first_or_create
 print '.'
 
 category_sports = Category.where(
-  name: 'Sports',
+  name: 'sports',
   symbol: '⚽'
 ).first_or_create
 
@@ -151,9 +166,9 @@ event_2 = Event.where(
   description: "I'll be honest, even I wouldn't eat the food we serve",
   address_line1: '9273 London Road',
   town: 'Romford',
-  postcode: 'RM7 9QD',
-  latitude: 51.5760019,
-  longitude: 0.1768541,
+  postcode: 'SW1A 0AA',
+  latitude: 51.4998,
+  longitude: -0.1247,
   category_id: category_restaurant.id,
   time_of_event: 7.days.from_now,
   colour: 2
@@ -255,8 +270,8 @@ print '.'
 event_9 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Music Festival',
-  address_line1: '123 Main Street',
-  town: 'Springfield',
+  address_line1: 'Houses of Parliament',
+  town: 'London',
   postcode: 'SW1A 1AA',
   latitude: 40.712776,
   longitude: -74.005974,
@@ -285,11 +300,11 @@ print '.'
 event_11 = Event.where(
   user_id: user_advertiser2.id,
   name: 'Food Festival',
-  address_line1: '789 Oak Street',
-  town: 'Capital City',
-  postcode: 'M1 1AE',
-  latitude: 34.052235,
-  longitude: -118.243683,
+  address_line1: '9273 London Road',
+  town: 'Romford',
+  postcode: 'SW1A 0AA',
+  latitude: 51.4998,
+  longitude: -0.1247,
   description: 'A celebration of local cuisine with food stalls and cooking demonstrations.',
   category_id: category_restaurant.id,
   approved: true,
@@ -478,6 +493,40 @@ event_23 = Event.where(
   time_of_event: 10.days.from_now,
   approved: true,
   colour: 0
+).first_or_create
+print '.'
+
+
+
+
+accom_1 = Event.where(
+  user_id: user_advertiser3.id,
+  name: 'Youth Hostel',
+  address_line1: '9273 London Road',
+  town: 'Romford',
+  postcode: 'SW1A 0AA',
+  latitude: 51.4998,
+  longitude: -0.1247,
+  description: "Looking for a place to stay in Romford? Look no further than the Youth Hostel. With comfortable rooms, a friendly atmosphere and a great location, this is the perfect base for exploring the city. We offer a range of accommodation options, from dorms to private rooms, so there's something for everyone. Plus, we have a bar and restaurant on site, so you can enjoy a drink or a meal after a long day of sightseeing. Book your stay today!",
+  category_id: category_accommodation.id,
+  time_of_event: nil,
+  approved: true
+).first_or_create
+
+print '.'
+
+accom_2 = Event.where(
+  user_id: user_advertiser3.id,
+  name: 'Airbnb',
+  address_line1: 'Aberdeen Street',
+  town: 'Glasgow',
+  postcode: 'G12 8RT',
+  latitude: 55.872084,
+  longitude: -4.288721,
+  description: "Looking for a place to stay in Glasgow? Look no further than Airbnb. We have a wide range of accommodation options, from apartments to houses, so you can find the perfect place for your stay. Plus, we offer a range of amenities to make your stay as comfortable as possible, including free wifi and a fully equipped kitchen. So whether you're looking for a place to stay for a night or a month, we've got you covered.",
+  category_id: category_accommodation.id,
+  time_of_event: nil,
+  approved: true
 ).first_or_create
 
 random_event_and_user_pairs = [

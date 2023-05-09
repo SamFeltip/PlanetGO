@@ -39,7 +39,6 @@ FactoryBot.define do
     address_line1 { '104 West Street' }
     town { 'Sheffield' }
     postcode { 'S1 4EP' }
-    time_of_event { '2023-02-24' }
     description { 'Come to the disco for fun vibes' }
     category_id { Category.where(name: 'Sport').first_or_create.id }
     user { create(:user) }

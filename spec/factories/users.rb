@@ -59,7 +59,6 @@ FactoryBot.define do
     email
     full_name { Faker::Name.name }
     password { 'SneakyPassword100' }
-    postcode { 'S10 2SJ' }
     role { User.roles[:user] }
     last_sign_in_at { Time.new(2023, 1, 12).utc }
   end

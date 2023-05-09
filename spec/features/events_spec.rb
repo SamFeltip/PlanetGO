@@ -533,8 +533,7 @@ RSpec.describe 'Events' do
         specify 'should create an Event react of the current user' do
           expect(EventReact.last).to have_attributes(
             user_id: user.id,
-            event_id: event1.id,
-            status: 'like'
+            event_id: event1.id
           )
         end
       end

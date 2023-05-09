@@ -7,7 +7,7 @@
   = f.submit 'Search', class: 'btn btn-outline-primary'
   = link_to 'Clear', friend_search_path, class: 'btn btn-outline-secondary'
 
-- if @users
+- if @users.present?
   %table.table.mt-3#friends_list
     %thead
       %tr
@@ -26,3 +26,5 @@
                 = button_to 'Cancel friend request', cancel_path(user), class: 'btn btn-outline-warning btn-sm mt-2'
               - else
                 = button_to 'Add friend', follow_path(user), class: 'btn btn-outline-success btn-sm mt-2'
+- if @name.present? && @users.empty?
+  %p.mt-3 Sorry, we couldn't find any users matching the name '#{@name}'. Please try a different search term.

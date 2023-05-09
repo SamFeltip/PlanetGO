@@ -1,2 +1,8 @@
+-#TODO: pick one!
+
 var searched_events = document.querySelector('#searched-events');
 searched_events.innerHTML = "#{escape_javascript(render 'events/searched_events', events: @searched_events)}";
+
+-# Render events search partial
+var results = "#{ j render 'events/event_search', found_events: @events, outing_id: @outing_id}";
+document.getElementById('searched-events').innerHTML = results;

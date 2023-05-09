@@ -46,11 +46,6 @@
         = link_to like_event_path(event), title: 'Like this Event', method: :patch, data: { remote: true } do
           %i.like_icon{:class => event.decorate.like_icon(current_user.liked(event))}
 
-        -#    .d-inline.d-md-none
-        -#      = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
-        -#    .d-none.d-md-inline
-        -#      = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
-        -#
-        -#
-        -#= button_to like_event_path(event), method: :patch, remote: true, class: 'btn btn-primary' do
-        -#  %i.bi-star
+  # TODO deal with this
+  - if defined?(add_to_outing_params)
+    = render 'events/event_card_footer', event: event, add_to_outing_params: add_to_outing_params

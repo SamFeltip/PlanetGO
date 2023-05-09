@@ -52,6 +52,11 @@ class Event < ApplicationRecord
   default_scope { includes(:category) }
 
   scope :approved, -> { where(approved: true) }
+  scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
+
+  scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
+  scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
+
   scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
   scope :user_events, ->(user) { where(user_id: user.id) }
   scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
@@ -77,7 +82,7 @@ class Event < ApplicationRecord
   enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
 
   def likes
-    EventReact.where(event_id: id, status: EventReact.statuses[:like])
+    EventReact.where(event_id: id)
   end
 
   def to_s
