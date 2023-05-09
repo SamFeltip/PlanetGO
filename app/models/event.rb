@@ -4,22 +4,24 @@
 #
 # Table name: events
 #
-#  id            :bigint           not null, primary key
-#  address_line1 :string
-#  address_line2 :string
-#  approved      :boolean
-#  colour        :integer
-#  description   :text
-#  latitude      :float
-#  longitude     :float
-#  name          :string
-#  postcode      :string
-#  time_of_event :datetime
-#  town          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint
-#  user_id       :bigint           not null
+#  id                 :bigint           not null, primary key
+#  address_line1      :string
+#  address_line2      :string
+#  approved           :boolean
+#  cached_votes       :integer          default(0)
+#  cached_votes_total :integer          default(0)
+#  colour             :integer
+#  description        :text
+#  latitude           :float
+#  longitude          :float
+#  name               :string
+#  postcode           :string
+#  time_of_event      :datetime
+#  town               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  category_id        :bigint
+#  user_id            :bigint           not null
 #
 # Indexes
 #
@@ -48,11 +50,13 @@ class Event < ApplicationRecord
   has_many :proposed_events, dependent: :destroy
   has_many :outings, through: :proposed_events
   has_many :event_reacts, dependent: :destroy
+  acts_as_votable
 
   default_scope { includes(:category) }
 
   scope :approved, -> { where(approved: true) }
   scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
+
   scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
   scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
 
@@ -80,9 +84,6 @@ class Event < ApplicationRecord
 
   enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
 
-  def likes
-    EventReact.where(event_id: id)
-  end
 
   def to_s
     "#{name} @ #{decorate.display_time}"

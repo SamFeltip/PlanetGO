@@ -511,7 +511,7 @@ accom_1 = Event.where(
   category_id: category_accommodation.id,
   time_of_event: nil,
   approved: true,
-  color: 5
+  colour: 5
 ).first_or_create
 
 print '.'
@@ -559,10 +559,7 @@ random_event_and_user_pairs.each do |pair|
   user_id = pair[0]
   event_id = pair[1]
 
-  EventReact.where(
-    user_id:,
-    event_id:
-  ).first_or_create
+  Event.find(event_id).liked_by User.find(user_id)
 end
 
 puts ''

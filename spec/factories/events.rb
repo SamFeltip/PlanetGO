@@ -4,22 +4,24 @@
 #
 # Table name: events
 #
-#  id            :bigint           not null, primary key
-#  address_line1 :string
-#  address_line2 :string
-#  approved      :boolean
-#  colour        :integer
-#  description   :text
-#  latitude      :float
-#  longitude     :float
-#  name          :string
-#  postcode      :string
-#  time_of_event :datetime
-#  town          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint
-#  user_id       :bigint           not null
+#  id                 :bigint           not null, primary key
+#  address_line1      :string
+#  address_line2      :string
+#  approved           :boolean
+#  cached_votes       :integer          default(0)
+#  cached_votes_total :integer          default(0)
+#  colour             :integer
+#  description        :text
+#  latitude           :float
+#  longitude          :float
+#  name               :string
+#  postcode           :string
+#  time_of_event      :datetime
+#  town               :string
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  category_id        :bigint
+#  user_id            :bigint           not null
 #
 # Indexes
 #

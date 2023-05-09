@@ -108,12 +108,8 @@ class User < ApplicationRecord
     full_name.split.map(&:first).join.upcase
   end
 
-  def likes
-    EventReact.where(user_id: id)
-  end
-
   def liked(event)
-    !likes.where(event_id: event.id).empty?
+    self.voted_up_on? event
   end
 
   def commercial
@@ -130,7 +126,8 @@ class User < ApplicationRecord
     # if an event is given
     friends = if event
                 # get a list of all following users who have liked this event
-                following.where(id: event.likes.pluck(:user_id))
+                people_who_liked_ids = event.votes_for.up.by_type(User).voters.pluck(:user_id)
+                following.where(id: people_who_liked_ids)
               else
                 following
               end

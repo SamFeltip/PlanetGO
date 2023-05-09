@@ -5,8 +5,8 @@
 # Table name: proposed_events
 #
 #  id                 :bigint           not null, primary key
-#  cached_likes       :integer          default(0)
-#  cached_likes_total :integer          default(0)
+#  cached_votes       :integer          default(0)
+#  cached_votes_total :integer          default(0)
 #  proposed_datetime  :datetime
 #  status             :integer
 #  created_at         :datetime         not null

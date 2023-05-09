@@ -44,20 +44,20 @@ class EventDecorator < ApplicationDecorator
   # using the current user to include friends names if they have liked it
   def likes(current_user, compressed: false, current_user_liked: false)
     # get all like objects for this event
-    event_likes = object.likes
+    event_likes_count = object.votes_for.size
 
     # if no user is given, just return the number of likes
-    return "#{event_likes.count} likes" if current_user.nil?
+    return "#{event_likes_count} likes" if current_user.nil?
 
     # if we want a shorter string
     if compressed
       return 'liked' if current_user_liked
 
-      return "#{event_likes.count} likes"
+      return "#{event_likes_count} likes"
     end
 
     # produces the 'and x other(s)' string
-    and_others_string = "and #{event_likes.count - 1} other#{event_likes.count - 1 == 1 ? '' : 's'}"
+    and_others_string = "and #{event_likes_count - 1} other#{event_likes_count - 1 == 1 ? '' : 's'}"
 
     # returns early if the current user has already liked the string
     return "liked by you #{and_others_string}" if current_user_liked
@@ -68,7 +68,7 @@ class EventDecorator < ApplicationDecorator
     if random_friend
       "liked by #{random_friend} #{and_others_string}"
     else
-      "#{event_likes.count} like#{event_likes.count == 1 ? '' : 's'}"
+      "#{event_likes_count} like#{event_likes_count == 1 ? '' : 's'}"
     end
   end
 

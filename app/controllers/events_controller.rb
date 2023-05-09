@@ -99,20 +99,17 @@ class EventsController < ApplicationController
   end
 
   def like
-    if current_user.liked(@event)
-      event_react_id = EventReact.where(user_id: current_user.id, event_id: @event.id).pluck(:id)
-      EventReact.destroy(event_react_id)
+    if current_user.liked? @event
+      @event.unliked_by current_user
 
     else
-      @event.event_reacts.create(
-        user_id: current_user.id
-      )
+      @event.liked_by current_user
     end
 
     @event_liked_string_sm = @event.decorate.likes(current_user, compressed: true)
     @event_liked_string_lg = @event.decorate.likes(current_user, compressed: false)
 
-    @event_liked = current_user.liked(@event)
+    @event_liked = current_user.voted_up_on? @event
 
     # redirect_to events_path
     respond_to do |format|

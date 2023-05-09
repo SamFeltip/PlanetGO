@@ -5,7 +5,7 @@ actor = event ? event : document
 likes_section = actor.querySelector(".likes");
 
 event_liked = #{@event_liked};
-event_like_count = #{@event.likes.count};
+event_like_count = #{@event.votes_for.size};
 
 like_string_sm = "#{@event_liked_string_sm}";
 like_string_lg = "#{@event_liked_string_lg}";
