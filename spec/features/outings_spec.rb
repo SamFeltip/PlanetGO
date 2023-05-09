@@ -266,11 +266,6 @@ RSpec.describe 'Outings' do
           end
         end
       end
-
-      it 'lets the user search for a friend' do
-        pending 'friend search not implemented yet'
-        expect(page).to have_content('Search for friends')
-      end
     end
 
     context 'when the creator manages the proposed events of the outing' do
