@@ -178,7 +178,7 @@ class User < ApplicationRecord
   end
 
   def local_events
-    postcode.present? ? Event.near("#{postcode}, UK", 10).limit(4) : nil
+    postcode.present? ? Event.near("#{postcode}, UK", 10).limit(4) : Event.none
   end
 
   private

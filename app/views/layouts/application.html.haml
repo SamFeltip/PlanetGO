@@ -48,6 +48,13 @@
                 = link_to :category_interests do
                   %i.bi-emoji-smile
                   Interests
+
+              %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
+                = link_to bug_reports_path, class: 'nav-link' do
+                  %i.bi-bug
+                  %span.sidebar-label
+                    Bug reports
+
               %li
                 = link_to destroy_user_session_path, method: :delete do
                   %i.bi-box-arrow-right
@@ -81,7 +88,7 @@
 
 
           -# if the current user has admin permissions
-          - if can? :manage, :all
+          - if current_user.admin?
             %hr
 
           - if can? :update, User

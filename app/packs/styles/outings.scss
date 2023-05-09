@@ -1,16 +1,5 @@
 @import 'variables';
 
-#outing-footer {
-  background-color: white;
-  // attached to the bottom of the page, has a line above it
-  position: fixed;
-  bottom: 0;
-  z-index: 3;
-  //left: $sidebar-width;
-  left: 0;
-  right: 0;
-  border-top: 1px solid #dee2e6;
-}
 
 // included so the columns dont fill the entire screen
 #outing-nav {
