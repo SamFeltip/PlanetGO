@@ -6,7 +6,7 @@ class OutingsController < ApplicationController
 
   before_action :set_outing, only: %i[show edit update destroy set_details send_invites stop_count]
   before_action :set_participant, only: %i[show set_details]
-
+  before_action :set_availabilities, only: %i[send_invites set_details]
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
@@ -28,57 +28,6 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/edit
   def edit; end
-
-  # GET /outings/1/set_details
-  def set_details
-    @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-    @peoples_availabilities = []
-    participants.each do |participant|
-      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
-    end
-
-    @proposed_event = ProposedEvent.new
-
-    @positions = %w[who when where]
-  end
-
-  def send_invites
-    @friend_ids = params[:user_ids]
-    @participants = Participant.none
-
-    @friend_ids = [] if @friend_ids.nil?
-
-    @friend_ids.each do |friend_id|
-      # create a participant and add it to the @participants list
-      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
-      @participants = @participants.or(Participant.where(id: new_participant.id))
-    end
-
-    # Creates a new calendar object using the new participants list
-    @calendar_start_date = Time.zone.at(342_000).to_date
-    participants = Participant.where(outing_id: @outing.id)
-    @peoples_availabilities = []
-    participants.each do |participant|
-      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
-    end
-
-    respond_to do |format|
-      format.html { redirect_to set_details_outing_path(@outing) }
-      format.js
-    end
-  end
-
-  def stop_count
-    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote
-    @failed_proposed_events.each(&:destroy)
-
-    respond_to do |format|
-      format.js
-      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
-      format.json { head :no_content }
-    end
-  end
 
   # POST /outings or /outings.json
   def create
@@ -128,6 +77,48 @@ class OutingsController < ApplicationController
     end
   end
 
+  # GET /outings/1/set_details
+  def set_details
+    @calendar_start_date = Time.zone.at(342_000).to_date
+
+    @proposed_event = ProposedEvent.new
+
+    @positions = %w[who when where]
+
+    @final_events = current_user.final_events
+  end
+
+  def send_invites
+    @friend_ids = params[:user_ids]
+    @participants = Participant.none
+
+    @friend_ids = [] if @friend_ids.nil?
+
+    @friend_ids.each do |friend_id|
+      # create a participant and add it to the @participants list
+      new_participant = Participant.create(user_id: friend_id, outing_id: @outing.id)
+      @participants = @participants.or(Participant.where(id: new_participant.id))
+    end
+
+    # Creates a new calendar object using the new participants list
+    @calendar_start_date = Time.zone.at(342_000).to_date
+
+    respond_to do |format|
+      format.html { redirect_to set_details_outing_path(@outing) }
+      format.js
+    end
+  end
+
+  def stop_count
+    @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote.each(&:destroy)
+
+    respond_to do |format|
+      format.js
+      format.html { redirect_to outing_path(@outing), notice: 'failed proposed events were deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
   private
 
   # Use callbacks to share common setup or constraints between actions.
@@ -138,6 +129,13 @@ class OutingsController < ApplicationController
   def set_participant
     # for proposed event cards
     @participant = @outing.participants.find_by(user: current_user)
+  end
+
+  def set_availabilities
+    @peoples_availabilities = []
+    @outing.participants.each do |participant|
+      @peoples_availabilities.append(Availability.where(user_id: participant.user_id))
+    end
   end
 
   # Only allow a list of trusted parameters through.

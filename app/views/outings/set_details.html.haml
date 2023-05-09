@@ -74,15 +74,21 @@
       #where-timetable.py-1
         = render 'outings/where_timetable'
 
-      %h2.text-center
-        - if current_user.postcode?
-          Check out this popular events happening near you!
-        - else
-          Check out this popular events!
 
-      .horizontal-scroll.justify-content-center
-        - current_user.final_events.each do |event|
-          = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+
+        %h2.text-center
+          - if current_user.postcode?
+            Nearby Hotel & Restaurant Recommendations
+          - else
+            Hotel & Restaurant Recommendations
+
+        .horizontal-scroll.justify-content-center
+          - if @final_events.any?
+            - @final_events.each do |event|
+              = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+          - else
+            %p.text-center
+              No nearby restaurants or accommodation found
 
       .d-none.d-lg-flex.justify-content-end
         = link_to set_details_outing_path(@outing, position: 'who'), class: 'btn btn-secondary me-2' do
