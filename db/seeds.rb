@@ -510,7 +510,8 @@ accom_1 = Event.where(
   description: "Looking for a place to stay in Romford? Look no further than the Youth Hostel. With comfortable rooms, a friendly atmosphere and a great location, this is the perfect base for exploring the city. We offer a range of accommodation options, from dorms to private rooms, so there's something for everyone. Plus, we have a bar and restaurant on site, so you can enjoy a drink or a meal after a long day of sightseeing. Book your stay today!",
   category_id: category_accommodation.id,
   time_of_event: nil,
-  approved: true
+  approved: true,
+  color: 5
 ).first_or_create
 
 print '.'

@@ -32,7 +32,7 @@
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
-      = form_with url: event_search_path, id: 'event-search-form', placeholder: 'search for events here...', class: 'mb-2 search-form', local: false, method: :get do |f|
+      = form_with url: events_search_path, id: 'event-search-form', placeholder: 'search for events here...', class: 'mb-2 search-form', local: false, method: :get do |f|
         = text_field_tag :description
         = f.hidden_field :outing_id, value: @outing.id
 

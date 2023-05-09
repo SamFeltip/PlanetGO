@@ -133,6 +133,10 @@ grid-template-columns: repeat(2, 1fr);
 gap: 10px;
 }
 
+#where-sidebar #searched-events {
+  grid-template-columns: 1fr;
+}
+
 //landing page images
 
 img.full-screen-image {

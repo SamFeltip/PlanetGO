@@ -1,7 +1,8 @@
-- if defined?(@searched_events)
-  - if @searched_events.any?
-    - @searched_events.each do |event|
+- if defined?(events)
+  - if events.any?
+    - events.each do |event|
       = render "event_card", event: event
   - else
-    %p
-      No events found
+    - unless @empty_search
+      %p
+        No events found

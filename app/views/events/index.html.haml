@@ -17,13 +17,12 @@
 
   = simple_form_for :search, url: events_search_path, method: :get, remote: true do |f|
     .search-form
-      = f.input :query, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'query', value: @query || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+      = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description'}, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
       %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search'}
         %i.bi-search
 
   #searched-events
-    = render "searched_events", events: @searched_events
 
   - if current_user.commercial
 

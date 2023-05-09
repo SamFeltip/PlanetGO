@@ -123,12 +123,11 @@ class EventsController < ApplicationController
 
   # GET /events/search
   def search
-    @events = Event.approved
     @outing_id = params[:outing_id].to_i
 
     filter_events_by_content(params)
-
-    @events = Event.none if params[:description].to_s.strip == '' # Events nil if no search
+    @empty_search = params[:description].to_s.strip == ''
+    @searched_events = Event.none if @empty_search # Events nil if no search
 
     # Only responds to remote call and yields a js file
     respond_to do |format|
@@ -138,11 +137,10 @@ class EventsController < ApplicationController
 
   private
 
-  def filter_events_by_content(input_query)
+  def filter_events_by_content(search_params)
 
     word_event_ids = []
-    query_list = input_query[:query].to_s.downcase.strip.split
-    return if query_list
+    query_list = search_params[:description].to_s.downcase.strip.split
 
     # go through every word in the query and get the ids of events which match the word
     query_list.each do |word|
