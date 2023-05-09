@@ -159,18 +159,18 @@ class User < ApplicationRecord
   end
 
   def local_events
-    postcode.present? ? Event.approved.near.limit(3) : nil
+    postcode.present? ? Event.approved.near(self).limit(3) : nil
   end
 
   def final_events
     if postcode.present?
       # get local events with the right categories
-      random_accommodation = Event.accommodations.near.sample
-      random_restaurant = Event.restaurants.near.sample
+      random_accommodation = Event.approved.accommodations.near(self).sample
+      random_restaurant = Event.approved.restaurants.near(self).sample
     else
       # get any events with the right categories
-      random_accommodation = Event.accommodations.sample
-      random_restaurant = Event.restaurants.sample
+      random_accommodation = Event.approved.accommodations.sample
+      random_restaurant = Event.approved.restaurants.sample
     end
 
     final_event_ids = []

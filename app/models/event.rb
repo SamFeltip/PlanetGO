@@ -50,7 +50,7 @@ class Event < ApplicationRecord
 
   default_scope { includes(:category) }
   scope :approved, -> { where(approved: true) }
-  scope :near, -> { near("#{postcode}, UK", 5)}
+  scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
 
   scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
   scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
