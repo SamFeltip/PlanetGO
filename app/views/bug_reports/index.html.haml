@@ -1,8 +1,12 @@
 %h1 Bug reports
 - if can? :manage, BugReport
   = simple_form_for :search, url: bug_reports_path, class: 'd-flex flex-column',  method: :get do |f|
-    = f.input :query, input_html: { value: @query || '' } , label: 'Search by title or description', wrapper_html: { class: 'mb-3' }
-    = f.input :category, selected: @category || 'all categories', collection: BugReport.categories.keys + ['all categories'], label: 'Filter by category', wrapper_html: { class: 'mb-3' }
+    .search-form
+      = f.input :query, input_html: { value: @query || '' } , placeholder: 'Search by title or description...', label: false
+      = f.input :category, selected: @category || 'filter categories...', collection: BugReport.categories.keys + ['filter categories...'], label: false
+
+      %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search'}
+        %i.bi-search
 
 .card.mt-3
   .card-header.d-flex.align-items-center

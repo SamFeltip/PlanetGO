@@ -52,7 +52,8 @@ main {
   }
 
   li.active {
-    background: rgba(114, 83, 222, 0.2);
+    background-color: rgba(map-get($theme-colors, primary), 0.2);
+
   }
 
   li.active{
@@ -63,7 +64,7 @@ main {
       right: 0;
       height: 42px;
       width: 5px;
-      background: #7253DE;
+      background: map-get($theme-colors, primary);
     }
   }
 

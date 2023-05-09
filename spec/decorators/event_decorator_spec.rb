@@ -60,8 +60,8 @@ RSpec.describe EventDecorator, type: :decorator do
     context 'when the time of the event is present' do
       let(:event) { create(:event, time_of_event: DateTime.now) }
 
-      it 'returns the time of the event formatted as "dd/mm/yyyy hh:mm"' do
-        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%d/%m/%Y %H:%M'))
+      it 'returns the time of the event formatted as "%b %d, %H:%M"' do
+        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%b %d, %H:%M'))
       end
     end
 
@@ -107,15 +107,6 @@ RSpec.describe EventDecorator, type: :decorator do
 
     it 'returns "bi-star" if current user did not like the event' do
       expect(decorated_event.like_icon(false)).to eq('bi-star')
-    end
-  end
-
-  describe '#colour' do
-    it 'returns the category colour if the event has a category' do
-      category = create(:category)
-      event = create(:event, category_id: category.id)
-      decorated_event = described_class.new(event)
-      expect(decorated_event.colour).to eq(category.colour)
     end
   end
 

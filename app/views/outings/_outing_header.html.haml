@@ -54,13 +54,13 @@
                   Starting Location TBD
 
       .card-body
+        %h3 #{@outing.participants.count} Going
         #going.horizontal-scroll
+
 
           - @outing.users.each do |user|
             .user_icon.participant.d-inline-flex.flex-column.align-items-center.me-2
               .initial-avatar.d-inline-flex= user.initials
-
-        %h2 #{@outing.participants.count} Going
 
         - if current_user == @outing.creator || current_user.admin?
           %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}

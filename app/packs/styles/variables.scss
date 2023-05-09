@@ -29,7 +29,7 @@ $bs-btn-hover-bg: red;
 $theme-colors: map-remove($theme-colors, "primary");
 $theme-colors: map-merge(
   (
-    "primary": #7253DE,
+    "primary": #735CDD,
   ),
   $theme-colors);
 //

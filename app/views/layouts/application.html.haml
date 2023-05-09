@@ -104,9 +104,18 @@
 
             %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
               = link_to bug_reports_path, class: 'nav-link' do
-                %i.bi-list-ol
+                %i.bi-bug
                 %span.sidebar-label
                   Bug reports
+
+
+          - if can? :manage, Category
+
+            %li.sidebar-item{:class => controller.controller_name == 'categories' ? 'active' : ''}
+              = link_to categories_path, class: 'nav-link' do
+                %i.bi-emoji-smile
+                %span.sidebar-label
+                  Categories
 
 
       .container
