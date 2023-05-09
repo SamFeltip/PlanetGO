@@ -40,19 +40,21 @@
                   = current_user.full_name
 
               %span.sidebar-label
-                %button.sidebar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#user_dropdown_content' }, aria: { controls: 'sidebar-content', expanded: 'false', label: 'Toggle navigation' } }
+                %button.sidebar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#user-dropdown-content' }, aria: { controls: 'sidebar-content', expanded: 'false', label: 'Toggle navigation' } }
                   %span.bi-chevron-down
 
-            %ul#user_dropdown_content.sidebar-collapse.collapse
-              %li
+            %ul#user-dropdown-content.sidebar-collapse.collapse
+              %li.sidebar-item{:class => controller.controller_name == 'category_interests' ? 'active' : ''}
                 = link_to :category_interests do
                   %i.bi-emoji-smile
-                  Interests
+                  %span.sidebar-label
+                    Interests
 
               %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
                 = link_to bug_reports_path, class: 'nav-link' do
                   %i.bi-bug
-                    Bug reports
+                  %span.sidebar-label
+                    report
 
               %li
                 = link_to destroy_user_session_path, method: :delete do

@@ -30,12 +30,12 @@ main {
   font-size: 15px;
 
   li:first-child.sidebar-item {
-    margin-bottom: 33px;
+    margin-bottom: 30px;
   }
 
   li:nth-child(2).sidebar-item {
-    margin-bottom: 18px;
-    height: 59px;
+    margin-bottom: 20px;
+    height: 60px;
   }
 
   li.sidebar-item {
@@ -44,6 +44,7 @@ main {
     align-items: center;
 
     margin-bottom: 5px;
+    height: 45px;
     //padding-top: 7px;
     //padding-left: 17px;
     //padding-bottom: 7px;
@@ -62,7 +63,7 @@ main {
       content: '';
       position: absolute;
       right: 0;
-      height: 42px;
+      height: 45px;
       width: 5px;
       background: map-get($theme-colors, primary);
     }
@@ -126,7 +127,14 @@ main {
   }
 
   #sidebar-content li.sidebar-item {
-    padding: 7px 5px;
+    padding: 5px 5px;
+  }
+}
+
+#user-dropdown-content {
+  .sidebar-item {
+    padding: 0 !important;
+    margin: 0 !important;
   }
 }
 
@@ -151,6 +159,7 @@ main {
 
   #sidebar-content li.sidebar-item {
     margin-bottom: 0;
+    height: 100%;
   }
 
   a.navbar-brand {

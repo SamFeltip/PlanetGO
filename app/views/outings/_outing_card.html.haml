@@ -8,7 +8,7 @@
           %a.visit_outing{:href => outing_path(outing)}=outing.name
         .action-buttons
           - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
-            = link_to edit_outing_path(outing), class: 'btn btn-outline-primary btn-sm' do
+            = link_to edit_outing_path(outing), class: 'btn btn-outline-secondary btn-sm' do
               %i.bi-pencil-square
                 .d-none.d-sm-inline
                   Edit

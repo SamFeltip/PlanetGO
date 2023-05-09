@@ -17,7 +17,7 @@
 }
 
 .event-body {
-  padding-top: $event-header-height - 100px + 20px;
+  padding-top: $event-header-height - 100px + 15px;
 
 }
 
@@ -35,7 +35,10 @@
   justify-content: center;
   height: 100%;
 
-
+  h1 {
+    padding-top: 0;
+    margin-bottom: 5px;
+  }
   h3, em {
     color: inherit;
   }

@@ -6,21 +6,42 @@
 #outing-body.pt-3.overline
   -#.card
   -#  .card-header
+  #start-time
+    - if (current_user == @outing.creator || current_user.admin?) && @outing.date.nil?
+      %h2
+        Start time
+      %p
+        You haven't set a start time for this outing yet
+
+      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+        %i.bi-clock.px-1
+          Decide on a time here
+        %i.bi-arrow-right.px-1
+
   #where-timetable.pt-3
     .d-flex.justify-content-between.pb-3
       %h2
         Timetable
 
 
-      - if current_user == @outing.creator || current_user.admin?
+      - if (current_user == @outing.creator || current_user.admin?) && @outing.events.count > 2
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
-          %i.bi-plus-circle
-            Add more events to timeline
-    .d-flex.justify-content-end
-      - if current_user == @outing.creator || current_user.admin?
+          %i.bi-calendar-event.px-1
+            Add more events
+          %i.bi-arrow-right.px-1
+
+    .d-flex.justify-content-end.mb-3
+      - if (current_user == @outing.creator || current_user.admin?) && @outing.events.any?
         = form_tag stop_count_outing_path(@outing), method: :post do
           = submit_tag 'Close voting', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
 
     .timetable-body.pb-4
       = render 'outings/where_timetable'
 
+
+    .d-flex.justify-content-end.mb-3
+      - if current_user == @outing.creator || current_user.admin?
+        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+          %i.bi-calendar-event.px-1
+            Add more events
+          %i.bi-arrow-right.px-1

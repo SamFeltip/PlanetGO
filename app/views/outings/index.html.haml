@@ -1,9 +1,14 @@
-.d-flex.align-items-center.pb-4
 
+.d-flex.align-items-center.justify-content-between
+  %h1
+    Outings
   - if !current_user.suspended
-    = link_to new_outing_path, class: 'btn btn-outline-primary ms-auto' do
-      New Outing
-      %i.bi-plus-circle
+    .action-buttons
+      %h2
+        = link_to new_outing_path, class: 'btn btn-outline-secondary' do
+          .me-2
+            Create an Outing
+          %i.bi-plus
 
 - @outings.each do |outing|
 

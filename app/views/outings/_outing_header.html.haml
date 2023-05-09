@@ -1,11 +1,11 @@
 .outing-header
   .content.pb-2
-    .outing-banner.pb-2
+    .outing-banner
       .d-flex.justify-content-between
         %h1
           = outing.name
 
-        .action-buttons.d-flex.flex-row
+        .action-buttons
 
           -# if action buttons are included in the header, and the current user either created this outing or is admin
           - if defined?(action_buttons) && action_buttons && (current_user == outing.creator || current_user.admin?)
@@ -64,17 +64,18 @@
 
         - if current_user == @outing.creator || current_user.admin?
           %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
-            %i.bi-plus-circle
+            %i.bi-people.px-1
               Invite more friends out
+            %i.bi-arrow-right.px-1
 
 
   - if defined?(nav) && nav
-    #outing-nav.d-lg-none.text-center
-      .outing-nav-item#outing-nav-who.pb-2{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
+    #nav-bar.d-lg-none.text-center
+      .nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
         #outing-nav-who-link Who?
 
-      .outing-nav-item#outing-nav-when.pb-2{:class => params[:position] == 'when' ? 'underline' : '' }
+      .nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
         #outing-nav-when-link When?
 
-      .outing-nav-item#outing-nav-where.pb-2{:class => params[:position] == 'where' ? 'underline' : '' }
+      .nav-item#outing-nav-where{:class => params[:position] == 'where' ? 'underline' : '' }
         #outing-nav-where-link Where?

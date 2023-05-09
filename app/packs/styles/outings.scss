@@ -1,12 +1,5 @@
 @import 'variables';
 
-
-// included so the columns dont fill the entire screen
-#outing-nav {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
 #content-who,
 #content-where,
 #where-sidebar,
