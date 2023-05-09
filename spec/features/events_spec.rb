@@ -430,13 +430,14 @@ RSpec.describe 'Events' do
     before do
       user_list = create_list(:user, 5)
       user_list.each do |react_user|
-        create(:event_react, event_id: event2.id, user_id: react_user.id)
+        event2.liked_by react_user
       end
 
-      create(:event_react, event_id: event1.id, user_id: admin.id)
-      create(:event_react, event_id: event1.id, user_id: other_event_creator.id)
 
-      create(:event_react, event_id: event2.id, user_id: user.id)
+      event1.liked_by admin
+      event1.liked_by user
+      event2.liked_by user
+
 
       login_as user
       visit events_path

@@ -60,8 +60,8 @@ RSpec.describe EventDecorator, type: :decorator do
     context 'when the time of the event is present' do
       let(:event) { create(:event, time_of_event: DateTime.now) }
 
-      it 'returns the time of the event formatted as "%b %d, %H:%M"' do
-        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%b %d, %H:%M'))
+      it 'returns the time of the event formatted as "%b %d, %h:%M %p"' do
+        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%b %d, %I:%M %p'))
       end
     end
 
@@ -154,7 +154,7 @@ RSpec.describe EventDecorator, type: :decorator do
 
     context 'when the current_user has liked' do
       before do
-        create(:event_react, event_id: my_event.id, user: event_creator)
+        my_event.liked_by event_creator
       end
 
       context 'when the user is the only user who has liked the event' do
@@ -165,7 +165,7 @@ RSpec.describe EventDecorator, type: :decorator do
 
       context 'when there is 1 other user who has liked' do
         before do
-          create(:event_react, event_id: my_event.id, user: other_user)
+          my_event.liked_by other_user
         end
 
         it 'returns me and 1 other' do
@@ -175,8 +175,8 @@ RSpec.describe EventDecorator, type: :decorator do
 
       context 'when there are many other uses who have liked' do
         before do
-          create(:event_react, event_id: my_event.id, user: other_user)
-          create(:event_react, event_id: my_event.id, user: third_user)
+          my_event.liked_by other_user
+          my_event.liked_by third_user
         end
 
         it 'returns me and 2 others' do
@@ -189,8 +189,8 @@ RSpec.describe EventDecorator, type: :decorator do
       let(:forth_user) { create(:user) }
 
       before do
-        create(:event_react, event_id: my_event.id, user: other_user)
-        create(:event_react, event_id: my_event.id, user: third_user)
+        my_event.liked_by other_user
+        my_event.liked_by third_user
       end
 
       context 'when no friends have liked' do
@@ -204,11 +204,11 @@ RSpec.describe EventDecorator, type: :decorator do
           event_creator.send_follow_request_to(other_user)
           other_user.accept_follow_request_of(event_creator)
 
-          third_user.accept_follow_request_of(event_creator)
           event_creator.send_follow_request_to(third_user)
+          third_user.accept_follow_request_of(event_creator)
 
-          forth_user.accept_follow_request_of(event_creator)
           event_creator.send_follow_request_to(forth_user)
+          forth_user.accept_follow_request_of(event_creator)
         end
 
         it 'returns a string including a friends name' do

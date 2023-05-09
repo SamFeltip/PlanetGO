@@ -126,7 +126,7 @@ class User < ApplicationRecord
     # if an event is given
     friends = if event
                 # get a list of all following users who have liked this event
-                people_who_liked_ids = event.votes_for.up.by_type(User).voters.pluck(:user_id)
+                people_who_liked_ids = event.votes_for.up.by_type(User).voters.pluck(:id)
                 following.where(id: people_who_liked_ids)
               else
                 following

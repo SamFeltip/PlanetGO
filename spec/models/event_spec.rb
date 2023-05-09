@@ -94,7 +94,7 @@ RSpec.describe Event do
 
   describe '#to_s' do
     it 'returns the expected string representation' do
-      expect(my_event.to_s).to eq('Test Event @ May 01, 14:00')
+      expect(my_event.to_s).to eq('Test Event @ May 01, 2:00 PM')
     end
   end
 
@@ -110,17 +110,19 @@ RSpec.describe Event do
 
     before do
       # event1 has 2 likes
-      create(:event_react, event_id: event1.id, user: user1)
-      create(:event_react, event_id: event1.id, user: user2)
+      event1.liked_by user1
+      event1.liked_by user2
+
       # event2 has 4 likes
-      create(:event_react, event_id: event2.id, user: user1)
-      create(:event_react, event_id: event2.id, user: user2)
-      create(:event_react, event_id: event2.id, user: user3)
-      create(:event_react, event_id: event2.id, user: user4)
+      event2.liked_by user1
+      event2.liked_by user2
+      event2.liked_by user3
+      event2.liked_by user4
+
       # event3 has 3 likes
-      create(:event_react, event_id: event3.id, user: user1)
-      create(:event_react, event_id: event3.id, user: user2)
-      create(:event_react, event_id: event3.id, user: user3)
+      event3.liked_by user1
+      event3.liked_by user2
+      event3.liked_by user3
     end
 
     it 'orders events by likes count' do

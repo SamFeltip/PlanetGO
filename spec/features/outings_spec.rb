@@ -273,13 +273,15 @@ RSpec.describe 'Outings' do
       let(:category1) { create(:category, name: 'Cafe') }
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
       let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
-      let!(:event1_react) { create(:event_react, user_id: outing_creator.id, event_id: event1.id) }
-      let!(:event2_react) { create(:event_react, user_id: outing_creator.id, event_id: event2.id) }
+
 
       let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
 
       before do
         visit set_details_outing_path(past_outing, position: 'where')
+
+        event1.liked_by outing_creator
+        event2.liked_by outing_creator
       end
 
       specify 'I can search for an event by name or description', js: true do
@@ -343,13 +345,13 @@ RSpec.describe 'Outings' do
 
       it 'shows events the user has liked in the recommended events section that are not proposed' do
         within '#recommended-events' do
-          expect(page).to have_content(event2_react.event.name)
+          expect(page).to have_content(event2.name)
         end
       end
 
       it 'does not show events that are already in the timetable in recommended events' do
         within '#recommended-events' do
-          expect(page).to have_no_content(event1_react.event.name)
+          expect(page).to have_no_content(event1.name)
         end
       end
 
