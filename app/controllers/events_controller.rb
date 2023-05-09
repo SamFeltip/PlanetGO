@@ -13,7 +13,7 @@ class EventsController < ApplicationController
       return
     end
 
-    @events = Event.approved
+    @events = Event.approved.paginate(page: params[:page], per_page: 6)
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)
 
