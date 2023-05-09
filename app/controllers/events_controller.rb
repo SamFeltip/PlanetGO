@@ -8,12 +8,11 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.approved.paginate(page: params[:page], per_page: 6)
+    @events = Event.includes(:category).approved.paginate(page: params[:page], per_page: 6)
 
     return unless user_signed_in?
-
     @user_events = Event.user_events(current_user)
-    @pending_events = Event.pending_for_user(current_user)
+    @pending_events = Event.pending_for_user(current_user).includes([:user])
 
     # order by category interest if no search was performed
     if params[:description].blank? && params[:category_id].blank?
@@ -31,7 +30,7 @@ class EventsController < ApplicationController
   # GET /events/1 or /events/1.json
   def show
     @event = Event.find(params[:id]).decorate
-    @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3)
+    @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3).includes([:category])
   end
 
   # GET /events/new

@@ -25,6 +25,8 @@ class Participant < ApplicationRecord
   belongs_to :user
   belongs_to :outing
 
+  default_scope { includes(:user) }
+
   enum status: {
     pending: 0,
     confirmed: 1,

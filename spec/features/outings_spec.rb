@@ -188,11 +188,12 @@ RSpec.describe 'Outings' do
       let!(:user3) { create(:user, full_name: 'Andy Lighthouse') }
 
       before do
+        create(:availability, user: outing_creator, start_time: DateTime.new(1970, 1, 5, 2, 0, 0), end_time: DateTime.new(1970, 1, 5, 4, 0, 0))
+        create(:availability, user: user3, start_time: DateTime.new(1970, 1, 5, 2, 0, 0), end_time: DateTime.new(1970, 1, 5, 4, 0, 0))
         outing_creator.send_follow_request_to(user3)
         user3.accept_follow_request_of(outing_creator)
         user3.send_follow_request_to(outing_creator)
         outing_creator.accept_follow_request_of(user3)
-
         login_as outing_creator
         visit set_details_outing_path(past_outing)
       end
@@ -208,6 +209,12 @@ RSpec.describe 'Outings' do
         # within #not_invited_friends, expect to see the names of the friends who are not invited
         within '#not_invited_friends' do
           expect(page).to have_content(user3.full_name)
+        end
+      end
+
+      it 'the user can see the availabilities' do
+        within '#content-when' do
+          expect(page).to have_content('1 person available')
         end
       end
 
@@ -271,6 +278,12 @@ RSpec.describe 'Outings' do
 
           within '#not_invited_friends' do
             expect(page).to have_no_content(user3.full_name)
+          end
+
+          # expect new availability to show up
+          within '#content-when' do
+            expect(page).to have_content('1 person available')
+            expect(page).to have_content('2 people available')
           end
         end
       end

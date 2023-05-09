@@ -37,12 +37,22 @@
 #
 FactoryBot.define do
   factory :event do
-    name { 'Disco' }
+    name { 'Live Music at The Jazz Club' }
     address_line1 { '104 West Street' }
     town { 'Sheffield' }
     postcode { 'S1 4EP' }
-    description { 'Come to the disco for fun vibes' }
-    category_id { Category.where(name: 'Sport').first_or_create.id }
-    user { create(:user) }
+    # rubocop:disable Layout/LineLength
+    description do
+      "If you love jazz music, you won't want to miss this event. The Jazz Club is hosting a night of live music featuring some of the best local musicians. With a relaxed and intimate atmosphere, this is the perfect way to enjoy some great music and unwind after a long week."
+    end
+    # rubocop:enable Layout/LineLength
+    category_id { Category.where(name: 'Music').first_or_create.id }
+    user
+
+    factory :event_with_event_reacts do
+      after(:create) do |event|
+        create_list(:event_react, 25, event:)
+      end
+    end
   end
 end

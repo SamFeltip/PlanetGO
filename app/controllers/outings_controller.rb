@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class OutingsController < ApplicationController
+  include OutingsHelper
   before_action :authenticate_user!
   load_and_authorize_resource
 
@@ -12,13 +13,12 @@ class OutingsController < ApplicationController
     @outings = Outing.all.order_soonest
     return if current_user.admin?
 
-    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest.includes([:user])
   end
 
   # GET /outings/1 or /outings/1.json
   def show
     @participants = @outing.participants
-    # @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
   # GET /outings/new
@@ -57,7 +57,9 @@ class OutingsController < ApplicationController
   # PATCH/PUT /outings/1 or /outings/1.json
   def update
     respond_to do |format|
-      if @outing.update(outing_params)
+      if @outing.update(outing_params) && outing_params.key?('date')
+        format.json { render json: { status: :updated, start_date: outing_params['date'] } }
+      elsif @outing.update(outing_params)
         format.html { redirect_to outing_url(@outing) }
         format.json { render :show, status: :ok, location: @outing }
       else
@@ -79,7 +81,7 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
-    @calendar_start_date = Time.zone.at(342_000).to_date
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     @proposed_event = ProposedEvent.new
 
@@ -101,7 +103,7 @@ class OutingsController < ApplicationController
     end
 
     # Creates a new calendar object using the new participants list
-    @calendar_start_date = Time.zone.at(342_000).to_date
+    @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     respond_to do |format|
       format.html { redirect_to set_details_outing_path(@outing) }
@@ -123,7 +125,7 @@ class OutingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
-    @outing = Outing.find_by(invite_token: params[:invite_token])
+    @outing = Outing.includes(proposed_events: { event: :category }).find_by(invite_token: params[:invite_token])
   end
 
   def set_participant

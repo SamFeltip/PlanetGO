@@ -1,0 +1,5 @@
+%div#good_start_datetimes
+  -good_start_datetime.each do |start_datetime|
+    .card-body 
+      #{start_datetime[:people_available]} #{ start_datetime[:people_available] == 1 ? "person" : "people"} available on #{start_datetime[:datetime].strftime("%A")} at #{start_datetime[:datetime].strftime("%H:%M")}
+  %hr

@@ -9,6 +9,12 @@ class UsersController < ApplicationController
     raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
 
     @users = User.accessible_by(current_ability).order(:id)
+
+    @query = params[:description]
+
+    @users = @users.where('lower(full_name) LIKE :query OR lower(email) LIKE :query', query: "%#{@query.to_s.strip.downcase}%")
+
+    @users = @users.page(params[:page]).per_page(25)
   end
 
   def show

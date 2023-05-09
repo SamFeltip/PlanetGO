@@ -521,12 +521,12 @@ border: 3px solid #004bad !important;
 @media (min-width: map-get($grid-breakpoints, md)) {
 
   // horizontal scrolling cards
-  .horizontal-scroll > a {
+  .horizontal-scroll>a {
     transform: translateX(0%);
     transition: 0.5s ease;
   }
 
-  .horizontal-scroll > :first-child {
+  .horizontal-scroll> :first-child {
     margin-left: 0;
     //transition: 0.5s ease;
   }
@@ -535,12 +535,12 @@ border: 3px solid #004bad !important;
 // large screens
 @media (min-width: map-get($grid-breakpoints, lg)) {
   // horizontal scrolling cards
-  .horizontal-scroll > a {
+  .horizontal-scroll>a {
     transform: translateX(0%);
     transition: 0.5s ease;
   }
 
-  .horizontal-scroll > :first-child {
+  .horizontal-scroll> :first-child {
     margin-left: 0;
   }
 }
@@ -579,6 +579,12 @@ border: 3px solid #004bad !important;
   width: 3rem;
 }
 
+// Outing Page
+
+#content-when {
+  flex: 1;
+}
+
 .avatar-text {
   display: flex;
   justify-content: center;
@@ -589,6 +595,7 @@ border: 3px solid #004bad !important;
   cursor: default;
   padding-bottom: 15px;
 }
+
 .digg_pagination a,
 .digg_pagination span,
 .digg_pagination em {
@@ -597,6 +604,7 @@ border: 3px solid #004bad !important;
   float: left;
   margin-right: 1px;
 }
+
 .digg_pagination .disabled {
   color: #999999;
   border: 1px solid #dddddd;
@@ -609,6 +617,7 @@ border: 3px solid #004bad !important;
   color: white;
   border: 1px solid #2e6ab1;
 }
+
 .digg_pagination a {
   text-decoration: none;
   color: #105cb6;
@@ -629,11 +638,13 @@ border: 3px solid #004bad !important;
   margin-bottom: 0.3em;
   text-align: center;
 }
+
 .digg_pagination .page_info b {
   color: #000033;
   background: #6aa6ed;
   padding: 0.1em 0.25em;
 }
+
 .digg_pagination:after {
   content: ".";
   display: block;
@@ -641,9 +652,11 @@ border: 3px solid #004bad !important;
   clear: both;
   visibility: hidden;
 }
+
 * html .digg_pagination {
   height: 1%;
 }
-*:first-child + html .digg_pagination {
+
+*:first-child+html .digg_pagination {
   overflow: hidden;
 }

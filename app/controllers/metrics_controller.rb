@@ -11,10 +11,21 @@ class MetricsController < ApplicationController
   # GET /metrics or /metrics.json
   def index
     metrics = Metric.all
-    routes_interested_in = ['/', '/metrics',
-                            '/users', '/users/#', '/users/new', '/users/#/edit',
-                            '/users/sign_in', '/users/sign_up', '/users/unlock/new',
-                            '/users/password/new']
+    routes_interested_in = ['/', '/metrics', '/users', '/users/new', '/users/#',
+                            '/users/#/edit', '/users/sign_in', '/users/sign_up', '/users/unlock',
+                            '/users/unlock/new', '/users/password/new', '/users/password/edit',
+                            '/users/cancel', '/users/sign_up', '/users/edit', '/bug_reports',
+                            '/bug_reports/new', '/bug_reports/#', '/categories', '/categories/new',
+                            '/categories/#', '/availabilities', '/availabilities/new',
+                            '/availabilities/#', '/proposed_events/new', '/proposed_events/#',
+                            '/proposed_events/#/create', '/proposed_events/#/edit',
+                            '/events', '/events/#', '/events/#/like', '/outings', '/outings/new',
+                            '/outings/#', '/outings/#/set_details', '/outings/#/send_invites',
+                            '/events', '/events/new', '/events/#', '/events/#/approval/approved',
+                            '/participants', '/participants/new', '/participants/#', '/participants/#/edit',
+                            '/outings', '/outings/new', '/outings/#', '/outings/#/edit',
+                            '/category_interests', '/myaccount', '/home', '/welcome', '/friends',
+                            '/friends/search', '/friends/requests']
 
     @all_metrics = []
     routes_interested_in.each do |route|
