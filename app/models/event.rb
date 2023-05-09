@@ -76,7 +76,6 @@ class Event < ApplicationRecord
 
   enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
 
-
   def likes
     EventReact.where(event_id: id, status: EventReact.statuses[:like])
   end

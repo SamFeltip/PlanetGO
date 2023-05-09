@@ -16,10 +16,10 @@
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
           %i.bi-plus-circle
             Add more events to timeline
-
-    - if current_user == @outing.creator || current_user.admin?
-      = form_tag stop_count_outing_path(@outing), method: :post do
-        = submit_tag 'Stop the count!', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
+    .d-flex.justify-content-end
+      - if current_user == @outing.creator || current_user.admin?
+        = form_tag stop_count_outing_path(@outing), method: :post do
+          = submit_tag 'Close voting', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
 
     .timetable-body.pb-4
       = render 'outings/where_timetable'

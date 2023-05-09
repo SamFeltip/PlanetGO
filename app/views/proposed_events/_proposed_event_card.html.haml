@@ -1,8 +1,8 @@
 .card.proposed-event-card.mb-3[proposed_event]
-  .card-header.d-flex.justify-content-between.align-items-center{class: "background-colour #{proposed_event.event.colour}"}
-    %h2.proposed_event_datetime_sm.d-inline.d-sm-none
+  .card-header.d-flex.justify-content-between.align-items-center
+    %h2.proposed_event_datetime_sm.d-inline.d-sm-none{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: true)
-    %h2.proposed_event_datetime_lg.d-none.d-sm-inline
+    %h2.proposed_event_datetime_lg.d-none.d-sm-inline{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: false)
 
 

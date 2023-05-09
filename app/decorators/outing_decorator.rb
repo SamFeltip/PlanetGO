@@ -3,7 +3,6 @@
 class OutingDecorator < ApplicationDecorator
   delegate_all
   def display_date
-
     if object.date
       object.date.strftime('%b %d, %H:%M')
     else

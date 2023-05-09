@@ -78,7 +78,7 @@ RSpec.describe 'Friends' do
         end
 
         it 'displays all users except current user' do
-          within "#friends_list" do
+          within '#friends_list' do
             expect(page).to have_text(friend.full_name)
             expect(page).to have_text(other_user.full_name)
             expect(page).not_to have_text(user.full_name)

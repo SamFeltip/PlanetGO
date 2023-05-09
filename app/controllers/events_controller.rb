@@ -19,11 +19,11 @@ class EventsController < ApplicationController
 
     # @events = @events.page(params[:page])
 
-    if user_signed_in?
-      @nearby_events = current_user.local_events.approved
-      @favourite_category = current_user.category_interests.first.category if current_user.category_interests.any?
-      @recommended_events = Event.approved.where(category: @favourite_category) if @favourite_category
-    end
+    return unless user_signed_in?
+
+    @nearby_events = current_user.local_events.approved
+    @favourite_category = current_user.category_interests.first.category if current_user.category_interests.any?
+    @recommended_events = Event.approved.where(category: @favourite_category) if @favourite_category
   end
 
   # GET /events/1 or /events/1.json
@@ -81,7 +81,6 @@ class EventsController < ApplicationController
     end
   end
 
-
   def approval
     @event.update(approved: params[:approved])
 
@@ -119,7 +118,6 @@ class EventsController < ApplicationController
   end
 
   def search
-
     filter_events_by_content
     filter_events_by_category
 
@@ -148,20 +146,16 @@ class EventsController < ApplicationController
     search_event_ids = word_event_ids.reduce(:&)
 
     @searched_events = Event.where(id: search_event_ids)
-
-
   end
 
   def filter_events_by_category
     query_list = params[:query].to_s.downcase.strip.split
     query_list.each do |word|
-
       category_event_ids = Event.joins(:category).approved.where('lower(categories.name) LIKE :query', query: "%#{word}%").pluck(:id)
       category_events = Event.where(id: category_event_ids)
 
       @searched_events = @searched_events.or(category_events)
     end
-
   end
 
   # Use callbacks to share common setup or constraints between actions.
