@@ -95,6 +95,7 @@ gem 'will_paginate'
 group :development do
   gem 'annotate'
   gem 'brakeman'
+  gem 'bullet'
   gem 'bundler-audit'
   gem 'letter_opener'
 

@@ -8,9 +8,9 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.approved
+    @events = Event.includes(:category).approved
     @user_events = Event.user_events(current_user)
-    @pending_events = Event.pending_for_user(current_user)
+    @pending_events = Event.pending_for_user(current_user).includes([:user])
 
     filter_events_by_name_or_description(params)
     filter_events_by_category
@@ -26,7 +26,7 @@ class EventsController < ApplicationController
   # GET /events/1 or /events/1.json
   def show
     @event = Event.find(params[:id]).decorate
-    @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3)
+    @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3).includes([:category])
   end
 
   def approval
