@@ -62,7 +62,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'pages#account'
+  root 'events#index'
 
   get 'myaccount', to: 'pages#account'
   get 'home', to: 'pages#account'
