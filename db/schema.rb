@@ -188,6 +188,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_07_234812) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "cached_likes_total", default: 0
+    t.integer "cached_likes", default: 0
     t.index ["event_id"], name: "index_proposed_events_on_event_id"
     t.index ["outing_id"], name: "index_proposed_events_on_outing_id"
   end
@@ -224,9 +226,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_07_234812) do
     t.integer "role", default: 0
     t.string "full_name", null: false
     t.boolean "suspended", default: false
-    t.string "postcode"
-    t.float "latitude"
-    t.float "longitude"
     t.string "invitation_token"
     t.datetime "invitation_created_at", precision: nil
     t.datetime "invitation_sent_at", precision: nil
@@ -236,6 +235,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_07_234812) do
     t.bigint "invited_by_id"
     t.integer "invitations_count", default: 0
     t.string "invite_token"
+    t.string "postcode"
+    t.float "latitude"
+    t.float "longitude"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["invitation_token"], name: "index_users_on_invitation_token", unique: true
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id"

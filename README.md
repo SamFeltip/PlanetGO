@@ -91,6 +91,8 @@ The metrics page also contains a map of countries around the world from which th
 
 ## Coding Standards
 
+Insert changes to coding standards here
+
 Ruby: https://github.com/rubocop/rubocop
 Rails: https://rails.rubystyle.guide/
 Javascript: https://www.w3schools.com/js/js_conventions.asp

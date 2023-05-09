@@ -661,12 +661,46 @@ participant_zips.each do |user_id, outing|
   ).first_or_create
 end
 
+# puts ''
+# print 'creating availabilities'
+
+# start_times = [DateTime.new(1970, 1, 5, 0, 0, 0), DateTime.new(1970, 1, 5, 6, 0, 0), 
+#               DateTime.new(1970, 1, 7, 0, 0, 0), DateTime.new(1970, 1, 7, 9, 0, 0),
+#               DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 7, 4, 0, 0), 
+#               DateTime.new(1970, 1, 9, 0, 0, 0), DateTime.new(1970, 1, 9, 0, 0, 0), 
+#               DateTime.new(1970, 1, 10, 0, 0, 0), DateTime.new(1970, 1, 5, 0, 0, 0), 
+#               DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 8, 0, 0, 0)]
+              
+# end_times = [DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 5, 7, 0, 0), 
+#               DateTime.new(1970, 1, 8, 0, 0, 0), DateTime.new(1970, 1, 8, 21, 0, 0),
+#               DateTime.new(1970, 1, 8, 10, 0, 0), DateTime.new(1970, 1, 9, 22, 0, 0), 
+#               DateTime.new(1970, 1, 9, 6, 30, 0), DateTime.new(1970, 1, 11, 11, 15, 0), 
+#               DateTime.new(1970, 1, 11, 0, 0, 0), DateTime.new(1970, 1, 5, 10, 0, 0), 
+#               DateTime.new(1970, 1, 9, 4, 15, 0), DateTime.new(1970, 1, 8, 9, 0, 0)]
+
+# people = [0, 1, 0, 1, 2, 3, 2, 4, 5, 5, 6, 7]
+
+# availability_list = []
+
+# prng = Random.new
+
+# start_times.each_with_index do |_full_name, index|
+#   availability_list << (
+#     Availability.where(
+#       start_time: start_times[index],
+#       end_time: end_times[index],
+#       user_id: people[index]
+#     ).first_or_create
+#   )
+#   print '.'
+# end
+
 puts ''
 print 'creating proposed event votes'
 
 outing_list.each do |outing|
   participant_count = outing.participants.count
-
+  
   outing.participants.each_with_index do |participant, index|
     user = participant.user
     print '.'
@@ -676,7 +710,7 @@ outing_list.each do |outing|
       print '.'
       outing.proposed_events.second.liked_by user
     end
-
+    
     if index < participant_count * 0.4
       print '.'
       outing.proposed_events.third.liked_by user

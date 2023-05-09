@@ -6,3 +6,6 @@ $('#not_invited_friends').prepend("#{escape_javascript(render('outings/invite_fr
 
 -# update the calendar
 document.getElementById('availability').outerHTML = "#{escape_javascript(render('simple_calendar/outing_availability_calendar', peoples_availabilities: @peoples_availabilities ))}";
+
+-# update the good start times list
+document.getElementById('good_start_datetimes').outerHTML = "#{escape_javascript(render('outings/good_start_datetime', good_start_datetime: @good_start_datetime))}";

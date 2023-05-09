@@ -23,6 +23,6 @@ FactoryBot.define do
   factory :availability do
     start_time { '1970-01-05 15:00:00' }
     end_time { '1970-01-05 18:15:00' }
-    users { User.find_by_sql('SELECT * FROM users ORDER BY random() LIMIT 1').first.id }
+    user { create(:user) }
   end
 end
