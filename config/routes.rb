@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
+
+  get 'events/search', to: 'events#search', as: 'event_search'
+
   resources :events
   resources :proposed_events
   resources :proposed_events do

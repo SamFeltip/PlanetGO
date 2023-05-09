@@ -10,12 +10,6 @@
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
       %p.grey #{@outing.participants.count} people interested
 
-      = form_tag users_path, id: 'friend-search-form', class: 'mb-2', method: :get do
-        = text_field_tag :search
-
-        %button.btn.btn-outline-secondary{:type => "submit"}
-          %i.bi-search
-
       #outing-share.d-flex.justify-content-end.align-items-center.mb-2
         Share to...
         .dropdown.ms-2
@@ -59,14 +53,18 @@
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
-      = form_tag events_path, id: 'event-search-form', class: 'mb-2', method: :get do
+      = form_with url: event_search_path, id: 'event-search-form', class: 'mb-2', local: false, method: :get do |f|
         = text_field_tag :description
+        = f.hidden_field :outing_id, value: @outing.id
 
-        %button.btn.btn-outline-secondary{:type => "submit"}
+        %button.btn.btn-outline-secondary{:type => "submit", :name => "search"}
           %i.bi-search
 
+      #searched-events
+
+      %h3 Recommended Events
       #recommended-events
-        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing)
+        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id
 
     #where-body
       %h2

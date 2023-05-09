@@ -1,0 +1,4 @@
+-# Render events search partial
+var results = "#{ j render 'events/event_search', found_events: @events, outing_id: @outing_id}";
+
+document.getElementById('searched-events').innerHTML = results;

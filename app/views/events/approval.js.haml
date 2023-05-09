@@ -7,7 +7,7 @@
   // Iterate through each event and add it to #events (this will include the recently approved event, ensuring the order is maintained)
   - @approved_events.each do |event|
     // Render the event card partial for the current event
-    var cardHtml = "#{j render(partial: 'event_card', locals: { event: event })}";
+    var cardHtml = "#{j render(partial: 'event_card_recommendation', locals: { event: event })}";
     // Create a new element with the rendered card HTML
     var card = document.createElement("div");
     card.innerHTML = cardHtml;

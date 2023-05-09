@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)
 
-    filter_events_by_name_or_description
+    filter_events_by_name_or_description(params)
     filter_events_by_category
 
     # order by category interest if no search was performed
@@ -100,6 +100,21 @@ class EventsController < ApplicationController
     end
   end
 
+  # GET /events/search
+  def search
+    @events = Event.approved
+    @outing_id = params[:outing_id].to_i
+
+    filter_events_by_name_or_description(params)
+
+    @events = nil if params[:description].to_s.strip == '' # Events nil if no search
+
+    # Only responds to remote call and yields a js file
+    respond_to do |format|
+      format.js # Call search.js.haml
+    end
+  end
+
   # DELETE /events/1 or /events/1.json
   def destroy
     @event.destroy
@@ -112,8 +127,8 @@ class EventsController < ApplicationController
 
   private
 
-  def filter_events_by_name_or_description
-    @description = params[:description].to_s.downcase.strip
+  def filter_events_by_name_or_description(input_query)
+    @description = input_query[:description].to_s.downcase.strip
     return if @description.blank?
 
     @events = @events.where('lower(description) LIKE :query OR lower(name) LIKE :query', query: "%#{@description}%")
