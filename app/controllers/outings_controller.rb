@@ -13,13 +13,12 @@ class OutingsController < ApplicationController
     @outings = Outing.all.order_soonest
     return if current_user.admin?
 
-    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest
+    @outings = Outing.joins(:participants).where('participants.user_id' => current_user.id).order_soonest.includes([:user])
   end
 
   # GET /outings/1 or /outings/1.json
   def show
     @participants = @outing.participants
-    # @participants = Participant.find_by(outing_id: params[:outing_id])
   end
 
   # GET /outings/new
@@ -126,7 +125,7 @@ class OutingsController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_outing
-    @outing = Outing.find_by(invite_token: params[:invite_token])
+    @outing = Outing.includes(proposed_events: { event: :category }).find_by(invite_token: params[:invite_token])
   end
 
   def set_participant
