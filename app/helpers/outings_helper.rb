@@ -8,7 +8,6 @@ module OutingsHelper
     participants.each do |participant|
       peoples_availabilities.append(Availability.where(user_id: participant.user_id))
     end
-
     good_start_datetime = outing.good_start_datetimes
 
     [calendar_start_date, peoples_availabilities, good_start_datetime]

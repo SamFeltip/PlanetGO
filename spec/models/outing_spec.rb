@@ -118,5 +118,39 @@ RSpec.describe Outing do
         expect(outing.pending_participants(current_user)).not_to include(participant2)
       end
     end
+
+    describe 'good_start_datetimes' do
+      let(:outing1) { create(:outing) }
+      let!(:user1) { create(:user) }
+      let!(:user2) { create(:user) }
+
+      it 'returns an empty array if no good times found' do
+        expect(outing1.good_start_datetimes).to eq([])
+      end
+
+      it 'returns an array of size 2 if two good times found' do
+        create(:availability, user: user1, start_time: DateTime.new(1970, 1, 5, 3, 0, 0), end_time: DateTime.new(1970, 1, 5, 6, 0, 0))
+        create(:availability, user: user2, start_time: DateTime.new(1970, 1, 5, 5, 0, 0), end_time: DateTime.new(1970, 1, 5, 6, 0, 0))
+        create(:participant, user: user1, outing: outing1)
+        create(:participant, user: user2, outing: outing1)
+
+        # returned value depends on the timezone, so below doesn't work
+        # could hard code the timezone in but then the test would only succeed sometimes, depending on the current timezone
+        # expect(outing1.good_start_datetimes).to eq([{ datetime: DateTime.new(1970, 1, 5, 5, 0, 0), people_available: 2 },
+        #                                             { datetime: DateTime.new(1970, 1, 5, 4, 0, 0), people_available: 1 }])
+
+        expect(outing1.good_start_datetimes.size).to eq(2)
+      end
+
+      it 'returns an array of size 3 if more than three good times found' do
+        create(:availability, user: user1, start_time: DateTime.new(1970, 1, 5, 3, 0, 0), end_time: DateTime.new(1970, 1, 5, 6, 0, 0))
+        create(:availability, user: user2, start_time: DateTime.new(1970, 1, 5, 5, 0, 0), end_time: DateTime.new(1970, 1, 5, 6, 0, 0))
+        create(:availability, user: user2, start_time: DateTime.new(1970, 1, 5, 7, 0, 0), end_time: DateTime.new(1970, 1, 5, 8, 0, 0))
+        create(:availability, user: user2, start_time: DateTime.new(1970, 1, 5, 9, 0, 0), end_time: DateTime.new(1970, 1, 5, 10, 0, 0))
+        create(:participant, user: user1, outing: outing1)
+        create(:participant, user: user2, outing: outing1)
+        expect(outing1.good_start_datetimes.size).to eq(3)
+      end
+    end
   end
 end

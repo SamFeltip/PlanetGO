@@ -83,7 +83,6 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
-    # Creates a new calendar object using the new participants list
     @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     @proposed_event = ProposedEvent.new

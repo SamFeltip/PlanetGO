@@ -75,30 +75,31 @@ class Outing < ApplicationRecord
     availabilities_array = []
     people_available_counter = start_counter = end_counter = 0
 
-    # While start array and end array are not empty
+    # While start array is not empty
     while start_counter != start_times.size
       next_start = start_times[start_counter].start_time
       next_end = end_times[end_counter].end_time
 
+      # Used to check if multiple availabilities start/stop at the same time
+      previous_time = 0
+
+      # Check if next earliest time is the start or end of an availability (or both)
       if next_start == next_end
         start_counter += 1
         end_counter += 1
       elsif next_start < next_end
-        people_available_counter += 1
-        availabilities_array.append({ datetime: next_start, people_available: people_available_counter })
-        start_counter += 1
-      else # next_end < next_start
-        people_available_counter -= 1
-        availabilities_array.append({ datetime: next_end, people_available: people_available_counter }) if people_available_counter != 0
-        end_counter += 1
+        people_available_counter, availabilities_array, next_start, start_counter, previous_time = increase_number_available(people_available_counter, availabilities_array,
+                                                                                                                             next_start, start_counter, previous_time)
+      else
+        people_available_counter, availabilities_array, next_end, end_counter, previous_time = decrease_number_available(people_available_counter, availabilities_array,
+                                                                                                                         next_end, end_counter, previous_time)
       end
     end
 
     # add all the remaining end_times in one go
-    (end_counter..(end_times.size - 1)).each do |_index|
-      people_available_counter -= 1
-      availabilities_array.append({ datetime: end_times[end_counter].end_time, people_available: people_available_counter }) if people_available_counter != 0
-      end_counter += 1
+    end_times[end_counter..].each do |_index|
+      people_available_counter, availabilities_array, next_end, end_counter, previous_time = decrease_number_available(people_available_counter, availabilities_array,
+                                                                                                                       next_end, end_counter, previous_time)
     end
 
     # sort in reverse order on the number of people available
@@ -106,5 +107,30 @@ class Outing < ApplicationRecord
 
     # return first three rows
     availabilities_array[0..2]
+  end
+
+  def increase_number_available(people_available_counter, availabilities_array, next_start, start_counter, previous_time)
+    if next_start == previous_time
+      availabilities_array[-1][:people_available] += 1
+      people_available_counter += 1
+    else
+      people_available_counter += 1
+      availabilities_array.append({ datetime: next_start, people_available: people_available_counter })
+      previous_time = next_start
+    end
+    start_counter += 1
+    [people_available_counter, availabilities_array, next_start, start_counter, previous_time]
+  end
+
+  def decrease_number_available(people_available_counter, availabilities_array, next_end, end_counter, previous_time)
+    people_available_counter -= 1
+    if next_end == previous_time
+      people_available_counter.zero? ? availabilities_array.pop : availabilities_array[-1][:people_available] = people_available_counter
+    else
+      availabilities_array.append({ datetime: next_end, people_available: people_available_counter }) if people_available_counter != 0
+      previous_time = next_end
+    end
+    end_counter += 1
+    [people_available_counter, availabilities_array, next_end, end_counter, previous_time]
   end
 end
