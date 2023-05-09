@@ -2,9 +2,14 @@
   .card-header.d-flex.justify-content-between.align-items-center
     %h2.proposed_event_datetime_sm.d-inline.d-sm-none{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: true)
+      - if !proposed_event.event.time_of_event.present?
+        %i.ms-2.bi-pencil-square
+
     %h2.proposed_event_datetime_lg.d-none.d-sm-inline{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: false)
 
+      - if !proposed_event.event.time_of_event.present?
+        %i.ms-2.bi-pencil-square
 
 
 
