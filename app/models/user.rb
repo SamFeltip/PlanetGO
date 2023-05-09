@@ -72,6 +72,11 @@ class User < ApplicationRecord
          :lockable, :trackable
   devise :pwned_password unless Rails.env.test?
 
+  scope :exclude_current_user, ->(current_user_id) { where.not(id: current_user_id) }
+  scope :by_full_name, ->(full_name) { where('lower(full_name) LIKE ?', "%#{full_name.downcase}%") }
+
+  self.per_page = 15
+
   enum role: {
     user: 0,
     reporter: 1,
@@ -116,7 +121,7 @@ class User < ApplicationRecord
   end
 
   def likes
-    EventReact.where(user_id: id, status: EventReact.statuses[:like])
+    EventReact.where(user_id: id)
   end
 
   def liked(event)
