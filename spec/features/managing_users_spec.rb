@@ -173,6 +173,29 @@ RSpec.describe 'Managing users', type: :request do
         expect(el).not_to have_button 'Suspend' or have_button 'Reinstate'
       end
 
+      context 'when there are multiple users in the system' do
+        before do
+          create(:user, full_name: 'John Smith', email: 'jsmith@user.com')
+          create(:user, full_name: 'Edward Carling', email: 'ecarling@user.com')
+        end
+
+        specify 'I can search for a user by name' do
+          fill_in 'search_description', with: 'John'
+          click_button 'Search'
+
+          expect(page).to have_content 'John Smith'
+          expect(page).not_to have_content 'Edward Carling'
+        end
+
+        specify 'I can search for a user by email' do
+          fill_in 'search_description', with: 'ecarling@user.com'
+          click_button 'Search'
+
+          expect(page).to have_content 'Edward Carling'
+          expect(page).not_to have_content 'John Smith'
+        end
+      end
+
       context 'when looking at a user' do
         before do
           create(:user, full_name: 'user1', email: 'user1@user.com')
