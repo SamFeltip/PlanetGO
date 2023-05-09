@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def index
     raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
 
-    @users = User.accessible_by(current_ability)
+    @users = User.accessible_by(current_ability).order(:id)
 
     @query = params[:description]
 
@@ -98,6 +98,6 @@ class UsersController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def user_params
-    params.require(:user).permit(:full_name, :email, :postcode, :role, :description)
+    params.require(:user).permit(:full_name, :email, :postcode, :role)
   end
 end

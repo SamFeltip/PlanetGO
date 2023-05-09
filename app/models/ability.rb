@@ -31,7 +31,7 @@ class Ability
 
   def commercial_permissions(user)
     can :read, User
-    can %i[create show like], Event
+    can %i[create show like search], Event
     can %i[edit read update destroy], Event, user_id: user.id
     can :create, Outing
     can %i[index show edit read update destroy set_details send_invites stop_count], Outing, creator_id: user.id

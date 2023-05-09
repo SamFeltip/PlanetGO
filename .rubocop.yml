@@ -11,6 +11,7 @@ RSpec/MultipleMemoizedHelpers:
 RSpec/ExampleLength:
   Max: 14
 
+
 Rails/BulkChangeTable:
   Enabled: false
 
@@ -20,6 +21,9 @@ Rails/I18nLocaleTexts:
 Rails/NotNullColumn:
   Exclude:
     - db/migrate/20230331091323_add_category_and_user_to_category_interest.rb # FK doesn't need default
+
+Metrics/ClassLength:
+  Max: 150
 
 AllCops:
   NewCops: enable

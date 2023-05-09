@@ -39,9 +39,9 @@
           %td
             - if user != current_user
               - if !user.access_locked?
-                = link_to 'Lock', lock_user_path(user), method: :put, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+                = link_to 'Block', lock_user_path(user), method: :put, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
               - else
-                = link_to 'Unlock', unlock_user_path(user), method: :put, class: 'btn btn-outline-secondary ms-1 btn-sm'
+                = link_to 'Unblock', unlock_user_path(user), method: :put, class: 'btn btn-outline-secondary ms-1 btn-sm'
           %td
             .btn-toolbar.float-end
               = link_to 'Show', user, class: 'btn btn-outline-secondary btn-sm'

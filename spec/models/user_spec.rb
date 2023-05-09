@@ -221,24 +221,336 @@ RSpec.describe User do
     end
   end
 
+  describe '#past_outings' do
+    it 'doesnt return outings in the future' do
+      expect(creator_user.past_outings).not_to include(future_outing1)
+      expect(creator_user.past_outings).not_to include(future_outing2)
+    end
+
+    it 'returns all outings in the past' do
+      expect(creator_user.past_outings).to include(past_outing1)
+      expect(creator_user.past_outings).to include(past_outing2)
+    end
+  end
+
   describe '#local_events' do
     context 'when postcode present and there are events happening in 10 mile radius' do
-      let!(:user) { create(:user, postcode: 'S1 2LT') }
+      let!(:user) { create(:user, postcode: 'S1 4EP') }
       let!(:creator) { create(:user) }
-      let!(:event1) { create(:event, latitude: 53.382687, longitude: -1.471062, user_id: creator.id) }
-      let!(:event2) { create(:event, latitude: 53.364687, longitude: -1.484812, user_id: creator.id) }
-      let!(:event3) { create(:event, latitude: 53.395312, longitude: -1.431563, user_id: creator.id) }
+      let!(:event1) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
+                       user_id: creator.id, approved: true)
+      end
+      let!(:event2) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
+                       user_id: creator.id, approved: true)
+      end
+      let!(:event3) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
+                       user_id: creator.id, approved: true)
+      end
+      let!(:unapproved_event) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
+                       user_id: creator.id, approved: false)
+      end
 
       it 'returns 3 local events' do
-        expect(user.local_events).to eq([event1, event2, event3])
+        local_events = user.local_events
+        expect(local_events).to include(event1)
+        expect(local_events).to include(event2)
+        expect(local_events).to include(event3)
+      end
+
+      it 'does not return unapproved events' do
+        expect(user.local_events).not_to include(unapproved_event)
       end
     end
 
     context 'when postcode not present' do
       let!(:user) { create(:user, postcode: '') }
 
-      it 'returns nil' do
+      it 'returns no events' do
         expect(user.local_events).to be_nil
+      end
+    end
+  end
+
+  describe '#final_events' do
+    let(:event_creator) { create(:user) }
+
+    context 'when the user has a post code' do
+      let(:accommodation_category) { create(:category, name: 'accommodation') }
+      let(:restaurant_category) { create(:category, name: 'restaurant') }
+
+      let(:user_with_postcode) { create(:user, postcode: 'S1 4EP') }
+
+      let!(:far_away_accommodation) do
+        create(
+          :event,
+          name: 'far_away_accommodation',
+          category: accommodation_category,
+          postcode: 'NE1 1YF',
+          address_line1: '25-27 Mosley St',
+          town: 'Newcastle',
+          user: event_creator,
+          approved: true
+        )
+      end
+
+      let!(:far_away_restaurant) do
+        create(
+          :event,
+          name: 'far_away_restaurant',
+          category: restaurant_category,
+          postcode: 'NE1 1YF',
+          address_line1: '25-27 Mosley St',
+          town: 'Newcastle',
+          user: event_creator,
+          approved: true
+        )
+      end
+
+      let!(:unapproved_accommodation) do
+        create(
+          :event, category: accommodation_category,
+                  name: 'unapproved_accommodation',
+                  address_line1: '104 West Street',
+                  town: 'Sheffield',
+                  postcode: 'S1 4EP',
+                  time_of_event: '2023-02-24',
+                  user: event_creator, approved: false
+        )
+      end
+
+      context 'when there is accommodation and restaurant nearby' do
+        let!(:accommodation) do
+          create(
+            :event,
+            category: accommodation_category,
+            name: 'accommodation',
+            address_line1: '104 West Street',
+            town: 'Sheffield',
+            postcode: 'S1 4EP',
+            time_of_event: '2023-02-24',
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        let!(:restaurant) do
+          create(
+            :event, name: 'restaurant',
+                    category: restaurant_category,
+                    address_line1: '104 West Street',
+                    town: 'Sheffield',
+                    postcode: 'S1 4EP',
+                    time_of_event: '2023-02-24',
+                    user: event_creator,
+                    approved: true
+          )
+        end
+
+        it 'returns two events' do
+          expect(user_with_postcode.final_events.count).to eq(2)
+        end
+
+        it 'returns both an accommodation and restaurant' do
+          final_events = user_with_postcode.final_events
+
+          expect(final_events.first.category).to eq(accommodation_category)
+          expect(final_events.second.category).to eq(restaurant_category)
+        end
+
+        it 'returns the closest accommodation and restaurants' do
+          final_events = user_with_postcode.final_events
+
+          expect(final_events.first).to eq(accommodation)
+          expect(final_events.second).to eq(restaurant)
+        end
+
+        it 'does not return unapproved events' do
+          expect(user_with_postcode.final_events).not_to include(unapproved_accommodation)
+        end
+
+        it 'does not return events far from the users location' do
+          final_events = user_with_postcode.final_events
+          expect(final_events).not_to include(far_away_accommodation)
+          expect(final_events).not_to include(far_away_restaurant)
+        end
+      end
+
+      context 'when there is accommodation nearby but no restaurant nearby' do
+        let!(:accommodation) do
+          create(
+            :event,
+            category: accommodation_category,
+            name: 'accommodation',
+            address_line1: '104 West Street',
+            town: 'Sheffield',
+            postcode: 'S1 4EP',
+            time_of_event: '2023-02-24',
+            latitude: 53.3814,
+            longitude: -1.4746,
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        it 'returns one event' do
+          expect(user_with_postcode.final_events.count).to eq(1)
+        end
+
+        it 'returns the nearby accommodation' do
+          final_events = user_with_postcode.final_events
+          expect(final_events.first).to eq(accommodation)
+        end
+
+        it 'returns an accommodation' do
+          final_events = user_with_postcode.final_events
+          expect(final_events.first.category).to eq(accommodation_category)
+        end
+
+        it 'does not return a restaurant' do
+          final_events_category_ids = user_with_postcode.final_events.pluck(:category_id)
+          expect(final_events_category_ids).not_to include(restaurant_category.id)
+        end
+      end
+
+      context 'when there is a restaurant nearby but no hotel' do
+        let!(:restaurant) do
+          create(
+            :event, name: 'restaurant',
+                    category: restaurant_category,
+                    address_line1: '104 West Street',
+                    town: 'Sheffield',
+                    postcode: 'S1 4EP',
+                    time_of_event: '2023-02-24',
+                    latitude: 53.38131,
+                    longitude: -1.4746,
+                    user: event_creator,
+                    approved: true
+          )
+        end
+
+        it 'returns one event' do
+          expect(user_with_postcode.final_events.count).to eq(1)
+        end
+
+        it 'returns the nearby restaurant' do
+          final_events = user_with_postcode.final_events
+          expect(final_events.first).to eq(restaurant)
+        end
+
+        it 'returns a restaurant' do
+          final_events = user_with_postcode.final_events
+          expect(final_events.first.category).to eq(restaurant_category)
+        end
+
+        it 'doesnt return an accommodation' do
+          final_event_category_ids = user_with_postcode.final_events.pluck(:category_id)
+          expect(final_event_category_ids).not_to include(accommodation_category.id)
+        end
+      end
+
+      context 'when there is neither accommodation nor a restaurant nearby' do
+        it 'returns an empty list' do
+          expect(user_with_postcode.final_events).to eq(Event.none)
+        end
+      end
+    end
+
+    context 'when the user does not have a post code' do
+      let(:user_without_postcode) { create(:user, postcode: '') }
+
+      let(:accommodation_category) { create(:category, name: 'accommodation') }
+      let(:restaurant_category) { create(:category, name: 'restaurant') }
+
+      context 'when there is no accommodation or restaurants in the system' do
+        it 'returns an empty list' do
+          expect(user_without_postcode.final_events).to eq(Event.none)
+        end
+      end
+
+      context 'when there is no accommodation but there are restaurants in the system' do
+        let!(:far_away_restaurant) do
+          create(
+            :event,
+            name: 'far_away_restaurant',
+            category: restaurant_category,
+            postcode: 'NE1 1YF',
+            address_line1: '25-27 Mosley St',
+            town: 'Newcastle',
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        it 'returns the restaurant' do
+          final_events = user_without_postcode.final_events
+          expect(final_events.first).to eq(far_away_restaurant)
+        end
+      end
+
+      context 'when there are no restaurants but there is accommodation in the system' do
+        let!(:far_away_accommodation) do
+          create(
+            :event,
+            name: 'far_away_accommodation',
+            category: accommodation_category,
+            postcode: 'NE1 1YF',
+            address_line1: '25-27 Mosley St',
+            town: 'Newcastle',
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        it 'returns the accommodation' do
+          final_events = user_without_postcode.final_events
+          expect(final_events.first).to eq(far_away_accommodation)
+        end
+      end
+
+      context 'when there is both accommodation and restaurants in the system' do
+        let!(:far_away_accommodation) do
+          create(
+            :event,
+            name: 'far_away_accommodation',
+            category: accommodation_category,
+            postcode: 'NE1 1YF',
+            address_line1: '25-27 Mosley St',
+            town: 'Newcastle',
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        let!(:far_away_restaurant) do
+          create(
+            :event,
+            name: 'far_away_restaurant',
+            category: restaurant_category,
+            postcode: 'NE1 1YF',
+            address_line1: '25-27 Mosley St',
+            town: 'Newcastle',
+            user: event_creator,
+            approved: true
+          )
+        end
+
+        it 'returns the restaurant and the accommodation' do
+          final_events = user_without_postcode.final_events
+          expect(final_events.second).to eq(far_away_restaurant)
+          expect(final_events.first).to eq(far_away_accommodation)
+        end
+      end
+    end
+
+    context 'when accommodation and restaurant categories arent in the system' do
+      let(:user) { create(:user, postcode: 'S1 2LT') }
+
+      it 'returns nil' do
+        expect(user.final_events).to eq(Event.none)
       end
     end
   end

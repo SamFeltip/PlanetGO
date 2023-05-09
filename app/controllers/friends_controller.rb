@@ -5,17 +5,15 @@ class FriendsController < ApplicationController
   authorize_resource class: false
 
   def index
-    @friends = current_user.following
+    @friends = current_user.following.page(params[:page])
   end
 
   # GET /friends/search
   def search
-    @users = User.where.not(id: current_user.id)
     return unless params[:search].present? && params[:search][:name].present?
 
     @name = params[:search][:name]
-    @users = User.where('lower(full_name) LIKE ?', "%#{@name.downcase}%")
-    @users = @users.where.not(id: current_user.id)
+    @users = User.by_full_name(@name).exclude_current_user(current_user.id).page(params[:page])
   end
 
   # GET /friends/requests

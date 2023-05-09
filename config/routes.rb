@@ -4,6 +4,9 @@ Rails.application.routes.draw do
   resources :bug_reports
   resources :categories
   resources :availabilities
+
+  get 'events/search', to: 'events#search', as: 'event_search'
+
   resources :events
   resources :proposed_events
   resources :proposed_events do
@@ -29,13 +32,11 @@ Rails.application.routes.draw do
       get 'set_details'
       post 'send_invites'
       post 'stop_count'
-      resources :participants, only: %i[new create]
+      resources :participants, only: %i[new create invite destroy update]
       resource :invite_link, only: :show
     end
     post :send_invites, on: :member
   end
-
-  resources :participants
 
   # No ability to create users without devise
   get '/users/new', to: redirect('/404.html')

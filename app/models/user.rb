@@ -72,6 +72,11 @@ class User < ApplicationRecord
          :lockable, :trackable
   devise :pwned_password unless Rails.env.test?
 
+  scope :exclude_current_user, ->(current_user_id) { where.not(id: current_user_id) }
+  scope :by_full_name, ->(full_name) { where('lower(full_name) LIKE ?', "%#{full_name.downcase}%") }
+
+  self.per_page = 15
+
   enum role: {
     user: 0,
     reporter: 1,
@@ -87,24 +92,12 @@ class User < ApplicationRecord
     Outing.where(creator_id: id)
   end
 
-  def future_outings(creator = nil)
-    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
-    outings = Outing.where(id: outing_ids)
-    outings_future = outings.where('date > ?', Time.zone.today)
-
-    outings_future = outings_future.where(creator_id: creator.id) if creator
-
-    outings_future
+  def future_outings
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ?', Time.zone.today)
   end
 
-  def past_outings(creator = nil)
-    outing_ids = Participant.where(user_id: id).pluck(:outing_id)
-    outings = Outing.where(id: outing_ids)
-    outings_past = outings.where('date <= ?', Time.zone.today)
-
-    outings_past = outings_past.where(creator_id: creator.id) if creator
-
-    outings_past
+  def past_outings
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today)
   end
 
   def to_s
@@ -116,18 +109,11 @@ class User < ApplicationRecord
   end
 
   def likes
-    EventReact.where(user_id: id, status: EventReact.statuses[:like])
+    EventReact.where(user_id: id)
   end
 
   def liked(event)
     !likes.where(event_id: event.id).empty?
-  end
-
-  def event_reaction(event)
-    reactions = EventReact.where(user_id: id, event_id: event.id)
-    return if reactions.empty?
-
-    reactions.first.status
   end
 
   def commercial
@@ -142,7 +128,6 @@ class User < ApplicationRecord
   # if an event is given, pick from a user who has liked this event
   def get_random_friend(event: nil)
     # if an event is given
-    # rubocop made me do it like this :(
     friends = if event
                 # get a list of all following users who have liked this event
                 following.where(id: event.likes.pluck(:user_id))
@@ -169,16 +154,30 @@ class User < ApplicationRecord
     event_list
   end
 
-  def final_events
-    local_events || most_liked_events
-  end
-
   def most_liked_events
     Event.order_by_likes.limit(3)
   end
 
   def local_events
-    postcode.present? ? Event.near("#{postcode}, UK", 10).limit(3) : nil
+    postcode.present? ? Event.approved.near(self).limit(3) : nil
+  end
+
+  def final_events
+    if postcode.present?
+      # get local events with the right categories
+      random_accommodation = Event.approved.accommodations.near(self).sample
+      random_restaurant = Event.approved.restaurants.near(self).sample
+    else
+      # get any events with the right categories
+      random_accommodation = Event.approved.accommodations.sample
+      random_restaurant = Event.approved.restaurants.sample
+    end
+
+    final_event_ids = []
+
+    final_event_ids << random_accommodation.id unless random_accommodation.nil?
+    final_event_ids << random_restaurant.id unless random_restaurant.nil?
+    @final_events = Event.find(final_event_ids)
   end
 
   private
