@@ -1,0 +1,20 @@
+.card-footer
+  - if @proposed_event.nil?
+    - @proposed_event = ProposedEvent.new
+  = simple_form_for @proposed_event, html: {class: 'd-flex justify-content-between'}, remote: true do |f|
+    = f.hidden_field :event_id, value: event.id
+    = f.hidden_field :outing_id, value: add_to_outing_params[:outing_id]
+    = f.hidden_field :proposed_datetime, value: event.time_of_event
+    = f.hidden_field :status, value: 'pending'
+
+    - if add_to_outing_params[:use_dismiss_button]
+      %button.btn.btn-outline-primary.reject-event-button{type: "button"}
+        %i.bi-x-circle.ms-1
+        %span.action-button-text.d-none.d-sm-inline
+          Dismiss
+
+    - if add_to_outing_params[:use_add_to_outing_button]
+      %button.btn.btn-outline-primary.send-proposed-event-button{type: "submit"}
+        %span.action-button-text.d-none.d-sm-inline
+          Add to Outing
+        %i.bi-calendar-plus.ms-1

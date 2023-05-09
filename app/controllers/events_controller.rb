@@ -12,7 +12,7 @@ class EventsController < ApplicationController
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)
 
-    filter_events_by_name_or_description
+    filter_events_by_name_or_description(params)
     filter_events_by_category
 
     # order by category interest if no search was performed
@@ -104,7 +104,7 @@ class EventsController < ApplicationController
   # GET /events/search
   def search
     @events = Event.approved
-    @outing = Outing.where(id: params[:outing_id]).first # Get the outing being searched from
+    @outing_id = params[:outing_id].to_i
 
     filter_events_by_name_or_description(params)
 

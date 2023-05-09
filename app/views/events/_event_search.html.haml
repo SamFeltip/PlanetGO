@@ -3,7 +3,7 @@
 - elsif found_events.any?
   %h3 Search Results
   - found_events.each do |event|
-    = render 'events/event_card_search', event: event, outing: @outing
+    = render 'events/event_card', event: event, add_to_outing_params: { outing_id: outing_id, use_dismiss_button: false, use_add_to_outing_button: true }
 
 - else
   %p

@@ -1,3 +1,25 @@
 .card.event-card[event]
   .d-flex.flex-row
-    = render 'events/event_card_base_content', event: event
+    .image
+      = image_pack_tag event.image_path, class: 'event-card-image'
+    .event-card-body.card-body
+      .event-card-header.d-flex.justify-content-between
+        %h2
+          = link_to event.name, event, class: 'black'
+
+      %p
+        %em
+          =event.decorate.display_time
+
+          %p.overflow-hidden.event-description
+            =event.description
+
+          %a{href: event_path(event)}
+            %i{:class => event.decorate.like_icon(current_user.liked(event))}
+              .d-inline.d-md-none
+                = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
+              .d-none.d-md-inline
+                = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
+
+  - if defined?(add_to_outing_params)
+    = render 'events/event_card_footer', event: event, add_to_outing_params: add_to_outing_params
