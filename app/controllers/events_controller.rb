@@ -106,8 +106,7 @@ class EventsController < ApplicationController
     @events = Event.approved
     @outing = Outing.where(id: params[:outing_id]).first # Get the outing being searched from
 
-    filter_events_by_name_or_description
-    filter_events_by_category
+    filter_events_by_name_or_description(params)
 
     @events = nil if params[:description].to_s.strip == '' # Events nil if no search
 
@@ -129,8 +128,8 @@ class EventsController < ApplicationController
 
   private
 
-  def filter_events_by_name_or_description
-    @description = params[:description].to_s.downcase.strip
+  def filter_events_by_name_or_description(input_query)
+    @description = input_query[:description].to_s.downcase.strip
     return if @description.blank?
 
     @events = @events.where('lower(description) LIKE :query OR lower(name) LIKE :query', query: "%#{@description}%")
