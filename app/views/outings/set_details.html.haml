@@ -72,7 +72,7 @@
 
       %h3 Recommended Events
       #recommended-events
-        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), reject_option: true
+        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id
 
     #where-body
       %h2
