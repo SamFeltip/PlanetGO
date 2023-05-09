@@ -27,6 +27,8 @@
         = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-secondary destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
           %span.me-2.d-none.d-md-inline
             Remove from outing
+          %span.me-2.d-inline.d-md-none
+            Remove
           %i.bi-trash
 
       .vote-actions.d-flex.flex-row.align-items-center

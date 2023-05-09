@@ -20,9 +20,10 @@ Rails.application.routes.draw do
 
   get 'events/search', to: 'events#search'
 
-  resources :events, except: %i[new show] do
-    patch :like, on: :member
+  resources :events do
+    post :like, on: :member
   end
+
   resources :events
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
