@@ -21,7 +21,7 @@
 #  fk_rails_...  (user_id => users.id)
 #
 class EventReact < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
   belongs_to :event, dependent: :destroy
 
   def to_s
