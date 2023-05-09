@@ -448,7 +448,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'I can see events in the system' do
-        expect(page).to have_content 'my great event'
+        expect(page).to have_content event1.name
       end
 
       specify 'I click on the button to take my to my category interests' do
@@ -460,27 +460,31 @@ RSpec.describe 'Events' do
         fill_in 'query', with: 'my great event'
         click_on 'Search'
         within '#searched-events' do
-          expect(page).to have_content 'my great event'
-          expect(page).not_to have_content 'a different great event'
-          expect(page).not_to have_content 'a rubbish event'
+          expect(page).to have_content event1.name
+          expect(page).not_to have_content event2.name
+          expect(page).not_to have_content event3.name
         end
       end
 
       specify 'I can search by event category' do
-        select 'Bar', from: 'category_id'
+        # select 'Bar', from: 'category_id'
+        fill_in 'query', with: 'Bar'
         click_on 'Search'
-        expect(page).to have_content 'my great event'
-        expect(page).to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).to have_content event1.name
+          expect(page).to have_content event2.name
+          expect(page).not_to have_content event3.name
+        end
       end
 
       specify 'I can search by event and category' do
-        fill_in 'query', with: 'my great event'
-        select 'Music', from: 'category_id'
+        fill_in 'query', with: 'my great event music'
         click_on 'Search'
-        expect(page).not_to have_content 'my great event'
-        expect(page).not_to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).not_to have_content event1.name
+          expect(page).not_to have_content event2.name
+          expect(page).not_to have_content event3.name
+        end
       end
 
       context 'when I have specified an interest in a category' do

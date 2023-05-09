@@ -75,7 +75,7 @@ RSpec.describe 'Managing metrics', type: :request do
 
   context 'I am signed in as a user' do
     before do
-      @admin = create(:user, role: User.roles[:user])
+      @user = create(:user, role: User.roles[:user])
       login_as @user
     end
 

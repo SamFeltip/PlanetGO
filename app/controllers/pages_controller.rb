@@ -7,10 +7,6 @@ class PagesController < ApplicationController
   def landing; end
 
   def account
-    unless user_signed_in?
-      redirect_to '/welcome'
-      return
-    end
 
     # if the user is not logged in, redirect to landing page
     @categories = current_user.categories.where('interest > 0')

@@ -430,9 +430,9 @@ RSpec.describe 'Outings' do
           end
         end
 
-        it 'updates the count of likes', js: true do
+        it 'updates the count of votes', js: true do
           within "#proposed_event_#{proposed_event.id}" do
-            expect(page).to have_content('1 like')
+            expect(page).to have_content('1 vote')
           end
         end
 

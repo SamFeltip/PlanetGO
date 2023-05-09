@@ -88,14 +88,6 @@ class Event < ApplicationRecord
     user
   end
 
-  def image_path
-    if category.image?
-      "event_images/#{category.name.downcase} .webp"
-    else
-      'event_images/unknown.webp'
-    end
-  end
-
   def address
     if address_line2?
       [address_line1, address_line2, town, postcode].compact.join(', ')

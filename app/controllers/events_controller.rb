@@ -8,6 +8,11 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
+    unless user_signed_in?
+      redirect_to '/welcome'
+      return
+    end
+
     @events = Event.approved
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user)

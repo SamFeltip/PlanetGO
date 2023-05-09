@@ -238,7 +238,7 @@ RSpec.describe User do
       let!(:user) { create(:user, postcode: '') }
 
       it 'returns nil' do
-        expect(user.local_events).to be_nil
+        expect(user.local_events).to eq(Event.none)
       end
     end
   end

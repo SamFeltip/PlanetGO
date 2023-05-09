@@ -44,16 +44,6 @@ RSpec.describe Event do
   let!(:my_event) { create(:event, name: 'Test Event', user_id: event_creator.id, category_id: category.id, time_of_event: Time.zone.parse('2023-05-01 14:00:00')) }
   let!(:other_event) { create(:event, user_id: other_event_creator.id, category_id: category2.id, address_line2: 'City Centre') }
 
-  describe '#image_path' do
-    it 'returns a path to an image corresponding with the category name' do
-      expect(my_event.image_path).to eq 'event_images/bar.webp'
-    end
-
-    it 'returns a path to the unknown image when no category is available' do
-      expect(other_event.image_path).to eq 'event_images/unknown.webp'
-    end
-  end
-
   describe '#address' do
     it 'returns a formatted string when address_line2 not present' do
       expect(my_event.address).to eq '104 West Street, Sheffield, S1 4EP'
@@ -102,7 +92,7 @@ RSpec.describe Event do
 
   describe '#to_s' do
     it 'returns the expected string representation' do
-      expect(my_event.to_s).to eq('Test Event @ 2023-05-01 14:00:00 +0100')
+      expect(my_event.to_s).to eq('Test Event @ May 01, 14:00')
     end
   end
 

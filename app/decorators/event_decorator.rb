@@ -34,7 +34,7 @@ class EventDecorator < ApplicationDecorator
 
   def display_time
     if object.time_of_event
-      object.time_of_event.strftime('%b %d, %H:%M')
+      object.time_of_event.strftime('%b %d, %I:%M %p')
     else
       'any time'
     end
