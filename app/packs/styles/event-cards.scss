@@ -10,12 +10,12 @@
 .event-card {
   min-width: 152px;
 
-  .large-date {
-    display: inline;
+  .large-likes {
+    display: none;
   }
 
-  .small-date {
-    display: none;
+  .small-likes {
+    display: inline;
   }
 
   padding: 10px;
@@ -166,11 +166,11 @@
       column-gap: 5px;
 
       // show the larger date string
-      .large-date {
+      .large-likes {
         display: none;
       }
 
-      .small-date {
+      .small-likes {
         display: inline;
       }
 

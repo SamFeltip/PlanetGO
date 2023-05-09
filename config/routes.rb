@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   get 'events/search', to: 'events#search'
 
   resources :events do
-    post :like, on: :member
+    patch :like, on: :member
   end
 
   resources :events

@@ -501,7 +501,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'should see the number of likes' do
-        within '.event_like' do
+        within '.small-likes' do
           expect(page).to have_content('2 likes')
         end
       end
@@ -514,7 +514,7 @@ RSpec.describe 'Events' do
         end
 
         specify 'should change the contents of the like button' do
-          within '.event_like' do
+          within '.small-likes' do
             expect(page).to have_content('liked')
           end
         end

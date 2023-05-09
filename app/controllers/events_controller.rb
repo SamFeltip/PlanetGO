@@ -106,6 +106,9 @@ class EventsController < ApplicationController
       )
     end
 
+    @event_liked_string_sm = @event.decorate.likes(current_user, compressed: true)
+    @event_liked_string_lg = @event.decorate.likes(current_user, compressed: false)
+
     @event_liked = current_user.liked(@event)
 
     # redirect_to events_path
