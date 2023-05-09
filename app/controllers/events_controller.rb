@@ -11,6 +11,7 @@ class EventsController < ApplicationController
     @events = Event.includes(:category).approved.paginate(page: params[:page], per_page: 6)
 
     return unless user_signed_in?
+
     @user_events = Event.user_events(current_user)
     @pending_events = Event.pending_for_user(current_user).includes([:user])
 
