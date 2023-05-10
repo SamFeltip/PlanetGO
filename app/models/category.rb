@@ -42,7 +42,7 @@ class Category < ApplicationRecord
   end
 
   def to_s
-    name
+    "#{object.symbol} #{object.name.pluralize}"
   end
 
   private

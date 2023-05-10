@@ -56,8 +56,8 @@ FactoryBot.define do
 
     factory :event_with_event_reacts do
       after(:create) do |event|
-        create_list(:user, 25)
-        User.all.each do |user|
+        user_list = create_list(:user, 25)
+        user_list.each do |user|
           event.liked_by user
         end
       end

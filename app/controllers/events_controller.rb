@@ -8,7 +8,7 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.includes(:category).approved.paginate(page: params[:page], per_page: 6)
+    @events = Event.includes(:category).approved.paginate(page: params[:page])
 
     return unless user_signed_in?
 
@@ -102,7 +102,7 @@ class EventsController < ApplicationController
       @event.liked_by current_user
     end
 
-    @event_liked_string_sm = @event.decorate.likes(current_user:, compressed: true)
+    @event_liked_string_sh = @event.decorate.likes(current_user:, compressed: true)
     @event_liked_string_lg = @event.decorate.likes(current_user:, compressed: false)
 
     # redirect_to events_path
@@ -118,7 +118,6 @@ class EventsController < ApplicationController
     @searched_events = filter_events_by_category(@searched_events, params)
 
     @empty_search = params[:description].to_s.strip == ''
-    @searched_events = Event.none if @empty_search # Events nil if no search
 
     add_to_outing = params[:add_to_outing] == 'true'
 
@@ -137,6 +136,8 @@ class EventsController < ApplicationController
 
   private
 
+  # takes in a search query
+  # returns a list of events which match every word in the search query
   def filter_events_by_content(search_params)
     word_event_ids = []
     query_list = search_params[:description].to_s.downcase.strip.split
@@ -153,6 +154,8 @@ class EventsController < ApplicationController
     Event.where(id: search_event_ids)
   end
 
+  # takes in a list of searched for events plus a search query
+  # returns this list plus any events with a category matching one of the words in the search query
   def filter_events_by_category(events, params)
     query_list = params[:description].to_s.downcase.strip.split
 

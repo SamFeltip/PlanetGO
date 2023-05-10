@@ -536,7 +536,9 @@ RSpec.describe 'Outings' do
           find_by_id('vote-button').click
         end
 
-        expect(page).to have_content('0 likes')
+        within "#proposed_event_#{proposed_event.id}" do
+          expect(page).to have_content('0 votes')
+        end
       end
     end
 

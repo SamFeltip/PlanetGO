@@ -21,7 +21,6 @@ RSpec.describe 'Clicking on a click card' do
         within "#event_#{event.id}.click-card" do
           find('.clickable').click
         end
-        # find("#event_#{event.id}.click-card").click
       end
 
       it 'redirects to the event show page', js: true do

@@ -489,14 +489,12 @@ RSpec.describe 'Events' do
         before do
           interest = CategoryInterest.where(user_id: user.id, category_id: music_category.id).first
           interest.update(interest: 1)
-          interest.save
+          visit events_path
         end
 
         specify 'there is a list of events with this category' do
           within '#category-events' do
-            # TODO: fix this test
-            pending 'this test isnt working, but it works on the page'
-            expect(page).to have_content interest.category.name
+            expect(page).to have_content music_category.name
           end
         end
       end

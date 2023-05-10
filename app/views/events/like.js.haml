@@ -7,15 +7,15 @@ likes_section = actor.querySelector(".likes");
 event_liked = #{@event_liked};
 event_like_count = #{@event.votes_for.size};
 
-like_string_sm = "#{@event_liked_string_sm}";
+like_string_sh = "#{@event_liked_string_sh}";
 like_string_lg = "#{@event_liked_string_lg}";
 
 
-event_like_sm = likes_section.querySelector(".small-likes");
+event_like_sh = likes_section.querySelector(".small-likes");
 event_like_lg = likes_section.querySelector(".large-likes");
 event_like_icon = likes_section.querySelector(".like_icon");
 
-event_like_sm.innerHTML = like_string_sm;
+event_like_sh.innerHTML = like_string_sh;
 
 if(event_like_lg){ event_like_lg.innerHTML = like_string_lg };
 

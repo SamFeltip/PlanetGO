@@ -56,8 +56,6 @@ class Event < ApplicationRecord
   has_many :outings, through: :proposed_events
   acts_as_votable
 
-  default_scope { includes(:category) }
-
   scope :approved, -> { where(approved: true) }
   scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
 
@@ -83,7 +81,7 @@ class Event < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: ->(obj) { %i[address_line1 address_line2 town postcode].any? { |attr| obj.public_send("#{attr}_changed?") } }
 
-  self.per_page = 10
+  self.per_page = 6
 
   enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
 
