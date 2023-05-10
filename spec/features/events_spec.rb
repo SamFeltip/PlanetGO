@@ -494,7 +494,7 @@ RSpec.describe 'Events' do
 
         specify 'there is a list of events with this category' do
           within '#category-events' do
-            # TODO fix this test
+            # TODO: fix this test
             pending 'this test isnt working, but it works on the page'
             expect(page).to have_content interest.category.name
           end
