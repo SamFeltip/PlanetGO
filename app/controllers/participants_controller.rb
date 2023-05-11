@@ -2,7 +2,7 @@
 
 class ParticipantsController < ApplicationController
   include OutingsHelper
-  before_action :set_participant, only: %i[show edit update destroy]
+  before_action :set_participant, only: %i[show edit update destroy approve]
 
   # GET /participants or /participants.json
   def index
@@ -27,8 +27,12 @@ class ParticipantsController < ApplicationController
   # POST /participants or /participants.json
   def create
     outing = Outing.find_by(invite_token: params[:invite_token])
-    Participant.where(outing_id: outing, user_id: current_user).first_or_create
-    redirect_to outings_path
+    if outing.outing_type == 'open'
+      Participant.where(outing_id: outing, user_id: current_user, status: 'confirmed').first_or_create
+    else
+      Participant.where(outing_id: outing, user_id: current_user).first_or_create
+    end
+    redirect_to outing_path(outing)
   end
 
   def invite
@@ -45,6 +49,18 @@ class ParticipantsController < ApplicationController
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @participant.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def approve
+    @participant.update(status: 'confirmed')
+    @participant = Participant.find(params[:id])
+    @outing = @participant.outing
+
+    respond_to do |format|
+      format.html { redirect_to set_details_outing_path(@outing) }
+      format.js
+      format.json { head :no_content }
     end
   end
 

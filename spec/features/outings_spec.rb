@@ -621,12 +621,10 @@ RSpec.describe 'Outings' do
       end
 
       it 'redirects to the root page' do
-        pending 'ability is not working'
         expect(page).to have_current_path('/')
       end
 
       it 'alerts the user they are not authorized to access this page' do
-        pending 'ability is not working'
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end
