@@ -5,7 +5,7 @@
 # Table name: outings
 #
 #  id           :bigint           not null, primary key
-#  date         :date
+#  date         :datetime
 #  description  :text
 #  invite_token :string
 #  name         :string
