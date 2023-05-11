@@ -53,7 +53,24 @@
 require 'rails_helper'
 
 RSpec.describe User do
+  future_datetime = 1.day.from_now
   let!(:creator_user) { create(:user, full_name: 'John Smith', email: 'testemail@email.com') }
+  let!(:future_outing1) do
+    create(
+      :outing,
+      name: 'future outing 1',
+      creator_id: creator_user.id,
+      date: future_datetime
+    )
+  end
+  let!(:future_outing2) do
+    create(
+      :outing,
+      name: 'future outing 2',
+      creator_id: creator_user.id,
+      date: 1.week.from_now
+    )
+  end
 
   let!(:past_outing1) do
     create(
@@ -70,24 +87,6 @@ RSpec.describe User do
       name: 'past outing 2',
       creator_id: creator_user.id,
       date: 1.week.ago
-    )
-  end
-
-  let!(:future_outing1) do
-    create(
-      :outing,
-      name: 'future outing 1',
-      creator_id: creator_user.id,
-      date: 1.day.from_now
-    )
-  end
-
-  let!(:future_outing2) do
-    create(
-      :outing,
-      name: 'future outing 2',
-      creator_id: creator_user.id,
-      date: 1.week.from_now
     )
   end
 
@@ -122,7 +121,7 @@ RSpec.describe User do
   end
 
   it 'shows future outings' do
-    expect(future_outing1.date).to eq(Time.zone.today + 1.day)
+    expect(future_outing1.date).to eq(future_datetime)
   end
 
   describe '#get_random_friend' do
