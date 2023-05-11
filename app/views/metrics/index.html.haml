@@ -11,7 +11,7 @@
 
 .card
   .card-header
-    %span General Metrics
+    %h2 General Metrics
   .card-body
     %div{:class=>"tab_list"}
       -@routes_interested_in.each do |route|
@@ -25,7 +25,7 @@
 
 .card
   .card-header 
-    %span Graphs 
+    %h2 Graphs 
   .card-body
     .card-body.graph_body
       %div
@@ -75,6 +75,6 @@
     %canvas{:id=>"myChart", :data=>{:labels=> @data_keys, :data=> @data_values}}
 .card
   .card-header 
-    %span Visit Locations
+    %h2 Visit Locations
   .card-body
     %div{:id=>"world-map", data: {value: @click_data}}
