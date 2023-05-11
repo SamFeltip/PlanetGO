@@ -1,6 +1,6 @@
 - if recommended_events.any?
   - recommended_events.each do |event|
-    = render 'events/event_card', event: event, add_to_outing_params: { outing_id: outing_id, use_dismiss_button: true, use_add_to_outing_button: true  }
+    = render 'events/event_card', event: event, add_to_outing_params: {outing_id: outing_id, add_event_to_outing: add_event_to_outing, hide_likes: true }
 
 - else
   %p

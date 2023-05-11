@@ -75,16 +75,18 @@ RSpec.describe 'Outings' do
         friend1.accept_follow_request_of(outing_creator)
 
         visit '/outings'
-        click_link 'New Outing'
+        click_link 'Create an Outing'
 
-        fill_in 'Name', with: outing_name
+        fill_in 'outing_name', with: outing_name
 
-        fill_in 'Description', with: outing_desc
+        fill_in 'outing_description', with: outing_desc
 
         select outing_type, from: 'Outing type'
 
         # the user clicks the "save" button
-        click_button 'Continue'
+        click_button 'Save'
+
+        # visit set_details_outing_path(Outing.last)
       end
 
       it 'saves an outing' do
@@ -110,20 +112,26 @@ RSpec.describe 'Outings' do
         expect(page).to have_content('Outing was successfully created.')
       end
 
-      it 'redirects the user to outings set_details' do
-        # redirect to the outings index page
-        expect(page).to have_current_path(set_details_outing_path(Outing.last))
+      it 'lets the user share an outing link' do
+        pending 'depends on outing URL'
+        expect(page).to have_content('Share this link with your friends')
+      end
+    end
+
+    context 'when vising set details who' do
+      let!(:friend1) { create(:user) }
+
+      before do
+        outing_creator.send_follow_request_to(friend1)
+        friend1.accept_follow_request_of(outing_creator)
+
+        visit set_details_outing_path(past_outing, position: 'who')
       end
 
       it 'lets the user see a list of their friends to invite' do
         within '#not_invited_friends' do
           expect(page).to have_content(friend1.full_name)
         end
-      end
-
-      it 'lets the user share an outing link' do
-        pending 'depends on outing URL'
-        expect(page).to have_content('Share this link with your friends')
       end
     end
 
@@ -305,12 +313,13 @@ RSpec.describe 'Outings' do
       let(:category1) { create(:category, name: 'Cafe') }
       let(:event1) { create(:event, category: category1, name: "Phil's coffee", user_id: event_creator.id, approved: true, time_of_event: false) }
       let(:event2) { create(:event, category: category1, name: 'Starbucks journey', user_id: event_creator.id, approved: true, time_of_event: '01-02-2023') }
-      let!(:event1_react) { create(:event_react, user_id: outing_creator.id, event_id: event1.id) }
-      let!(:event2_react) { create(:event_react, user_id: outing_creator.id, event_id: event2.id) }
 
       let!(:proposed_event) { create(:proposed_event, event_id: event1.id, outing_id: past_outing.id) }
 
       before do
+        event1.liked_by outing_creator
+        event2.liked_by outing_creator
+
         visit set_details_outing_path(past_outing, position: 'where')
       end
 
@@ -375,13 +384,13 @@ RSpec.describe 'Outings' do
 
       it 'shows events the user has liked in the recommended events section that are not proposed' do
         within '#recommended-events' do
-          expect(page).to have_content(event2_react.event.name)
+          expect(page).to have_content(event2.name)
         end
       end
 
       it 'does not show events that are already in the timetable in recommended events' do
         within '#recommended-events' do
-          expect(page).to have_no_content(event1_react.event.name)
+          expect(page).to have_no_content(event1.name)
         end
       end
 
@@ -515,9 +524,9 @@ RSpec.describe 'Outings' do
           end
         end
 
-        it 'updates the count of likes', js: true do
+        it 'updates the count of votes', js: true do
           within "#proposed_event_#{proposed_event.id}" do
-            expect(page).to have_content('1 like')
+            expect(page).to have_content('1 vote')
           end
         end
 
@@ -546,7 +555,9 @@ RSpec.describe 'Outings' do
           find_by_id('vote-button').click
         end
 
-        expect(page).to have_content('0 likes')
+        within "#proposed_event_#{proposed_event.id}" do
+          expect(page).to have_content('0 votes')
+        end
       end
     end
 
@@ -620,13 +631,11 @@ RSpec.describe 'Outings' do
         visit set_details_outing_path(past_outing)
       end
 
-      it 'redirects to the root page' do
-        pending 'ability is not working'
-        expect(page).to have_current_path('/')
+      it 'redirects to the events page (root)' do
+        expect(page).to have_current_path('/events')
       end
 
       it 'alerts the user they are not authorized to access this page' do
-        pending 'ability is not working'
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end

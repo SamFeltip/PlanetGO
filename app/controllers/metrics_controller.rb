@@ -33,7 +33,7 @@ class MetricsController < ApplicationController
       @all_metrics.append({ 'route' => route, 'metrics' => get_common_metrics(metrics_list) })
     end
 
-    @number_landing_page_visits = metrics.where(route: '/').count.to_s
+    @landing_page_visits_last_7_days, @landing_page_visits_7_days_before_that, @percent_difference = main_visit_information
 
     # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
     country_codes_metrics = metrics.where(route: '/').where.not(country_code: [nil, '']).order(:country_code)
@@ -41,10 +41,17 @@ class MetricsController < ApplicationController
     @click_data = JSON.generate(country_codes_data)
 
     @data_keys, @data_values = empty_graph
+
+    # List of all categories for the categories graph
+    @category_select_values = Category.distinct.pluck(:name)
     return unless params['start'] && params['end']
 
-    @data_keys, @data_values = handle_graph(params['start'], params['end'], params['resolution'], params['page'],
-                                            params['metric'])
+    if params['category']
+      @data_keys, @data_values = handle_graph_category(params['start'], params['end'], params['resolution'], params['category'])
+    else
+      @data_keys, @data_values = handle_graph_metric(params['start'], params['end'], params['resolution'], params['page'],
+                                                     params['metric'])
+    end
   end
 
   # GET /metrics/new

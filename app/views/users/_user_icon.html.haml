@@ -1,8 +1,8 @@
-.user_icon.participant.d-inline-flex.flex-column.align-items-center.me-2
-  .initial-avatar.d-inline-flex= user.initials
-  .avatar-text.d-inline.mx-2.mt-2.text-center= user.full_name
+.user-icon.participant
+  .initial-avatar= user.initials
+  .avatar-text= user.full_name
+
   - if defined?(status)
     .status.d-inline-flex.flex-column.align-items-center
       .status-text.d-inline-flex
         %em= status == 'creator' ? 'creator' : 'invited'
-

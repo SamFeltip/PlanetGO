@@ -5,6 +5,9 @@ class Ability
 
   def initialize(user)
     # Guard check to make sure user exists
+
+    can %i[show search read], Event
+
     return if user.blank?
 
     if user.admin?
@@ -31,12 +34,12 @@ class Ability
 
   def commercial_permissions(user)
     can :read, User
-    can %i[create show like search], Event
+    can %i[create show like search read], Event
     can %i[edit read update destroy manage], Event, user_id: user.id
     can :create, Outing
     can %i[index show edit read update destroy set_details send_invites stop_count], Outing, creator_id: user.id
-    can %i[index show read vote], Outing, participants: { user_id: user.id }
-
+    can %i[index show read vote], Outing, participants: { user_id: user.id, status: 'confirmed' }
+    can %i[index], Outing, participants: { user_id: user.id }
     can %i[index search requests follow unfollow accept decline cancel], :friend
     can %i[index set_interest], CategoryInterest, user_id: user.id
 

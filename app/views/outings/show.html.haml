@@ -4,32 +4,44 @@
 = render 'outing_header', outing: @outing, action_buttons: true
 
 #outing-body.pt-3.overline
-  .card
-    .card-header
-      %h2 #{@outing.participants.count} Going
-    .card-body
-      #going.horizontal-scroll
+  -#.card
+  -#  .card-header
+  #start-time
+    - if (current_user == @outing.creator || current_user.admin?) && @outing.date.nil?
+      %h2
+        Start time
+      %p
+        You haven't set a start time for this outing yet
 
-        - @outing.participants.each do |participant|
-          = render 'users/user_icon', user: participant.user, status: participant.status
+      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+        %i.bi-clock.px-1
+          Decide on a time here
+        %i.bi-arrow-right.px-1
 
-      - if current_user == @outing.creator || current_user.admin?
-        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
-          %i.bi-plus-circle
-            Invite More
-  .card#where-timetable
-    .card-header.d-flex.justify-content-between
+  #where-timetable.pt-3
+    .d-flex.justify-content-between.pb-3
       %h2
         Timetable
 
-      - if current_user == @outing.creator || current_user.admin?
-        = form_tag stop_count_outing_path(@outing), method: :post do
-          = submit_tag 'Stop the count!', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
 
-    .card-body
+      - if (current_user == @outing.creator || current_user.admin?) && @outing.events.count > 2
+        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+          %i.bi-calendar-event.px-1
+            Add more events
+          %i.bi-arrow-right.px-1
+
+    .d-flex.justify-content-end.mb-3
+      - if (current_user == @outing.creator || current_user.admin?) && @outing.events.any?
+        = form_tag stop_count_outing_path(@outing), method: :post do
+          = submit_tag 'Close voting', class: 'btn btn-primary', id: 'send-invite-button', :data => {confirm: 'are you sure? this will remove any events from this outing which have not got over 50% of participants to vote'}
+
+    .timetable-body.pb-4
       = render 'outings/where_timetable'
 
+
+    .d-flex.justify-content-end.mb-3
       - if current_user == @outing.creator || current_user.admin?
         %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
-          %i.bi-plus-circle
-            Add More
+          %i.bi-calendar-event.px-1
+            Add more events
+          %i.bi-arrow-right.px-1

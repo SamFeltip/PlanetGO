@@ -62,6 +62,12 @@ class Outing < ApplicationRecord
     Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
   end
 
+  def check_pending(current_user)
+    return true if Participant.exists?(outing_id: id, user_id: current_user.id, status: 'pending')
+
+    false
+  end
+
   def to_param
     invite_token
   end
@@ -132,5 +138,9 @@ class Outing < ApplicationRecord
     end
     end_counter += 1
     [people_available_counter, availabilities_array, next_end, end_counter, previous_time]
+  end
+
+  def first_proposed_event
+    events.order(:time_of_event).first
   end
 end

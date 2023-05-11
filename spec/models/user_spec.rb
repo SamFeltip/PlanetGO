@@ -43,11 +43,11 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
-#  index_users_on_latitude              (latitude)
-#  index_users_on_longitude             (longitude)
 #  index_users_on_invitation_token      (invitation_token) UNIQUE
 #  index_users_on_invited_by            (invited_by_type,invited_by_id)
 #  index_users_on_invited_by_id         (invited_by_id)
+#  index_users_on_latitude              (latitude)
+#  index_users_on_longitude             (longitude)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 require 'rails_helper'
@@ -154,7 +154,7 @@ RSpec.describe User do
       let!(:event1) { create(:event, user: creator_user) }
 
       before do
-        create(:event_react, user: user2, event: event1)
+        event1.liked_by user2
       end
 
       context 'when user1 has no friends' do
@@ -165,7 +165,7 @@ RSpec.describe User do
 
       context 'when user1 has liked the event but they have no friends' do
         before do
-          create(:event_react, user: user1, event: event1)
+          event1.liked_by user1
         end
 
         it 'returns nil' do
@@ -175,7 +175,8 @@ RSpec.describe User do
 
       context 'when user2 has liked the event and is a friend of user1' do
         before do
-          create(:event_react, user: user2, event: event1)
+          event1.liked_by user2
+
           user1.send_follow_request_to(user2)
           user2.accept_follow_request_of(user1)
 
@@ -194,8 +195,9 @@ RSpec.describe User do
 
       context 'when many friends have liked the event' do
         before do
-          create(:event_react, user: user2, event: event1)
-          create(:event_react, user: user3, event: event1)
+          event1.liked_by user2
+          event1.liked_by user3
+
           user1.send_follow_request_to(user2)
           user2.accept_follow_request_of(user1)
           user1.send_follow_request_to(user3)
@@ -270,7 +272,7 @@ RSpec.describe User do
       let!(:user) { create(:user, postcode: '') }
 
       it 'returns no events' do
-        expect(user.local_events).to be_nil
+        expect(user.local_events).to eq(Event.none)
       end
     end
   end

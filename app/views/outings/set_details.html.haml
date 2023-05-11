@@ -10,30 +10,8 @@
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
       %p.grey #{@outing.participants.count} people interested
 
-      #outing-share.d-flex.justify-content-end.align-items-center.mb-2
-        Share to...
-        .dropdown.ms-2
-          %a.btn.btn-outline-primary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
-            %i.bi-share
-            %b.caret
-          %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
-            %li
-              %a{:href => "#link1"}
-                %i.bi-link
-            %li
-              %a{:href => "#link1"}
-                %i.bi-instagram
-            %li
-              %a{:href => "#link2"}
-                %i.bi-facebook
-            %li
-              %a{:href => "#link3"}
-                %i.bi-twitter
-            %li
-
       #participant-cards
-        - @outing.participants.each do |participant|
-          = render 'outings/participant_card', participant: participant, action_buttons: true
+        = render 'participants/participants_list'
 
       %hr
       = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
@@ -61,8 +39,9 @@
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
-      = form_with url: event_search_path, id: 'event-search-form', class: 'mb-2', local: false, method: :get do |f|
+      = form_with url: events_search_path, id: 'event-search-form', placeholder: 'search for events here...', class: 'mb-2 search-form', local: false, method: :get do |f|
         = text_field_tag :description
+        = f.hidden_field :add_to_outing, value: true
         = f.hidden_field :outing_id, value: @outing.id
 
         %button.btn.btn-outline-secondary{:type => "submit", :name => "search"}
@@ -72,7 +51,7 @@
 
       %h3 Recommended Events
       #recommended-events
-        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id
+        = render 'events/recommended_events', recommended_events: current_user.recommended_events(outing: @outing), outing_id: @outing.id, add_event_to_outing: true
 
     #where-body
       %h2
@@ -91,7 +70,7 @@
         .horizontal-scroll.justify-content-center
           - if @final_events.any?
             - @final_events.each do |event|
-              = render 'events/event_card_small', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+              = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
           - else
             %p.text-center
               No nearby restaurants or accommodation found
@@ -102,18 +81,3 @@
           Add Participants
 
         = link_to 'Done', outing_path(@outing), id: 'outing-footer-done',  class: 'btn btn-primary'
-
-
-%footer#outing-footer.d-lg-none.p-3
-  - current_position_index = params[:position].nil? ? 0 : @positions.index(params[:position])
-  .flex_container.justify-content-around
-
-    %a#outing-footer-prev{:href => set_details_outing_path(@outing, position: @positions[current_position_index - 1])}
-      %i#prev-chevron.bi-chevron-left
-      Previous
-
-    = link_to 'Done', outing_path(@outing), id: 'outing-footer-done'
-
-    %a#outing-footer-next{:href => set_details_outing_path(@outing, position: @positions[current_position_index + 1])}
-      Next
-      %i#next-chevron.bi-chevron-right

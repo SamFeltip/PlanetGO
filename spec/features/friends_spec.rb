@@ -50,7 +50,7 @@ RSpec.describe 'Friends' do
     context 'when user is not logged in' do
       before { visit friends_path }
 
-      it 'shows authorization error' do
+      it 'prompt to log in' do
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end

@@ -1,23 +1,41 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
-$body-bg: #f8f9fa;
+$sidebar-width: 190px;
+$sidebar-width-sm: 60px;
+
+$event-header-height: 215px;
 
 $event-card-height: 156px;
 $event-card-bottom: 55px;
 $event-card-padding: 10px;
 
-$h2-font-size: 20px;
-$h3-font-size: 17px;
+$h1-font-size: 30px;
+$h1-font-weight: 600;
 
-$card-box-shadow: 0 3px 20px 0 rgba(0,0,0,.16);
+$h2-font-size: 25px;
+$h2-font-weight: 500;
 
-// changing primary colour
-//$theme-colors: map-remove($theme-colors, "primary");
-//$theme-colors: map-merge(
-//  (
-//    "primary": #6b3b66
-//  ),
-//  $theme-colors);
+$h3-font-size: 15px;
 
-//$link-color: #8C304D;
+$btn-hover-bg-shade-amount: 0%;
+$bs-btn-hover-bg: red;
+
+//
+//$text-color: #C1BAD2;
+//$body-bg: #f8f9fa;
+//// changing primary colour
+$theme-colors: map-remove($theme-colors, "primary");
+$theme-colors: map-merge(
+  (
+    "primary": #735CDD,
+  ),
+  $theme-colors);
+
+//$grid-breakpoints: map-remove($grid-breakpoints, "md");
+//$grid-breakpoints: map-merge(
+//                (
+//                        "md": 1130px,
+//                ),
+//                $grid-breakpoints);

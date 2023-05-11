@@ -1,54 +1,46 @@
-.card.event-card[proposed_event]
-  .card-header.d-flex.justify-content-between
-    %h3.proposed_event_datetime_sm.d-inline.d-sm-none
+.card.proposed-event-card.mb-3[proposed_event]
+  .card-header.d-flex.justify-content-between.align-items-center
+    %h2.proposed_event_datetime_sm.d-inline.d-sm-none{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: true)
-    %h3.proposed_event_datetime_lg.d-none.d-sm-inline
+      - if !proposed_event.event.time_of_event.present?
+        %i.ms-2.bi-pencil-square
+
+    %h2.proposed_event_datetime_lg.d-none.d-sm-inline{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
       =proposed_event.decorate.proposed_datetime(compact: false)
 
+      - if !proposed_event.event.time_of_event.present?
+        %i.ms-2.bi-pencil-square
 
 
 
     .event-action.d-flex.flex-row
 
-      %button.btn.btn-outline-primary.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
+      %a.d-flex.align-items-center{"id" => "modal_button_proposed_event_#{proposed_event.id}", "data-bs-target" => "#modal_proposed_event_#{proposed_event.id}", "data-bs-toggle" => "modal", :type => "button"}
         %i.bi-three-dots
 
       =render 'proposed_events/modal', proposed_event: proposed_event, event: event
 
-      - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
-        = link_to proposed_event_path(proposed_event), class: 'ms-2 btn btn-outline-danger destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
-          %i.bi-trash
-  .d-flex.flex-row
-    .image
-      = image_pack_tag event.image_path, class: 'event-card-image'
-    .event-card-body.card-body
-      .event-card-header
-        %h3
-          = link_to event.name, event, class: 'black'
 
-      %p
-        %em
-          =event.decorate.display_time
-      %p.overflow-hidden.event-description
-        =event.description
-
-      %a{href: event_path(event)}
-        %i{:class => event.decorate.like_icon(current_user.liked(event))}
-          .d-inline.d-md-none
-            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: true)
-          .d-none.d-md-inline
-            = event.decorate.likes(current_user, current_user_liked: current_user.liked(event), compressed: false)
-
+  .proposed-event-card-body
+    = render 'events/event_card', event: proposed_event.event, render_params: {hide_likes: true, no_click: true}
 
   - if defined?(@participant)
     .card-footer.d-flex.justify-content-between.align-items-center
 
-      .vote-results
-        %span.vote-results-text
-          %i#vote-like-count.bi-hand-thumbs-up.ms-1
-            = proposed_event.decorate.vote_likes
 
-      .vote-actions
+      - if proposed_event.outing.creator_id == current_user.id || current_user.admin?
+        = link_to proposed_event_path(proposed_event), class: 'btn btn-outline-secondary destroy-proposed-event d-flex align-items-center', title: 'Remove Event', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
+          %span.me-2.d-none.d-md-inline
+            Remove from outing
+          %span.me-2.d-inline.d-md-none
+            Remove
+          %i.bi-trash
+
+      .vote-actions.d-flex.flex-row.align-items-center
+
         -# let the participant vote
-        = button_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, class: 'btn btn-outline-primary', id: 'vote-button' do
-          %i#vote-like{class: (current_user.voted_for? proposed_event) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up'}
+        = link_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, id: 'vote-button', class: 'btn btn-outline-secondary' do
+          %span.vote-results-text
+          .vote-like-count.me-1
+            = proposed_event.decorate.vote_likes
+          %i{class: (current_user.voted_for? proposed_event) ? 'vote-like bi-hand-thumbs-up-fill' : 'vote-like bi-hand-thumbs-up'}

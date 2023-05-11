@@ -6,6 +6,7 @@
 #
 #  id         :bigint           not null, primary key
 #  name       :string
+#  symbol     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
@@ -56,12 +57,6 @@ RSpec.describe Category do
     it 'finds the percentage of users who have disliked the category' do
       category_interest1.update(interest: 0)
       expect(category1.indifferent_percent).to eq 100
-    end
-  end
-
-  describe '#colour' do
-    it 'returns a string representing a hex color code' do
-      expect(category1.colour).to match(/^#[0-9a-fA-F]{6}$/)
     end
   end
 end

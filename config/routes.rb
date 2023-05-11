@@ -5,9 +5,6 @@ Rails.application.routes.draw do
   resources :categories
   resources :availabilities
 
-  get 'events/search', to: 'events#search', as: 'event_search'
-  get 'events/manage_search', to: 'events#manage_search', as: 'event_manage_search'
-  get 'events/manage', to: 'events#manage'
 
   resources :events
   resources :proposed_events
@@ -23,9 +20,15 @@ Rails.application.routes.draw do
     resources :comments, only: [:create]
   end
 
-  resources :events, except: %i[new show] do
+  get 'events/search', to: 'events#search'
+  get 'events/manage_search', to: 'events#manage_search', as: 'event_manage_search'
+  get 'events/manage', to: 'events#manage'
+
+  resources :events do
     patch :like, on: :member
   end
+
+  resources :events
 
   patch 'events/:id/approval/:approved', to: 'events#approval', as: :approval_event
 
@@ -34,8 +37,11 @@ Rails.application.routes.draw do
       get 'set_details'
       post 'send_invites'
       post 'stop_count'
-      resources :participants, only: %i[new create invite destroy update]
-      resource :invite_link, only: :show
+      resources :participants, only: %i[new create invite destroy update approve] do
+        member do
+          patch 'approve'
+        end
+      end
     end
     post :send_invites, on: :member
   end
@@ -61,7 +67,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'pages#account'
+  root 'pages#landing'
 
   get 'myaccount', to: 'pages#account'
   get 'home', to: 'pages#account'

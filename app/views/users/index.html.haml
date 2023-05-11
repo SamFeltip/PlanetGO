@@ -8,11 +8,12 @@
         .description-content
           = f.input :description, placeholder: 'Search by name or email...', label: false, required: false, input_html: {name: 'description', value: @query || '' }, wrapper_html: { class: 'mb-3' }
 
-        %button.btn.btn-outline-primary{ type: 'submit' }
-          %i.bi-search
-          Search
+        .d-flex.justify-content-end
+          %button.btn.btn-outline-primary.me-2{ type: 'submit' }
+            %i.bi-search
+            Search
 
-        = link_to 'Clear', users_path, class: 'btn btn-outline-secondary'
+          = link_to 'Clear', users_path, class: 'btn btn-outline-secondary'
 .card
   .card-header.d-flex.align-items-center
     %span Listing Users

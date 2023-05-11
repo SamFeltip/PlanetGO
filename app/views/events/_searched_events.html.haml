@@ -1,0 +1,8 @@
+- if defined?(events)
+  - if events.any?
+    - events.each do |event|
+      = render "event_card", event: event, add_to_outing_params: add_to_outing_params
+  - else
+    - unless @empty_search
+      %p
+        No events found

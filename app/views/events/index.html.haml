@@ -1,44 +1,90 @@
 - additional_stylesheet 'events'
 
-.card
-  .card-body
-    = simple_form_for :search, url: events_path, method: :get do |f|
+.index
+  .d-flex.justify-content-between.align-items-center
+    %h1 Events
 
-      .search-fields
-        .description-content
-          %label{for: 'search_description', class: 'd-flex align-items-center'}
-            %i.bi-search
+    - if user_signed_in? && current_user.advertiser?
+      .action-buttons
+        %h2
+          = link_to new_event_path, class: 'btn btn-outline-secondary' do
+            create an event
+            %i.bi-plus
 
-          = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+  = simple_form_for :search, url: events_search_path, method: :get, remote: true do |f|
+    .search-form
+      = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description'}, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
-        .filter-content
-          %label{for: 'search_category_id', class: 'd-flex align-items-center'}
-            %i.bi-filter
+      %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search'}
+        %i.bi-search
 
-          = f.input :category_id, prompt: "filter by category...", input_html: { name: 'category_id'}, collection: Category.all, label: false, required: false, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+  / empty div until it is filled with items by search
+  #searched-events
+
+  .card.card-primary.mb-3#category_promo
+    .card-header
+      %h1
+        Tell us about yourself
+      .icon-display
+        .icon
+          🎬
+        .icon
+          ⚽
+        .icon
+          🍸
+        .filter-icons
+
+    .card-footer
+      = link_to category_interests_path, class: 'd-flex justify-content-end align-items-center' do
+        pick your favourite event categories here
+        %i.bi-arrow-right-short
+
+  - if user_signed_in?
+    #category-events
+
+      - if !(@nearby_events.nil?) && !@nearby_events.empty?
+        .mb-3
+          %h2
+            Near you
+          #events-display
+            - @nearby_events.each do |event|
+              = render "event_card", event: event
 
 
-        %button.btn.btn-outline-primary{ type: 'submit' }
-          %i.bi-search
-          Search
+      - if defined?(@favourite_category)
+        .mb-3
+          %h2
+            Because you like...
+          %h3
+            = @favourite_category
 
+          .horizontal-scroll
+            - @recommended_events.each do |event|
 
-  - if current_user.commercial
-    .card-footer.d-flex.justify-content-end
-      = link_to category_interests_path, class: 'nav-link btn btn-outline-secondary p-2' do
-        .btn-sm
-          %i.bi-pencil-square
-          Edit Event Category Interests
-%br
-#events
-  - if @events.empty?
-    %h1 Hmm...
-    %p There doesn't seem to be any events yet
-    %p come back later and they'll be more for you!
+              = render "event_card", event: event
+    #liked-events
+      .mb-3
+        %h2
+          Your liked events
 
-  - @events.each do |event|
-    .click-card{data: { url: event_path(event) }}[event]
-      = render "event_card", event: event
-  
-  %div.digg_pagination
-    = will_paginate @events
+        #liked-events-display
+        - @liked_events.each do |event|
+
+          = render "event_card", event: event, add_to_outing_params: { hide_likes: true }
+
+        .d-flex.justify-content-center.digg_pagination
+          = will_paginate @liked_events
+
+  #events
+    - if @events.empty?
+      %h1 Hmm...
+      %p There doesn't seem to be any events yet
+      %p come back later and they'll be more for you!
+    - else
+      %h2
+        Events you'll love
+      #events-display
+        - @events.each do |event|
+          = render "event_card", event: event
+      .d-flex.justify-content-center.digg_pagination
+        = will_paginate @events

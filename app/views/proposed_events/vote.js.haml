@@ -1,17 +1,21 @@
-var proposed_event_card = $('#proposed_event_#{@proposed_event.id}');
-var proposedEventBody = proposed_event_card.find('.proposed-event-votes');
+var proposed_event_card = document.querySelector('#proposed_event_#{@proposed_event.id}');
 
-var voteLike = proposed_event_card.find('#vote-like');
-var voteLikeCount = proposed_event_card.find('#vote-like-count');
-var voteButton = proposed_event_card.find('#vote-button');
+var proposedEventBody = proposed_event_card.querySelector('.proposed-event-votes');
+
+var voteLike = proposed_event_card.querySelector('.vote-like');
+
+var voteLikeCount = proposed_event_card.querySelector('.vote-like-count');
+
+var voteButton = proposed_event_card.querySelector('#vote-button');
 
 - if current_user.voted_for? @proposed_event
-  voteLike.removeClass('bi-hand-thumbs-up').addClass('bi-hand-thumbs-up-fill');
-  voteButton.attr('value', 'dislike');
+  voteLike.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
+  voteButton.setAttribute('value', 'dislike');
 
 - else
-  voteButton.attr('value', 'like');
-  voteLike.removeClass('bi-hand-thumbs-up-fill').addClass('bi-hand-thumbs-up');
+  voteLike.classList.replace('bi-hand-thumbs-up-fill', 'bi-hand-thumbs-up');
+  voteButton.setAttribute('value', 'like');
 
-voteLikeCount.text('#{@proposed_event.decorate.vote_likes}');
-proposedEventBody.html("#{escape_javascript(render 'proposed_events/vote_body', proposed_event: @proposed_event)}");
+-# set the text of voteLikeCount
+voteLikeCount.innerHTML = "#{@proposed_event.decorate.vote_likes}";
+proposedEventBody.innerHTML = "#{escape_javascript(render 'proposed_events/vote_body', proposed_event: @proposed_event)}";

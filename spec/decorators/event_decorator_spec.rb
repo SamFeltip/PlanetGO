@@ -60,8 +60,8 @@ RSpec.describe EventDecorator, type: :decorator do
     context 'when the time of the event is present' do
       let(:event) { create(:event, time_of_event: DateTime.now) }
 
-      it 'returns the time of the event formatted as "dd/mm/yyyy hh:mm"' do
-        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%d/%m/%Y %H:%M'))
+      it 'returns the time of the event formatted as "%b %d, %h:%M %p"' do
+        expect(decorated_event.display_time).to eq(event.time_of_event.strftime('%b %d, %I:%M %p'))
       end
     end
 
@@ -101,21 +101,19 @@ RSpec.describe EventDecorator, type: :decorator do
   end
 
   describe '#like_icon' do
+    let(:user_likes) { create(:user) }
+    let(:user_dislikes) { create(:user) }
+
+    before do
+      user_likes.likes event
+    end
+
     it 'returns "bi-star-fill" if current user liked the event' do
-      expect(decorated_event.like_icon(true)).to eq('bi-star-fill')
+      expect(decorated_event.like_icon(user_likes)).to eq('bi-star-fill')
     end
 
     it 'returns "bi-star" if current user did not like the event' do
-      expect(decorated_event.like_icon(false)).to eq('bi-star')
-    end
-  end
-
-  describe '#colour' do
-    it 'returns the category colour if the event has a category' do
-      category = create(:category)
-      event = create(:event, category_id: category.id)
-      decorated_event = described_class.new(event)
-      expect(decorated_event.colour).to eq(category.colour)
+      expect(decorated_event.like_icon(user_dislikes)).to eq('bi-star')
     end
   end
 
@@ -157,39 +155,39 @@ RSpec.describe EventDecorator, type: :decorator do
 
     context 'when there are no likes' do
       it 'returns 0 likes' do
-        expect(my_event.decorate.likes(other_user)).to eq('0 likes')
+        expect(my_event.decorate.likes(current_user: other_user)).to eq('0 likes')
       end
     end
 
     context 'when the current_user has liked' do
       before do
-        create(:event_react, event_id: my_event.id, user: event_creator)
+        my_event.liked_by event_creator
       end
 
       context 'when the user is the only user who has liked the event' do
         it 'returns me and 0 others' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 0 others')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 0 others')
         end
       end
 
       context 'when there is 1 other user who has liked' do
         before do
-          create(:event_react, event_id: my_event.id, user: other_user)
+          my_event.liked_by other_user
         end
 
         it 'returns me and 1 other' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 1 other')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 1 other')
         end
       end
 
       context 'when there are many other uses who have liked' do
         before do
-          create(:event_react, event_id: my_event.id, user: other_user)
-          create(:event_react, event_id: my_event.id, user: third_user)
+          my_event.liked_by other_user
+          my_event.liked_by third_user
         end
 
         it 'returns me and 2 others' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: true)).to eq('liked by you and 2 others')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 2 others')
         end
       end
     end
@@ -198,13 +196,14 @@ RSpec.describe EventDecorator, type: :decorator do
       let(:forth_user) { create(:user) }
 
       before do
-        create(:event_react, event_id: my_event.id, user: other_user)
-        create(:event_react, event_id: my_event.id, user: third_user)
+        my_event.liked_by other_user
+        my_event.liked_by third_user
+        my_event.unliked_by event_creator
       end
 
       context 'when no friends have liked' do
         it 'returns num of likes' do
-          expect(my_event.decorate.likes(event_creator, current_user_liked: false)).to eq('2 likes')
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('2 likes')
         end
       end
 
@@ -213,15 +212,15 @@ RSpec.describe EventDecorator, type: :decorator do
           event_creator.send_follow_request_to(other_user)
           other_user.accept_follow_request_of(event_creator)
 
-          third_user.accept_follow_request_of(event_creator)
           event_creator.send_follow_request_to(third_user)
+          third_user.accept_follow_request_of(event_creator)
 
-          forth_user.accept_follow_request_of(event_creator)
           event_creator.send_follow_request_to(forth_user)
+          forth_user.accept_follow_request_of(event_creator)
         end
 
         it 'returns a string including a friends name' do
-          expect(my_event.decorate.likes(event_creator)).to include(other_user.full_name).or include(third_user.full_name)
+          expect(my_event.decorate.likes(current_user: event_creator)).to include(other_user.full_name).or include(third_user.full_name)
         end
       end
     end
