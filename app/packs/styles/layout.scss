@@ -455,7 +455,7 @@ h2 .btn.btn-outline-secondary {
   position: relative;
   height: 49em;
   background-color: #ffffff;
-  background-image: linear-gradient(#000000 2px, transparent 0),
+  background-image: linear-gradient(darkgrey 2px, transparent 0),
     linear-gradient(#c9c9c9 1px, transparent 0);
   background-position-y: 1em;
   background-size: 2em 2em, 0.5em 0.5em;
@@ -493,14 +493,18 @@ h2 .btn.btn-outline-secondary {
 }
 
 .simple-calendar * td {
-  border-right: 1px solid !important;
+  border-right: 1px solid darkgrey !important;
   position: relative;
   width: 12%;
 }
 
+.simple-calendar * .bg-success {
+  background-color: rgb(115, 92, 221) !important;
+}
+
 #ytd {
   text-align: center;
-  background-image: linear-gradient(#000000 2px, transparent 0);
+  background-image: linear-gradient(darkgrey 2px, transparent 0);
   background-color: rgb(255, 255, 255, 1);
   background-size: 2em 2em;
   opacity: 1;
