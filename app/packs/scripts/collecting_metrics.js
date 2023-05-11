@@ -13,7 +13,29 @@ document.addEventListener("DOMContentLoaded", () => {
       let metrics = new FormData();
       metrics.append("time_enter", pageVisitedFrom);
       metrics.append("time_exit", Date.now());
-      metrics.append("route", window.location.pathname.replace(/\d+/, "#"));
+      route = window.location.pathname.replace(/\d+/, "#")
+
+      // Special case for outings where id is not a number but an aplhanumerical string
+      // { name: '/outings', routes: ['', '/#', '/new', '/#/edit', '/#/set_details', '/#/send_invites'] },
+      routeStart = window.location.pathname.substring(0, window.location.pathname.indexOf('/', 1));
+      if (routeStart == '/outings') {
+        if (window.location.pathname !== '/outings/new' && window.location.pathname !== '/outings') {
+          secondSlashIndex = 8;
+          thirdSlashIndex = window.location.pathname.indexOf('/', secondSlashIndex + 1);
+
+          if (thirdSlashIndex == -1) {
+            // path is /outings/<id_of_outing>
+            route = '/outings/#';
+
+          } else {
+            // path is /outings/<id_of_outing>/xxx
+            route = '/outings/#/' + window.location.pathname.substring(thirdSlashIndex + 1);
+          }
+
+        }
+      }
+
+      metrics.append("route", route);
       metrics.append("is_logged_in", false);
       metrics.append("number_interactions", interactions);
       metrics.append("authenticity_token", CSRFToken);

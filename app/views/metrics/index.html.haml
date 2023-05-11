@@ -13,9 +13,15 @@
   .card-header
     %span General Metrics
   .card-body
-    %div{:class=>"flex_container"}
-      -@all_metrics.each do |metric|
-        = render 'page_metrics', route_name: metric["route"], metrics: metric["metrics"]
+    %div{:class=>"tab_list"}
+      -@routes_interested_in.each do |route|
+        %button{:class=>"metric_tab_button"} #{route[:name]}
+    %div{:class=>"tabs"}
+      -@routes_interested_in.each do |route|
+        %div{:id=>route[:name]+"_tab", :class=>[route[:name] != '/' && 'hidden', 'metric_tab']}
+          -@all_metrics[route[:name]].each do |route_end|
+            %div{:class=>"flex_container"}
+              = render 'page_metrics', route_name: route_end["route"], metrics: route_end["metrics"]
 
 .card
   .card-header 
@@ -38,9 +44,13 @@
               %option{:value=>"Day"} Day
               %option{:value=>"Month"} Month
               %option{:value=>"Year"} Year
-            %input{:name=>"page", :readonly=>"true", :value=>"/", :id=>"pageSelected", :value=>params["pageSelected"]}
-            %input{:name=>"metric", :readonly=>"true", :value=>"", :id=>"metricSelected", :value=>params["metricSelected"]}
+            %input{:name=>"page", readonly:true, :id=>"pageSelected", :value=>params["pageSelected"]}
+            %input{:name=>"metric", readonly:true, :id=>"metricSelected", :value=>params["metricSelected"]}
             %button{:type=>"submit"}Update Graph
+
+      %div
+        %span Select a metric by clicking on one of the metrics in the tab above
+
       %div
         %legend Categories
         %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
@@ -61,6 +71,7 @@
               -@category_select_values.each do |category|
                 %option{:value=>category}=category
             %button{:type=>"submit"}Update Graph
+    
     %canvas{:id=>"myChart", :data=>{:labels=> @data_keys, :data=> @data_values}}
 .card
   .card-header 
