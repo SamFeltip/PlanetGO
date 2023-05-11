@@ -70,7 +70,7 @@ class ParticipantsController < ApplicationController
     @outing = @participant.outing
 
     unless @participant.destroy
-      flash[:error] = t('.error')
+      flash[:error] = 'error removing participant'
       redirect_to @user
       return
     end
@@ -79,7 +79,11 @@ class ParticipantsController < ApplicationController
     @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     respond_to do |format|
-      format.html { redirect_to set_details_outing_path(@outing) }
+      if @user == current_user
+        format.html { redirect_to outings_path }
+      else
+        format.html { redirect_to set_details_outing_path(@outing) }
+      end
       format.js
       format.json { head :no_content }
     end

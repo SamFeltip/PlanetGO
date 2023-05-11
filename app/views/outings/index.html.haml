@@ -10,6 +10,13 @@
             Create an Outing
           %i.bi-plus
 
-- @outings.each do |outing|
+#future_outings
+  - @outings_future.each do |outing|
+    = render 'outing_card', outing: outing
 
-  = render 'outing_card', outing: outing
+
+- if @outings_past.any?
+  #past_outings
+    %h2 Past outings
+    - @outings_past.each do |outing|
+      = render 'outing_card', outing: outing

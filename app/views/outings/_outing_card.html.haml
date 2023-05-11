@@ -13,6 +13,13 @@
                 .d-none.d-sm-inline
                   Edit
 
+
+          - if outing.creator != current_user && outing.users.include?(current_user)
+            = link_to participant_path(outing.invite_token, Participant.find_by(outing: outing, user: current_user)), class: 'btn btn-outline-danger destroy-participant', title: 'Remove Invite', method: :delete, data: {confirm: 'Are you sure?' } do
+              %i.bi-arrow-right-circle
+                .d-none.d-sm-inline
+                  Leave Outing
+
       %h3.d-inline-flex
         %em.d-inline-flex
           %i.bi-calendar.pe-1
@@ -25,4 +32,4 @@
             = outing.first_proposed_event.address
       %em.d-inline-flex.gray
         - if outing.check_pending(current_user)
-          You've requested access to this private outing. The outing creator will let you in soon!
+          Access Requested
