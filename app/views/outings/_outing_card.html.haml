@@ -23,3 +23,6 @@
           %i.bi-pin.pe-1
           %p.pe-3
             = outing.first_proposed_event.address
+      %em.d-inline-flex.gray
+        - if outing.check_pending(current_user)
+          You've requested access to this private outing. The outing creator will let you in soon!

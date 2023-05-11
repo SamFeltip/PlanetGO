@@ -11,8 +11,7 @@
       %p.grey #{@outing.participants.count} people interested
 
       #participant-cards
-        - @outing.participants.each do |participant|
-          = render 'outings/participant_card', participant: participant, action_buttons: true
+        = render 'participants/participants_list'
 
       %hr
       = form_tag send_invites_outing_path(@outing), method: :post, remote: true do

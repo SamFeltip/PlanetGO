@@ -33,8 +33,11 @@ Rails.application.routes.draw do
       get 'set_details'
       post 'send_invites'
       post 'stop_count'
-      resources :participants, only: %i[new create invite destroy update]
-      resource :invite_link, only: :show
+      resources :participants, only: %i[new create invite destroy update approve] do
+        member do
+          patch 'approve'
+        end
+      end
     end
     post :send_invites, on: :member
   end
