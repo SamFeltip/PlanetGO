@@ -6,6 +6,7 @@ Rails.application.routes.draw do
   resources :availabilities
 
   get 'events/search', to: 'events#search', as: 'event_search'
+  get 'events/manage_search', to: 'events#manage_search', as: 'event_manage_search'
   get 'events/manage', to: 'events#manage'
 
   resources :events

@@ -7,15 +7,25 @@
 .card
   .card-body
 
-    = form_with url: event_search_path, id: 'event-search-form', class: 'mb-2', local: false, method: :get do |f|
+    = simple_form_for :search, url: event_manage_search_path, method: :get, remote: true do |f|
 
-      = text_field_tag :description
+      .search-fields
+        .description-content
+          %label{for: 'search_description', class: 'd-flex align-items-center'}
+            %i.bi-search
 
-      %button.btn.btn-outline-secondary{:type => "submit", :name => "search"}
-        %i.bi-search
+          = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
-    #searched-events
+        .filter-content
+          %label{for: 'search_category_id', class: 'd-flex align-items-center'}
+            %i.bi-filter
 
+          = f.input :category_id, prompt: "filter by category...", input_html: { name: 'category_id'}, collection: Category.all, label: false, required: false, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+
+
+        %button.btn.btn-outline-primary{ type: 'submit' }
+          %i.bi-search
+          Search
 
 
 
@@ -34,16 +44,5 @@
         %th Category
         %th Approved
         %th
-    %tbody
-      - @events.each do |event|
-        %tr
-          %td= event.name
-          %td= event.time_of_event
-          %td= event.decorate.display_description
-          %td= event.category
-          %td= event.approved
-          %td
-            .btn-toolbar.float-end
-              = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
-              = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'
-              = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+    %tbody#events
+      = render 'events/manage_events_body', events: @events

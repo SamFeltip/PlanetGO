@@ -123,9 +123,37 @@ class EventsController < ApplicationController
     end
   end
 
+  def manage_search
+    if current_user.advertiser?
+      @events = Event.user_events(current_user).includes(:category)
+    end
+
+    if current_user.admin?
+      @events = Event.includes(:category)
+    end
+
+    # if search query is empty, show all events
+    unless if params[:description].to_s.strip == ''
+      filter_events_by_name_or_description(params)
+    end
+
+    # Only responds to remote call and yields a js file
+    respond_to do |format|
+      format.js # Call manage_search.js.haml
+    end
+  end
+
   def manage
-    @user_events = Event.user_events(current_user)
-    @pending_events = Event.pending_for_user(current_user).includes([:user])
+    @user_pending_events = Event.user_pending_events(current_user)
+    @pending_events = Event.pending_for_review(current_user).includes([:user])
+
+    if current_user.advertiser?
+      @events = Event.user_events(current_user).includes([:category])
+    end
+
+    if current_user.admin?
+      @events = Event.includes([:category])
+    end
   end
 
   private
