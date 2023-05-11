@@ -74,11 +74,16 @@
                 %span.sidebar-label
                   Outings
           - else
-            %li.sidebar-item.nav-item.active
+            %li.sidebar-item.nav-item{:class => controller.controller_name == 'account' ? 'active' : ''}
               = link_to :new_user_session, class: 'nav-link' do
                 %i.bi-person
                 %span.sidebar-label
                   Login
+            %li.sidebar-item.nav-item{:class => controller.controller_name == 'welcome' ? 'active' : ''}
+              = link_to "/welcome", class: 'nav-link' do
+                %i.bi-window-fullscreen
+                %span.sidebar-label
+                  about us
 
 
           %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}

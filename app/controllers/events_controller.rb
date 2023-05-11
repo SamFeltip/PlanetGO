@@ -139,10 +139,11 @@ class EventsController < ApplicationController
   # takes in a search query
   # returns a list of events which match every word in the search query
   def filter_events_by_content(search_params)
-    word_event_ids = []
     query_list = search_params[:description].to_s.downcase.strip.split
 
-    events_out = Event.approved
+    return Event.none if query_list.empty?
+
+    events_out = Event.approved.includes(:category)
 
     # go through every word in the query and get the ids of events which match the word
     query_list.each do |word|
