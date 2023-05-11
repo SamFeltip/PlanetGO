@@ -2,20 +2,21 @@
 - additional_javascript('metrics')
 
 .card
+  .card-body.landing_page_visits_information.primary-card
+    %span.start_text Site Visits:
+    %span.num_visits=@landing_page_visits_last_7_days
+    %span.percentage{class: [(@percent_difference.index('-') == nil && @percent_difference.index('~') == nil) && 'positive', @percent_difference.index('-') == 0 && 'negative']}=@percent_difference
+    %br
+    %span.end_text=@landing_page_visits_7_days_before_that.to_s + ' in the previous week'
+
+.card
   .card-header
     %span General Metrics
   .card-body
     %div{:class=>"flex_container"}
       -@all_metrics.each do |metric|
         = render 'page_metrics', route_name: metric["route"], metrics: metric["metrics"]
-.card
-  .card-header 
-    %span Special Metrics
-  .card-body{:class=>"informationBox"}
-    %div{:class=>"informationKey"}
-      %div{:class=>"clickable", :route_name => "/", :metric => "Total number of landing page visits"}="Total number of landing page visits:"
-    %div
-      %div{:class=>"informationValue"}=@number_landing_page_visits
+
 .card
   .card-header 
     %span Graphs 

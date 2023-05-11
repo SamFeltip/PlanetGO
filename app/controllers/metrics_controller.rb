@@ -33,7 +33,7 @@ class MetricsController < ApplicationController
       @all_metrics.append({ 'route' => route, 'metrics' => get_common_metrics(metrics_list) })
     end
 
-    @number_landing_page_visits = metrics.where(route: '/').count.to_s
+    @landing_page_visits_last_7_days, @landing_page_visits_7_days_before_that, @percent_difference = main_visit_information
 
     # Count for each country number of visits to the landing page. Countries with no visits not included in generated data object
     country_codes_metrics = metrics.where(route: '/').where.not(country_code: [nil, '']).order(:country_code)

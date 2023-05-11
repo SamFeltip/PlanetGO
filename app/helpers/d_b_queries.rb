@@ -63,4 +63,23 @@ module DBQueries
       ['x̄ time on page', average_time_spent]
     ]
   end
+
+  def main_visit_information
+    landing_page_visits = Metric.where(route: '/')
+    now = DateTime.now
+    seven_days_ago = now - 7.days
+    fourteen_days_ago = now - 14.days
+    landing_page_visits_last_7_days = get_number_of_visits(landing_page_visits, seven_days_ago, now)
+    landing_page_visits_7_days_before_that = get_number_of_visits(landing_page_visits, fourteen_days_ago, seven_days_ago)
+
+    no_visits_7_days_before_that = landing_page_visits_7_days_before_that.zero?
+    no_visits_last_7_days = landing_page_visits_last_7_days.zero?
+    # prevent dividing by zero
+    percent_difference = if no_visits_7_days_before_that || no_visits_last_7_days
+                           '~%'
+                         else
+                           "#{(100 * ((landing_page_visits_last_7_days - landing_page_visits_7_days_before_that).to_f / landing_page_visits_7_days_before_that.abs)).to_i}%"
+                         end
+    [landing_page_visits_last_7_days, landing_page_visits_7_days_before_that, percent_difference]
+  end
 end
