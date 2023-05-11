@@ -1,0 +1,31 @@
+- if events.any?
+  %table.table
+    %thead
+      %tr
+        %th Name
+        %th Date
+        %th Description
+        %th Category
+        %th Approved
+        %th
+    %tbody
+      - events.each do |event|
+        %tr
+          %td= event.name
+          %td= event.decorate.display_time
+          %td= event.decorate.display_description(length: 30)
+          %td
+            .lg-icon.text-center
+              = event.category.symbol
+          %td
+            .lg-icon.text-center
+              %a{href: edit_event_path(event)}
+                %i{:class => event.decorate.approved_icon + " " + event.decorate.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.decorate.approved_desc}}
+          %td
+            .btn-toolbar.float-end
+              = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
+              = link_to 'Edit', edit_event_path(event), class: 'btn btn-outline-secondary ms-1 btn-sm'
+              = link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-outline-danger ms-1 btn-sm'
+- else
+  .card-body
+    %p No events found

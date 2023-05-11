@@ -1,4 +1,4 @@
 -# Render events search partial
-var results = "#{ j render 'events/manage_events_body', events: @events}";
+var results = "#{ j render 'events/manage_events_events_list', events: @events}";
 
 document.getElementById('events').innerHTML = results;

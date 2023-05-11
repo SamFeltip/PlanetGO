@@ -3,7 +3,7 @@
 class EventsController < ApplicationController
   before_action :set_event, only: %i[show edit update destroy approval like]
   before_action :authenticate_user!, only: %i[new create edit update destroy approval like]
-  before_action :set_liked, only: %i[show]
+  before_action :set_liked, only: %i[show like]
   load_and_authorize_resource except: [:index]
 
   # GET /events or /events.json
@@ -143,6 +143,8 @@ class EventsController < ApplicationController
 
     # if search query is empty, show all events
     @events = filter_events_by_content(@events, params) unless params[:description].to_s.strip == ''
+
+    @events = @events.where(category_id: params[:category_id] ) unless params[:category_id].blank?
 
     # Only responds to remote call and yields a js file
     respond_to do |format|

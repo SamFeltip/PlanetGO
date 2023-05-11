@@ -33,16 +33,11 @@
   .card-header.d-flex.align-items-center
     %span Listing Events
 
-    = link_to 'New Event', new_event_path, class: 'btn btn-outline-secondary ms-auto'
+    = link_to new_event_path, class: 'btn btn-outline-secondary ms-auto' do
+      New Event
+      %i.ps-2.bi-plus-circle
 
-  %table.table
-    %thead
-      %tr
-        %th Name
-        %th Date
-        %th Description
-        %th Category
-        %th Approved
-        %th
-    %tbody#events
-      = render 'events/manage_events_body', events: @events
+
+  #events
+    = render 'events/manage_events_events_list', events: @events
+
