@@ -62,17 +62,21 @@
                   %span.sidebar-label
                     Sign out
 
-            %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
-              = link_to "/friends", class: 'nav-link' do
-                %i.bi-people
-                %span.sidebar-label
-                  Friends
+            - if can? :index, :friend
 
-            %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
-              = link_to :outings, class: 'nav-link' do
-                %i.bi-map
-                %span.sidebar-label
-                  Outings
+              %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
+                = link_to "/friends", class: 'nav-link' do
+                  %i.bi-people
+                  %span.sidebar-label
+                    Friends
+
+            - if can? :index, Outing
+
+              %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
+                = link_to :outings, class: 'nav-link' do
+                  %i.bi-map
+                  %span.sidebar-label
+                    Outings
           - else
             %li.sidebar-item.nav-item{:class => controller.controller_name == 'account' ? 'active' : ''}
               = link_to :new_user_session, class: 'nav-link' do
