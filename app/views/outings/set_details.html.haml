@@ -78,7 +78,7 @@
         .horizontal-scroll.justify-content-center
           - if @final_events.any?
             - @final_events.each do |event|
-              = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+              = render 'events/event_card', event: event, add_to_outing_params: {hide_likes: true, add_event_to_outing: true, outing_id: @outing.id }
           - else
             %p.text-center
               No nearby restaurants or accommodation found

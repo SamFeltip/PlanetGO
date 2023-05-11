@@ -91,5 +91,5 @@
 
   .horizontal-scroll
     - @more_events.each do |event|
-      = render 'event_card', event: event, render_params: {}
+      = render 'event_card', event: event, add_to_outing_params: { hide_likes: false }
 

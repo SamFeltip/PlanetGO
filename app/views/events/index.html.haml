@@ -48,7 +48,7 @@
             Near you
           #events-display
             - @nearby_events.each do |event|
-              = render "event_card", event: event
+              = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
 
 
       - if defined?(@favourite_category)
@@ -61,7 +61,7 @@
           .horizontal-scroll
             - @recommended_events.each do |event|
 
-              = render "event_card", event: event
+              = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
     #liked-events
       .mb-3
         %h2
@@ -85,6 +85,6 @@
         Events you'll love
       #events-display
         - @events.each do |event|
-          = render "event_card", event: event
+          = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
       .d-flex.justify-content-center.digg_pagination
         = will_paginate @events

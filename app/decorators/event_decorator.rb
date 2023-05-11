@@ -40,6 +40,10 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
+  def like_plural(count)
+    "like#{count == 1 ? '' : 's'}"
+  end
+
   # returns a string describing who has liked this event and how many people there are,
   # using the current user to include friends names if they have liked it
   def likes(current_user: nil, compressed: false)
@@ -50,13 +54,13 @@ class EventDecorator < ApplicationDecorator
     event_likes_count = object.votes_for.size
 
     # if no user is given, just return the number of likes
-    return "#{event_likes_count} likes" if current_user.nil?
+    return "#{event_likes_count} #{like_plural(event_likes_count)}" if current_user.nil?
 
     # if we want a shorter string
     if compressed
       return 'liked' if current_user_liked
 
-      return "#{event_likes_count} likes"
+      return "#{event_likes_count} #{like_plural(event_likes_count)}"
     end
 
     # produces the 'and x other(s)' string
@@ -75,7 +79,7 @@ class EventDecorator < ApplicationDecorator
     if random_friend
       "liked by #{random_friend} #{and_others_string}"
     else
-      "#{event_likes_count} like#{event_likes_count == 1 ? '' : 's'}"
+      "#{event_likes_count} #{like_plural(event_likes_count)}"
     end
   end
 
