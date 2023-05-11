@@ -19,7 +19,6 @@
       %thead
         %tr
           %th Title
-          %th Description
           %th Category
           %th Resolved
           %th Reported by
@@ -30,7 +29,6 @@
         - @bug_reports.each do |bug_report|
           %tr.bug-report
             %td= bug_report.title
-            %td= bug_report.description
             %td= bug_report.category
             %td= bug_report.resolved
             %td= bug_report.user

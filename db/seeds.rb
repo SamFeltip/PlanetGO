@@ -886,3 +886,43 @@ metric_21 = Metric.where(
   time_enter: '2022-11-27 12:24:19', time_exit: '2022-11-27 12:25:19', route: '/', latitude: 53.376347,
   longitude: -1.488364, country_code: 'IN', is_logged_in: false, number_interactions: 5
 ).first_or_create
+
+puts ''
+print 'creating bug reports'
+
+bug_reports_data = [
+  {
+    title: 'Navigation Issue',
+    description: 'When clicking on the navigation menu item, the page does not load correctly. The user is redirected to an incorrect page.',
+    category: 'usability'
+  },
+  {
+    title: 'Data Validation Bug',
+    description: 'When submitting the form with invalid data, the error messages are not displayed properly. Users are not aware of the missing or incorrect fields.',
+    category: 'functionality'
+  },
+  {
+    title: 'Styling Problem',
+    description: 'The font size of the headings is inconsistent across different pages. This affects the overall visual consistency and readability of the website.',
+    category: 'visual'
+  },
+  {
+    title: 'Slow Performance',
+    description: 'When loading large datasets, the page takes too long to respond. This impacts the user experience and may lead to frustration.',
+    category: 'performance'
+  },
+  {
+    title: 'Mobile Responsiveness Issue',
+    description: 'On smaller screens, the content is not properly aligned. The layout gets distorted, making it difficult to navigate and read the text.',
+    category: 'usability'
+  }
+]
+
+bug_reports_data.each do |bug_report_data|
+  BugReport.create(
+    title: bug_report_data[:title],
+    description: bug_report_data[:description],
+    category: bug_report_data[:category],
+    user: User.all.sample
+  )
+end

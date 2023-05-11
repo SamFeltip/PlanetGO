@@ -87,7 +87,7 @@ class User < ApplicationRecord
 
   def liked_events
     liked_event_ids = votes.up.for_type(Event).votables.pluck(:id)
-    Event.where(id: liked_event_ids)
+    Event.where(id: liked_event_ids).includes([:category])
   end
 
   def my_outings
@@ -146,7 +146,7 @@ class User < ApplicationRecord
   def recommended_events(outing: nil)
     # get all events the user has liked
     event_list_ids = votes.up.for_type(Event).votables.pluck(:id)
-    event_list = Event.where(id: event_list_ids)
+    event_list = Event.where(id: event_list_ids).includes([:category])
 
     # filter out all events in the outing, if it exists
     event_list = event_list.where.not(id: ProposedEvent.where(outing_id: outing.id).pluck(:event_id)) if outing
@@ -155,7 +155,7 @@ class User < ApplicationRecord
   end
 
   def local_events
-    postcode.present? ? Event.approved.near(self).limit(3) : Event.none
+    postcode.present? ? Event.approved.near(self).limit(4) : Event.none
   end
 
   def final_events

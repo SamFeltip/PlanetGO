@@ -13,7 +13,7 @@
       %p
         You haven't set a start time for this outing yet
 
-      %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'when')}
+      %a#decide-on-a-time.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'when')}
         %i.bi-clock.px-1
           Decide on a time here
         %i.bi-arrow-right.px-1
@@ -25,7 +25,7 @@
 
 
       - if (current_user == @outing.creator || current_user.admin?) && @outing.events.count > 2
-        %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
+        %a#add-more-events-top.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'where')}
           %i.bi-calendar-event.px-1
             Add more events
           %i.bi-arrow-right.px-1

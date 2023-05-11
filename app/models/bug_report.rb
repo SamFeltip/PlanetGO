@@ -26,6 +26,7 @@ class BugReport < ApplicationRecord
   has_one_attached :evidence
   has_many :comments, dependent: :destroy
 
+  default_scope { includes(:evidence_attachment) }
   scope :search, ->(query) { where('title LIKE ? OR description LIKE ?', "%#{query}%", "%#{query}%") }
   scope :by_category, ->(category) { where(category:) }
 

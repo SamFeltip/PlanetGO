@@ -6,7 +6,7 @@ var voteLike = proposed_event_card.querySelector('.vote-like');
 
 var voteLikeCount = proposed_event_card.querySelector('.vote-like-count');
 
-var voteButton = proposed_event_card.querySelector('#vote-button');
+var voteButton = proposed_event_card.querySelector('#vote-button-#{@proposed_event.id}');
 
 - if current_user.voted_for? @proposed_event
   voteLike.classList.replace('bi-hand-thumbs-up', 'bi-hand-thumbs-up-fill');
