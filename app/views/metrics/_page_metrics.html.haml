@@ -2,9 +2,7 @@
   .card-header=route_name
   .card-body
     %div{:class=>"informationBox"}
-      %div{:class=>"informationKey"}
-        - metrics.each do |metric|
-          %div{:class=>"clickable", :route_name => route_name, :metric => metric[0].to_s}=metric[0].to_s+":"
-      %div{:class=>"informationValue"}
-        - metrics.each do |metric|
-          %div=metric[1].to_s
+      - metrics.each do |metric|
+        %div
+          %button{:class=>"clickable", :route_name => route_name, :metric => metric[0].to_s}=metric[0].to_s+":"
+          %span{:class=>"informationValue"}=metric[1].to_s
