@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 # destroy existing records to avoid duplication
+puts 'destroying existing records'
 Event.destroy_all
+Outing.destroy_all
 User.destroy_all
 Category.destroy_all
 

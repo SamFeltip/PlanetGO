@@ -53,7 +53,7 @@
 class User < ApplicationRecord
   has_many :participants, dependent: :destroy
   has_many :events, dependent: :restrict_with_error
-  has_many :outings, class_name: 'Outing', through: :participants
+  has_many :outings, class_name: 'Outing', through: :participants, dependent: :destroy
   has_many :category_interests, dependent: :destroy
   has_many :categories, through: :category_interests
   has_many :availabilities, dependent: :destroy
