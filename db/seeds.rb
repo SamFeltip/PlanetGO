@@ -536,25 +536,28 @@ accom_2 = Event.where(
   approved: true
 ).first_or_create
 
+event_list = [event_1, event_2, event_3, event_4, event_5, event_6, event_7, event_8, event_9, event_10, event_11, event_12, event_13, event_14, event_15, event_16, event_17, event_18, event_19, event_20, event_21, event_22, event_23]
+
+
 random_event_and_user_pairs = [
-  [1, 1],
-  [5, 10],
-  [17, 2],
-  [2, 3],
-  [7, 15],
-  [3, 12],
-  [16, 6],
-  [8, 18],
-  [14, 4],
-  [11, 9],
-  [13, 7],
-  [4, 16],
-  [6, 14],
-  [15, 5],
-  [12, 8],
-  [9, 17],
-  [10, 11],
-  [18, 13]
+  [user_list[1], event_list[1]],
+  [user_list[5], event_list[10]],
+  [user_list[17], event_list[2]],
+  [user_list[2], event_list[3]],
+  [user_list[7], event_list[15]],
+  [user_list[3], event_list[12]],
+  [user_list[10], event_list[6]],
+  [user_list[8], event_list[18]],
+  [user_list[10], event_list[4]],
+  [user_list[11], event_list[9]],
+  [user_list[9], event_list[7]],
+  [user_list[4], event_list[16]],
+  [user_list[6], event_list[14]],
+  [user_list[10], event_list[5]],
+  [user_list[10], event_list[8]],
+  [user_list[9], event_list[17]],
+  [user_list[10], event_list[11]],
+  [user_list[5], event_list[13]]
 ]
 
 puts ''
@@ -562,10 +565,10 @@ print 'creating event reacts'
 
 random_event_and_user_pairs.each do |pair|
   print '.'
-  user_id = pair[0]
-  event_id = pair[1]
+  user = pair[0]
+  event = pair[1]
 
-  Event.find(event_id).liked_by User.find(user_id)
+  event.liked_by user
 end
 
 puts ''
@@ -651,7 +654,6 @@ time_periods = [
 ]
 
 outing_list = [outing3, outing1, outing4, outing2, outing5, outing2, outing1, outing3, outing5, outing4, outing2, outing1, outing4, outing3, outing5, outing1, outing2]
-event_list = [event_1, event_2, event_3, event_4, event_5, event_6, event_7, event_8, event_9, event_10, event_11, event_12, event_13, event_14, event_15, event_16, event_17]
 
 puts ''
 print 'creating proposed events'
@@ -668,25 +670,43 @@ end
 
 # create participants for every user of every outing
 
-user_ids = [6, 14, 5, 12, 3, 17, 8, 1, 11, 16, 2, 7, 13, 18, 9, 4, 15]
+user_participant_list = [
+  user_list[6],
+  user_list[10],
+  user_list[5],
+  user_list[5],
+  user_list[3],
+  user_list[8],
+  user_list[8],
+  user_list[1],
+  user_list[11],
+  user_list[10],
+  user_list[2],
+  user_list[7],
+  user_list[1],
+  user_list[4],
+  user_list[9],
+  user_list[4],
+  user_list[10]
+]
 
-# zip user_ids, outings together
-participant_zips = user_ids.zip(outing_list)
+# zip user_participant_list, outings together
+participant_zips = user_participant_list.zip(outing_list)
 
 puts ''
 print 'creating participants'
 
-participant_zips.each do |user_id, outing|
+participant_zips.each do |user, outing|
   print '.'
   status = 'confirmed'
 
   # random but reproducible pending requests
-  status = 'pending' if (user_id + (outing.id % 2)).zero?
+  status = 'pending' if (user.id + (outing.id % 2)).zero?
 
-  status = 'creator' if outing.creator_id == user_id
+  status = 'creator' if outing.creator_id == user.id
 
   Participant.where(
-    user_id: user_id,
+    user_id: user.id,
     outing_id: outing.id,
     status: status
   ).first_or_create
