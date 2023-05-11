@@ -45,6 +45,7 @@ RSpec.describe 'Availabilities', js: true do
         end
 
         it 'new availability is visible' do
+          sleep 0.5
           expect(page).to have_selector('.card.bg-success', count: 2)
         end
       end

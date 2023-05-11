@@ -2,42 +2,65 @@
 - additional_javascript('metrics')
 
 .card
+  .card-body.landing_page_visits_information.primary-card
+    %span.start_text Site Visits:
+    %span.num_visits=@landing_page_visits_last_7_days
+    %span.percentage{class: [(@percent_difference.index('-') == nil && @percent_difference.index('~') == nil) && 'positive', @percent_difference.index('-') == 0 && 'negative']}=@percent_difference
+    %br
+    %span.end_text=@landing_page_visits_7_days_before_that.to_s + ' in the previous week'
+
+.card
   .card-header
     %span General Metrics
   .card-body
     %div{:class=>"flex_container"}
       -@all_metrics.each do |metric|
         = render 'page_metrics', route_name: metric["route"], metrics: metric["metrics"]
-.card
-  .card-header 
-    %span Special Metrics
-  .card-body{:class=>"informationBox"}
-    %div{:class=>"informationKey"}
-      %div{:class=>"clickable", :route_name => "/", :metric => "Total number of landing page visits"}="Total number of landing page visits:"
-    %div
-      %div{:class=>"informationValue"}=@number_landing_page_visits
+
 .card
   .card-header 
     %span Graphs 
   .card-body
-    .card-body
-      %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
-        %div
-          %label{:for=>"start"} Start
-          %label{:for=>"end"} End
-          %label{:for=>"resolution"} Resolution
-          %label{:for=>"page"} Page
-          %label{:for=>"metric"} Metric
-        %div
-          %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
-          %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
-          %select{:name=>"resolution", :value=>params["resolution"]}
-            %option{:value=>"Day"} Day
-            %option{:value=>"Month"} Month
-            %option{:value=>"Year"} Year
-          %input{:name=>"page", :readonly=>"true", :value=>"/", :id=>"pageSelected", :value=>params["pageSelected"]}
-          %input{:name=>"metric", :readonly=>"true", :value=>"", :id=>"metricSelected", :value=>params["metricSelected"]}
-          %button{:type=>"submit"}Update Graph
+    .card-body.graph_body
+      %div
+        %legend Metrics
+        %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
+          %div
+            %label{:for=>"start"} Start
+            %label{:for=>"end"} End
+            %label{:for=>"resolution"} Resolution
+            %label{:for=>"page"} Page
+            %label{:for=>"metric"} Metric
+          %div
+            %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
+            %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
+            %select{:name=>"resolution", :value=>params["resolution"]}
+              %option{:value=>"Day"} Day
+              %option{:value=>"Month"} Month
+              %option{:value=>"Year"} Year
+            %input{:name=>"page", :readonly=>"true", :value=>"/", :id=>"pageSelected", :value=>params["pageSelected"]}
+            %input{:name=>"metric", :readonly=>"true", :value=>"", :id=>"metricSelected", :value=>params["metricSelected"]}
+            %button{:type=>"submit"}Update Graph
+      %div
+        %legend Categories
+        %form{:class=>"graph_form",:"accept-charset"=>"UTF-8", :action=>"/metrics", :method=>"get"}
+          %div
+            %label{:for=>"start"} Start
+            %label{:for=>"end"} End
+            %label{:for=>"resolution"} Resolution
+            %label{:for=>"category"} Category
+          %div
+            %input{:type=>"date", :name=>"start", :id=>"start", :value=>params["start"]}
+            %input{:type=>"date", :name=>"end", :id=>"end", :value=>params["end"]}
+            %select{:name=>"resolution", :value=>params["resolution"]}
+              %option{:value=>"Day"} Day
+              %option{:value=>"Month"} Month
+              %option{:value=>"Year"} Year
+            %select{:name=>"category", :readonly=>"true", :value=>"All", :id=>"categorySelected", :value=>params["categorySelected"]}
+              %option{:value=>"All"} All
+              -@category_select_values.each do |category|
+                %option{:value=>category}=category
+            %button{:type=>"submit"}Update Graph
     %canvas{:id=>"myChart", :data=>{:labels=> @data_keys, :data=> @data_values}}
 .card
   .card-header 

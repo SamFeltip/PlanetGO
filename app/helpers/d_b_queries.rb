@@ -20,6 +20,12 @@ module DBQueries
     (metrics.sum(:number_interactions) / metrics.count).to_s
   end
 
+  def get_event_category_popularity(name, start_date_time, end_date_time)
+    search_string = 'categories.name = :name and proposed_events.proposed_datetime >= :start_date_time and proposed_events.proposed_datetime < :end_date_time',
+                    { name:, start_date_time:, end_date_time: }
+    ProposedEvent.joins(event: :category).where(search_string).count
+  end
+
   def get_average_time_spent(metrics, start_date_time, end_date_time)
     if start_date_time && end_date_time
       metrics = metrics.where('time_enter >= :start_date_time and time_enter <= :end_date_time',
@@ -56,5 +62,24 @@ module DBQueries
       ['x̄ # clicks/visit', number_of_interactions_per_visit],
       ['x̄ time on page', average_time_spent]
     ]
+  end
+
+  def main_visit_information
+    landing_page_visits = Metric.where(route: '/')
+    now = DateTime.now
+    seven_days_ago = now - 7.days
+    fourteen_days_ago = now - 14.days
+    landing_page_visits_last_7_days = get_number_of_visits(landing_page_visits, seven_days_ago, now)
+    landing_page_visits_7_days_before_that = get_number_of_visits(landing_page_visits, fourteen_days_ago, seven_days_ago)
+
+    no_visits_7_days_before_that = landing_page_visits_7_days_before_that.zero?
+    no_visits_last_7_days = landing_page_visits_last_7_days.zero?
+    # prevent dividing by zero
+    percent_difference = if no_visits_7_days_before_that || no_visits_last_7_days
+                           '~%'
+                         else
+                           "#{(100 * ((landing_page_visits_last_7_days - landing_page_visits_7_days_before_that).to_f / landing_page_visits_7_days_before_that.abs)).to_i}%"
+                         end
+    [landing_page_visits_last_7_days, landing_page_visits_7_days_before_that, percent_difference]
   end
 end
