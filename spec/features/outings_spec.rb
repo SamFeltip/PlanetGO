@@ -631,8 +631,8 @@ RSpec.describe 'Outings' do
         visit set_details_outing_path(past_outing)
       end
 
-      it 'redirects to the root page' do
-        expect(page).to have_current_path('/')
+      it 'redirects to the events page (root)' do
+        expect(page).to have_current_path('/events')
       end
 
       it 'alerts the user they are not authorized to access this page' do

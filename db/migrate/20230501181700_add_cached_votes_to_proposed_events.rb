@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class AddCachedVotes < ActiveRecord::Migration[7.0]
+class AddCachedVotesToProposedEvents < ActiveRecord::Migration[7.0]
   def change
     change_table :proposed_events do |t|
       t.integer :cached_likes_total, default: 0
