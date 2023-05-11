@@ -6,13 +6,11 @@
 
 #outing-body.pt-3.overline.mb-5
 
-
   / view for assigning participants to outing, and for deciding a date for the outing
   -# params position is used because javascript is used to switch between who, when and where views
   #content-who-and-when.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? '' : 'd-none'}
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
       %p.grey #{@outing.participants.count} people interested
-
 
       #participant-cards
         = render 'participants/participants_list'

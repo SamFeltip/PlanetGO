@@ -49,13 +49,6 @@ RSpec.describe 'Outings' do
           expect(page).to have_no_content(past_outing.name)
         end
       end
-
-      it 'shows user their past outings' do
-        past_outings_element = find_by_id('past_outings')
-
-        expect(past_outings_element).to have_content(past_outing.name)
-        expect(past_outings_element).to have_no_content(future_outing.name)
-      end
     end
 
     describe 'when the user creates an outing' do
@@ -646,6 +639,28 @@ RSpec.describe 'Outings' do
         expect(page).to have_no_content('Stop the count!')
       end
     end
+
+    context 'when the user leaves an outing' do
+      before do
+        visit outings_path
+
+        within "#outing_#{past_outing.id}" do
+          click_link 'Remove Invite'
+        end
+      end
+
+      it 'removes the user from the outing' do
+        expect(page).to have_no_content(past_outing.name)
+      end
+
+      it 'removes a participant object' do
+        expect(Participant.where(outing: past_outing, user: participant_user).count).to eq(0)
+      end
+
+      it 'stays on the outings page' do
+        expect(page).to have_current_path('/outings')
+      end
+    end
   end
 
   context 'when a user is logged in as an uninvited user' do
@@ -690,6 +705,37 @@ RSpec.describe 'Outings' do
 
       it 'shows a notice' do
         expect(page).to have_content('You need to sign in or sign up before continuing.')
+      end
+    end
+  end
+
+  context 'when the user visits the outings index page' do
+    before do
+      login_as outing_creator
+      visit outings_path
+    end
+
+    it 'shows the user their upcoming outings' do
+      within '#future_outings' do
+        expect(page).to have_content(future_outing.name)
+        expect(page).to have_no_content(past_outing.name)
+      end
+    end
+
+    it 'shows user their past outings' do
+      within '#past_outings' do
+        expect(page).to have_content(past_outing.name)
+        expect(page).to have_no_content(future_outing.name)
+      end
+    end
+
+    it 'does not show outings they are not participating in' do
+      expect(page).to have_no_content(another_outing.name)
+    end
+
+    it 'does not let the user leave an outing they are the creator of' do
+      within "#outing_#{future_outing.id}" do
+        expect(page).to have_no_content('Leave Outing')
       end
     end
   end
