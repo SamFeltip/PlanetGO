@@ -8,19 +8,19 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.includes(:category).approved.paginate(page: params[:page])
+    @events = Event.approved.paginate(page: params[:page])
 
     return unless user_signed_in?
 
     # order by category interest if no search was performed
     if params[:description].blank? && params[:category_id].blank?
-      @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
+      @events = current_user.commercial ? @events.includes([:category]).order_by_category_interest(current_user) : @events
     end
 
-    @nearby_events = current_user.local_events.approved
+    @nearby_events = current_user.local_events.approved.includes([:category])
     @favourite_category = current_user.category_interests.order(interest: :desc).first.category if current_user.category_interests.any?
 
-    @recommended_events = Event.approved.where(category: @favourite_category).limit(5) if @favourite_category
+    @recommended_events = Event.approved.includes([:category]).where(category: @favourite_category).limit(5) if @favourite_category
 
     @liked_events = current_user.liked_events.paginate(page: params[:page], per_page: 2)
   end

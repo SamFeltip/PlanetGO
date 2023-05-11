@@ -51,7 +51,7 @@ class EventDecorator < ApplicationDecorator
     current_user_liked = current_user.voted_up_on? self unless current_user.nil?
 
     # get all like objects for this event
-    event_likes_count = object.votes_for.size
+    event_likes_count = object.cached_votes_total
 
     # if no user is given, just return the number of likes
     return "#{event_likes_count} #{like_plural(event_likes_count)}" if current_user.nil?
