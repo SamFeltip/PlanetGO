@@ -20,6 +20,12 @@ module DBQueries
     (metrics.sum(:number_interactions) / metrics.count).to_s
   end
 
+  def get_event_category_popularity(name, start_date_time, end_date_time)
+    search_string = 'categories.name = :name and proposed_events.proposed_datetime >= :start_date_time and proposed_events.proposed_datetime < :end_date_time',
+                    { name:, start_date_time:, end_date_time: }
+    ProposedEvent.joins(event: :category).where(search_string).count
+  end
+
   def get_average_time_spent(metrics, start_date_time, end_date_time)
     if start_date_time && end_date_time
       metrics = metrics.where('time_enter >= :start_date_time and time_enter <= :end_date_time',
