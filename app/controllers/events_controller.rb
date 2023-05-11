@@ -142,16 +142,13 @@ class EventsController < ApplicationController
     word_event_ids = []
     query_list = search_params[:description].to_s.downcase.strip.split
 
+    events_out = Event.approved
+
     # go through every word in the query and get the ids of events which match the word
     query_list.each do |word|
-      word_events = Event.approved.where('lower(events.description) LIKE :query OR lower(events.name) LIKE :query', query: "%#{word}%")
-      word_event_ids.append(word_events.pluck(:id))
+      events_out = events_out.where('lower(events.description) LIKE :query OR lower(events.name) LIKE :query', query: "%#{word}%")
     end
-
-    # return events which were present for every word
-    search_event_ids = word_event_ids.reduce(:&)
-
-    Event.where(id: search_event_ids)
+    events_out
   end
 
   # takes in a list of searched for events plus a search query
