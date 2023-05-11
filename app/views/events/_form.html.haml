@@ -8,6 +8,12 @@
     = f.input :postcode, label: "Postcode", wrapper_html: { class: 'mb-3' }
     = f.input :time_of_event, label: "Time and Date", wrapper_html: { class: 'mb-3' }, html5: true
     = f.input :description, wrapper_html: { class: 'mb-3' }
+
+    -# dropdown to pick a colour
+    -# TODO implement
+    -# = f.input :colour , wrapper_html: { class: 'mb-3' }, collection: Event::colour, label: "Colour", include_blank: false
+
+
     - if locals[:edit] && current_user.admin? && !(@event.user == current_user)
       .row
         .col

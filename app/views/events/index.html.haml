@@ -1,8 +1,5 @@
 - additional_stylesheet 'events'
 
-- if current_user.admin? || current_user.advertiser?
-  = render "registering_events"
-
 .card
   .card-body
     = simple_form_for :search, url: events_path, method: :get do |f|

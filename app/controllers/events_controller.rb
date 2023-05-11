@@ -9,8 +9,6 @@ class EventsController < ApplicationController
   # GET /events or /events.json
   def index
     @events = Event.includes(:category).approved
-    @user_events = Event.user_events(current_user)
-    @pending_events = Event.pending_for_user(current_user).includes([:user])
 
     filter_events_by_name_or_description(params)
     filter_events_by_category
@@ -123,6 +121,11 @@ class EventsController < ApplicationController
       format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def manage
+    @user_events = Event.user_events(current_user)
+    @pending_events = Event.pending_for_user(current_user).includes([:user])
   end
 
   private
