@@ -49,17 +49,12 @@
             %i.bi-plus-circle
 
         #future_outings
-          - @future_outings.each do |outing|
 
-            = render 'outings/outing_card', outing: outing
-
-        #past_outings.py-3
-          - if @past_outings.empty?
+          - if @future_outings.empty?
             %p Plan some outings and see them here!
           - else
-            %h2 Previous
-          - @past_outings.each do |outing|
-            = render 'outings/outing_card', outing: outing
+            - @future_outings.each do |outing|
+              = render 'outings/outing_card', outing: outing
 
       .card-footer
         = link_to outings_path, class: 'd-flex justify-content-end' do

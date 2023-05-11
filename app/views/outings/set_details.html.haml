@@ -5,6 +5,7 @@
 = render 'outing_header', outing: @outing, nav: true
 
 #outing-body.pt-3.overline.mb-5
+
   -# params position is used because javascript is used to switch between who, when and where views
   #content-who-and-when.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? '' : 'd-none'}
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
