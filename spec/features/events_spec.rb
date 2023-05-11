@@ -24,7 +24,7 @@ RSpec.describe 'Events' do
 
     before do
       login_as event_creator
-      visit events_url
+      visit events_manage_path
     end
 
     context 'when I submit my event' do

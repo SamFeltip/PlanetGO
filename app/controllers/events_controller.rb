@@ -41,6 +41,10 @@ class EventsController < ApplicationController
 
   # POST /events or /events.json
   def create
+    # get event_params and upcase the postcode, and save it to event params
+    event_params[:postcode].upcase!
+
+
     @event = Event.new(event_params)
     @event.user_id = current_user.id if current_user
     respond_to do |format|
@@ -138,10 +142,11 @@ class EventsController < ApplicationController
     @events = Event.includes(:category) if current_user.admin?
 
     # if search query is empty, show all events
-    filter_events_by_content(@events, params) unless params[:description].to_s.strip == ''
+    @events = filter_events_by_content(@events, params) unless params[:description].to_s.strip == ''
 
     # Only responds to remote call and yields a js file
     respond_to do |format|
+      format.html { redirect_to events_manage_path }
       format.js # Call manage_search.js.haml
     end
   end
