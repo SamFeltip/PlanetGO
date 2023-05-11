@@ -44,7 +44,6 @@ class EventsController < ApplicationController
     # get event_params and upcase the postcode, and save it to event params
     event_params[:postcode].upcase!
 
-
     @event = Event.new(event_params)
     @event.user_id = current_user.id if current_user
     respond_to do |format|
@@ -144,7 +143,7 @@ class EventsController < ApplicationController
     # if search query is empty, show all events
     @events = filter_events_by_content(@events, params) unless params[:description].to_s.strip == ''
 
-    @events = @events.where(category_id: params[:category_id] ) unless params[:category_id].blank?
+    @events = @events.where(category_id: params[:category_id]) if params[:category_id].present?
 
     # Only responds to remote call and yields a js file
     respond_to do |format|
@@ -204,7 +203,8 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:colour, :add_to_outing, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
+    params.require(:event).permit(:colour, :add_to_outing, :name, :address_line1, :address_line2, :town, :postcode,
+                                  :time_of_event, :description, :category_id, :approved, :user_id,
                                   event_reacts_attributes: %i[id event_id user_id status])
   end
 end
