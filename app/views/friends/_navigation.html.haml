@@ -1,6 +1,6 @@
 %h1.col.align-self-center Friends
 
-#nav-bar
+#nav-bar.mb-3
   =link_to 'All friends', friends_path, class: "nav-item btn #{current_page?(friends_path) ? 'btn-primary' : 'btn-outline-primary'}"
   =link_to 'Friend requests', friend_requests_path, class: "nav-item btn #{current_page?(friend_requests_path) ? 'btn-primary' : 'btn-outline-primary'}"
   =link_to 'Find friends', friend_search_path, class: "nav-item btn #{current_page?(friend_search_path) ? 'btn-primary' : 'btn-outline-primary'}"

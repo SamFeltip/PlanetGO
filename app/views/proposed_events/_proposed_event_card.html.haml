@@ -39,7 +39,7 @@
       .vote-actions.d-flex.flex-row.align-items-center
 
         -# let the participant vote
-        = link_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, id: 'vote-button', class: 'btn btn-outline-secondary' do
+        = link_to vote_proposed_event_path(proposed_event), :method => :post, remote: true, :id => "vote-button-#{proposed_event.id}", class: 'btn btn-outline-secondary' do
           %span.vote-results-text
           .vote-like-count.me-1
             = proposed_event.decorate.vote_likes

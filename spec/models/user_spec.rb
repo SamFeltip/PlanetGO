@@ -238,28 +238,38 @@ RSpec.describe User do
     context 'when postcode present and there are events happening in 10 mile radius' do
       let!(:user) { create(:user, postcode: 'S1 4EP') }
       let!(:creator) { create(:user) }
+
       let!(:event1) do
         create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
                        user_id: creator.id, approved: true)
       end
+
       let!(:event2) do
         create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
                        user_id: creator.id, approved: true)
       end
+
       let!(:event3) do
         create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
                        user_id: creator.id, approved: true)
       end
+
+      let!(:event4) do
+        create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
+                       user_id: creator.id, approved: true)
+      end
+
       let!(:unapproved_event) do
         create(:event, address_line1: '104 West Street', town: 'Sheffield', postcode: 'S1 4EP', time_of_event: '2023-02-24',
                        user_id: creator.id, approved: false)
       end
 
-      it 'returns 3 local events' do
+      it 'returns 4 local events' do
         local_events = user.local_events
         expect(local_events).to include(event1)
         expect(local_events).to include(event2)
         expect(local_events).to include(event3)
+        expect(local_events).to include(event4)
       end
 
       it 'does not return unapproved events' do

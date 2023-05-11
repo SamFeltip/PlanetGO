@@ -8,9 +8,9 @@ class BugReportsController < ApplicationController
   # GET /bug_reports or /bug_reports.json
   def index
     @bug_reports = if current_user.admin?
-                     BugReport.all
+                     BugReport.all.includes([:user])
                    else
-                     BugReport.where(user: current_user)
+                     BugReport.where(user: current_user).includes([:user])
                    end
 
     return if params[:search].blank?

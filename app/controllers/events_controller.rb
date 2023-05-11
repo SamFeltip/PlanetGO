@@ -8,27 +8,28 @@ class EventsController < ApplicationController
 
   # GET /events or /events.json
   def index
-    @events = Event.approved.paginate(page: params[:page])
+    @events = Event.approved.paginate(page: params[:page]).includes([:category])
 
     return unless user_signed_in?
 
     # order by category interest if no search was performed
-    if params[:description].blank? && params[:category_id].blank?
-      @events = current_user.commercial ? @events.includes([:category]).order_by_category_interest(current_user) : @events
+    if params[:description].blank?
+      @events = current_user.commercial ? @events.order_by_category_interest(current_user) : @events
     end
 
     @nearby_events = current_user.local_events.approved.includes([:category])
     @favourite_category = current_user.category_interests.order(interest: :desc).first.category if current_user.category_interests.any?
-
     @recommended_events = Event.approved.includes([:category]).where(category: @favourite_category).limit(5) if @favourite_category
-
     @liked_events = current_user.liked_events.paginate(page: params[:page], per_page: 2)
+
+    expires_in 5.minutes, public: true
   end
 
   # GET /events/1 or /events/1.json
   def show
     @event = Event.find(params[:id]).decorate
     @more_events = Event.approved.where(category_id: @event.category_id).where.not(id: @event.id).limit(3).includes([:category])
+    expires_in 30.minutes, public: true
   end
 
   # GET /events/new
@@ -204,7 +205,6 @@ class EventsController < ApplicationController
   # Only allow a list of trusted parameters through.
   def event_params
     params.require(:event).permit(:colour, :add_to_outing, :name, :address_line1, :address_line2, :town, :postcode,
-                                  :time_of_event, :description, :category_id, :approved, :user_id,
-                                  event_reacts_attributes: %i[id event_id user_id status])
+                                  :time_of_event, :description, :category_id, :approved, :user_id)
   end
 end

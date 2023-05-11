@@ -518,7 +518,7 @@ RSpec.describe 'Outings' do
       context 'when liking a proposed events' do
         before do
           within "#proposed_event_#{proposed_event.id}" do
-            find_by_id('vote-button').click
+            find_by_id("vote-button-#{proposed_event.id}").click
           end
         end
 
@@ -549,8 +549,8 @@ RSpec.describe 'Outings' do
         # expect clicking vote-button to increase the count of likes
 
         within "#proposed_event_#{proposed_event.id}" do
-          find_by_id('vote-button').click
-          find_by_id('vote-button').click
+          find_by_id("vote-button-#{proposed_event.id}").click
+          find_by_id("vote-button-#{proposed_event.id}").click
         end
 
         within "#proposed_event_#{proposed_event.id}" do

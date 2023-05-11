@@ -15,7 +15,7 @@
     .search-form
       = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description'}, wrapper_html: { class: 'd-flex flex-col align-items-center' }
 
-      %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search'}
+      %button.btn.btn-outline-secondary{:type => "submit", :value => 'Search', "aria-label" => 'Search'}
         %i.bi-search
 
   / empty div until it is filled with items by search

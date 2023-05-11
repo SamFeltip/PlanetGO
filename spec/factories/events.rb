@@ -54,7 +54,7 @@ FactoryBot.define do
     category_id { Category.where(name: 'Music').first_or_create.id }
     user
 
-    factory :event_with_event_reacts do
+    factory :event_with_likes do
       after(:create) do |event|
         user_list = create_list(:user, 25)
         user_list.each do |user|

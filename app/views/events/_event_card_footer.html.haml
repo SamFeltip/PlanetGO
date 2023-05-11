@@ -18,7 +18,7 @@
 
 - unless defined?(add_to_outing_params) && add_to_outing_params[:hide_likes]
 
-  .likes.d-flex.justify-content-between.align-items-center
+  .likes.d-flex.justify-content-end.align-items-center
 
     - if user_signed_in?
       .large-likes
@@ -28,9 +28,9 @@
 
 
       = link_to like_event_path(event), title: 'Like this Event', method: :patch, data: { remote: true } do
-        %i.like_icon{:class => event.decorate.like_icon(current_user)}
+        %i.p-1.like_icon{:class => event.decorate.like_icon(current_user)}
+    
     - else
-
       .large-likes
         = event.decorate.likes
       .small-likes
