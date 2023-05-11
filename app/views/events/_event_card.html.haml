@@ -12,7 +12,7 @@
       %p.event-location
         %i.bi-pin-map-fill
         = event.address_line1
-    %p.event-description= event.decorate.display_description(400)
+    %p.event-description= event.decorate.display_description(length: 400)
 
   - if defined?(add_to_outing_params)
     .footer

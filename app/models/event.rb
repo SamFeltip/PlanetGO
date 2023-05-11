@@ -63,7 +63,9 @@ class Event < ApplicationRecord
   scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
 
   scope :user_events, ->(user) { where(user_id: user.id) }
-  scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
+  scope :user_pending_events, ->(user) { user_events(user).where(approved: [nil, false]) }
+
+  scope :pending_for_review, ->(user) { where(approved: [nil]).where.not(user_id: user.id) }
   scope :order_by_category_interest, lambda { |user|
     joins(:category)
       .joins("INNER JOIN category_interests ci ON ci.category_id = categories.id AND ci.user_id = #{user.id}")

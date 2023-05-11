@@ -6,6 +6,7 @@
 
 #outing-body.pt-3.overline.mb-5
 
+  / view for assigning participants to outing, and for deciding a date for the outing
   -# params position is used because javascript is used to switch between who, when and where views
   #content-who-and-when.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? '' : 'd-none'}
     #content-who.d-lg-block{:class => ((params[:position] == 'who')  || params[:position].nil?) ?  '' : 'd-none'}
@@ -16,11 +17,14 @@
 
       %hr
       = form_tag send_invites_outing_path(@outing), method: :post, remote: true do
-        .d-flex.justify-content-end
-          = submit_tag 'Send Invites', class: 'mb-2 btn btn-primary', id: 'send-invite-button'
+
+
         #not_invited_friends
           - current_user.not_invited_friends(@outing).each do |friend|
             = render 'invite_friend', friend: friend
+
+        .d-flex.justify-content-end
+          = submit_tag 'Send Invites', class: 'mb-2 btn btn-primary', id: 'send-invite-button'
 
     #content-when.d-lg-block{:class => ((params[:position] == 'when')) ? '' : 'd-none'}
       = simple_form_for @outing, remote: true, data: {type: "json"} do |f|
@@ -37,6 +41,9 @@
           Set Events
           %i.bi-chevron-right
 
+
+
+  / view for assigning events to outing
   #content-where.flex-lg-row.flex-column.d-flex{:class => (!(params[:position] == 'where') || params[:position].nil?) ? 'd-none' : ''}
     #where-sidebar
 
@@ -71,7 +78,7 @@
         .horizontal-scroll.justify-content-center
           - if @final_events.any?
             - @final_events.each do |event|
-              = render 'events/event_card', event: event, render_params: { add_event_to_outing: true }, outing: @outing
+              = render 'events/event_card', event: event, add_to_outing_params: {hide_likes: true, add_event_to_outing: true, outing_id: @outing.id }
           - else
             %p.text-center
               No nearby restaurants or accommodation found

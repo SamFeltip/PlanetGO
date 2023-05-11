@@ -3,7 +3,7 @@
 class EventDecorator < ApplicationDecorator
   delegate_all
 
-  def display_description(length = 100)
+  def display_description(length: 100)
     if object.description.length <= length
       object.description
     else
@@ -40,6 +40,10 @@ class EventDecorator < ApplicationDecorator
     end
   end
 
+  def like_plural(count)
+    "like#{count == 1 ? '' : 's'}"
+  end
+
   # returns a string describing who has liked this event and how many people there are,
   # using the current user to include friends names if they have liked it
   def likes(current_user: nil, compressed: false)
@@ -47,23 +51,27 @@ class EventDecorator < ApplicationDecorator
     current_user_liked = current_user.voted_up_on? self unless current_user.nil?
 
     # get all like objects for this event
-    event_likes_count = object.votes_for.size
+    event_likes_count = object.cached_votes_total
 
     # if no user is given, just return the number of likes
-    return "#{event_likes_count} likes" if current_user.nil?
+    return "#{event_likes_count} #{like_plural(event_likes_count)}" if current_user.nil?
 
     # if we want a shorter string
     if compressed
       return 'liked' if current_user_liked
 
-      return "#{event_likes_count} likes"
+      return "#{event_likes_count} #{like_plural(event_likes_count)}"
     end
 
     # produces the 'and x other(s)' string
-    and_others_string = "and #{event_likes_count - 1} other#{event_likes_count - 1 == 1 ? '' : 's'}"
+    and_others_string = if event_likes_count == 1
+                          ''
+                        else
+                          " and #{event_likes_count - 1} other#{event_likes_count == 2 ? '' : 's'}"
+                        end
 
     # returns early if the current user has already liked the string
-    return "liked by you #{and_others_string}" if current_user_liked
+    return "liked by you#{and_others_string}" if current_user_liked
 
     # if the user hasn't liked this event, use a random friend to convince them to like the event
     random_friend = current_user.get_random_friend(event: object)
@@ -71,7 +79,7 @@ class EventDecorator < ApplicationDecorator
     if random_friend
       "liked by #{random_friend} #{and_others_string}"
     else
-      "#{event_likes_count} like#{event_likes_count == 1 ? '' : 's'}"
+      "#{event_likes_count} #{like_plural(event_likes_count)}"
     end
   end
 
@@ -98,11 +106,11 @@ class EventDecorator < ApplicationDecorator
 
   def approved_colour
     if object.approved.nil?
-      'purple'
+      'purple-icon'
     elsif object.approved
-      'green'
+      'green-icon'
     else
-      'red'
+      'red-icon'
     end
   end
 

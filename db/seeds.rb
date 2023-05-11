@@ -82,11 +82,16 @@ end
 
 def make_friend(user_sending, user_receiving)
   print '.'
-  user_sending.send_follow_request_to(user_receiving)
-  user_receiving.accept_follow_request_of(user_sending)
+  # if user_sending doesnt already follow user_receiving
+  unless user_sending.following?(user_receiving)
+    user_sending.send_follow_request_to(user_receiving)
+    user_receiving.accept_follow_request_of(user_sending)
+  end
 
-  user_receiving.send_follow_request_to(user_sending)
-  user_sending.accept_follow_request_of(user_receiving)
+  unless user_receiving.following?(user_sending)
+    user_receiving.send_follow_request_to(user_sending)
+    user_sending.accept_follow_request_of(user_receiving)
+  end
 end
 
 puts ''

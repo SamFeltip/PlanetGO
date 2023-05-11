@@ -1,21 +1,15 @@
 - additional_stylesheet 'events'
 
-
-- if user_signed_in? && (current_user.admin? || current_user.advertiser?)
-  = render "registering_events"
-
 .index
   .d-flex.justify-content-between.align-items-center
     %h1 Events
 
-    - if user_signed_in? && current_user.advertiser?
+    - if user_signed_in? && !current_user.user?
       .action-buttons
         %h2
-          = link_to new_event_path, class: 'btn btn-outline-secondary' do
+          = link_to new_event_path, class: 'btn btn-outline-secondary', id: '#new-event-button' do
             create an event
             %i.bi-plus
-
-
 
   = simple_form_for :search, url: events_search_path, method: :get, remote: true do |f|
     .search-form
@@ -54,7 +48,7 @@
             Near you
           #events-display
             - @nearby_events.each do |event|
-              = render "event_card", event: event
+              = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
 
 
       - if defined?(@favourite_category)
@@ -67,7 +61,7 @@
           .horizontal-scroll
             - @recommended_events.each do |event|
 
-              = render "event_card", event: event
+              = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
     #liked-events
       .mb-3
         %h2
@@ -91,6 +85,6 @@
         Events you'll love
       #events-display
         - @events.each do |event|
-          = render "event_card", event: event
+          = render "event_card", event: event, add_to_outing_params: { hide_likes: false }
       .d-flex.justify-content-center.digg_pagination
         = will_paginate @events

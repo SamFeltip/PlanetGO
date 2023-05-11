@@ -34,17 +34,9 @@
           %b.caret
         %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
           %li
-            %a{:href => "#link1"}
-              %i.bi-link
-          %li
-            %a{:href => "#link1"}
-              %i.bi-instagram
-          %li
-            %a{:href => "#link2"}
-              %i.bi-facebook
-          %li
-            %a{:href => "#link3"}
+            %a.d-flex.justify-content-center{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{event_url(id: @event)}"}
               %i.bi-twitter
+              %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
           %li
 
 
@@ -91,5 +83,5 @@
 
   .horizontal-scroll
     - @more_events.each do |event|
-      = render 'event_card', event: event, render_params: {}
+      = render 'event_card', event: event, add_to_outing_params: { hide_likes: false }
 

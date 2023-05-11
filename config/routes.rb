@@ -19,6 +19,8 @@ Rails.application.routes.draw do
   end
 
   get 'events/search', to: 'events#search'
+  get 'events/manage_search', to: 'events#manage_search', as: 'event_manage_search'
+  get 'events/manage', to: 'events#manage'
 
   resources :events do
     patch :like, on: :member

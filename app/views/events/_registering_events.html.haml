@@ -2,10 +2,10 @@
   .card-header.d-flex.align-items-center
     %h2 My Events
 
-    = link_to new_event_path, class: 'btn btn-outline-primary ms-auto' do
+    = link_to new_event_path, class: 'btn btn-outline-secondary ms-auto' do
       New Event
-      %i.bi-plus-circle
-  -if @user_events.empty?
+      %i.ps-2.bi-plus-circle
+  -if @user_pending_events.empty?
     .card-body
       %p Post some events and they'll show up here
   - else
@@ -17,7 +17,7 @@
             %th.text-center Approval Status
             %th
         %tbody
-          - @user_events.each do |event|
+          - @user_pending_events.each do |event|
             %tr[event]
               %td.event_name
                 %a{href: event_path(event)}
