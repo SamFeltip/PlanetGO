@@ -5,7 +5,6 @@
   = f.input :name, input_html: { value: @name || '' } , label: 'Search for a user by their name', wrapper_html: { class: 'mb-3' }
 
   = f.submit 'Search', class: 'btn btn-outline-primary'
-  = link_to 'Clear', friend_search_path, class: 'btn btn-outline-secondary'
 
 - if @users.present?
   %table.table.mt-3#friends_list
