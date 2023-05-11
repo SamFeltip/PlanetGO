@@ -122,7 +122,7 @@ class EventsController < ApplicationController
 
     add_to_outing = params[:add_to_outing] == 'true'
 
-    @add_to_outing_params = { outing_id: params[:outing_id].to_i, add_event_to_outing: add_to_outing, hide_likes: !add_to_outing }
+    @add_to_outing_params = { outing_id: params[:outing_id].to_i, add_event_to_outing: add_to_outing, hide_likes: add_to_outing }
 
     # Only responds to remote call and yields a js file
     respond_to do |format|

@@ -24,10 +24,12 @@
                     %button.btn.btn-outline-primary{:id=>'copy_clipboard', :href=> '#', :value=>new_participant_url(outing)}
                       %i.bi-link
                   %li
-                    %a.bi-twitter{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{new_participant_url(outing)}"}
+                    %a.d-flex.justify-content-center{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{new_participant_url(outing)}"}
+                      %i.bi-twitter
                     %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
                   %li
-                    %a.bi-envelope{:href=>"mailto:?subject=Check out my outing at planetGo! &body=Click this link to join! #{new_participant_url(outing)}"}
+                    %a.d-flex.justify-content-center{:href=>"mailto:?subject=Check out my outing at planetGo! &body=Click this link to join! #{new_participant_url(outing)}"}
+                      %i.bi-envelope
     .card.outing-details.card-primary
       .card-header
         - if outing.description && outing.description != ''
