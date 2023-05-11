@@ -57,6 +57,7 @@ class User < ApplicationRecord
   has_many :category_interests, dependent: :destroy
   has_many :categories, through: :category_interests
   has_many :availabilities, dependent: :destroy
+  has_many :bug_reports, dependent: :destroy
 
   validates :postcode, length: { maximum: 8 }, allow_blank: true, format: { with: /\A([A-Z]{1,2}\d[A-Z\d]? ?\d[A-Z]{2}|GIR ?0A{2})\z/ }
 
