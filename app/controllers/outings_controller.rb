@@ -10,10 +10,6 @@ class OutingsController < ApplicationController
 
   # GET /outings or /outings.json
   def index
-    @outings = Outing.includes([:user]).all.order_soonest
-    return if current_user.admin?
-
-    @outings = Outing.includes([:user]).joins(:participants).where('participants.user_id' => current_user.id).order_soonest
     @outings_past = current_user.past_outings
     @outings_future = current_user.future_outings
   end

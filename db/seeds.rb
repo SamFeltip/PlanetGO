@@ -1,5 +1,13 @@
 # frozen_string_literal: true
 
+# destroy existing records to avoid duplication
+puts 'destroying existing records'
+Event.destroy_all
+Outing.destroy_all
+User.destroy_all
+Category.destroy_all
+
+
 default_password = 'SneakyPassword100'
 
 print 'creating users'
@@ -729,7 +737,20 @@ end_times = [DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 5, 7, 0, 0
               DateTime.new(1970, 1, 11, 0, 0, 0), DateTime.new(1970, 1, 5, 10, 0, 0), 
               DateTime.new(1970, 1, 9, 4, 15, 0), DateTime.new(1970, 1, 8, 9, 0, 0)]
 
-people = [0, 1, 0, 1, 2, 3, 2, 4, 5, 5, 6, 7]
+people = [
+  user_list[0],
+  user_list[1],
+  user_list[0],
+  user_list[1],
+  user_list[2],
+  user_list[3],
+  user_list[2],
+  user_list[4],
+  user_list[5],
+  user_list[5],
+  user_list[6],
+  user_list[7]
+]
 
 availability_list = []
 
@@ -740,7 +761,7 @@ start_times.each_with_index do |_full_name, index|
     Availability.where(
       start_time: start_times[index],
       end_time: end_times[index],
-      user_id: people[index]
+      user: people[index]
     ).first_or_create
   )
   print '.'

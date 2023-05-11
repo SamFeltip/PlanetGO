@@ -104,6 +104,16 @@ RSpec.describe 'Outings' do
         # show a notice saying the outing was created
         expect(page).to have_content('Outing was successfully created.')
       end
+
+      context 'when visiting the outings page' do
+        before do
+          visit outings_path
+        end
+
+        it 'shows the outing' do
+          expect(page).to have_content(outing_name)
+        end
+      end
     end
 
     context 'when vising set details who' do
