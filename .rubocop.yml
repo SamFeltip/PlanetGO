@@ -15,8 +15,8 @@ RSpec/ExampleLength:
 Rails/BulkChangeTable:
   Enabled: false
 
-Metrics/ClassLength:
-  Max: 150
+Metrics/PerceivedComplexity:
+  Max: 12
 
 Rails/I18nLocaleTexts:
   Enabled: false

@@ -20,9 +20,8 @@
     = stylesheet_pack_tag *['styles', *content_for(:additional_stylesheet).to_s.split(' ')].compact, media: 'all'
     = javascript_pack_tag *['application', *content_for(:additional_javascript).to_s.split(' ')].compact
     = favicon_link_tag
-  %body{:class => (controller.action_name == 'show' || controller.action_name == 'new' ? '' : 'index')}
+  %body
 
-    / if the page url doesn't contain or /show, /new, give the class .index
     %main
       .sidebar
 
@@ -54,7 +53,7 @@
                 = link_to bug_reports_path, class: 'nav-link' do
                   %i.bi-bug
                   %span.sidebar-label
-                    report
+                    report bug
 
               %li
                 = link_to destroy_user_session_path, method: :delete do
@@ -71,7 +70,6 @@
                     Friends
 
             - if can? :index, Outing
-
               %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
                 = link_to :outings, class: 'nav-link' do
                   %i.bi-map
@@ -84,9 +82,7 @@
                 %span.sidebar-label
                   Login
 
-
-
-          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+          %li.sidebar-item{:class =>  controller.action_name == 'index' && controller.controller_name == 'events' ? 'active' : ''}
             = link_to :events, class: 'nav-link' do
               %i.bi-calendar-event
               %span.sidebar-label
@@ -103,7 +99,7 @@
 
           -# if the current user has admin permissions
           - if user_signed_in?
-            - if current_user.admin?
+            - if !current_user.user?
               %hr
 
           - if can? :update, User
@@ -138,6 +134,14 @@
                 %i.bi-emoji-smile
                 %span.sidebar-label
                   Categories
+
+          - if can? :manage, Event
+
+            %li.sidebar-item{:class => controller.controller_name == 'events' && controller.action_name == 'manage' ? 'active' : ''}
+              = link_to events_manage_path, class: 'nav-link' do
+                %i.bi-calendar-event
+                %span.sidebar-label
+                  Manage Events
 
 
       .container

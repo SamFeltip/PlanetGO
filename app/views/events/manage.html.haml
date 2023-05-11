@@ -1,0 +1,43 @@
+
+
+= render "registering_events"
+
+
+
+.card
+  .card-body
+
+    = simple_form_for :search, url: event_manage_search_path, method: :get, remote: true do |f|
+
+      .search-fields
+        .description-content
+          %label{for: 'search_description', class: 'd-flex align-items-center'}
+            %i.bi-search
+
+          = f.input :description, placeholder: 'search for events...', label: false, required: false, input_html: {name: 'description', value: @description || '' }, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+
+        .filter-content
+          %label{for: 'search_category_id', class: 'd-flex align-items-center'}
+            %i.bi-filter
+
+          = f.input :category_id, prompt: "filter by category...", input_html: { name: 'category_id'}, collection: Category.all, label: false, required: false, wrapper_html: { class: 'd-flex flex-col align-items-center' }
+
+
+        %button.btn.btn-outline-primary{ type: 'submit' }
+          %i.bi-search
+          Search
+
+
+
+.card
+  .card-header.d-flex.align-items-center
+    %span Listing Events
+
+    = link_to new_event_path, class: 'btn btn-outline-secondary ms-auto' do
+      New Event
+      %i.ps-2.bi-plus-circle
+
+
+  #events
+    = render 'events/manage_events_events_list', events: @events
+

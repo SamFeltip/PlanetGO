@@ -29,6 +29,7 @@ class Ability
   end
 
   def advertiser_permissions(user)
+    can :manage, Event, user_id: user.id
     commercial_permissions(user)
   end
 
