@@ -218,6 +218,13 @@ RSpec.describe 'Outings' do
         end
       end
 
+      it 'the user can see the calendar' do
+        within '#content-when' do
+          # single availability ending same day as started so single html object to represent it
+          expect(page).to have_selector('.card.bg-success', count: 1)
+        end
+      end
+
       def click_destroy_participant
         within "#participant_#{participant.id}" do
           accept_confirm do
@@ -245,6 +252,13 @@ RSpec.describe 'Outings' do
 
           within '#not_invited_friends' do
             expect(page).to have_content(participant_user.full_name)
+          end
+        end
+
+        it 'a calendar is removed' do
+          within '#content-when' do
+            # now that a user has been removed there is once again only one calendar
+            expect(page).to have_selector('.card.bg-success', count: 1)
           end
         end
       end
@@ -284,6 +298,11 @@ RSpec.describe 'Outings' do
           within '#content-when' do
             expect(page).to have_content('1 person available')
             expect(page).to have_content('2 people available')
+          end
+
+          # calendar refreshed with availability of new person added
+          within '#content-when' do
+            expect(page).to have_selector('.card.bg-success', count: 2)
           end
         end
       end
