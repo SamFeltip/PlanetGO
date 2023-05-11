@@ -44,9 +44,7 @@ class EventDecorator < ApplicationDecorator
   # using the current user to include friends names if they have liked it
   def likes(current_user: nil, compressed: false)
     current_user_liked = false
-    unless current_user.nil?
-      current_user_liked = current_user.voted_up_on? self
-    end
+    current_user_liked = current_user.voted_up_on? self unless current_user.nil?
 
     # get all like objects for this event
     event_likes_count = object.votes_for.size
