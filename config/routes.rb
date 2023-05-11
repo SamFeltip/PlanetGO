@@ -5,8 +5,6 @@ Rails.application.routes.draw do
   resources :categories
   resources :availabilities
 
-
-  resources :events
   resources :proposed_events
   resources :proposed_events do
     post 'create'

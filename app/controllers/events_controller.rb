@@ -111,7 +111,8 @@ class EventsController < ApplicationController
 
   # GET /events/search
   def search
-    @searched_events = filter_events_by_content(params)
+    @searched_events = Event.approved.includes(:category)
+    @searched_events = filter_events_by_content(@searched_events, params)
     @searched_events = filter_events_by_category(@searched_events, params)
 
     @empty_search = params[:description].to_s.strip == ''
@@ -132,18 +133,12 @@ class EventsController < ApplicationController
   end
 
   def manage_search
-    if current_user.advertiser?
-      @events = Event.user_events(current_user).includes(:category)
-    end
+    @events = Event.user_events(current_user).includes(:category) if current_user.advertiser?
 
-    if current_user.admin?
-      @events = Event.includes(:category)
-    end
+    @events = Event.includes(:category) if current_user.admin?
 
     # if search query is empty, show all events
-    unless if params[:description].to_s.strip == ''
-      filter_events_by_name_or_description(params)
-    end
+    filter_events_by_content(@events, params) unless params[:description].to_s.strip == ''
 
     # Only responds to remote call and yields a js file
     respond_to do |format|
@@ -155,31 +150,25 @@ class EventsController < ApplicationController
     @user_pending_events = Event.user_pending_events(current_user)
     @pending_events = Event.pending_for_review(current_user).includes([:user])
 
-    if current_user.advertiser?
-      @events = Event.user_events(current_user).includes([:category])
-    end
+    @events = Event.user_events(current_user).includes([:category]) if current_user.advertiser?
 
-    if current_user.admin?
-      @events = Event.includes([:category])
-    end
+    @events = Event.includes([:category]) if current_user.admin?
   end
 
   private
 
   # takes in a search query
   # returns a list of events which match every word in the search query
-  def filter_events_by_content(search_params)
+  def filter_events_by_content(events, search_params)
     query_list = search_params[:description].to_s.downcase.strip.split
 
     return Event.none if query_list.empty?
 
-    events_out = Event.approved.includes(:category)
-
     # go through every word in the query and get the ids of events which match the word
     query_list.each do |word|
-      events_out = events_out.where('lower(events.description) LIKE :query OR lower(events.name) LIKE :query', query: "%#{word}%")
+      events = events.where('lower(events.description) LIKE :query OR lower(events.name) LIKE :query', query: "%#{word}%")
     end
-    events_out
+    events
   end
 
   # takes in a list of searched for events plus a search query
@@ -208,7 +197,7 @@ class EventsController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def event_params
-    params.require(:event).permit(:add_to_outing, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
+    params.require(:event).permit(:colour, :add_to_outing, :name, :address_line1, :address_line2, :town, :postcode, :time_of_event, :description, :category_id, :approved, :user_id,
                                   event_reacts_attributes: %i[id event_id user_id status])
   end
 end

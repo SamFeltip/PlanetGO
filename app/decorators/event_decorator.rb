@@ -3,7 +3,7 @@
 class EventDecorator < ApplicationDecorator
   delegate_all
 
-  def display_description(length = 100)
+  def display_description(length: 100)
     if object.description.length <= length
       object.description
     else
@@ -98,11 +98,11 @@ class EventDecorator < ApplicationDecorator
 
   def approved_colour
     if object.approved.nil?
-      'purple'
+      'purple-icon'
     elsif object.approved
-      'green'
+      'green-icon'
     else
-      'red'
+      'red-icon'
     end
   end
 

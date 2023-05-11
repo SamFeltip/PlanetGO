@@ -67,12 +67,12 @@
                 %i.bi-people
                 %span.sidebar-label
                   Friends
-
-            %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
-              = link_to :outings, class: 'nav-link' do
-                %i.bi-map
-                %span.sidebar-label
-                  Outings
+            - if current_user.user?
+              %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
+                = link_to :outings, class: 'nav-link' do
+                  %i.bi-map
+                  %span.sidebar-label
+                    Outings
           - else
             %li.sidebar-item.nav-item{:class => controller.controller_name == 'account' ? 'active' : ''}
               = link_to :new_user_session, class: 'nav-link' do
@@ -80,13 +80,12 @@
                 %span.sidebar-label
                   Login
 
-
-
-          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
-            = link_to :events, class: 'nav-link' do
-              %i.bi-calendar-event
-              %span.sidebar-label
-                Events
+          - if !user_signed_in? || (user_signed_in? && current_user.user?)
+            %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+              = link_to :events, class: 'nav-link' do
+                %i.bi-calendar-event
+                %span.sidebar-label
+                  Events
 
           - unless user_signed_in?
             %li.sidebar-item.nav-item.d-flex.d-sm-none{:class => controller.controller_name == 'welcome' ? 'active' : ''}
@@ -134,6 +133,14 @@
                 %i.bi-emoji-smile
                 %span.sidebar-label
                   Categories
+
+          - if can? :manage, Event
+
+            %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+              = link_to events_manage_path, class: 'nav-link' do
+                %i.bi-calendar-event
+                %span.sidebar-label
+                  Manage Events
 
 
       .container

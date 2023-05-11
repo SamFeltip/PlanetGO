@@ -11,7 +11,7 @@ RSpec.describe EventDecorator, type: :decorator do
       it 'returns the entire description' do
         event = create(:event, description: 'This is a short description.')
         decorator = described_class.new(event)
-        expect(decorator.display_description(50)).to eq('This is a short description.')
+        expect(decorator.display_description(length: 50)).to eq('This is a short description.')
       end
     end
 
@@ -19,13 +19,13 @@ RSpec.describe EventDecorator, type: :decorator do
       it 'returns the first n words of the description followed by an ellipsis' do
         event = create(:event, description: 'This is a long description that should be truncated.')
         decorator = described_class.new(event)
-        expect(decorator.display_description(10)).to eq('This is a...')
+        expect(decorator.display_description(length: 10)).to eq('This is a...')
       end
 
       it "doesn't include half words in the truncated description" do
         event = create(:event, description: 'This is a long description that should be truncated.')
         decorator = described_class.new(event)
-        expect(decorator.display_description(15)).to eq('This is a long...')
+        expect(decorator.display_description(length: 15)).to eq('This is a long...')
       end
     end
   end
@@ -118,22 +118,22 @@ RSpec.describe EventDecorator, type: :decorator do
   end
 
   describe '#approved_colour' do
-    it 'returns "purple" if the event is not approved' do
+    it 'returns "purple-icon" if the event is not approved' do
       event = create(:event, approved: nil)
       decorated_event = described_class.new(event)
-      expect(decorated_event.approved_colour).to eq('purple')
+      expect(decorated_event.approved_colour).to eq('purple-icon')
     end
 
     it 'returns "green" if the event is approved' do
       event = create(:event, approved: true)
       decorated_event = described_class.new(event)
-      expect(decorated_event.approved_colour).to eq('green')
+      expect(decorated_event.approved_colour).to eq('green-icon')
     end
 
     it 'returns "red" if the event is not approved' do
       event = create(:event, approved: false)
       decorated_event = described_class.new(event)
-      expect(decorated_event.approved_colour).to eq('red')
+      expect(decorated_event.approved_colour).to eq('red-icon')
     end
   end
 

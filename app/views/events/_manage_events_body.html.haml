@@ -2,12 +2,14 @@
   %tr
     %td= event.name
     %td= event.decorate.time_of_event
-    %td= event.decorate.display_description
-    %td= event.category
+    %td= event.decorate.display_description(length: 30)
     %td
-
-      %a{href: edit_event_path(event)}
-        %i{:class => event.decorate.approved_icon + " " + event.decorate.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.decorate.approved_desc}}
+      .lg-icon.text-center
+        = event.category.symbol
+    %td
+      .lg-icon.text-center
+        %a{href: edit_event_path(event)}
+          %i{:class => event.decorate.approved_icon + " " + event.decorate.approved_colour, data: { bs: { toggle: "tooltip", placement: "top", html: "true" }, title: event.decorate.approved_desc}}
     %td
       .btn-toolbar.float-end
         = link_to 'Show', event, class: 'btn btn-outline-secondary btn-sm'
