@@ -104,11 +104,6 @@ RSpec.describe 'Outings' do
         # show a notice saying the outing was created
         expect(page).to have_content('Outing was successfully created.')
       end
-
-      it 'lets the user share an outing link' do
-        pending 'depends on outing URL'
-        expect(page).to have_content('Share this link with your friends')
-      end
     end
 
     context 'when vising set details who' do
@@ -668,13 +663,6 @@ RSpec.describe 'Outings' do
 
     before do
       login_as uninvited_user
-    end
-
-    context 'when they visit a public outing they are not invited to' do
-      it 'creates a participant for them' do
-        pending('waiting for links to be implemented')
-        expect(Participant.where(outing: past_outing, user: uninvited_user).count).to eq(1)
-      end
     end
 
     describe 'the user navigates to an invite link' do
