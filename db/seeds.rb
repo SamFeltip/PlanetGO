@@ -114,12 +114,13 @@ category_bar = Category.first_or_create(
 print '.'
 
 category_restaurant = Category.where(
-  name: 'restaurant'
+  name: 'restaurant',
+  symbol: '🍽️'
 ).first_or_create
 
 category_accommodation = Category.where(
   name: 'accommodation',
-  symbol: '🍽️'
+  symbol: '🏨'
 ).first_or_create
 
 print '.'
