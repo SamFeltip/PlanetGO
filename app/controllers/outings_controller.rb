@@ -85,6 +85,7 @@ class OutingsController < ApplicationController
     @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     @proposed_event = ProposedEvent.new
+
     @positions = %w[who when where]
 
     @final_events = current_user.final_events

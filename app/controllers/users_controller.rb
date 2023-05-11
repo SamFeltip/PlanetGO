@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def index
     raise CanCan::AccessDenied.new('You are not authorized to access this page.', :read, User) unless current_user.admin?
 
-    @users = User.accessible_by(current_ability)
+    @users = User.accessible_by(current_ability).order(:id)
 
     @query = params[:description]
 

@@ -696,38 +696,6 @@ end
 # end
 
 puts ''
-print 'creating availabilities'
-
-start_times = [DateTime.new(1970, 1, 5, 0, 0, 0), DateTime.new(1970, 1, 5, 6, 0, 0), 
-              DateTime.new(1970, 1, 7, 0, 0, 0), DateTime.new(1970, 1, 7, 9, 0, 0),
-              DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 7, 4, 0, 0), 
-              DateTime.new(1970, 1, 9, 0, 0, 0), DateTime.new(1970, 1, 9, 0, 0, 0), 
-              DateTime.new(1970, 1, 10, 0, 0, 0), DateTime.new(1970, 1, 5, 0, 0, 0), 
-              DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 8, 0, 0, 0)]
-              
-end_times = [DateTime.new(1970, 1, 6, 0, 0, 0), DateTime.new(1970, 1, 5, 7, 0, 0), 
-              DateTime.new(1970, 1, 8, 0, 0, 0), DateTime.new(1970, 1, 8, 21, 0, 0),
-              DateTime.new(1970, 1, 8, 10, 0, 0), DateTime.new(1970, 1, 9, 22, 0, 0), 
-              DateTime.new(1970, 1, 9, 6, 30, 0), DateTime.new(1970, 1, 11, 11, 15, 0), 
-              DateTime.new(1970, 1, 11, 0, 0, 0), DateTime.new(1970, 1, 5, 10, 0, 0), 
-              DateTime.new(1970, 1, 9, 4, 15, 0), DateTime.new(1970, 1, 8, 9, 0, 0)]
-
-availability_list = []
-
-prng = Random.new
-
-start_times.each_with_index do |_full_name, index|
-  availability_list << (
-    Availability.where(
-      start_time: start_times[index],
-      end_time: end_times[index],
-      user_id: prng.rand(12)
-    ).first_or_create
-  )
-  print '.'
-end
-
-puts ''
 print 'creating proposed event votes'
 
 outing_list.each do |outing|
