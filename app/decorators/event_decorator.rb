@@ -43,7 +43,6 @@ class EventDecorator < ApplicationDecorator
   # returns a string describing who has liked this event and how many people there are,
   # using the current user to include friends names if they have liked it
   def likes(current_user: nil, compressed: false)
-
     current_user_liked = false
     current_user_liked = current_user.voted_up_on? self unless current_user.nil?
 
