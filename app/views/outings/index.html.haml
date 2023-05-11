@@ -11,11 +11,13 @@
           %i.bi-plus
 
 #future_outings
-  - @outings_future.each do |outing|
-    = render 'outing_card', outing: outing
+  - unless @outings_future.nil? || @outings_future.empty?
+    - @outings_future.each do |outing|
+      = render 'outing_card', outing: outing
+  - else
+    %p Plan some outings and see them here!
 
-
-- if @outings_past.any?
+- unless @outings_past.nil? || @outings_past.empty?
   #past_outings
     %h2 Past outings
     - @outings_past.each do |outing|

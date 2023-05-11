@@ -94,11 +94,11 @@ class User < ApplicationRecord
   end
 
   def future_outings
-    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ?', Time.zone.today).includes([:user])
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date > ? OR date IS NULL', Time.zone.today).order_soonest.includes([:user])
   end
 
   def past_outings
-    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today).includes([:user])
+    Outing.joins(:participants).where({ participants: { user_id: id } }).where('date <= ?', Time.zone.today).order_soonest.includes([:user])
   end
 
   def to_s
