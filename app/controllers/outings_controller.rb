@@ -48,7 +48,7 @@ class OutingsController < ApplicationController
     respond_to do |format|
       if @outing.save
 
-        format.html { redirect_to set_details_outing_path(@outing), notice: 'Outing was successfully created.' }
+        format.html { redirect_to outing_path(@outing), notice: 'Outing was successfully created.' }
         format.json { render :show, status: :created, location: @outing }
       else
         format.html { render :new, status: :unprocessable_entity }

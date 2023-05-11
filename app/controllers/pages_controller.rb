@@ -4,14 +4,15 @@ class PagesController < ApplicationController
   include CalendarHelper
   require './app/inputs/fake_select_input'
 
-  def landing; end
+  def landing
+    if user_signed_in?
+      redirect_to events_path
+    else
+      render :landing
+    end
+  end
 
   def account
-    unless user_signed_in?
-      redirect_to '/welcome'
-      return
-    end
-
     # if the user is not logged in, redirect to landing page
     @categories = current_user.categories.where('interest > 0')
 

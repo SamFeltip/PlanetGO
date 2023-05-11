@@ -43,11 +43,11 @@
 # Indexes
 #
 #  index_users_on_email                 (email) UNIQUE
-#  index_users_on_latitude              (latitude)
-#  index_users_on_longitude             (longitude)
 #  index_users_on_invitation_token      (invitation_token) UNIQUE
 #  index_users_on_invited_by            (invited_by_type,invited_by_id)
 #  index_users_on_invited_by_id         (invited_by_id)
+#  index_users_on_latitude              (latitude)
+#  index_users_on_longitude             (longitude)
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #
 class User < ApplicationRecord
@@ -85,7 +85,8 @@ class User < ApplicationRecord
   }
 
   def liked_events
-    Event.where(id: EventReact.select(:event_id).where(user_id: id)).where(approved: true)
+    liked_event_ids = votes.up.for_type(Event).votables.pluck(:id)
+    Event.where(id: liked_event_ids)
   end
 
   def my_outings
@@ -108,12 +109,8 @@ class User < ApplicationRecord
     full_name.split.map(&:first).join.upcase
   end
 
-  def likes
-    EventReact.where(user_id: id)
-  end
-
   def liked(event)
-    !likes.where(event_id: event.id).empty?
+    voted_up_on? event
   end
 
   def commercial
@@ -130,7 +127,8 @@ class User < ApplicationRecord
     # if an event is given
     friends = if event
                 # get a list of all following users who have liked this event
-                following.where(id: event.likes.pluck(:user_id))
+                people_who_liked_ids = event.votes_for.up.by_type(User).voters.pluck(:id)
+                following.where(id: people_who_liked_ids)
               else
                 following
               end
@@ -146,20 +144,17 @@ class User < ApplicationRecord
 
   def recommended_events(outing: nil)
     # get all events the user has liked
-    event_list = Event.where(id: EventReact.select(:event_id).where(user_id: id))
+    event_list_ids = votes.up.for_type(Event).votables.pluck(:id)
+    event_list = Event.where(id: event_list_ids)
 
     # filter out all events in the outing, if it exists
-    event_list = event_list.where.not(id: ProposedEvent.select(:event_id).where(outing_id: outing.id)).limit(3) if outing
+    event_list = event_list.where.not(id: ProposedEvent.where(outing_id: outing.id).pluck(:event_id)) if outing
 
     event_list
   end
 
-  def most_liked_events
-    Event.order_by_likes.limit(3)
-  end
-
   def local_events
-    postcode.present? ? Event.approved.near(self).limit(3) : nil
+    postcode.present? ? Event.approved.near(self).limit(3) : Event.none
   end
 
   def final_events

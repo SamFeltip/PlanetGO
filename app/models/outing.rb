@@ -139,4 +139,8 @@ class Outing < ApplicationRecord
     end_counter += 1
     [people_available_counter, availabilities_array, next_end, end_counter, previous_time]
   end
+
+  def first_proposed_event
+    events.order(:time_of_event).first
+  end
 end

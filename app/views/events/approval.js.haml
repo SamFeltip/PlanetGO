@@ -3,17 +3,6 @@
   document.querySelector("#events").innerHTML = "";
   document.querySelector(".event.pending_event#event_#{@event.id}").innerHTML = "";
 
-  -# TODO: use recommended events partial
-  // Iterate through each event and add it to #events (this will include the recently approved event, ensuring the order is maintained)
-  - @approved_events.each do |event|
-    // Render the event card partial for the current event
-    var cardHtml = "#{j render(partial: 'event_card_recommendation', locals: { event: event })}";
-    // Create a new element with the rendered card HTML
-    var card = document.createElement("div");
-    card.innerHTML = cardHtml;
-    // Add the card to the #event element
-    document.querySelector("#events").appendChild(card);
-
 - else
 
   // Get the element with class "btn-outline-danger" within the "td.event.pending_event#event_3"

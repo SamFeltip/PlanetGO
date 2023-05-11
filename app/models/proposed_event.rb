@@ -32,7 +32,6 @@
 class ProposedEvent < ApplicationRecord
   belongs_to :event
   belongs_to :outing
-
   acts_as_votable
 
   default_scope { includes(:event) }

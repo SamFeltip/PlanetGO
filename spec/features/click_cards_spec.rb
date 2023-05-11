@@ -18,7 +18,9 @@ RSpec.describe 'Clicking on a click card' do
 
     context 'when clicking on an event card' do
       before do
-        find("#event_#{event.id}.click-card").click
+        within "#event_#{event.id}.click-card" do
+          find('.clickable').click
+        end
       end
 
       it 'redirects to the event show page', js: true do
@@ -36,7 +38,9 @@ RSpec.describe 'Clicking on a click card' do
 
     context 'when clicking on an outing card' do
       before do
-        find("#outing_#{outing.id}.click-card").click
+        within "#outing_#{outing.id}.click-card" do
+          find('.clickable').click
+        end
       end
 
       it 'redirects to the outing show page', js: true do

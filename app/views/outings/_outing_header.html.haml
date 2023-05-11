@@ -4,56 +4,78 @@
       .d-flex.justify-content-between
         %h1
           = outing.name
-        .dropdown.me-1
-          %a.btn.btn-outline-secondary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
-            %i.bi-share
-            %b.caret
-          %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
-            %li
-              %button.btn.btn-outline-primary{:id=>'copy_clipboard', :href=> '#', :value=>new_participant_url(outing)}
-                %i.bi-link
-            %li
-              %a.bi-twitter{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{new_participant_url(outing)}"}
-              %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
-            %li
-              %a.bi-envelope{:href=>"mailto:?subject=Check out my outing at planetGo! &body=Click this link to join! #{new_participant_url(outing)}"}
-            %li
-    .outing-details
 
-      %i.bi-calendar
-      - if outing.date
-        %h2.outing-date
-          = outing.date
-      - else
-        %h2.outing-date
-          Date TBD
+        .action-buttons
 
-      %i.bi-pin
-      - if outing.events.count > 0
-        %h2.outing-location
-          = outing.events.first.address
-      - else
-        %h2.outing-location
-          Starting Location TBD
+          -# if action buttons are included in the header, and the current user either created this outing or is admin
+          - if defined?(action_buttons) && action_buttons && (current_user == outing.creator || current_user.admin?)
 
-      - if outing.description && outing.description != ''
-        %p= outing.description
-      - else
-        %p No Description
+            %h1.me-2
+              = link_to edit_outing_path(outing), class:'btn btn-outline-secondary' do
+                %i.bi-pencil-square
 
-  -# if action buttons are included in the header, and the current user either created this outing or is admin
-  - if defined?(action_buttons) && action_buttons && (current_user == outing.creator || current_user.admin?)
-    .action-buttons.d-flex.justify-content-end.py-2.overline
-      = link_to edit_outing_path(outing), class: 'btn btn-outline-secondary' do
-        %i.bi-gear
+          .dropdown.me-1
+            %h1
+              .btn.btn-outline-secondary.dropdown-toggle{:href => "#", "role" => "button", "data-bs-toggle" => "dropdown", "data-target" => "#"}
+                %i.bi-share
+                %b.caret
+                %ol.lg-icon.dropdown-menu.p-3.ms-2.text-center{"role" => "menu"}
+                  %li
+                    %button.btn.btn-outline-primary{:id=>'copy_clipboard', :href=> '#', :value=>new_participant_url(outing)}
+                      %i.bi-link
+                  %li
+                    %a.bi-twitter{"data-show-count" => "false", href: "https://twitter.com/intent/tweet?url=#{new_participant_url(outing)}"}
+                    %script{async: "", charset: "utf-8", src: "https://platform.twitter.com/widgets.js"}
+                  %li
+                    %a.bi-envelope{:href=>"mailto:?subject=Check out my outing at planetGo! &body=Click this link to join! #{new_participant_url(outing)}"}
+    .card.outing-details.card-primary
+      .card-header
+        - if outing.description && outing.description != ''
+          %p= outing.description
+        - else
+          %p No Description
+
+        .d-flex.justify-content-around
+          .d-inline-flex.align-items-center
+            %i.bi-calendar.me-2
+            %h3.outing-date
+              %em
+                = outing.decorate.display_date
+
+          .d-inline-flex.align-items-center
+            %i.bi-pin.me-2
+            - if outing.events.count > 0
+              %h3.outing-location
+                %em
+                  = outing.events.first.address
+            - else
+              %h3.outing-location
+                %em
+                  Starting Location TBD
+
+      .card-body
+        %h3 #{@outing.participants.count} Going
+        #going.horizontal-scroll
+
+
+          - @outing.users.each do |user|
+            .user_icon.participant.d-inline-flex.flex-column.align-items-center.me-2
+              .initial-avatar.d-inline-flex= user.initials
+
+        - if current_user == @outing.creator || current_user.admin?
+          %a#invite-more-friends.d-flex.justify-content-end{href: set_details_outing_path(@outing, position: 'who')}
+            %i.bi-people.px-1
+              Invite more friends out
+            %i.bi-arrow-right.px-1
+
 
   - if defined?(nav) && nav
-    #outing-nav.d-lg-none.text-center
-      .outing-nav-item#outing-nav-who.pb-2{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
-        #outing-nav-who-link.black Who?
+    #nav-bar.d-lg-none.text-center
+      .nav-item#outing-nav-who{:class => (params[:position] == 'who' || params[:position].nil?) ? 'underline' : '' }
+        #outing-nav-who-link Who?
 
-      .outing-nav-item#outing-nav-when.pb-2{:class => params[:position] == 'when' ? 'underline' : '' }
-        #outing-nav-when-link.black When?
+      .nav-item#outing-nav-when{:class => params[:position] == 'when' ? 'underline' : '' }
+        #outing-nav-when-link When?
 
-      .outing-nav-item#outing-nav-where.pb-2{:class => params[:position] == 'where' ? 'underline' : '' }
-        #outing-nav-where-link.black Where?
+      .nav-item#outing-nav-where{:class => params[:position] == 'where' ? 'underline' : '' }
+        #outing-nav-where-link Where?

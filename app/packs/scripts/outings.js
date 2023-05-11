@@ -11,7 +11,7 @@ $('#outing-nav-who').click(function () {
     $('#content-when').addClass('d-none');
     $('#content-who').removeClass('d-none');
 
-    $('.outing-nav-item').removeClass('underline');
+    $('.nav-item').removeClass('underline');
     $('#outing-nav-who').addClass('underline');
 });
 
@@ -24,7 +24,7 @@ $('#outing-nav-when').click(function () {
     $('#content-who').addClass('d-none');
     $('#content-when').removeClass('d-none');
 
-    $('.outing-nav-item').removeClass('underline');
+    $('.nav-item').removeClass('underline');
     $('#outing-nav-when').addClass('underline');
 });
 
@@ -33,7 +33,7 @@ $('#outing-nav-where').click(function () {
     console.log('outing-nav-where-link clicked');
     $('#content-where').removeClass('d-none');
     $('#content-who-and-when').addClass('d-none');
-    $('.outing-nav-item').removeClass('underline');
+    $('.nav-item').removeClass('underline');
     $('#outing-nav-where').addClass('underline');
 });
 

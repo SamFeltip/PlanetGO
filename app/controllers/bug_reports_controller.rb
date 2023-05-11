@@ -18,7 +18,7 @@ class BugReportsController < ApplicationController
     @query = params[:search][:query]
     @category = params[:search][:category]
     @bug_reports = @bug_reports.search(@query) if @query.present?
-    @bug_reports = @bug_reports.by_category(@category) if @category.present? && @category != 'all categories'
+    @bug_reports = @bug_reports.by_category(@category) if @category.present? && @category != 'filter categories...'
   end
 
   # GET /bug_reports/1 or /bug_reports/1.json

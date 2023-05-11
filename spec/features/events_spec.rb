@@ -430,13 +430,12 @@ RSpec.describe 'Events' do
     before do
       user_list = create_list(:user, 5)
       user_list.each do |react_user|
-        create(:event_react, event_id: event2.id, user_id: react_user.id)
+        event2.liked_by react_user
       end
 
-      create(:event_react, event_id: event1.id, user_id: admin.id)
-      create(:event_react, event_id: event1.id, user_id: other_event_creator.id)
+      event1.liked_by admin
 
-      create(:event_react, event_id: event2.id, user_id: user.id)
+      event2.liked_by user
 
       login_as user
       visit events_path
@@ -448,49 +447,55 @@ RSpec.describe 'Events' do
       end
 
       specify 'I can see events in the system' do
-        expect(page).to have_content 'my great event'
+        expect(page).to have_content event1.name
       end
 
       specify 'I click on the button to take my to my category interests' do
-        click_on 'Edit Event Category Interests'
+        click_on 'pick your favourite event categories here'
         expect(page).to have_current_path category_interests_path, ignore_query: true
       end
 
-      specify 'I can search for an event' do
+      specify 'I can search for an event', js: true do
         fill_in 'description', with: 'my great event'
         click_on 'Search'
-        expect(page).to have_content 'my great event'
-        expect(page).not_to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).to have_content event1.name
+          expect(page).not_to have_content event2.name
+          expect(page).not_to have_content event3.name
+        end
       end
 
-      specify 'I can search by event category' do
-        select 'Bar', from: 'category_id'
+      specify 'I can search by event category', js: true do
+        fill_in 'description', with: 'Bar'
         click_on 'Search'
-        expect(page).to have_content 'my great event'
-        expect(page).to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).to have_content event1.name
+          expect(page).to have_content event2.name
+          expect(page).not_to have_content event3.name
+        end
       end
 
       specify 'I can search by event and category' do
-        fill_in 'description', with: 'my great event'
-        select 'Music', from: 'category_id'
+        fill_in 'description', with: 'my great event music'
         click_on 'Search'
-        expect(page).not_to have_content 'my great event'
-        expect(page).not_to have_content 'a different great event'
-        expect(page).not_to have_content 'a rubbish event'
+        within '#searched-events' do
+          expect(page).not_to have_content event1.name
+          expect(page).not_to have_content event2.name
+          expect(page).not_to have_content event3.name
+        end
       end
 
       context 'when I have specified an interest in a category' do
         before do
           interest = CategoryInterest.where(user_id: user.id, category_id: music_category.id).first
-          interest.update(interest: 1) # user is interested
+          interest.update(interest: 1)
+          visit events_path
         end
 
-        specify 'the events belonging to this category are push to the top' do
-          click_on 'Search'
-          # Expect first item shown on page to be the rubbish music event
-          expect(page.find('#events > div:nth-child(1)')).to have_content 'a rubbish event'
+        specify 'there is a list of events with this category' do
+          within '#category-events' do
+            expect(page).to have_content music_category.name
+          end
         end
       end
     end
@@ -501,34 +506,30 @@ RSpec.describe 'Events' do
       end
 
       specify 'should see the number of likes' do
-        within '.event_like' do
-          expect(page).to have_content('2 likes')
+        within '.small-likes' do
+          expect(page).to have_content('1 like')
         end
       end
 
       context 'when a user likes an event' do
         before do
-          click_link 'Like this Event'
-          # revisit the page (javascript is off)
+          find_by_id('event_like').click
           visit event_path(event1)
         end
 
-        specify 'should change the contents of the like button' do
-          within '.event_like' do
+        it 'changes the contents of the like button' do
+          within '.small-likes' do
             expect(page).to have_content('liked')
           end
         end
 
-        specify 'should increase the number of likes for the event' do
+        it 'increases the number of likes for the event' do
           # was previously 2
-          expect(Event.find(event1.id).likes.count).to eq(3)
+          expect(Event.find(event1.id).votes_for.size).to eq(2)
         end
 
-        specify 'should create an Event react of the current user' do
-          expect(EventReact.last).to have_attributes(
-            user_id: user.id,
-            event_id: event1.id
-          )
+        it 'counts the like of the current user' do
+          expect(user).to be_liked(event1)
         end
       end
     end

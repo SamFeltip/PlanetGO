@@ -1,20 +1,30 @@
 - additional_stylesheet 'events'
 
-.event-header{:class => Category.find(@event.category_id).name.downcase }
+.event-header.background-colour{:class => @event.colour }
   .content
-    %h1
+    .event-image.background-colour{:class => @event.colour }
+      =@event.category.symbol
+
+    %h1.event-title
       =@event.name
-    %h2
-      =@event.decorate.time_of_event
-  = image_pack_tag @event.image_path, id: "event-image", width: "100px"
+
+
+    .event-subheading
+      %h3
+        %em
+          %i.bi-calendar-range
+          =@event.decorate.display_time
+      %h3
+        %i.bi-pin-map-fill
+        =@event.address_line1
 
 .event-body
-  .d-flex.justify-content-between
+  .d-flex.justify-content-between.mt-3
     .reacts.d-flex
       .likes.me-2
-        = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true } do
-          %i.like_icon{:class => @event.like_icon(@event_liked)}
-            %span.event_like{:id => "event_#{@event.id}"}=@event.likes(current_user, compressed: true, current_user_liked: @event_liked)
+        = link_to like_event_path(@event), class: 'btn btn-outline-primary', title: 'Like this Event', method: :patch, data: { remote: true }, id: 'event_like' do
+          %i.like_icon{:class => @event.like_icon(current_user)}
+            %span.small-likes=@event.likes(current_user: current_user, compressed: true)
 
     .end.d-flex
 
@@ -42,7 +52,7 @@
       -#  %i.bi-instagram
 
 
-      - if current_user.admin? && !current_user.suspended
+      - if user_signed_in? && current_user.admin? && !current_user.suspended
 
         %a#event_settings{href: edit_event_path(@event), class: 'btn btn-outline-secondary ms-1' }
           %i.bi-gear
@@ -50,44 +60,36 @@
         -#  %i.bi-trash
 
   %hr
+  .creator-card.mb-2
+    .initial-avatar.d-inline-flex= @event.user.initials
+    .avatar-text.d-inline.m-2
+      %b
+        #{@event.user.full_name}
+
+      says...
+
   #event-info
     .card
-      .card-header
-        %h2
-          Description
       .card-body
         %p
           =@event.description
-        %p
-          %em
-            =@event.category.name
-        %h2
-          Creator
-        %p
-          %a{href: user_path(@event.user)}
-            =@event.user
+
     .card
-      .card-header
-        %h2
-          Location
       .card-body
         %img.w-100{ src: @event.decorate.map_image }
         %p.mt-3.text-center
           =@event.address
 
+
   %hr
 
   %h2.text-center
-    More Events Like This
-    %i.bi-chevron-right.bold
+    %a{href: events_path}
+      More Events Like This
+      %i.bi-chevron-right.bold
 
 
   .horizontal-scroll
     - @more_events.each do |event|
-      = render 'event_card_small', event: event, render_params: {}
+      = render 'event_card', event: event, render_params: {}
 
-    %a.horizontal-card.d-flex.justify-content-center.align-items-center.flex-column.event-card-small.card{href: events_path}
-
-      %i.bi-calendar-event.xl-icon
-      %p
-        Find more events here

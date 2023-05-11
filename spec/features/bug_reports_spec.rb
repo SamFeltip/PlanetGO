@@ -145,8 +145,8 @@ RSpec.describe 'BugReports' do
         visit bug_report_path(bug_report)
       end
 
-      it 'redirects to root' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+      it 'redirects to events' do
+        expect(page).to have_current_path('/events', ignore_query: true)
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end
@@ -231,8 +231,8 @@ RSpec.describe 'BugReports' do
         visit edit_bug_report_path(bug_report)
       end
 
-      it 'redirects to root' do
-        expect(page).to have_current_path(root_path, ignore_query: true)
+      it 'redirects to events' do
+        expect(page).to have_current_path('/events', ignore_query: true)
         expect(page).to have_content('You are not authorized to access this page.')
       end
     end

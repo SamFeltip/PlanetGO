@@ -4,21 +4,29 @@
 #
 # Table name: events
 #
-#  id            :bigint           not null, primary key
-#  address_line1 :string
-#  address_line2 :string
-#  approved      :boolean
-#  description   :text
-#  latitude      :float
-#  longitude     :float
-#  name          :string
-#  postcode      :string
-#  time_of_event :datetime
-#  town          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint
-#  user_id       :bigint           not null
+#  id                      :bigint           not null, primary key
+#  address_line1           :string
+#  address_line2           :string
+#  approved                :boolean
+#  cached_votes_down       :integer          default(0)
+#  cached_votes_score      :integer          default(0)
+#  cached_votes_total      :integer          default(0)
+#  cached_votes_up         :integer          default(0)
+#  cached_weighted_average :float            default(0.0)
+#  cached_weighted_score   :integer          default(0)
+#  cached_weighted_total   :integer          default(0)
+#  colour                  :integer
+#  description             :text
+#  latitude                :float
+#  longitude               :float
+#  name                    :string
+#  postcode                :string
+#  time_of_event           :datetime
+#  town                    :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  category_id             :bigint
+#  user_id                 :bigint           not null
 #
 # Indexes
 #
@@ -46,7 +54,7 @@ class Event < ApplicationRecord
   belongs_to :category
   has_many :proposed_events, dependent: :destroy
   has_many :outings, through: :proposed_events
-  has_many :event_reacts, dependent: :destroy
+  acts_as_votable
 
   scope :approved, -> { where(approved: true) }
   scope :near, ->(postcode) { near("#{postcode}, UK", 5) }
@@ -54,7 +62,6 @@ class Event < ApplicationRecord
   scope :restaurants, -> { joins(:category).where(category: { name: 'restaurant' }) }
   scope :accommodations, -> { joins(:category).where(category: { name: 'accommodation' }) }
 
-  scope :order_by_likes, -> { left_joins(:event_reacts).group(:id).order('COUNT(event_reacts.id) DESC') }
   scope :user_events, ->(user) { where(user_id: user.id) }
   scope :pending_for_user, ->(user) { where(approved: [nil, false]).where.not(user_id: user.id) }
   scope :order_by_category_interest, lambda { |user|
@@ -74,26 +81,16 @@ class Event < ApplicationRecord
   geocoded_by :address
   after_validation :geocode, if: ->(obj) { %i[address_line1 address_line2 town postcode].any? { |attr| obj.public_send("#{attr}_changed?") } }
 
-  self.per_page = 10
+  self.per_page = 6
 
-  def likes
-    EventReact.where(event_id: id)
-  end
+  enum colour: { red: 0, pink: 1, purple: 2, blue: 3, cyan: 4, aqua: 5, turquoise: 6, green: 7, lime: 8, yellow: 9, orange: 10, amber: 11 }
 
   def to_s
-    "#{name} @ #{time_of_event}"
+    "#{name} @ #{decorate.display_time}"
   end
 
   def creator
     user
-  end
-
-  def image_path
-    if category.image?
-      "event_images/#{category.name.downcase}.webp"
-    else
-      'event_images/unknown.webp'
-    end
   end
 
   def address

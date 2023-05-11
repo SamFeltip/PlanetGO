@@ -1,30 +1,28 @@
-.card.outing-card[outing]
-  .card-body.d-flex.flex-row
+.card.outing-card.click-card{data: { url: outing_path(outing) }}[outing]
+  .clickable.card-body.d-flex.flex-row
     .p-2
       .initial-avatar.d-inline-flex= outing.user.initials
     .outing-card-body.w-100
       .outing-card-header.d-flex.flex-row.justify-content-between
         %h2
-          %a.visit_outing.black{:href => outing_path(outing)}=outing.name
+          %a.visit_outing{:href => outing_path(outing)}=outing.name
         .action-buttons
           - if !current_user.suspended && (outing.creator == current_user || current_user.admin?)
-            = link_to edit_outing_path(outing), class: 'btn btn-outline-primary btn-sm' do
+            = link_to edit_outing_path(outing), class: 'btn btn-outline-secondary btn-sm' do
               %i.bi-pencil-square
                 .d-none.d-sm-inline
                   Edit
 
-      %em.d-inline-flex.gray
-        %i.bi-calendar.pe-1
-        %p.pe-3
-          - if outing.date
-            = outing.date
-          - else
-            Date TBD
-        - if outing.events.count > 0
-          .d-none.d-sm-inline-flex
-            %i.bi-pin.pe-1
-            %p.pe-3
-              = outing.events.first.address
+      %h3.d-inline-flex
+        %em.d-inline-flex
+          %i.bi-calendar.pe-1
+          %p.pe-3
+            = outing.decorate.display_date
+      - if outing.events.count > 0
+        %h3.d-none.d-sm-inline-flex
+          %i.bi-pin.pe-1
+          %p.pe-3
+            = outing.first_proposed_event.address
       %em.d-inline-flex.gray
         - if outing.check_pending(current_user)
           You've requested access to this private outing. The outing creator will let you in soon!

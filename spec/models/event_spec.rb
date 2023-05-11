@@ -4,21 +4,29 @@
 #
 # Table name: events
 #
-#  id            :bigint           not null, primary key
-#  address_line1 :string
-#  address_line2 :string
-#  approved      :boolean
-#  description   :text
-#  latitude      :float
-#  longitude     :float
-#  name          :string
-#  postcode      :string
-#  time_of_event :datetime
-#  town          :string
-#  created_at    :datetime         not null
-#  updated_at    :datetime         not null
-#  category_id   :bigint
-#  user_id       :bigint           not null
+#  id                      :bigint           not null, primary key
+#  address_line1           :string
+#  address_line2           :string
+#  approved                :boolean
+#  cached_votes_down       :integer          default(0)
+#  cached_votes_score      :integer          default(0)
+#  cached_votes_total      :integer          default(0)
+#  cached_votes_up         :integer          default(0)
+#  cached_weighted_average :float            default(0.0)
+#  cached_weighted_score   :integer          default(0)
+#  cached_weighted_total   :integer          default(0)
+#  colour                  :integer
+#  description             :text
+#  latitude                :float
+#  longitude               :float
+#  name                    :string
+#  postcode                :string
+#  time_of_event           :datetime
+#  town                    :string
+#  created_at              :datetime         not null
+#  updated_at              :datetime         not null
+#  category_id             :bigint
+#  user_id                 :bigint           not null
 #
 # Indexes
 #
@@ -42,16 +50,6 @@ RSpec.describe Event do
   let!(:category2) { Category.create(name: 'SomethingUnusable') }
   let!(:my_event) { create(:event, name: 'Test Event', user_id: event_creator.id, category_id: category.id, time_of_event: Time.zone.parse('2023-05-01 14:00:00')) }
   let!(:other_event) { create(:event, user_id: other_event_creator.id, category_id: category2.id, address_line2: 'City Centre') }
-
-  describe '#image_path' do
-    it 'returns a path to an image corresponding with the category name' do
-      expect(my_event.image_path).to eq 'event_images/bar.webp'
-    end
-
-    it 'returns a path to the unknown image when no category is available' do
-      expect(other_event.image_path).to eq 'event_images/unknown.webp'
-    end
-  end
 
   describe '#address' do
     it 'returns a formatted string when address_line2 not present' do
@@ -101,37 +99,7 @@ RSpec.describe Event do
 
   describe '#to_s' do
     it 'returns the expected string representation' do
-      expect(my_event.to_s).to eq('Test Event @ 2023-05-01 14:00:00 +0100')
-    end
-  end
-
-  describe 'order_by_likes scope' do
-    let(:event_creator) { create(:user) }
-    let(:user1) { create(:user) }
-    let(:user2) { create(:user) }
-    let(:user3) { create(:user) }
-    let(:user4) { create(:user) }
-    let!(:event1) { create(:event, name: 'Event 1', user_id: event_creator.id) }
-    let!(:event2) { create(:event, name: 'Event 2', user_id: event_creator.id) }
-    let!(:event3) { create(:event, name: 'Event 3', user_id: event_creator.id) }
-
-    before do
-      # event1 has 2 likes
-      create(:event_react, event_id: event1.id, user: user1)
-      create(:event_react, event_id: event1.id, user: user2)
-      # event2 has 4 likes
-      create(:event_react, event_id: event2.id, user: user1)
-      create(:event_react, event_id: event2.id, user: user2)
-      create(:event_react, event_id: event2.id, user: user3)
-      create(:event_react, event_id: event2.id, user: user4)
-      # event3 has 3 likes
-      create(:event_react, event_id: event3.id, user: user1)
-      create(:event_react, event_id: event3.id, user: user2)
-      create(:event_react, event_id: event3.id, user: user3)
-    end
-
-    it 'orders events by likes count' do
-      expect(described_class.order_by_likes.limit(3)).to eq([event2, event3, event1])
+      expect(my_event.to_s).to eq('Test Event @ May 01, 02:00 PM')
     end
   end
 end

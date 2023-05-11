@@ -20,95 +20,130 @@
     = stylesheet_pack_tag *['styles', *content_for(:additional_stylesheet).to_s.split(' ')].compact, media: 'all'
     = javascript_pack_tag *['application', *content_for(:additional_javascript).to_s.split(' ')].compact
     = favicon_link_tag
-  %body
+  %body{:class => (controller.action_name == 'show' || controller.action_name == 'new' ? '' : 'index')}
 
-    %header.navbar.navbar-expand-md.bg-light.mb-3
-      .container-fluid
-        = link_to '/', class: 'navbar-brand' do
-          = image_pack_tag 'planetgo_logo.png', height: 40, alt: 'calendar icon in the center of a planet with a ring'
-        %button.navbar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#navbar-content' }, aria: { controls: 'navbar-content', expanded: 'false', label: 'Toggle navigation' } }
-          %span.navbar-toggler-icon
+    / if the page url doesn't contain or /show, /new, give the class .index
+    %main
+      .sidebar
 
-        #navbar-content.navbar-collapse.collapse
-          .navbar-nav.mr-auto
-            - if user_signed_in?
+        %ul#sidebar-content
+          %li.sidebar-item
+            = link_to '/welcome', class: 'navbar-brand' do
+              = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
+              .sidebar-label
+                PlanetGO
+          - if user_signed_in?
+            %li.sidebar-item{:class => controller.controller_name == 'pages' ? 'active' : ''}
+              = link_to "/myaccount", class: 'nav-link' do
+                %span.initial-avatar.d-inline-flex= current_user.initials
+                %span.sidebar-label
+                  = current_user.full_name
 
-              %li.nav-item.active
-                = link_to :events, class: 'nav-link' do
-                  %i.bi-calendar-event
-                  %span.nav-title
-                    Events
+              %span.sidebar-label
+                %button.sidebar-toggler{ type: :button, data: { bs_toggle: :collapse, bs_target: '#user-dropdown-content' }, aria: { controls: 'sidebar-content', expanded: 'false', label: 'Toggle navigation' } }
+                  %span.bi-chevron-down
 
-              %li.nav-item.active
-                = link_to :outings, class: 'nav-link' do
-                  %i.bi-map
-                  %span.nav-title
-                    Outings
+            %ul#user-dropdown-content.sidebar-collapse.collapse
+              %li.sidebar-item{:class => controller.controller_name == 'category_interests' ? 'active' : ''}
+                = link_to :category_interests do
+                  %i.bi-emoji-smile
+                  %span.sidebar-label
+                    Interests
 
-              %li.nav-item.active
-                = link_to friends_path, class: 'nav-link' do
-                  %i.bi-people
-                  %span.nav-title
-                    Friends
-
-              %li.nav-item.active
-                = link_to new_bug_report_path, class: 'nav-link' do
+              %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
+                = link_to bug_reports_path, class: 'nav-link' do
                   %i.bi-bug
-                  %span.nav-title
-                    Report a bug
+                  %span.sidebar-label
+                    report
 
-              - if can? :update, User
+              %li
+                = link_to destroy_user_session_path, method: :delete do
+                  %i.bi-box-arrow-right
+                  %span.sidebar-label
+                    Sign out
 
-                %li.nav-item.active
-                  = link_to users_path, class: 'nav-link' do
-                    %i.bi-person
-                    %span.nav-title
-                      Accounts
+            %li.sidebar-item{:class => controller.controller_name == 'friends' ? 'active' : ''}
+              = link_to "/friends", class: 'nav-link' do
+                %i.bi-people
+                %span.sidebar-label
+                  Friends
 
-              - if can? :manage, Metric
-
-                %li.nav-item.active
-                  = link_to metrics_path, class: 'nav-link' do
-                    %i.bi-list-ol
-                    %span.nav-title
-                      Site metrics
-              
-              - if can? :manage, BugReport
-
-                %li.nav-item.active
-                  = link_to bug_reports_path, class: 'nav-link' do
-                    %i.bi-list-ol
-                    %span.nav-title
-                      Bug reports
-
-          %ul.navbar-nav.mr-auto
-            - if user_signed_in?
-              %hr
-              %li.nav-item.active
-                %li.nav-item.active
-                = link_to "/myaccount", class: 'nav-link' do
-                  %i.bi-person-badge
-                  %span.nav-title
-
-                    #{current_user.full_name}
-
-            - else
-              %li.nav-item.active
-                = link_to :new_user_session, class: 'nav-link' do
+            %li.sidebar-item{:class => controller.controller_name == 'outings' ? 'active' : ''}
+              = link_to :outings, class: 'nav-link' do
+                %i.bi-map
+                %span.sidebar-label
+                  Outings
+          - else
+            %li.sidebar-item.nav-item{:class => controller.controller_name == 'account' ? 'active' : ''}
+              = link_to :new_user_session, class: 'nav-link' do
+                %i.bi-person
+                %span.sidebar-label
                   Login
 
 
 
+          %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
+            = link_to :events, class: 'nav-link' do
+              %i.bi-calendar-event
+              %span.sidebar-label
+                Events
+
+          - unless user_signed_in?
+            %li.sidebar-item.nav-item.d-flex.d-sm-none{:class => controller.controller_name == 'welcome' ? 'active' : ''}
+
+              = link_to '/welcome', class: 'navbar-brand' do
+                = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
+                .sidebar-label
+                  Welcome
 
 
-    - if flash.present?
-      .container-fluid.flash-messages
-        - flash.each do |message_type, message|
-          - next unless message_type == 'alert' || message_type == 'notice'
-          .alert{ class: "alert-#{ message_type == 'notice' ? 'success' : 'danger' }" }= message
+          -# if the current user has admin permissions
+          - if user_signed_in?
+            - if current_user.admin?
+              %hr
 
-    %main
+          - if can? :update, User
+
+            %li.sidebar-item{:class => controller.controller_name == 'users' ? 'active' : ''}
+              = link_to users_path, class: 'nav-link' do
+                %i.bi-person
+                %span.sidebar-label
+                  Accounts
+
+          - if can? :manage, Metric
+
+            %li.sidebar-item{:class => controller.controller_name == 'metrics' ? 'active' : ''}
+              = link_to metrics_path, class: 'nav-link' do
+                %i.bi-list-ol
+                %span.sidebar-label
+                  Site metrics
+
+          - if can? :manage, BugReport
+
+            %li.sidebar-item{:class => controller.controller_name == 'bug_reports' ? 'active' : ''}
+              = link_to bug_reports_path, class: 'nav-link' do
+                %i.bi-bug
+                %span.sidebar-label
+                  Bug reports
+
+
+          - if can? :manage, Category
+
+            %li.sidebar-item{:class => controller.controller_name == 'categories' ? 'active' : ''}
+              = link_to categories_path, class: 'nav-link' do
+                %i.bi-emoji-smile
+                %span.sidebar-label
+                  Categories
+
+
       .container
+
+        - if flash.present?
+          .container-fluid.flash-messages
+            - flash.each do |message_type, message|
+              - next unless message_type == 'alert' || message_type == 'notice'
+              .alert{ class: "alert-#{ message_type == 'notice' ? 'success' : 'danger' }" }= message
+
         = yield
 
 
