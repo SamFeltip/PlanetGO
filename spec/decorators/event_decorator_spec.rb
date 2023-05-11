@@ -165,8 +165,8 @@ RSpec.describe EventDecorator, type: :decorator do
       end
 
       context 'when the user is the only user who has liked the event' do
-        it 'returns me and 0 others' do
-          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you and 0 others')
+        it 'returns me' do
+          expect(my_event.decorate.likes(current_user: event_creator)).to eq('liked by you')
         end
       end
 

@@ -1,12 +1,13 @@
 - if @event.approved
   -# remove from pending events
-  document.querySelector("#events").innerHTML = "";
   document.querySelector(".event.pending_event#event_#{@event.id}").innerHTML = "";
 
 - else
 
   // Get the element with class "btn-outline-danger" within the "td.event.pending_event#event_3"
   var element = document.querySelector(".event.pending_event#event_#{@event.id} .btn.btn-outline-danger");
+  document.querySelector(".event.pending_event#event_#{@event.id}").innerHTML = "";
+
 
   // Change the class of the element to "btn-danger"
   element.classList.remove("btn-outline-danger");

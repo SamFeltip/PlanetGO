@@ -63,6 +63,9 @@ class EventDecorator < ApplicationDecorator
     and_others_string = "and #{event_likes_count - 1} other#{event_likes_count - 1 == 1 ? '' : 's'}"
 
     # returns early if the current user has already liked the string
+    return "liked by you" if current_user_liked && event_likes_count == 1
+
+    # returns early if the current user has already liked the string
     return "liked by you #{and_others_string}" if current_user_liked
 
     # if the user hasn't liked this event, use a random friend to convince them to like the event

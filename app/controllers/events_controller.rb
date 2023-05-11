@@ -49,7 +49,7 @@ class EventsController < ApplicationController
     @event.user_id = current_user.id if current_user
     respond_to do |format|
       if @event.save
-        format.html { redirect_to events_url, notice: 'Event was created and is under review.' }
+        format.html { redirect_to events_manage_path, notice: 'Event was created and is under review.' }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -90,7 +90,7 @@ class EventsController < ApplicationController
 
     # redirect_to events_path
     respond_to do |format|
-      format.html { redirect_to events_path }
+      format.html { redirect_to events_manage_path }
       format.js
     end
   end

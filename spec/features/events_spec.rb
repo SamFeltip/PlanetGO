@@ -68,7 +68,7 @@ RSpec.describe 'Events' do
       end
 
       specify 'redirects the user to events index' do
-        expect(page).to have_current_path(events_path)
+        expect(page).to have_current_path(events_manage_path)
       end
 
       specify 'pending_events card should not exist' do
@@ -83,7 +83,7 @@ RSpec.describe 'Events' do
 
       specify 'should show the event in requested events to publish (for admins)' do
         login_as admin
-        visit '/events'
+        visit events_manage_path
 
         within '#pending_events' do
           expect(page).to have_content(event_name)
@@ -261,7 +261,7 @@ RSpec.describe 'Events' do
       let!(:event) { create(:event, name: 'an event created by me', user_id: event_creator.id, category_id: category.id) }
 
       before do
-        visit events_path
+        visit events_manage_path
         within '#my_pending_events' do
           within "#event_#{event.id}" do
             page.find('.delete-event').click
@@ -290,7 +290,7 @@ RSpec.describe 'Events' do
 
     before do
       login_as admin
-      visit events_path
+      visit events_manage_path
     end
 
     specify 'there is no option to edit my interests' do
@@ -354,12 +354,9 @@ RSpec.describe 'Events' do
         expect(other_person_event.approved).to be_falsey
       end
 
-      specify 'should change the disapprove button to a highlighted state' do
+      specify 'should remove the event from the pending events view' do
         within '#pending_events' do
-          within ".event#event_#{other_person_event.id}" do
-            expect(page).to have_css('.disapprove_event.btn-danger')
-            expect(page).not_to have_css('.disapprove_event.btn-outline-danger')
-          end
+          expect(page).to have_no_content(other_person_event.name)
         end
       end
     end
@@ -382,31 +379,25 @@ RSpec.describe 'Events' do
         expect(page).to have_current_path(event_path(cool_event))
       end
 
-      context 'when I visit the events page' do
+      context 'when I visit the events manage page' do
         before do
-          visit events_path
+          visit events_manage_path
         end
 
-        specify 'should not show the event in the events list' do
-          within '#events' do
-            expect(page).to have_no_content(cool_event.name)
-          end
-        end
-
-        specify 'should show the event in pending events' do
+        specify 'should remove the event from pending events' do
           within '#pending_events' do
-            expect(page).to have_content(cool_event.name)
+            expect(page).to have_no_content(cool_event.name)
           end
         end
       end
 
-      context 'when I log in as the disapproved event and visit the events page' do
+      context 'when I log in as the disapproved event creator and visit the events page' do
         before do
           login_as event_creator
-          visit events_path
+          visit events_manage_path
         end
 
-        specify 'should should show disapproved event in my pending events' do
+        specify 'should show disapproved event in my pending events' do
           within '#my_pending_events' do
             within "#event_#{cool_event.id}" do
               expect(page).to have_content(cool_event.name)
