@@ -28,7 +28,7 @@
 
         %ul#sidebar-content
           %li.sidebar-item
-            = link_to '/', class: 'navbar-brand' do
+            = link_to '/welcome', class: 'navbar-brand' do
               = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
               .sidebar-label
                 PlanetGO
@@ -79,11 +79,7 @@
                 %i.bi-person
                 %span.sidebar-label
                   Login
-            %li.sidebar-item.nav-item{:class => controller.controller_name == 'welcome' ? 'active' : ''}
-              = link_to "/welcome", class: 'nav-link' do
-                %i.bi-window-fullscreen
-                %span.sidebar-label
-                  about us
+
 
 
           %li.sidebar-item{:class => controller.controller_name == 'events' ? 'active' : ''}
@@ -92,6 +88,13 @@
               %span.sidebar-label
                 Events
 
+          - unless user_signed_in?
+            %li.sidebar-item.nav-item.d-flex.d-sm-none{:class => controller.controller_name == 'welcome' ? 'active' : ''}
+
+              = link_to '/welcome', class: 'navbar-brand' do
+                = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
+                .sidebar-label
+                  Welcome
 
 
           -# if the current user has admin permissions
