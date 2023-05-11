@@ -77,6 +77,40 @@ a {
 }
 
 // *************** Metrics page ***************
+.landing_page_visits_information {
+  text-align: center;
+}
+
+.landing_page_visits_information .start_text {
+  font-size: 2.5em;
+  text-align: center;
+}
+
+.landing_page_visits_information .percentage {
+  font-size: 2.5em;
+}
+
+.landing_page_visits_information .num_visits {
+  font-size: 3em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.landing_page_visits_information .percentage.negative {
+  color: red;
+}
+
+.landing_page_visits_information .percentage.positive {
+  color: green;
+}
+
+.landing_page_visits_information .end_text {
+  font-size: 2em;
+}
+
+.landing_page_visits_information .previous_num_visits {
+  font-size: 2em;
+}
 
 .graph_body {
   display: flex;

@@ -35,6 +35,38 @@ RSpec.describe 'Managing metrics', type: :request do
         end
       end
     end
+
+    context 'There are less visits in the last 7 days than the previous 7 days' do
+      before do
+        @metric1 = create(:metric, route: '/', time_enter: (DateTime.now - 24.hours), time_exit: (DateTime.now - 23.hours))
+        @metric2 = create(:metric, route: '/', time_enter: (DateTime.now - 9.days), time_exit: (DateTime.now - 8.days))
+        @metric3 = create(:metric, route: '/', time_enter: (DateTime.now - 10.days), time_exit: (DateTime.now - 9.days))
+      end
+
+      context 'I am on the metrics page' do
+        before do
+          visit '/metrics'
+          expect(page).to have_current_path '/metrics'
+        end
+
+        specify 'I can see the correct number of visits in the last 7 days' do
+          expect(page).to have_css('span.num_visits', text: '1', count: 1)
+        end
+
+        specify 'I can see the correct number of visits in the 7 days before that' do
+          expect(page).to have_css('span.end_text', text: '2 in the previous week', count: 1)
+        end
+
+        specify 'I can see the correct percent difference between these two' do
+          expect(page).to have_css('span.percentage', text: '50%', count: 1)
+        end
+
+        specify 'The percent difference is highlited in red' do
+          save_page
+          expect(page).to have_css('span.percentage.negative', count: 1)
+        end
+      end
+    end
   end
 
   context 'When I am signed in as a reporter' do
