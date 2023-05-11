@@ -17,6 +17,8 @@
         .d-none.d-sm-inline-flex
           Sign out
 
+  =render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
+
 .card
   .card-header
     %h1 Friends
@@ -101,6 +103,5 @@
 
 
 
-=render :partial => 'simple_calendar/my_calendar', :locals => {:persons_availabilities => @availabilities}
         
 -##past_outings= render "outing", collection: @outings_past
