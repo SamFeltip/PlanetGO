@@ -62,6 +62,12 @@ class Outing < ApplicationRecord
     Participant.where(outing_id: id, status: Participant.statuses[:pending]).where.not(user_id: current_user.id)
   end
 
+  def check_pending(current_user)
+    return true if Participant.exists?(outing_id: id, user_id: current_user.id, status: 'pending')
+
+    false
+  end
+
   def to_param
     invite_token
   end

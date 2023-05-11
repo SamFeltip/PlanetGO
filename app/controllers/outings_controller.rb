@@ -3,11 +3,11 @@
 class OutingsController < ApplicationController
   include OutingsHelper
   before_action :authenticate_user!
-  load_and_authorize_resource
-
   before_action :set_outing, only: %i[show edit update destroy set_details send_invites stop_count]
   before_action :set_participant, only: %i[show set_details]
   before_action :set_availabilities, only: %i[send_invites set_details]
+  load_and_authorize_resource
+
   # GET /outings or /outings.json
   def index
     @outings = Outing.all.order_soonest
@@ -18,6 +18,7 @@ class OutingsController < ApplicationController
 
   # GET /outings/1 or /outings/1.json
   def show
+    authorize! :show, @outing
     @participants = @outing.participants
   end
 
@@ -27,7 +28,9 @@ class OutingsController < ApplicationController
   end
 
   # GET /outings/1/edit
-  def edit; end
+  def edit
+    authorize! :edit, @outing
+  end
 
   # POST /outings or /outings.json
   def create
@@ -56,7 +59,7 @@ class OutingsController < ApplicationController
 
   # PATCH/PUT /outings/1 or /outings/1.json
   def update
-    Rails.logger.debug params
+    authorize! :update, @outing
     respond_to do |format|
       if @outing.update(outing_params) && outing_params.key?('date')
         format.json { render json: { status: :updated, start_date: outing_params['date'] } }
@@ -72,6 +75,7 @@ class OutingsController < ApplicationController
 
   # DELETE /outings/1 or /outings/1.json
   def destroy
+    authorize! :destroy, @outing
     @outing.destroy
 
     respond_to do |format|
@@ -82,6 +86,7 @@ class OutingsController < ApplicationController
 
   # GET /outings/1/set_details
   def set_details
+    authorize! :set_details, @outing
     @calendar_start_date, @peoples_availabilities, @good_start_datetime = remake_calendar(@outing)
 
     @proposed_event = ProposedEvent.new
@@ -92,6 +97,7 @@ class OutingsController < ApplicationController
   end
 
   def send_invites
+    authorize! :send_invites, @outing
     @friend_ids = params[:user_ids]
     @participants = Participant.none
 
@@ -113,6 +119,7 @@ class OutingsController < ApplicationController
   end
 
   def stop_count
+    authorize! :stop_count, @outing
     @failed_proposed_events = ProposedEvent.where(outing_id: @outing.id).failed_vote.each(&:destroy)
 
     respond_to do |format|

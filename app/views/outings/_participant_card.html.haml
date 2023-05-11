@@ -5,5 +5,8 @@
 
   - if !(participant.status == "creator") && defined?(action_buttons) && action_buttons
     .card-footer.d-flex.justify-content-end
+      - if participant.status == "pending" && defined?(action_buttons) && action_buttons
+        = link_to approve_participant_path(@outing.invite_token, participant.id), class: 'btn btn-outline-success approve-participant', title: 'Confirm Invite', method: :patch, data: { remote: true, confirm: 'Are you sure?' } do
+          %i.bi-plus-circle
       = link_to participant_path(@outing.invite_token, participant.id), class: 'btn btn-outline-danger destroy-participant', title: 'Remove Invite', method: :delete, data: { remote: true, confirm: 'Are you sure?' } do
         %i.bi-trash
