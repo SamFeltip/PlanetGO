@@ -28,7 +28,7 @@
         %ul#sidebar-content
           %li.sidebar-item
             = link_to '/welcome', class: 'navbar-brand' do
-              = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
+              = image_pack_tag 'planetgo_logo_white.svg', height: 30, width: 54.33 ,alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
               .sidebar-label
                 PlanetGO
           - if user_signed_in?
@@ -92,7 +92,7 @@
             %li.sidebar-item.nav-item.d-flex.d-sm-none{:class => controller.controller_name == 'welcome' ? 'active' : ''}
 
               = link_to '/welcome', class: 'navbar-brand' do
-                = image_pack_tag 'planetgo_logo_white.svg', height: 30, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
+                = image_pack_tag 'planetgo_logo_white.svg', height: 30, width: 54.33, alt: 'logo for the company planet go. the logo includes a calendar icon in the center of a planet with one ring'
                 .sidebar-label
                   Welcome
 

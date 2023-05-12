@@ -40,23 +40,23 @@
         .d-flex.justify-content-around
           .d-inline-flex.align-items-center
             %i.bi-calendar.me-2
-            %h3.outing-date
+            %p.outing-date
               %em
                 = outing.decorate.display_date
 
           .d-inline-flex.align-items-center
             %i.bi-pin.me-2
             - if outing.events.count > 0
-              %h3.outing-location
+              %p.outing-location
                 %em
                   = outing.events.first.address
             - else
-              %h3.outing-location
+              %p.outing-location
                 %em
                   Starting Location TBD
 
       .card-body
-        %h3 #{@outing.participants.count} Going
+        %p #{@outing.participants.count} Going
         #going.horizontal-scroll
 
 
