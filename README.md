@@ -81,13 +81,7 @@ To automatically fix the problems found in your code run:
 For more information visit https://docs.rubocop.org/rubocop/1.45/index.html
 
 ## App Features
-
-### Metrics page
-
-The metrics page contains a summary of general metrics collected on each page, as well as more detailed metrics that help us verify our business plan. Each metric can be displayed in a graph towards the bottom of the page which, by default, contains a “No Data” dataset with two points forming an identity matrix. To display metrics on a graph over time, select the metric by clicking on it in the list of metrics at the top, pick your start date, end date, and resolution, and click “Update Graph”. The page will refresh and the selected metric will appear on the graph. If no start date and end date is picked, the graph will default to one month ago and today respectively.
-![Metrics Page selecting graph input](img/metrics_page_selecting_metric_for_graph.png)
-
-The metrics page also contains a map of countries around the world from which the landing page was visited. Each country can be hovered over with the mouse to display the exact number of visits from that country. Keep in mind the start and end date used for the graph does not filter the visits as they appear on the map.
+Coming soon...
 
 ## Coding Standards
 
